@@ -64,6 +64,11 @@ in {
           { address = "fd9d:1852:3555:1200::1"; prefixLength = 80;}
         ];
       };
+      "eth_o4" = {
+        ipv6.addresses = [
+          { address = "fd9d:1852:3555:200:ff00::1"; prefixLength = 64;}
+        ];
+      };
       #useDHCP = false;
     };
     firewall.enable = false;
@@ -78,9 +83,14 @@ in {
   };
   
   # Name network devices statically based on MAC address
-  #services.udev.extraRules = ''
-  #  SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:90:f5:d4:e4:dc", KERNEL=="eth*", NAME="eth_lan"
-  #'';
+  services.udev.extraRules = ''
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_lan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_o1"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_o2"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
+  '';
 
   ### System profile packages
   environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
@@ -105,7 +115,7 @@ in {
       fsType = "btrfs";
       options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
-    "/boot" = { label = "bw0_b0"; options=["noauto" "noatime" "nodiratime"];};
+    "/boot" = { device = "/dev/disk/by-partlabel/bw0_b0"; options=["noauto" "noatime" "nodiratime"];};
   };
 
   ### Networking
