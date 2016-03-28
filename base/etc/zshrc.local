@@ -1,0 +1,60 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=9223372036854775807
+SHELL=/usr/bin/zsh
+
+setopt incappendhistory notify extended_history hist_ignore_space bsdecho
+unsetopt beep extendedglob nomatch
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/sebastian/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+### Remove autocompletion methods that get in our way.
+compdef -d git # messes up -add path completion.
+compdef -d umount	# breaks normal completion
+compdef -d fusermount	# same
+compdef -d mdadm	# yup.
+
+### prompt setup
+if [[ ${EUID} == 0 ]] ; then
+   PS1=$'%{\033[01;30m%}%D{%d.%H:%M:%S} %{\033[01;31m%}%n@%m%{\033[01;34m%} %~ %# %{\033[00m%}'
+else
+   PS1=$'%{\033[01;30m%}%D{%d.%H:%M:%S} %{\033[01;32m%}%n@%m%{\033[01;34m%} %~ %# %{\033[00m%}'
+fi
+
+for v in RPROMPT RPS1 RPROMPT2 RPS2; { unset $v }
+#RPS1=$'%D{%d.%H:%M:%S}'
+
+### Navigation keys
+## These are ctrl+{right,left}arrow
+bindkey ';5D' backward-word
+bindkey ';5C' forward-word
+
+### Aliases
+alias ls='ls --color=auto --time-style=long-iso'
+alias mp2mca='mplayer2 -af resample=48000:1:2,hrtf -channels 6'
+alias h='history 0'
+alias ga=git-annex
+
+### Env vars
+# For tree(1)
+eval $(dircolors -b)
+export GREP_OPTIONS='--color=auto'
+# Less
+export LESS='-RQP%f %bB/%B (%lB/%L) ?e(EOF):[%pB\%].?x - Next\: %x.:?pB%pB\%..%t'
+
+### Shell style settings
+# Colored completions. :)
+# Keep this after dircolors above, so we can use the env var.
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+### Helpers
+# Autojump
+export AUTOJUMP_KEEP_ALL_ENTRIES=1
+export AUTOJUMP_KEEP_SYMLINKS=1
+test -f /usr/share/autojump/autojump.zsh && . /usr/share/autojump/autojump.zsh
