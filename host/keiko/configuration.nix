@@ -120,10 +120,15 @@
 
   ### Accounts
   # Define a user account.
+  users.groups = {
+    "sh" = { gid = 1000; };
+  };
+
   users.extraUsers = {
     "sh" = {
       isNormalUser = true;
       uid = 1000;
+      group = "sh";
     };
   };
 
