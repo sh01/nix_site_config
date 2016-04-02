@@ -24,8 +24,6 @@
   nix.binaryCachePublicKeys = [];
   nix.binaryCaches = [];
   
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Select internationalisation properties.
   i18n = {
     consoleFont = "Lat2-Terminus16";
@@ -47,6 +45,7 @@
     file
     less
     most
+    lsof
     screen
     tree
     zsh
@@ -65,23 +64,37 @@
     wget
 
     btrfsProgs
+    cryptsetup
 
     manpages
     man_db
     posix_man_pages
+
+    git
+    gitAndTools.git-annex
+    mdadm
   ];
 
-  fileSystems = {
-    "/" = { label = "root"; };
+  fileSystems = let
+    baseOpts = "noatime,nodiratime";
+    btrfsOpts = baseOpts + ",space_cache,autodefrag";
+    btrfsOptsNA = btrfsOpts + ",noauto";
+  in {
+    "/" = { label = "root"; options=btrfsOpts; };
+    "/boot" = { device = "UUID=5e608f7c-d2ae-41f9-a14d-a81820d50122"; options=baseOpts; };
+    "/mnt/a0" = { device = "/dev/mapper/a0"; options = btrfsOptsNA; };
+    "/mnt/a1" = { device = "/dev/mapper/a1"; options = btrfsOptsNA; };
+    "/mnt/a2" = { device = "/dev/mapper/a2"; options = btrfsOptsNA; };
   };
 
   fonts.fontconfig.enable = false;
 
-  ### GRUB 2 boot loader.
+  ### Boot config
   boot.loader.grub.enable = false;
   boot.loader.grub.version = 2;
   # Define on which hard drive you want to install Grub.
   # boot.loader.grub.device = "/dev/sda";
+  boot.loader.initScript.enable = true;
 
   ### Networking
   networking.useDHCP = false;
