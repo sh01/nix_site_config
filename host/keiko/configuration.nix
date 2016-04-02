@@ -21,7 +21,23 @@ in {
     nameservers = [ "10.16.0.1" ];
     search = [ "sh.s ulwifi.s baughn-sh.s" ];
     usePredictableInterfaceNames = false;
+    interfaces = {
+      "eth_lan" = {
+        ip4 = [{
+          address = "10.16.0.2";
+          prefixLength = 24;
+        }];
+        ip6 = [{
+          address = "2a00:15b8:109:1:1::2";
+          prefixLength = 80;
+        }];
+      };
+    };
   };
+  # Name network devices statically based on MAC address
+  services.udev.extraRules = ''
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="14:da:e9:92:4a:ae", KERNEL=="eth*", NAME="eth_lan"
+  '';
 
   ### Package auth
   nix.binaryCachePublicKeys = [];
