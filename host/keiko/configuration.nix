@@ -5,7 +5,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  userSpecs = [["sh" 1000] ["cc" 1005] ["sh_yalda" 1006] ["sh_allison" 1007]];
   mkMerge = lib.mkMerge;
   elemAt = builtins.elemAt;
 in {
@@ -123,9 +122,18 @@ in {
   };
 
   ### Accounts
-  # Define paired user/group accounts based on provided list.
-  users.groups = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs);
-  users.users = mkMerge (map (s: let U = builtins.elemAt s 0; in { "${U}" = { name = U; uid = (builtins.elemAt s 1); group = U; isNormalUser = true; }; }) userSpecs);
+  # Define paired user/group accounts.
+  users = let
+    userSpecs = [
+      ["sh" 1000]
+      ["cc" 1005]
+      ["sh_yalda" 1006]
+      ["sh_allison" 1007]
+    ];
+  in {
+    groups = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs);
+    users = mkMerge (map (s: let U = builtins.elemAt s 0; in { "${U}" = { name = U; uid = (builtins.elemAt s 1); group = U; isNormalUser = true; }; }) userSpecs);
+  };
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
