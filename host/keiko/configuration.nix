@@ -91,6 +91,7 @@ in {
 
     git
     gitAndTools.git-annex
+    gnupg
     mdadm
   ];
 
