@@ -153,7 +153,6 @@ in {
       ["sh" 1000 ["wheel" "nix-users"] [ssh_pub.sh_allison]]
       ["cc" 1005 [] []]
       ["sh_yalda" 1006 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]]
-      ["sh_allison" 1007 [] [ssh_pub.sh_allison]]
       ["backup-client" 1002 [] [ssh_pub.root_keiko]]
     ];
   in {
