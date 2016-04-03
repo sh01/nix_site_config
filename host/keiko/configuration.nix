@@ -159,7 +159,7 @@ a2      /dev/md/a2      none            noauto,luks
 
   ### Per-program config
   programs.ssh.startAgent = false;
-  programs.ssh.knownHosts = ssh_pub.toKnownHosts ssh_pub;
+  programs.ssh.knownHosts = ssh_pub.knownHosts;
 
   programs.zsh = {
     enable = true;
