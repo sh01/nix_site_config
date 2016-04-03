@@ -13,6 +13,7 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../base
+      ../../secrets/keiko.nix
     ];
 
   ##### Host id stuff
@@ -135,10 +136,12 @@ in {
 
   ### Services
   services.openssh.enable = true;
+  services.openssh.moduliFile = ./sshd_moduli;
 
   ### Per-program config
   programs.ssh.startAgent = false;
   programs.ssh.knownHosts = ssh_pub.toKnownHosts ssh_pub;
+
   programs.zsh = {
     enable = true;
   };
