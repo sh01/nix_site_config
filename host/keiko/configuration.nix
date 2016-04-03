@@ -94,6 +94,9 @@ in {
     gnupg
     mdadm
   ];
+  nixpkgs.config.allowUnfree = false;
+  nixpkgs.config.x11Support = false;
+  nixpkgs.config.graphical = false;
 
   fileSystems = let
     baseOpts = "noatime,nodiratime";
