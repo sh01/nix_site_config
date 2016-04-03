@@ -151,9 +151,10 @@ in {
       ["sh_allison" 1007 []]
     ];
   in {
-    groups = mkMerge [
-      (mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs))
-      {"nix-users" = { gid = 2049; }; }];
+    groups = mkMerge (
+      (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs) ++ [
+      {"nix-users" = { gid = 2049; }; }
+      ]);
     users = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; uid = (elemAt s 1); group = U; extraGroups = (elemAt s 2); isNormalUser = true; }; }) userSpecs);
     defaultUserShell = "/run/current-system/sw/bin/zsh";
   };
