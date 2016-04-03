@@ -12,10 +12,11 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./kernel.nix
       ../../base
-      ../../secrets/keiko.nix
     ];
 
+  boot.kernelPackages = pkgs.linuxPackages_4_3;
   ##### Host id stuff
   networking = {
     hostName = "keiko.sh.s";
@@ -41,11 +42,11 @@ in {
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="14:da:e9:92:4a:ae", KERNEL=="eth*", NAME="eth_lan"
   '';
 
-  ### Package auth
+  ##### Package auth
   nix.binaryCachePublicKeys = [];
   nix.binaryCaches = [];
   
-  # Select internationalisation properties.
+  ##### Select internationalisation properties.
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "us";
@@ -53,7 +54,7 @@ in {
     supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
   };
 
-  # Set your time zone.
+  #### Set time zone.
   time.timeZone = "Europe/Dublin";
 
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
