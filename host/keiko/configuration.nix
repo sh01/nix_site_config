@@ -7,6 +7,7 @@
 let
   mkMerge = lib.mkMerge;
   elemAt = builtins.elemAt;
+  ssh_pub = import ../../base/ssh_pub.nix;
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -137,6 +138,7 @@ in {
 
   ### Per-program config
   programs.ssh.startAgent = false;
+  programs.ssh.knownHosts = ssh_pub.toKnownHosts ssh_pub;
   programs.zsh = {
     enable = true;
   };
@@ -145,17 +147,18 @@ in {
   # Define paired user/group accounts.
   users = let
     userSpecs = [
-      ["sh" 1000 ["nix-users"]]
-      ["cc" 1005 []]
-      ["sh_yalda" 1006 []]
-      ["sh_allison" 1007 []]
+      ["sh" 1000 ["nix-users"] [ssh_pub.sh_allison]]
+      ["cc" 1005 [] []]
+      ["sh_yalda" 1006 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]]
+      ["sh_allison" 1007 [] [ssh_pub.sh_allison]]
+      ["backup-client" 1002 [] [ssh_pub.root_keiko]]
     ];
   in {
     groups = mkMerge (
       (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs) ++ [
       {"nix-users" = { gid = 2049; }; }
       ]);
-    users = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; uid = (elemAt s 1); group = U; extraGroups = (elemAt s 2); isNormalUser = true; }; }) userSpecs);
+    users = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; uid = (elemAt s 1); group = U; extraGroups = (elemAt s 2); openssh.authorizedKeys.keys = (elemAt s 3); isNormalUser = true; }; }) userSpecs);
     defaultUserShell = "/run/current-system/sw/bin/zsh";
   };
 
