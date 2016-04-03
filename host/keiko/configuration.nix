@@ -147,7 +147,7 @@ in {
   # Define paired user/group accounts.
   users = let
     userSpecs = [
-      ["sh" 1000 ["nix-users"] [ssh_pub.sh_allison]]
+      ["sh" 1000 ["wheel" "nix-users"] [ssh_pub.sh_allison]]
       ["cc" 1005 [] []]
       ["sh_yalda" 1006 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]]
       ["sh_allison" 1007 [] [ssh_pub.sh_allison]]
