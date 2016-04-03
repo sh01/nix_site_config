@@ -141,18 +141,21 @@ in {
     enable = true;
   };
 
-  ### Accounts
+  ### User / Group config
   # Define paired user/group accounts.
   users = let
     userSpecs = [
-      ["sh" 1000]
-      ["cc" 1005]
-      ["sh_yalda" 1006]
-      ["sh_allison" 1007]
+      ["sh" 1000 ["nix-users"]]
+      ["cc" 1005 []]
+      ["sh_yalda" 1006 []]
+      ["sh_allison" 1007 []]
     ];
   in {
-    groups = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs);
-    users = mkMerge (map (s: let U = builtins.elemAt s 0; in { "${U}" = { name = U; uid = (builtins.elemAt s 1); group = U; isNormalUser = true; }; }) userSpecs);
+    groups = mkMerge [
+      (mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs))
+      {"nix-users" = { gid = 2049; }; }];
+    users = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; uid = (elemAt s 1); group = U; extraGroups = (elemAt s 2); isNormalUser = true; }; }) userSpecs);
+    defaultUserShell = "/run/current-system/sw/bin/zsh";
   };
 
   # The NixOS release to be compatible with for stateful data such as databases.
@@ -160,6 +163,7 @@ in {
 
   ### terminal stuff
   fonts.fontconfig.defaultFonts.serif = [ "DejaVu Sans" ];
+
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;
 }
