@@ -11,12 +11,12 @@ let
   hk_yalda = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKgLnDEu6YIP047/9YvtaJIqh8fjwgCZxDpRAj0jAJD+";
   hk_bw0 = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJtyFexV2+utU0Y0EYuJoxgfNKUcOqQ7yCx0QgKhEfbdmBB2U/usZ0gIoTT0pxoqbPOuqk1YYza7BwxM6AJs7hGcuMmRzsqSU9eG9Ow8JT7NyhdLUKes37U+6EA1vea2JmNsvmGvzsmRVB3/tDGpsoSgJhWsKK2Mboc1n6g5UAC+8GHDn329N6nQ7u/wucwC6vFEZa/T2Fppu79eKgjxpyDRO1iWHiEE8pO8mbFWQfrvoKcoyIWbjdh/6s9sARrZ1w15j90OFDOpPMKxIIOff5CIiiwQERdmRL/QNtZOkOCoEUUgU2byKNASoieC8w0voh6OUOtgoecjWsLTiNXJ5Z";
  };
-in b // {
+in b // (with b; {
   knownHosts = [
-    { hostNames = HN "allison"; publicKey = b.hk_allison;}
-    { hostNames = HN "keiko"; publicKey = b.hk_keiko;}
-    { hostNames = HN "uiharu"; publicKey = b.hk_uiharu;}
-    { hostNames = HN "yalda"; publicKey = b.hk_yalda;}
-    { hostNames = ["bw0" "bw0.ulwired-ctl.s."]; publicKey = b.hk_bw0;}
+    { hostNames = HN "allison"; publicKey = hk_allison;}
+    { hostNames = HN "keiko"; publicKey = hk_keiko;}
+    { hostNames = HN "uiharu"; publicKey = hk_uiharu;}
+    { hostNames = HN "yalda"; publicKey = hk_yalda;}
+    { hostNames = ["bw0" "bw0.ulwired-ctl.s."]; publicKey = hk_bw0;}
   ];
-}
+})
