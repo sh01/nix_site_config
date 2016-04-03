@@ -88,6 +88,8 @@ in {
     btrfsProgs
     cryptsetup
 
+    nix-repl
+
     manpages
     man_db
     posix_man_pages
@@ -100,6 +102,18 @@ in {
   nixpkgs.config.allowUnfree = false;
   nixpkgs.config.x11Support = false;
   nixpkgs.config.graphical = false;
+
+  environment.etc = {
+    "crypttab" = {
+      text = ''
+# <target name> <source device>         <key file>      <options>
+a0      /dev/md/a0      /var/crypt/a0_2 noauto,luks
+a1      /dev/md/a1      /var/crypt/a1_0 noauto,luks
+#a2     /dev/md/a2      /var/crypt/a2_0 noauto,luks
+a2      /dev/md/a2      none            noauto,luks
+'';
+    };
+  };
 
   fileSystems = let
     baseOpts = "noatime,nodiratime";
@@ -116,11 +130,15 @@ in {
   fonts.fontconfig.enable = false;
 
   ### Boot config
-  boot.loader.grub.enable = false;
-  boot.loader.grub.version = 2;
-  # Define on which hard drive you want to install Grub.
-  # boot.loader.grub.device = "/dev/sda";
   boot.loader.initScript.enable = true;
+  boot.loader.grub = {
+    enable = false;
+    version = 2;
+    device = "/dev/sda";
+    fsIdentifier = "label";
+    memtest86.enable = true;
+    splashImage = null;
+  };
 
   ### Networking
   networking.useDHCP = false;
