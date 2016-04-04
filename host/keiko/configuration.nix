@@ -120,7 +120,7 @@ a2      /dev/md/a2      none            noauto,luks
     btrfsOpts = baseOpts + ",space_cache,autodefrag";
     btrfsOptsNA = btrfsOpts + ",noauto";
   in {
-    "/" = { label = "root"; options=btrfsOpts; };
+    "/" = { label = "keiko_root"; options=btrfsOpts; };
     "/boot" = { device = "UUID=5e608f7c-d2ae-41f9-a14d-a81820d50122"; options=baseOpts; };
     "/mnt/a0" = { device = "/dev/mapper/a0"; options = btrfsOptsNA; };
     "/mnt/a1" = { device = "/dev/mapper/a1"; options = btrfsOptsNA; };
