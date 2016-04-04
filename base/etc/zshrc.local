@@ -1,8 +1,12 @@
-# Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=9223372036854775807
-SHELL=/usr/bin/zsh
+
+if [[ -f /etc/NIXOS ]]; then
+  SHELL=/run/current-system/sw/bin/zsh
+else
+  SHELL=/usr/bin/zsh
+fi
 
 setopt incappendhistory notify extended_history hist_ignore_space bsdecho
 unsetopt beep extendedglob nomatch
