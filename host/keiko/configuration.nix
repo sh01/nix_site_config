@@ -130,12 +130,12 @@ a2      /dev/md/a2      none            noauto,luks
   fonts.fontconfig.enable = false;
 
   ### Boot config
-  boot.loader.initScript.enable = true;
+  # boot.loader.initScript.enable = true;
   boot.loader.grub = {
-    enable = false;
+    enable = true;
     version = 2;
     device = "/dev/sda";
-    fsIdentifier = "label";
+    fsIdentifier = "uuid";
     memtest86.enable = true;
     splashImage = null;
   };
