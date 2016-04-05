@@ -85,8 +85,10 @@ in {
     tcpdump
     wget
 
+    mdadm
     btrfsProgs
     cryptsetup
+    smartmontools
 
     nix-repl
 
@@ -97,7 +99,6 @@ in {
     git
     gitAndTools.git-annex
     gnupg
-    mdadm
   ];
   nixpkgs.config.allowUnfree = false;
   nixpkgs.config.x11Support = false;
