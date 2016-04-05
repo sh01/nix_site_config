@@ -136,7 +136,7 @@ a2      /dev/md/a2      none            noauto,luks
     enable = true;
     version = 2;
     device = "/dev/sda";
-    fsIdentifier = "uuid";
+    fsIdentifier = "label";
     memtest86.enable = true;
     splashImage = null;
   };
