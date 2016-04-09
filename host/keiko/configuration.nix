@@ -71,6 +71,7 @@ in {
     screen
     tree
     zsh
+    iotop
 
     gzip
     bzip2
@@ -101,8 +102,9 @@ in {
     gnupg
   ];
   nixpkgs.config.allowUnfree = false;
-  nixpkgs.config.x11Support = false;
-  nixpkgs.config.graphical = false;
+  environment.noXlibs = true;
+  sound.enable = false;
+  security.polkit.enable = false;
 
   environment.etc = {
     "crypttab" = {
