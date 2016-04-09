@@ -10,6 +10,9 @@
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
+    # We don't need this.
+    grub2 = pkgs.grub2.override { zfsSupport = false; };
+
     # Put procps below coreutils for uptime(1).
     # "outPath" entries are a hack around "cannot coerce a set to a string" bug (see https://github.com/NixOS/nixpkgs/issues/7425 )
     procps = pkgs.procps.overrideDerivation (a: {
