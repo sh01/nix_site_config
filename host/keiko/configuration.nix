@@ -14,6 +14,7 @@ in {
       ./hardware-configuration.nix
       ./kernel.nix
       ../../base
+      ../../base/nox.nix
     ];
 
   boot.kernelPackages = pkgs.linuxPackages_4_3;
@@ -73,6 +74,8 @@ in {
     zsh
     iotop
 
+    emacs
+
     gzip
     bzip2
     xz
@@ -102,7 +105,6 @@ in {
     gnupg
   ];
   nixpkgs.config.allowUnfree = false;
-  environment.noXlibs = true;
   sound.enable = false;
   security.polkit.enable = false;
 
