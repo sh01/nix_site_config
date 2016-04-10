@@ -8,12 +8,9 @@ else
   SHELL=/usr/bin/zsh
 fi
 
-setopt incappendhistory notify extended_history hist_ignore_space bsdecho
-unsetopt beep extendedglob nomatch
+setopt incappendhistory notify extended_history hist_ignore_space bsdecho hist_fcntl_lock
+unsetopt beep extendedglob nomatch share_history hist_ignore_dups
 bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/sebastian/.zshrc'
 
 autoload -Uz compinit
 compinit
