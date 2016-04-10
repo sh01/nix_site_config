@@ -38,7 +38,7 @@ bindkey ';5C' forward-word
 
 ### Env vars
 # For tree(1)
-eval $(dircolors -b)
+eval $(dircolors -b /etc/DIR_COLORS)
 # Less
 export LESS='-RQP%f %bB/%B (%lB/%L) ?e(EOF):[%pB\%].?x - Next\: %x.:?pB%pB\%..%t'
 

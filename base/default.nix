@@ -3,11 +3,14 @@
     "zshrc.local" = {
       text = (builtins.readFile ./etc/zshrc.local);
     };
+    "DIR_COLORS" = {
+      text = (builtins.readFile ./etc/DIR_COLORS);
+    };
   };
 
   imports = [
-    ./emacs
     ./channel.nix
+    ./emacs
   ];
 
   environment.shellAliases = {
