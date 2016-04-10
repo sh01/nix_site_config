@@ -68,11 +68,13 @@ in {
     file
     less
     most
-    lsof
     screen
     tree
     zsh
     iotop
+    lsof
+    strace
+    ltrace
 
     gzip
     bzip2
