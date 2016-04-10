@@ -53,11 +53,11 @@ class Menu:
 
 def boot(entry):
   from os import execl, environb
-  sc = entry['systemConfig'].encode('ascii')
-  init = entry['init'].encode('ascii')
 
-  environb[b'systemConfig'] = sc
-  print(init)
+  for (k,v) in entry['env'].items():
+    environb[k.encode('ascii')] = v.encode('ascii')
+
+  init = entry['init']
   execl(init, init)
   
 

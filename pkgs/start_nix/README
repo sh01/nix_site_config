@@ -1,0 +1,6 @@
+start_nix is the counterpart to boot/json: it reads /boot/nix.json and displays a userspace boot menu.
+
+cmds to set up a typical boot environment:
+  ne -p /nix/var/nix/profiles/boot -i -f ./pkgs/start_nix
+  # Set up rescue shell environment. By keeping it separately from the system env, it has a chance to stay functional if we mess the latter one up.
+  ne -p /nix/var/nix/profiles/boot -i zsh coreutils

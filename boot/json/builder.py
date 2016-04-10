@@ -8,6 +8,7 @@ import time
 class BootEntries:
   def __init__(self):
     self.entries = []
+    self.now = time.time()
 
   @staticmethod
   def fmt_time(ts):
@@ -35,7 +36,11 @@ class BootEntries:
       ts = kstat.st_mtime
     title = 'NixOS %d (linux-%s) %s' % (gen, kver.decode('ascii'), self.fmt_time(ts))
 
-    self.entries.append((gen, ts, title, d_dref))
+    _dir = d_dref.decode('ascii')
+    self.entries.append((gen, ts, title, {"systemConfig": _dir}, os.path.join(_dir,'init')))
+
+  def add_shell(self, gen, title, shell, path):
+    self.entries.append((gen, self.now, title, {"PATH": path}, shell))
 
   def sort(self):
     self.entries.sort()
@@ -48,9 +53,8 @@ class BootEntries:
   def write_json(self, out):
     import json
     et = []
-    for (gen, mtime, title, _dir) in self.entries:
-      init = os.path.join(_dir.decode('ascii'), 'init')
-      et.append({'gen':gen, 'mtime':mtime, 'title':title, 'init': init, 'systemConfig': _dir.decode('ascii')})
+    for (gen, mtime, title, env, init) in self.entries:
+      et.append({'gen':gen, 'mtime':mtime, 'title':title, 'init': init, 'env': env})
     json.dump(et, out)
 
 
@@ -61,12 +65,16 @@ def main():
   be.read_profiles(b'/nix/var/nix/profiles/system-*-link')
   if (len(sys.argv) > 1):
     default_path = sys.argv[1].encode('ascii')
-    be.add_profile(default_path, -1, time.time())
+    be.add_profile(default_path, -1, be.now)
+
+  be.add_shell(4096, 'NixOS system shell', '/run/current-system/sw/bin/zsh', '/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin')
+  be.add_shell(4097, 'NixOS boot rescue shell',  '/nix/var/nix/profiles/boot/bin/zsh', '/nix/var/nix/profiles/boot/bin/')
+  
   be.sort()
   be.print_entries()
-  
   dst_fn = '@out_filename@'
   print('Writing JSON boot data to {!r}.'.format(dst_fn))
+
   tf = tempfile.NamedTemporaryFile(mode='w', encoding='ascii', delete=False)
   be.write_json(tf)
   os.rename(tf.name, dst_fn)
