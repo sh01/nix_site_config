@@ -7,6 +7,7 @@
 
   imports = [
     ./emacs
+    ./channel.nix
   ];
 
   environment.shellAliases = {
