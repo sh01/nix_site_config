@@ -1,8 +1,8 @@
 let
   pkgs = import <nixpkgs> {};
+  epkgs =  pkgs."emacs24Packages";
   emacsConf = pkgs.stdenv.mkDerivation {
     cu = pkgs.coreutils;
-    rd = pkgs."emacs24Packages".rainbowDelimiters;
 
     builder = builtins.toFile "builder.sh" ''
       PATH=$PATH:$cu/bin/
@@ -10,14 +10,12 @@ let
 
       mkdir -p $P
       cp $FN $P/default.el
-      ln -s $rd/share/emacs/site-lisp/rainbow-delimiters.el $P/
     '';
     name = "emacs-config";
     FN = ./default.el;
 }; in {
   environment.systemPackages = with pkgs; [
-    emacs
-    emacs24Packages.rainbowDelimiters
+    (emacsWithPackages [ epkgs.rainbowDelimiters ])
     emacsConf
   ];
 }
