@@ -1,6 +1,6 @@
 let
  HN = s: [s] ++ [(s + ".sh.s.") (s + ".sh.s") (s + ".vpn.sh.s.") (s + ".vpn.sh.s")];
- b = {
+in rec {
   sh_allison = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDP2ErHhg1qHz/tsfoqjf9Z1TutbVWxPozW7kgOafrX3 sh@allison.sh.s.";
   sh_yalda = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINUoptwFK1lhRNiR978NN/95ZUre1Xe9GY6XSyursx7s sh@yalda.sh.s.";
   root_keiko = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIITxN4NuMIY4hiYgZXpFRILKorw8Nxm95Qu1Ot6BccSn root@keiko.sh.s.";
@@ -12,8 +12,8 @@ let
   hk_rune = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK6SOWmjQs46p8DI8mwBCSWt7Gi2KwXYrtbTkvknTXnV";
 
   hk_bw0 = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJtyFexV2+utU0Y0EYuJoxgfNKUcOqQ7yCx0QgKhEfbdmBB2U/usZ0gIoTT0pxoqbPOuqk1YYza7BwxM6AJs7hGcuMmRzsqSU9eG9Ow8JT7NyhdLUKes37U+6EA1vea2JmNsvmGvzsmRVB3/tDGpsoSgJhWsKK2Mboc1n6g5UAC+8GHDn329N6nQ7u/wucwC6vFEZa/T2Fppu79eKgjxpyDRO1iWHiEE8pO8mbFWQfrvoKcoyIWbjdh/6s9sARrZ1w15j90OFDOpPMKxIIOff5CIiiwQERdmRL/QNtZOkOCoEUUgU2byKNASoieC8w0voh6OUOtgoecjWsLTiNXJ5Z";
- };
-in b // (with b; {
+  
+
   knownHosts = [
     { hostNames = HN "allison"; publicKey = hk_allison;}
     { hostNames = HN "keiko"; publicKey = hk_keiko;}
@@ -22,4 +22,4 @@ in b // (with b; {
     { hostNames = HN "rune"; publicKey = hk_rune;}
     { hostNames = ["bw0" "bw0.ulwired-ctl.s."]; publicKey = hk_bw0;}
   ];
-})
+}
