@@ -39,16 +39,12 @@ for v in RPROMPT RPS1 RPROMPT2 RPS2; { unset $v }
 bindkey ';5D' backward-word
 bindkey ';5C' forward-word
 
-### Aliases
-alias ls='ls --color=auto --time-style=long-iso'
-alias mp2mca='mplayer2 -af resample=48000:1:2,hrtf -channels 6'
-alias h='history 0'
-alias ga=git-annex
+### Shell-specific Aliases
+alias h='fc -l -i 0'
 
 ### Env vars
 # For tree(1)
 eval $(dircolors -b)
-export GREP_OPTIONS='--color=auto'
 # Less
 export LESS='-RQP%f %bB/%B (%lB/%L) ?e(EOF):[%pB\%].?x - Next\: %x.:?pB%pB\%..%t'
 

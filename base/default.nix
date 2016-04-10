@@ -10,9 +10,14 @@
   ];
 
   environment.shellAliases = {
-    # Some nix-env builds (as for ghc-7.8.4) can fail in interesting ways when it's invoked with with non-C LANG.
-    ne = "env PAGER=cat LANG=C nix-env";
+    grep = "grep --color=auto";
+    ls = "ls --color=auto --time-style=long-iso";
+
+    ne = "PAGER=cat nix-env";
     ns = "PAGER=cat nix-store";
+
+    mp2mca = "mplayer2 -af resample=48000:1:2,hrtf -channels 6";
+    ga = "git-annex";
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
