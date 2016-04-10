@@ -8,6 +8,7 @@ let
   mkMerge = lib.mkMerge;
   elemAt = builtins.elemAt;
   ssh_pub = import ../../base/ssh_pub.nix;
+  slib = import ../../lib;
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -138,20 +139,12 @@ a2      /dev/md/a2      none            noauto,luks
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = let
-    userSpecs = [
+  users = slib.mkUserGroups [
       ["sh" 1000 ["wheel" "nix-users"] [ssh_pub.sh_allison]]
       ["cc" 1005 [] []]
       ["sh_yalda" 1006 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]]
       ["backup-client" 1002 [] [ssh_pub.root_keiko]]
     ];
-  in {
-    groups = mkMerge (
-      (map (s: let U = elemAt s 0; in { "${U}" = { name = U; gid = (elemAt s 1); }; }) userSpecs) ++ [
-      {"nix-users" = { gid = 2049; }; }
-      ]);
-    users = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; uid = (elemAt s 1); group = U; extraGroups = (elemAt s 2); openssh.authorizedKeys.keys = (elemAt s 3); isNormalUser = true; }; }) userSpecs);
-  };
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
