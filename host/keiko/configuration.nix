@@ -74,8 +74,6 @@ in {
     zsh
     iotop
 
-    emacs
-
     gzip
     bzip2
     xz

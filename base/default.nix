@@ -1,9 +1,14 @@
-{
+{config, pkgs, ...}: {
   environment.etc = {
     "zshrc.local" = {
       text = (builtins.readFile ./etc/zshrc.local);
     };
   };
+
+  imports = [
+    ./emacs
+  ];
+
   environment.shellAliases = {
     # Some nix-env builds (as for ghc-7.8.4) can fail in interesting ways when it's invoked with with non-C LANG.
     ne = "env PAGER=cat LANG=C nix-env";
