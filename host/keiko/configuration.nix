@@ -9,6 +9,7 @@ let
   elemAt = builtins.elemAt;
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = import ../../lib;
+  vars = import ../../base/vars.nix;
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -139,12 +140,10 @@ a2      /dev/md/a2      none            noauto,luks
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups [
-      ["sh" 1000 ["wheel" "nix-users"] [ssh_pub.sh_allison]]
+  users = slib.mkUserGroups (vars.userSpecs ++ [
       ["cc" 1005 [] []]
       ["sh_yalda" 1006 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]]
-      ["backup-client" 1002 [] [ssh_pub.root_keiko]]
-    ];
+  ]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
