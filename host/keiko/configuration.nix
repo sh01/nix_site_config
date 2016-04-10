@@ -15,6 +15,7 @@ in {
       ./kernel.nix
       ../../base
       ../../base/nox.nix
+      ../../base/site_stellvia.nix
     ];
 
   boot.kernelPackages = pkgs.linuxPackages_4_3;
@@ -42,23 +43,6 @@ in {
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="14:da:e9:92:4a:ae", KERNEL=="eth*", NAME="eth_lan"
   '';
-
-  ##### Package auth
-  nix.binaryCachePublicKeys = [];
-  nix.binaryCaches = [];
-  
-  ##### Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
-    supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
-  };
-
-  #### Set time zone.
-  time.timeZone = "Europe/Dublin";
-
-  environment.shells = [ "/run/current-system/sw/bin/zsh" ];
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -104,7 +88,6 @@ in {
     gitAndTools.git-annex
     gnupg
   ];
-  nixpkgs.config.allowUnfree = false;
   sound.enable = false;
   security.polkit.enable = false;
 
@@ -132,8 +115,6 @@ a2      /dev/md/a2      none            noauto,luks
     "/mnt/a2" = { device = "/dev/mapper/a2"; options = btrfsOptsNA; };
   };
 
-  fonts.fontconfig.enable = false;
-
   ### Boot config
   # boot.loader.initScript.enable = true;
   boot.loader.grub = {
@@ -148,27 +129,12 @@ a2      /dev/md/a2      none            noauto,luks
   ### Networking
   networking.useDHCP = false;
   networking.dhcpcd.allowInterfaces = [];
-  networking.firewall.allowPing = true;
-  networking.firewall.rejectPackets = true;
 
   nix.allowedUsers = [ "@nix-users" ];
-
-  ### Nix build config
-  nix.daemonIONiceLevel = 2;
-  nix.daemonNiceLevel = 2;
-  nix.requireSignedBinaryCaches = true;
 
   ### Services
   services.openssh.enable = true;
   services.openssh.moduliFile = ./sshd_moduli;
-
-  ### Per-program config
-  programs.ssh.startAgent = false;
-  programs.ssh.knownHosts = ssh_pub.knownHosts;
-
-  programs.zsh = {
-    enable = true;
-  };
 
   ### User / Group config
   # Define paired user/group accounts.
@@ -185,14 +151,10 @@ a2      /dev/md/a2      none            noauto,luks
       {"nix-users" = { gid = 2049; }; }
       ]);
     users = mkMerge (map (s: let U = elemAt s 0; in { "${U}" = { name = U; uid = (elemAt s 1); group = U; extraGroups = (elemAt s 2); openssh.authorizedKeys.keys = (elemAt s 3); isNormalUser = true; }; }) userSpecs);
-    defaultUserShell = "/run/current-system/sw/bin/zsh";
   };
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
-
-  ### terminal stuff
-  fonts.fontconfig.defaultFonts.serif = [ "DejaVu Sans" ];
 
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;

@@ -1,4 +1,6 @@
-{config, pkgs, ...}: rec {
+{config, pkgs, ...}: let
+  ssh_pub = import ./ssh_pub.nix;
+in rec {
   environment.etc = {
     "zshrc.local" = {
       text = (builtins.readFile ./etc/zshrc.local);
@@ -13,6 +15,9 @@
     ./emacs
   ];
 
+  environment.shells = [ "/run/current-system/sw/bin/zsh" ];
+  users.defaultUserShell = "/run/current-system/sw/bin/zsh";
+  
   environment.shellAliases = {
     grep = "grep --color=auto";
     ls = "ls --color=auto --time-style=long-iso";
@@ -24,8 +29,11 @@
     ga = "git-annex";
   };
 
-  programs.zsh.shellAliases = environment.shellAliases // {
-    h = "fc -l -i 0";
+  programs.zsh = {
+    enable = true;
+    shellAliases = environment.shellAliases // {
+      h = "fc -l -i 0";
+    };
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
@@ -37,4 +45,36 @@
     # Put procps below coreutils for uptime(1).
     procps = pkgs.lib.hiPrio pkgs.procps;
   };
+
+  
+  ##### Internationalisation properties
+  i18n = {
+    consoleFont = "Lat2-Terminus16";
+    consoleKeyMap = "us";
+    defaultLocale = "en_US.UTF-8";
+    supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
+  };
+    
+  #### Nixpkgs
+  nixpkgs.config.allowUnfree = false;
+  
+  ##### Package auth
+  nix.binaryCachePublicKeys = [];
+  nix.binaryCaches = [];
+  
+  #### Nix firewall
+  networking.firewall.allowPing = true;
+  networking.firewall.rejectPackets = true;
+
+  #### Nix build config
+  nix.daemonIONiceLevel = 2;
+  nix.daemonNiceLevel = 2;
+  nix.requireSignedBinaryCaches = true;
+
+  #### Per-program config
+  programs.ssh.startAgent = false;
+  programs.ssh.knownHosts = ssh_pub.knownHosts;
+
+  ######## X-windows things
+  fonts.fontconfig.defaultFonts.serif = [ "DejaVu Sans" ];
 }

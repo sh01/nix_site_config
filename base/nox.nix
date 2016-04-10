@@ -6,5 +6,6 @@
     "emacs-24.5" = pkgs."emacs-24.5".override { withX = false; withGTK2 = false; withGTK3 = false; };
   };
 
+  fonts.fontconfig.enable = false;
   environment.noXlibs = true;
 }
