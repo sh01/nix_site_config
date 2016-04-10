@@ -1,4 +1,4 @@
-{config, pkgs, ...}: {
+{config, pkgs, ...}: rec {
   environment.etc = {
     "zshrc.local" = {
       text = (builtins.readFile ./etc/zshrc.local);
@@ -18,6 +18,10 @@
 
     mp2mca = "mplayer2 -af resample=48000:1:2,hrtf -channels 6";
     ga = "git-annex";
+  };
+
+  programs.zsh.shellAliases = environment.shellAliases // {
+    h = "fc -l -i 0";
   };
 
   nixpkgs.config.packageOverrides = pkgs: {

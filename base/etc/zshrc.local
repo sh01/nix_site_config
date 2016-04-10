@@ -39,9 +39,6 @@ for v in RPROMPT RPS1 RPROMPT2 RPS2; { unset $v }
 bindkey ';5D' backward-word
 bindkey ';5C' forward-word
 
-### Shell-specific Aliases
-alias h='fc -l -i 0'
-
 ### Env vars
 # For tree(1)
 eval $(dircolors -b)
