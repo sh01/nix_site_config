@@ -5,8 +5,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  mkMerge = lib.mkMerge;
-  elemAt = builtins.elemAt;
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
