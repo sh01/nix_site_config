@@ -1,0 +1,5 @@
+To use boot/json as a boot loader installer; configure it along these lines:
+  config.system.build.installBootLoader = (import ../../boot/json).install;
+
+Alternatively (and for use in combination with other bootloaders), it can also be invoked directly, e.g.:
+  python3 boot/json/builder.py ./result /boot/nix.json

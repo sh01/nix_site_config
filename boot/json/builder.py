@@ -73,6 +73,8 @@ def main():
   be.sort()
   be.print_entries()
   dst_fn = '@out_filename@'
+  if (len(sys.argv) > 2) and (dst_fn[0] == '@'):
+    dst_fn = sys.argv[2]
   print('Writing JSON boot data to {!r}.'.format(dst_fn))
 
   tf = tempfile.NamedTemporaryFile(mode='w', encoding='ascii', delete=False)
