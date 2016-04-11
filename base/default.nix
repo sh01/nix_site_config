@@ -58,18 +58,19 @@ in rec {
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
   
-  ##### Package auth
-  nix.binaryCachePublicKeys = [];
-  nix.binaryCaches = [];
-  
+  ##### Nix source and build config
+  nix = {
+    allowedUsers = [ "@nix-users" ];
+    binaryCachePublicKeys = [];
+    binaryCaches = [];
+    requireSignedBinaryCaches = true;
+    daemonIONiceLevel = 2;
+    daemonNiceLevel = 2;
+  };
+    
   #### Nix firewall
   networking.firewall.allowPing = true;
   networking.firewall.rejectPackets = true;
-
-  #### Nix build config
-  nix.daemonIONiceLevel = 2;
-  nix.daemonNiceLevel = 2;
-  nix.requireSignedBinaryCaches = true;
 
   #### Per-program config
   programs.ssh.startAgent = false;

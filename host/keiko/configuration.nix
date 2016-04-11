@@ -48,48 +48,8 @@ in {
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    glibcLocales
+  environment.systemPackages = vars.pkCLIStd;
 
-    file
-    less
-    most
-    screen
-    tree
-    zsh
-    iotop
-    lsof
-    strace
-    ltrace
-
-    gzip
-    bzip2
-    xz
- 
-    python
-    python3
-
-    iputils
-    netcat
-    socat
-    tcpdump
-    wget
-
-    mdadm
-    btrfsProgs
-    cryptsetup
-    smartmontools
-
-    nix-repl
-
-    manpages
-    man_db
-    posix_man_pages
-
-    git
-    gitAndTools.git-annex
-    gnupg
-  ];
   sound.enable = false;
   security.polkit.enable = false;
 
@@ -131,8 +91,6 @@ a2      /dev/md/a2      none            noauto,luks
   ### Networking
   networking.useDHCP = false;
   networking.dhcpcd.allowInterfaces = [];
-
-  nix.allowedUsers = [ "@nix-users" ];
 
   ### Services
   services.openssh.enable = true;
