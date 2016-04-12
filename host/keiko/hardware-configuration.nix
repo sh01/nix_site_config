@@ -8,7 +8,7 @@
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "mpt2sas" ];
+  boot.initrd.availableKernelModules = [];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 

@@ -19,6 +19,7 @@ in {
     ];
 
   boot.kernelPackages = pkgs.linuxPackages_4_3;
+  boot.blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek"];
   ##### Host id stuff
   networking = {
     hostName = "keiko.sh.s";
