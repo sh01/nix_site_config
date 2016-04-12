@@ -75,7 +75,7 @@ in {
     su.allowNullPassword = true;
   };
 
-  environment.etc.issue.text = ''\n\x1b[1;32m<<< Welcome to NixOS \\l >>>\x1b[0m\n\nLog in as "root" or "sh" with an empty password.\n\n'';
+  services.mingetty.helpLine = ''Log in as "root" or "sh" with an empty password.\n\n'';
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
