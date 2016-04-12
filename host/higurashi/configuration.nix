@@ -59,8 +59,23 @@ in {
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (vars.userSpecs ++ [
-  ]);
+  # Manually provided passwords are hashed empty strings.
+  users = (slib.mkUserGroups (vars.userSpecs ++ [
+  ])) // {
+    users = {
+      root.hashedPassword = "$6$FBbDnoKGw3Z1.OO$/x8d4WXCSKLFt0w1CP/ladkGrZHMxvkWCzdz65iaJ7svUh4oEwB44xezqUPNYpKGzpLeisKqOVBuadjl9Bl.7/";
+      sh.hashedPassword = "$6$FBbDnoKGw3Z1.OO$/x8d4WXCSKLFt0w1CP/ladkGrZHMxvkWCzdz65iaJ7svUh4oEwB44xezqUPNYpKGzpLeisKqOVBuadjl9Bl.7/";
+    };
+  };
+
+  security.sudo.wheelNeedsPassword = false;
+  security.pam.services = {
+    login.allowNullPassword = true;
+    kdm.allowNullPassword = true;
+    su.allowNullPassword = true;
+  };
+
+  environment.etc.issue.text = ''\n\x1b[1;32m<<< Welcome to NixOS \\l >>>\x1b[0m\n\nLog in as "root" or "sh" with an empty password.\n\n'';
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
