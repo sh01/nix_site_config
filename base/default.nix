@@ -21,6 +21,7 @@ in rec {
   environment.shellAliases = {
     grep = "grep --color=auto";
     ls = "ls --color=auto --time-style=long-iso";
+    hd = "hexdump -C";
 
     ne = "PAGER=cat nix-env";
     ns = "PAGER=cat nix-store";
