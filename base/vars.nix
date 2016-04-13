@@ -14,6 +14,7 @@ in rec {
     file
     less
     most
+    hexedit
     screen
     tree
     zsh

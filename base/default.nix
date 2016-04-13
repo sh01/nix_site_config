@@ -22,6 +22,7 @@ in rec {
     grep = "grep --color=auto";
     ls = "ls --color=auto --time-style=long-iso";
     hd = "hexdump -C";
+    he = "hexedit --color";
 
     ne = "PAGER=cat nix-env";
     ns = "PAGER=cat nix-store";
