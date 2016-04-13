@@ -84,4 +84,10 @@ in rec {
     wirelesstools
     networkmanager
   ];
+
+  kernelOpts = {
+    termHwStd = ''
+KEYBOARD_ATKBD y
+'';
+  };
 }
