@@ -63,11 +63,15 @@ def main():
   
   be = BootEntries()
   be.read_profiles(b'/nix/var/nix/profiles/system-*-link')
+
+  cs_path = '/run/current-system/sw/bin/'
   if (len(sys.argv) > 1):
-    default_path = sys.argv[1].encode('ascii')
+    dp = sys.argv[1]
+    cs_path = os.path.join(dp, 'sw/bin')
+    default_path = dp.encode('ascii')
     be.add_profile(default_path, -1, be.now)
 
-  be.add_shell(4096, 'NixOS system shell', '/run/current-system/sw/bin/zsh', '/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin')
+  be.add_shell(4096, 'NixOS system shell', os.path.join(cs_path,'zsh'), '/nix/var/nix/profiles/default/bin:' + cs_path)
   be.add_shell(4097, 'NixOS boot rescue shell',  '/nix/var/nix/profiles/boot/bin/zsh', '/nix/var/nix/profiles/boot/bin/')
   
   be.sort()
