@@ -78,7 +78,7 @@ in {
     su.allowNullPassword = true;
   };
 
-  services.mingetty.helpLine = ''Log in as "root" or "sh" with an empty password.\n\n'';
+  services.mingetty.helpLine = "\nLog in as \"root\" or \"sh\" with an empty password.";
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
