@@ -1,12 +1,17 @@
 start_nix is the counterpart to boot/json: it reads /boot/nix.json and displays a userspace boot menu.
 
 cmds to set up a typical boot environment:
-  ne -p /nix/var/nix/profiles/boot -i -f ./pkgs/start_nix
-  # Set up rescue shell environment. By keeping it separately from the system env, it has a chance to stay functional if we mess the latter one up.
-  ne -p /nix/var/nix/profiles/boot -i zsh coreutils
+   ne -p /nix/var/nix/profiles/boot -i -f ./pkgs/start_nix
+   # Set up rescue shell environment. By keeping it separately from the system env, it has a chance to stay functional if we mess the latter one up.
+   ne -p /nix/var/nix/profiles/boot -i zsh coreutils
+
 
 Note that nixos-install will result in a starting environment where neither the system nor rescue shells work; to get the former to work, run
-  cd <dir>; chroot . /$(echo nix/store/*-nixos-[0-9]*/activate)
+   cd <dir>
+   # Python3 doesn't like to run without it.
+   mknod --mode 600 dev/urandom c 1 9
+   mknod --mode 666 dev/null c 1 3
+   chroot . /$(echo nix/store/*-nixos-[0-9]*/activate)
 Then, to use it for initial chrooting:
-  chroot . /$(echo nix/store/*-python3-3.4.4/bin/python3) /etc/nixos_site/pkgs/start_nix/start_nix.py
+   chroot . /$(echo nix/store/*-python3-3.4.4/bin/python3) /etc/nixos_site/pkgs/start_nix/start_nix.py
 After that, install a boot profile as above.

@@ -62,11 +62,14 @@ def boot(entry):
   
 
 def main():
+  import argparse
   import sys
-  if len(sys.argv) > 1:
-    fn = sys.argv[1]
-  else:
-    fn = "/boot/nix.json"
+
+  p = argparse.ArgumentParser()
+  p.add_argument('-j', '--nix_json', default='/boot/nix.json', metavar='PATH')
+  args, _ = p.parse_known_args()
+
+  fn = args.nix_json
 
   f = open(fn, 'r')
   entries = json.load(f)
