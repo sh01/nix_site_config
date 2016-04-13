@@ -89,5 +89,22 @@ in rec {
     termHwStd = ''
 KEYBOARD_ATKBD y
 '';
+    # It's typically fine to keep these as modules instead, which NixOS will do by default.
+    termVideo = ''
+AGP n
+I2C_ALGOBIT y
+DRM_KMS_HELPER y
+DRM y
+DRM_I915 y
+
+FRAMEBUFFER_CONSOLE y
+FRAMEBUFFER_CONSOLE_DETECT_PRIMARY y
+'';
+    # This doesn't currently mix well with the default Nix kernel config, since that one forces the conflicting "DRM_LOAD_EDID_FIRMWARE y".
+    termHeadless = ''
+KEYBOARD_ATKBD y
+VT n
+DRM n
+'';
   };
 }
