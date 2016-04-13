@@ -4,3 +4,9 @@ cmds to set up a typical boot environment:
   ne -p /nix/var/nix/profiles/boot -i -f ./pkgs/start_nix
   # Set up rescue shell environment. By keeping it separately from the system env, it has a chance to stay functional if we mess the latter one up.
   ne -p /nix/var/nix/profiles/boot -i zsh coreutils
+
+Note that nixos-install will result in a starting environment where neither the system nor rescue shells work; to get the former to work, run
+  cd <dir>; chroot . /$(echo nix/store/*-nixos-[0-9]*/activate)
+Then, to use it for initial chrooting:
+  chroot . /$(echo nix/store/*-python3-3.4.4/bin/python3) /etc/nixos_site/pkgs/start_nix/start_nix.py
+After that, install a boot profile as above.
