@@ -64,7 +64,10 @@ in {
   ])) // {
     users = {
       root.hashedPassword = "$6$FBbDnoKGw3Z1.OO$/x8d4WXCSKLFt0w1CP/ladkGrZHMxvkWCzdz65iaJ7svUh4oEwB44xezqUPNYpKGzpLeisKqOVBuadjl9Bl.7/";
-      sh.hashedPassword = "$6$FBbDnoKGw3Z1.OO$/x8d4WXCSKLFt0w1CP/ladkGrZHMxvkWCzdz65iaJ7svUh4oEwB44xezqUPNYpKGzpLeisKqOVBuadjl9Bl.7/";
+      sh = {
+        hashedPassword = "$6$FBbDnoKGw3Z1.OO$/x8d4WXCSKLFt0w1CP/ladkGrZHMxvkWCzdz65iaJ7svUh4oEwB44xezqUPNYpKGzpLeisKqOVBuadjl9Bl.7/";
+        shell = "/run/current-system/sw/bin/zsh";
+      };
     };
   };
 
