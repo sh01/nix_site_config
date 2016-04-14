@@ -5,7 +5,7 @@ in {
   powerManagement.cpuFreqGovernor = "ondemand";
   nixpkgs.config.packageOverrides = p: {
     linux_4_3 = p.linux_4_3.override {
-      extraConfig = with base; termHwStd + ''
+      extraConfig = with base; termHwStd + blkStd + ''
 IRQ_TIME_ACCOUNTING y
 MODULE_FORCE_LOAD y
 MODULE_SRCVERSION_ALL y
@@ -137,17 +137,11 @@ RTC_DRV_CMOS y
 ASYNC_TX_DMA y
 
 
-EXT2_FS y
-EXT3_FS y
-EXT4_FS y
 JBD2 y
 FS_MBCACHE y
-BTRFS_FS y
-FUSE_FS y
 CUSE y
 FSCACHE_STATS y
 ISO9660_FS y
-CONFIGFS_FS y
 
 NLS_CODEPAGE_437 y
 NLS_ASCII y

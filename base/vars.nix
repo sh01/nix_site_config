@@ -87,6 +87,19 @@ in rec {
   ];
 
   kernelOpts = {
+    blkStd = ''
+EXT2_FS y
+EXT3_FS y
+EXT4_FS y
+BTRFS_FS y
+
+DM_CRYPT y
+CRYPTO_XTS y
+
+FUSE_FS y
+CONFIGFS_FS y
+'';
+
     termHwStd = ''
 KEYBOARD_ATKBD y
 '';
