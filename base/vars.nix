@@ -8,8 +8,8 @@ in {
   ];
 
   ### Base utilities and libraries
-  pkg = rec {
-    base = with pkgs; [
+  pkg = with pkgs; rec {
+    base = [
       glibcLocales
 
       file
@@ -43,6 +43,7 @@ in {
       nftables
       iftop
 
+      acpi
       pciutils
       usbutils
       cpufrequtils
@@ -63,7 +64,7 @@ in {
     ];
 
     ### Base documentation
-    baseDoc = with pkgs; [
+    baseDoc = [
       manpages
       man_db
       posix_man_pages
@@ -71,21 +72,120 @@ in {
     ];
 
     ### Advanced file management
-    AFM = with pkgs; [
+    AFM = [
       gitAndTools.git-annex
     ];
 
     cliStd = base ++ baseDoc ++ AFM;
 
-    cliDbg = with pkgs; [
+    cliDbg = [
       wireshark-cli
     ];
 
-    wifi = with pkgs; [
+    wifi = [
       wpa_supplicant
       wirelesstools
       networkmanager
     ];
+
+    dev = [
+      gcc
+      gccgo
+      ghc
+      
+      rustPlatform.rustc
+    ];
+
+    audio = [
+      alsaOss
+      alsaPlugins
+      alsaUtils
+      pulseaudioFull
+    ];
+    video = [
+      mpv
+      vlc_qt5
+    ];
+
+    ### GUI stuff
+    fonts = [
+      dejavu_fonts
+      unifont
+      ttf_bitstream_vera
+      
+    ];
+    
+    xorg = with pkgs.xorg; [
+      xf86inputsynaptics
+      xf86inputevdev
+      xf86videointel
+      xf86videoati
+      xorg_sys_opengl
+
+      xorgserver
+      dri2proto
+      dri3proto
+
+      xclock
+      xdpyinfo
+      xinit
+      xrandr
+      xvinfo
+    ];
+
+    guiMisc = [
+      gucharmap
+    
+      clementineFree
+      hexchat
+      pavucontrol
+    ];
+
+    kdeShared = x: with x; [
+      kate
+      kcolorchooser
+      kdepim #akregator
+      kig
+      kmix
+      konsole
+      kwin_styles
+      marble
+      
+      okular
+    ];
+
+    kde4 = with pkgs.kde4; (kdeShared pkgs.kde4) ++ [
+      kde_baseapps
+      kde_base_artwork
+      kde_wallpapers
+      kde_workspace
+
+      amarok
+      digikam
+
+      yakuake
+
+      kdeplasma_addons
+      ColorSchemes
+      desktopthemes
+      pykde4
+    ];
+
+    kde5 = with pkgs.kde5; (kdeShared pkgs.kde4) ++ [
+      kde-baseapps
+      kde-cli-tools
+      kde-base-artwork
+      kde-wallpapers
+      kde-workspace
+      kwin
+
+      oxygen
+      plasma-desktop
+      plasma-workspace-wallpapers
+      systemsettings
+    ];
+
+    gui = fonts ++ xorg ++ kde4 ++ guiMisc;
   };
 
   kernelOpts = {

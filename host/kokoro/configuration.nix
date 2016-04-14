@@ -32,9 +32,7 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = (with vars.pkg; cliStd ++ cliDbg ++ wifi) ++ (with pkgs; [
-    acpi
-  ]);
+  environment.systemPackages = (with vars.pkg; cliStd ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui);
 
   sound.enable = true;
   security.polkit.enable = false;
