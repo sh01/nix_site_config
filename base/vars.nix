@@ -1,90 +1,192 @@
 let
   ssh_pub = import ./ssh_pub.nix;
   pkgs = import <nixpkgs> {};
-in rec {
+in {
   userSpecs = [
     ["sh" 1000 ["wheel" "nix-users"] [ssh_pub.sh_allison]]
     ["backup-client" 2000 [] [ssh_pub.root_keiko]]
   ];
 
   ### Base utilities and libraries
-  pkBase = with pkgs; [
-    glibcLocales
+  pkg = with pkgs; rec {
+    base = [
+      glibcLocales
 
-    file
-    less
-    most
-    hexedit
-    screen
-    tree
-    zsh
-    iotop
-    lsof
-    rsync
-    strace
-    ltrace
-    libcap_progs
+      file
+      less
+      most
+      hexedit
+      screen
+      tree
+      zsh
+      iotop
+      lsof
+      rsync
+      strace
+      ltrace
+      libcap_progs
 
-    gzip
-    bzip2
-    xz
+      gzip
+      bzip2
+      xz
  
-    python
-    python3
+      python
+      python3
 
-    iputils
-    ethtool
-    netcat
-    socat
-    tcpdump
-    wget
-    ebtables
-    nftables
-    iftop
+      iputils
+      ethtool
+      netcat
+      socat
+      tcpdump
+      wget
+      ebtables
+      nftables
+      iftop
 
-    pciutils
-    usbutils
-    cpufrequtils
+      acpi
+      pciutils
+      usbutils
+      cpufrequtils
     
-    mdadm
-    gnufdisk
-    gptfdisk
-    dosfstools
-    btrfsProgs
-    bcache-tools
-    cryptsetup
-    smartmontools
+      mdadm
+      gnufdisk
+      gptfdisk
+      dosfstools
+      btrfsProgs
+      bcache-tools
+      cryptsetup
+      smartmontools
 
-    nix-repl
+      nix-repl
 
-    git
-    gnupg
-  ];
+      git
+      gnupg
+    ];
 
-  ### Base documentation
-  pkBaseDoc = with pkgs; [
-    manpages
-    man_db
-    posix_man_pages
-    libcap_manpages
-  ];
+    ### Base documentation
+    baseDoc = [
+      manpages
+      man_db
+      posix_man_pages
+      libcap_manpages
+    ];
 
-  ### Advanced file management
-  pkAFM = with pkgs; [
-    gitAndTools.git-annex
-  ];
+    ### Advanced file management
+    AFM = [
+      gitAndTools.git-annex
+    ];
 
-  pkCLIStd = pkBase ++ pkBaseDoc ++ pkAFM;
+    cliStd = base ++ baseDoc ++ AFM;
 
-  pkCLIDbg = with pkgs; [
-    wireshark-cli
-  ];
+    cliDbg = [
+      wireshark-cli
+    ];
 
-  pkWifi = with pkgs; [
-    wpa_supplicant
-    wirelesstools
-    networkmanager
-  ];
+    wifi = [
+      wpa_supplicant
+      wirelesstools
+      networkmanager
+    ];
+
+    dev = [
+      gcc
+      gccgo
+      ghc
+      
+      rustPlatform.rustc
+    ];
+
+    audio = [
+      alsaOss
+      alsaPlugins
+      alsaUtils
+      pulseaudioFull
+    ];
+    video = [
+      mpv
+      vlc_qt5
+    ];
+
+    ### GUI stuff
+    fonts = [
+      dejavu_fonts
+      unifont
+      ttf_bitstream_vera
+      
+    ];
+    
+    xorg = with pkgs.xorg; [
+      xf86inputsynaptics
+      xf86inputevdev
+      xf86videointel
+      xf86videoati
+      xorg_sys_opengl
+
+      xorgserver
+      dri2proto
+      dri3proto
+
+      xclock
+      xdpyinfo
+      xinit
+      xrandr
+      xvinfo
+    ];
+
+    guiMisc = [
+      gucharmap
+    
+      clementineFree
+      hexchat
+      pavucontrol
+    ];
+
+    kdeShared = x: with x; [
+      kate
+      kcolorchooser
+      kdepim #akregator
+      kig
+      kmix
+      konsole
+      kwin_styles
+      marble
+      
+      okular
+    ];
+
+    kde4 = with pkgs.kde4; (kdeShared pkgs.kde4) ++ [
+      kde_baseapps
+      kde_base_artwork
+      kde_wallpapers
+      kde_workspace
+
+      amarok
+      digikam
+
+      yakuake
+
+      kdeplasma_addons
+      ColorSchemes
+      desktopthemes
+      pykde4
+    ];
+
+    kde5 = with pkgs.kde5; (kdeShared pkgs.kde4) ++ [
+      kde-baseapps
+      kde-cli-tools
+      kde-base-artwork
+      kde-wallpapers
+      kde-workspace
+      kwin
+
+      oxygen
+      plasma-desktop
+      plasma-workspace-wallpapers
+      systemsettings
+    ];
+
+    gui = fonts ++ xorg ++ kde4 ++ guiMisc;
+  };
 
   kernelOpts = {
     blkStd = ''
