@@ -55,7 +55,8 @@ in rec {
     defaultLocale = "en_US.UTF-8";
     supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
   };
-    
+  ####
+  services.logind.extraConfig = "HandleLidSwitch=ignore";
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
   
