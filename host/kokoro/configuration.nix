@@ -13,7 +13,6 @@ in {
       ./kernel.nix
       ./boot.nix
       ../../base
-      ../../base/nox.nix
       ../../base/site_stellvia.nix
     ];
 
@@ -33,7 +32,9 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = vars.pkCLIStd ++ vars.pkCLIDbg ++ vars.pkWifi;
+  environment.systemPackages = vars.pkCLIStd ++ vars.pkCLIDbg ++ vars.pkWifi ++ (with pkgs; [
+    acpi
+  ]);
 
   sound.enable = true;
   security.polkit.enable = false;
