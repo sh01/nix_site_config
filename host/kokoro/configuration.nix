@@ -21,9 +21,21 @@ in {
   networking = {
     hostName = "kokoro";
     hostId = "84d6fc00";
-    nameservers = [ "10.16.0.129" ];
+    nameservers = [ "10.16.0.1" ];
     search = [ "sh.s ulwifi.s baughn-sh.s" ];
     usePredictableInterfaceNames = false;
+    interfaces = {
+      "eth_lan" = {
+        ip4 = [{
+          address = "10.16.0.129";
+          prefixLength = 24;
+        }];
+        ip6 = [{
+          address = "2a00:15b8:109:1:1:0:1:1";
+          prefixLength = 80;
+        }];
+      };
+    };
   };
   
   # Name network devices statically based on MAC address
