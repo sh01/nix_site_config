@@ -35,7 +35,7 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = vars.pkCLIStd ++ vars.pkCLIDbg ++ vars.pkWifi;
+  environment.systemPackages = with vars.pkg; cliStd ++ cliDbg ++ wifi;
 
   sound.enable = false;
   security.polkit.enable = false;

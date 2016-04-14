@@ -32,7 +32,7 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = vars.pkCLIStd ++ vars.pkCLIDbg ++ vars.pkWifi ++ (with pkgs; [
+  environment.systemPackages = (with vars.pkg; cliStd ++ cliDbg ++ wifi) ++ (with pkgs; [
     acpi
   ]);
 

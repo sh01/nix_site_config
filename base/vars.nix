@@ -1,90 +1,92 @@
 let
   ssh_pub = import ./ssh_pub.nix;
   pkgs = import <nixpkgs> {};
-in rec {
+in {
   userSpecs = [
     ["sh" 1000 ["wheel" "nix-users"] [ssh_pub.sh_allison]]
     ["backup-client" 2000 [] [ssh_pub.root_keiko]]
   ];
 
   ### Base utilities and libraries
-  pkBase = with pkgs; [
-    glibcLocales
+  pkg = rec {
+    base = with pkgs; [
+      glibcLocales
 
-    file
-    less
-    most
-    hexedit
-    screen
-    tree
-    zsh
-    iotop
-    lsof
-    rsync
-    strace
-    ltrace
-    libcap_progs
+      file
+      less
+      most
+      hexedit
+      screen
+      tree
+      zsh
+      iotop
+      lsof
+      rsync
+      strace
+      ltrace
+      libcap_progs
 
-    gzip
-    bzip2
-    xz
+      gzip
+      bzip2
+      xz
  
-    python
-    python3
+      python
+      python3
 
-    iputils
-    ethtool
-    netcat
-    socat
-    tcpdump
-    wget
-    ebtables
-    nftables
-    iftop
+      iputils
+      ethtool
+      netcat
+      socat
+      tcpdump
+      wget
+      ebtables
+      nftables
+      iftop
 
-    pciutils
-    usbutils
-    cpufrequtils
+      pciutils
+      usbutils
+      cpufrequtils
     
-    mdadm
-    gnufdisk
-    gptfdisk
-    dosfstools
-    btrfsProgs
-    bcache-tools
-    cryptsetup
-    smartmontools
+      mdadm
+      gnufdisk
+      gptfdisk
+      dosfstools
+      btrfsProgs
+      bcache-tools
+      cryptsetup
+      smartmontools
 
-    nix-repl
+      nix-repl
 
-    git
-    gnupg
-  ];
+      git
+      gnupg
+    ];
 
-  ### Base documentation
-  pkBaseDoc = with pkgs; [
-    manpages
-    man_db
-    posix_man_pages
-    libcap_manpages
-  ];
+    ### Base documentation
+    baseDoc = with pkgs; [
+      manpages
+      man_db
+      posix_man_pages
+      libcap_manpages
+    ];
 
-  ### Advanced file management
-  pkAFM = with pkgs; [
-    gitAndTools.git-annex
-  ];
+    ### Advanced file management
+    AFM = with pkgs; [
+      gitAndTools.git-annex
+    ];
 
-  pkCLIStd = pkBase ++ pkBaseDoc ++ pkAFM;
+    cliStd = base ++ baseDoc ++ AFM;
 
-  pkCLIDbg = with pkgs; [
-    wireshark-cli
-  ];
+    cliDbg = with pkgs; [
+      wireshark-cli
+    ];
 
-  pkWifi = with pkgs; [
-    wpa_supplicant
-    wirelesstools
-    networkmanager
-  ];
+    wifi = with pkgs; [
+      wpa_supplicant
+      wirelesstools
+      networkmanager
+    ];
+  };
 
   kernelOpts = {
     blkStd = ''

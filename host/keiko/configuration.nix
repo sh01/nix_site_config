@@ -47,7 +47,7 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = vars.pkCLIStd;
+  environment.systemPackages = vars.pkg.cliStd;
 
   sound.enable = false;
   security.polkit.enable = false;
