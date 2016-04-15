@@ -192,6 +192,11 @@ in {
   };
 
   kernelOpts = {
+    base = ''
+X86_INTEL_PSTATE n
+X86_ACPI_CPUFREQ y
+'';
+  
     blkStd = ''
 EXT2_FS y
 EXT3_FS y
