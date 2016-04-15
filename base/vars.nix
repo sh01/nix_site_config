@@ -97,6 +97,7 @@ in {
       go
       rustPlatform.rustc
 
+      gnumake
       gdb
       valgrind
     ];
