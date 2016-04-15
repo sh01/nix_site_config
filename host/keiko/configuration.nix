@@ -65,12 +65,12 @@ a2      /dev/md/a2      none            noauto,luks
   };
 
   fileSystems = let
-    baseOpts = "noatime,nodiratime";
-    btrfsOpts = baseOpts + ",space_cache,autodefrag";
-    btrfsOptsNA = btrfsOpts + ",noauto";
+    baseOpts = ["noatime" "nodiratime"];
+    btrfsOpts = baseOpts ++ ["space_cache" "autodefrag"];
+    btrfsOptsNA = btrfsOpts ++  ["noauto"];
   in {
     "/" = { label = "keiko_root"; options=btrfsOpts; };
-    "/boot" = { device = "UUID=5e608f7c-d2ae-41f9-a14d-a81820d50122"; options="noauto," + baseOpts; };
+    "/boot" = { device = "UUID=5e608f7c-d2ae-41f9-a14d-a81820d50122"; options=["noauto"] ++ baseOpts; };
     "/mnt/a0" = { device = "/dev/mapper/a0"; options = btrfsOptsNA; };
     "/mnt/a1" = { device = "/dev/mapper/a1"; options = btrfsOptsNA; };
     "/mnt/a2" = { device = "/dev/mapper/a2"; options = btrfsOptsNA; };
@@ -103,7 +103,7 @@ a2      /dev/md/a2      none            noauto,luks
   ]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "15.09";
+  system.stateVersion = "16.03";
 
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;

@@ -41,10 +41,8 @@ in {
   security.polkit.enable = false;
 
   fileSystems = let
-    baseOpts = "noatime,nodiratime";
-    btrfsOpts = baseOpts + ",space_cache,autodefrag";
   in {
-    "/" = { label = "higurashi_root"; options=btrfsOpts; };
+    "/" = { label = "higurashi_root"; options=["noatime" "nodiratime" "space_cache" "autodefrag" "ssd_spread"]; };
   };
 
   ### Disable GRUB
@@ -81,5 +79,5 @@ in {
   services.mingetty.helpLine = "\nLog in as \"root\" or \"sh\" with an empty password.";
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "15.09";
+  system.stateVersion = "16.03";
 }

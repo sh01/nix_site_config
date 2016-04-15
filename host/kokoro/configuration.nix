@@ -50,10 +50,10 @@ in {
   security.polkit.enable = false;
 
   fileSystems = let
-    baseOpts = "noatime,nodiratime";
-    btrfsOpts = baseOpts + ",space_cache,autodefrag";
+    baseOpts = ["noatime" "nodiratime"];
+    btrfsOpts = baseOpts ++ ["space_cache" "autodefrag"];
   in {
-    "/" = { label = "kokoro_root"; options=btrfsOpts + ",ssd"; };
+    "/" = { label = "kokoro_root"; options=btrfsOpts ++ ["ssd"]; };
   };
 
   ### Disable GRUB
