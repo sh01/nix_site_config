@@ -60,6 +60,7 @@ in {
       nix-repl
 
       git
+      openssl
       gnupg
     ];
 
