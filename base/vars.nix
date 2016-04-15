@@ -92,8 +92,10 @@ in {
       gcc
       gccgo
       ghc
-      
       rustPlatform.rustc
+
+      gdb
+      valgrind
     ];
 
     audio = [
