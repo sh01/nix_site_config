@@ -139,6 +139,7 @@ in {
       clementineFree
       hexchat
       pavucontrol
+      anki
     ];
 
     kdeShared = x: with x; [
