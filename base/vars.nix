@@ -12,6 +12,7 @@ in {
     base = [
       glibcLocales
 
+      time
       file
       less
       most
