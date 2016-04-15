@@ -92,6 +92,7 @@ in {
       gcc
       gccgo
       ghc
+      go
       rustPlatform.rustc
 
       gdb
