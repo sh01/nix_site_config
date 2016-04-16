@@ -49,6 +49,17 @@ in {
   services.xserver = {
     displayManager.kdm.enable = true;
     desktopManager.kde4.enable = true;
+    enableCtrlAltBackspace = true;
+    exportConfiguration = true;
+    synaptics = {
+      enable = true;
+    };
+    videoDrivers = ["intel"];
+  };
+
+  hardware.opengl = {
+    driSupport = true;
+    driSupport32Bit = true;
   };
   
   sound.enable = true;

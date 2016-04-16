@@ -136,6 +136,7 @@ in {
       xorg_sys_opengl
 
       xorgserver
+      xkeyboard_config
       dri2proto
       dri3proto
 
