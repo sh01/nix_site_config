@@ -89,6 +89,14 @@ in {
       networkmanager
     ];
 
+    nixBld = [
+      glibc
+      binutils
+      gcc
+      perl
+      zlib
+    ];
+    
     dev = [
       gcc
       gccgo

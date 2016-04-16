@@ -44,7 +44,7 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = with (vars.pkg pkgs); cliStd ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui;
+  environment.systemPackages = with (vars.pkg pkgs); cliStd ++ nixBld ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui;
 
   sound.enable = true;
   security.polkit.enable = false;
