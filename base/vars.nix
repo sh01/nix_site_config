@@ -206,6 +206,7 @@ in {
     base = ''
 X86_INTEL_PSTATE n
 X86_ACPI_CPUFREQ y
+IDE n
 '';
   
     blkStd = ''

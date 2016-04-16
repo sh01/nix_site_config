@@ -6,7 +6,7 @@ in
   powerManagement.cpuFreqGovernor = "ondemand";
   nixpkgs.config.packageOverrides = p: {
     linux_4_3 = with ko; p.linux_4_3.override {
-      extraConfig = base + termHwStd + termVideo + ''
+      extraConfig = base + blkStd + termHwStd + termVideo + ''
 IRQ_TIME_ACCOUNTING y
 MODULE_FORCE_LOAD y
 MODULE_SRCVERSION_ALL y
@@ -163,6 +163,7 @@ DEVFREQ_GOV_PERFORMANCE y
 DEVFREQ_GOV_POWERSAVE y
 DEVFREQ_GOV_USERSPACE y
       '';
+      ignoreConfigErrors = true;
     };
   };
 }
