@@ -5,7 +5,7 @@ in {
   powerManagement.cpuFreqGovernor = "ondemand";
   nixpkgs.config.packageOverrides = p: {
     linux_4_3 = p.linux_4_3.override {
-      extraConfig = with ko; base + termHwStd + ''
+      extraConfig = with ko; base + termHwStd + blkStd + ''
 IRQ_TIME_ACCOUNTING y
 MODULE_FORCE_LOAD y
 MODULE_SRCVERSION_ALL y
