@@ -39,6 +39,7 @@ in {
         }];
       };
     };
+    defaultGateway = "10.16.0.1";
   };
   
   # Name network devices statically based on MAC address
