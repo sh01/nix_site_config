@@ -64,7 +64,6 @@ in {
   };
   
   sound.enable = true;
-  security.polkit.enable = false;
 
   fileSystems = let
     baseOpts = ["noatime" "nodiratime"];
