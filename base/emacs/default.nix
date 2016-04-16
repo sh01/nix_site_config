@@ -1,6 +1,6 @@
+{pkgs, ...}:
+
 let
-  pkgs = import <nixpkgs> {};
-  epkgs =  pkgs."emacs24Packages";
   emacsConf = pkgs.stdenv.mkDerivation {
     cu = pkgs.coreutils;
 
@@ -15,7 +15,7 @@ let
     FN = ./default.el;
 }; in {
   environment.systemPackages = with pkgs; [
-    (emacsWithPackages [ epkgs.rainbowDelimiters ])
+    (emacsWithPackages (epkgs: [ epkgs.rainbow-delimiters ]))
     emacsConf
   ];
 }

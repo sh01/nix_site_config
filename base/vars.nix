@@ -1,6 +1,5 @@
 let
   ssh_pub = import ./ssh_pub.nix;
-  pkgs = import <nixpkgs> {};
 in {
   userSpecs = [
     ["sh" 1000 ["wheel" "nix-users"] [ssh_pub.sh_allison]]
@@ -8,7 +7,7 @@ in {
   ];
 
   ### Base utilities and libraries
-  pkg = with pkgs; rec {
+  pkg = pkgs: with pkgs; rec {
     base = [
       glibcLocales
 
