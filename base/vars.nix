@@ -170,7 +170,7 @@ in {
 
     kde4 = with pkgs.kde4; (kdeShared pkgs.kde4) ++ [
       kde_baseapps
-      kde_base_artwork
+      #kde_base_artwork
       kde_wallpapers
       kde_workspace
 
