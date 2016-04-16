@@ -47,6 +47,7 @@ in {
   environment.systemPackages = with (vars.pkg pkgs); cliStd ++ nixBld ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui;
 
   services.xserver = {
+    enable = true;
     displayManager.kdm.enable = true;
     desktopManager.kde4.enable = true;
     enableCtrlAltBackspace = true;
