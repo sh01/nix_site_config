@@ -46,6 +46,11 @@ in {
   ### System profile packages
   environment.systemPackages = with (vars.pkg pkgs); cliStd ++ nixBld ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui;
 
+  services.xserver = {
+    displayManager.kdm.enable = true;
+    desktopManager.kde4.enable = true;
+  };
+  
   sound.enable = true;
   security.polkit.enable = false;
 
