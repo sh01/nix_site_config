@@ -1,0 +1,22 @@
+[$Version]
+update_info=yakuake.upd:2.9.9-startupnotification
+
+[Desktop Entry]
+DefaultProfile=Shell.profile
+
+[Dialogs]
+FirstRun=false
+
+[Favorite Profiles]
+Favorites=Shell.profile
+
+[Animation]
+Frames=0
+
+[Shortcuts]
+toggle-window-state=Print
+
+[Window]
+Height=90
+Position=97
+Width=100

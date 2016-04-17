@@ -1,0 +1,9 @@
+[Data_4_1]
+Comment=Launches KSnapShot when PrintScrn is pressed.
+Enabled=false
+Name=PrintScreen
+Type=SIMPLE_ACTION_DATA
+
+[Data_4_1Triggers]
+Comment=Simple_action
+TriggersCount=0

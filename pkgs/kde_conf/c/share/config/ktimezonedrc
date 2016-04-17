@@ -1,0 +1,5 @@
+[TimeZones]
+LocalZone=/etc/localtime
+ZoneinfoDir=/etc/zoneinfo
+Zonetab=/etc/zoneinfo/zone.tab
+ZonetabCache=

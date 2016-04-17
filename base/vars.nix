@@ -203,7 +203,7 @@ in {
       systemsettings
     ];
 
-    gui = fonts ++ xorg ++ kde4 ++ guiMisc;
+    gui = fonts ++ xorg ++ kde4 ++ guiMisc ++ [(import ../pkgs/kde_conf)];
   };
 
   kernelOpts = {

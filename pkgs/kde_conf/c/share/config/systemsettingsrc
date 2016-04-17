@@ -1,0 +1,6 @@
+[Main]
+ActiveView=classic_mode
+
+[MainWindow]
+MenuBar=Disabled
+ToolBarsMovable=Disabled
