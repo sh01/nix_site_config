@@ -8,6 +8,9 @@ in rec {
     "DIR_COLORS" = {
       text = (builtins.readFile ./etc/DIR_COLORS);
     };
+    "xdg/user-dirs.defaults" = {
+      text = (builtins.readFile ./etc/xdg/user-dirs.defaults);
+    };
   };
 
   imports = [
