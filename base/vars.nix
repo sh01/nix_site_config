@@ -13,6 +13,9 @@ in {
 
       time
       file
+      diffutils
+      colordiff
+      gnupatch
       less
       most
       hexedit
