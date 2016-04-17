@@ -40,8 +40,9 @@ in {
       };
     };
     defaultGateway = "10.16.0.1";
+    extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   };
-  
+
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="14:da:e9:92:4a:ae", KERNEL=="eth*", NAME="eth_lan"
@@ -61,6 +62,12 @@ a0      /dev/md/a0      /var/crypt/a0_2 noauto,luks
 a1      /dev/md/a1      /var/crypt/a1_0 noauto,luks
 #a2     /dev/md/a2      /var/crypt/a2_0 noauto,luks
 a2      /dev/md/a2      none            noauto,luks
+'';
+    };
+    "resolv.conf" = {
+      text = ''
+search sh.s ulwifi.s baughn-sh.s
+nameserver 10.16.0.1
 '';
     };
   };
