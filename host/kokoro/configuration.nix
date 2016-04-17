@@ -88,8 +88,6 @@ in {
   users = (slib.mkUserGroups (vars.userSpecs ++ [
   ]));
 
-  security.sudo.wheelNeedsPassword = false;
-
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
 }
