@@ -66,6 +66,7 @@ in rec {
     allowedUsers = [ "@nix-users" ];
     binaryCachePublicKeys = [];
     binaryCaches = [];
+    buildCores = 0;
     requireSignedBinaryCaches = true;
     daemonIONiceLevel = 2;
     daemonNiceLevel = 2;
