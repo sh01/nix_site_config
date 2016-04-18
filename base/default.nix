@@ -5,6 +5,9 @@ in rec {
     "zshrc.local" = {
       text = (builtins.readFile ./etc/zshrc.local);
     };
+    "zshenv.local" = {
+      text = (builtins.readFile ./etc/zshenv.local);
+    };
     "DIR_COLORS" = {
       text = (builtins.readFile ./etc/DIR_COLORS);
     };

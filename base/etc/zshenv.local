@@ -1,0 +1,4 @@
+# Avoid zsh-newuser-install
+if [ -f ${HOME}/.zshrc ]; then
+  touch ${HOME}/.zshrc 2>/dev/null
+fi
