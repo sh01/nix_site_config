@@ -18,7 +18,7 @@ in rec {
       text = (builtins.readFile ./etc/mpv/input.conf);
     };
     "mpv/config" = {
-      text = (builtins.readFile ./etc/mpv/config);
+      text = (builtins.readFile ./etc/mpv/mpv.conf);
     };
   };
 
