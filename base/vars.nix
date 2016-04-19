@@ -11,6 +11,7 @@ in {
     base = [
       glibcLocales
 
+      psmisc
       time
       file
       diffutils
