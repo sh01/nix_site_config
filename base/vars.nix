@@ -151,6 +151,13 @@ in {
       xvinfo
     ];
 
+    # To link directly into lib dirs for use by non-Nix programs
+    xlibs = with pkgs.xorg; [
+      libX11
+      libXcursor
+      libXrandr
+    ];
+
     guiMisc = [
       redshift
     
@@ -206,7 +213,7 @@ in {
       systemsettings
     ];
 
-    gui = fonts ++ xorg ++ kde4 ++ guiMisc ++ [(import ../pkgs/kde_conf)];
+    gui = fonts ++ xorg ++ xlibs ++ kde4 ++ guiMisc ++ [(import ../pkgs/kde_conf)];
   };
 
   kernelOpts = {
