@@ -86,7 +86,7 @@ in {
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.
   users = (slib.mkUserGroups (vars.userSpecs ++ [
-    ["prsw" 1001 ["nix-users"] []]
+    ["prsw" 1001 ["nix-users", "audio", "video"] []]
   ]));
 
   # The NixOS release to be compatible with for stateful data such as databases.
