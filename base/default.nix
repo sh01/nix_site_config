@@ -14,6 +14,12 @@ in rec {
     "xdg/user-dirs.defaults" = {
       text = (builtins.readFile ./etc/xdg/user-dirs.defaults);
     };
+    "mpv/input.conf" = {
+      text = (builtins.readFile ./etc/mpv/input.conf);
+    };
+    "mpv/config" = {
+      text = (builtins.readFile ./etc/mpv/config);
+    };
   };
 
   imports = [
