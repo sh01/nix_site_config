@@ -58,9 +58,15 @@ in {
     videoDrivers = ["intel"];
   };
 
-  hardware.opengl = {
-    driSupport = true;
-    driSupport32Bit = true;
+  hardware = {
+    opengl = {
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+    pulseaudio = {
+      enable = true;
+      support32Bit = true;
+    };
   };
   
   sound.enable = true;

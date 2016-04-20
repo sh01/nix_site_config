@@ -117,7 +117,6 @@ in {
       alsaOss
       alsaPlugins
       alsaUtils
-      pulseaudioFull
     ];
     video = [
       mpv
