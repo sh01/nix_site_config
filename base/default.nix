@@ -1,26 +1,23 @@
 {config, pkgs, ...}: let
   ssh_pub = import ./ssh_pub.nix;
+  # Recursively read all files from ./etc and build an environment.etc value.
+  med = let bp = (builtins.toString ./etc); in p: if p == "" then bp else bp  + "/" + p;
+  pdir = (p:
+  let
+    dd = (builtins.readDir (builtins.toPath (med p)));
+  in
+    builtins.foldl' (x: y: x // y) {} (map (n:
+    let
+      fp = (builtins.toPath (med sp));
+      sp = (p + "/" + n);
+    in
+      if dd."${n}" == "directory"
+      then (pdir sp)
+      else { "${sp}" = { text = (builtins.readFile fp); }; })
+    (builtins.attrNames dd)
+  ));
 in rec {
-  environment.etc = {
-    "zshrc.local" = {
-      text = (builtins.readFile ./etc/zshrc.local);
-    };
-    "zshenv.local" = {
-      text = (builtins.readFile ./etc/zshenv.local);
-    };
-    "DIR_COLORS" = {
-      text = (builtins.readFile ./etc/DIR_COLORS);
-    };
-    "xdg/user-dirs.defaults" = {
-      text = (builtins.readFile ./etc/xdg/user-dirs.defaults);
-    };
-    "mpv/input.conf" = {
-      text = (builtins.readFile ./etc/mpv/input.conf);
-    };
-    "mpv/config" = {
-      text = (builtins.readFile ./etc/mpv/mpv.conf);
-    };
-  };
+  environment.etc = pdir ".";
 
   imports = [
     ./channel.nix
