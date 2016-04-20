@@ -52,3 +52,6 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 export AUTOJUMP_KEEP_ALL_ENTRIES=1
 export AUTOJUMP_KEEP_SYMLINKS=1
 test -f /usr/share/autojump/autojump.zsh && . /usr/share/autojump/autojump.zsh
+
+# Temporary hacks
+export MPV_HOME=/etc/mpv
