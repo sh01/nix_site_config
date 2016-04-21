@@ -62,6 +62,7 @@ in {
       smartmontools
 
       nix-repl
+      nox
 
       git
       openssl
