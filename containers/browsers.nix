@@ -11,8 +11,13 @@ in {
 
   boot.isContainer = true;
   ### User / Group config
-  users = (slib.mkUserGroups (with vars.userSpecs; default ++ [ (sh_cbrowser uks) ])) // {
-    users.root.openssh.authorizedKeys.keys = rks;
+  users = let
+    us = with vars.userSpecs; default ++ [ (sh_cbrowser uks) ];
+  in {
+    users = (slib.mkUsers us) // {
+      root.openssh.authorizedKeys.keys = rks;
+    };
+    groups = (slib.mkGroups us);
   };
 
   services.sshd = {
