@@ -16,7 +16,6 @@ in {
       ../../base/site_stellvia.nix
     ];
 
-  boot.kernelPackages = pkgs.linuxPackages_4_3;
   ##### Host id stuff
   networking = {
     hostName = "kokoro";
@@ -78,8 +77,19 @@ in {
     "/" = { label = "kokoro_root"; options=btrfsOpts ++ ["ssd"]; };
   };
 
+  ### Containered software
+  
+  
   ### Disable GRUB
-  boot.loader.grub.enable = false;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_4_3;
+    loader.grub.enable = false;
+    enableContainers = true;
+  };
+
+  containers = {
+    browsers = (import ../../containers).c.browsers;
+  };
   
   ### Networking
   networking.dhcpcd.allowInterfaces = [];
@@ -91,7 +101,7 @@ in {
   ### User / Group config
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.
-  users = (slib.mkUserGroups (with vars.userSpecs; default ++ [sh_prsw]));
+  users = (slib.mkUserGroups (with vars.userSpecs; default ++ [sh_prsw sh_cbrowser]));
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
