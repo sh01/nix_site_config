@@ -4,7 +4,7 @@ in {
   userSpecs = rec {
     sh = ["sh" 1000 ["wheel" "nix-users" "audio" "video"] [ssh_pub.sh_allison]];
     sh_prsw = ["sh_prsw" 1001 ["nix-users" "audio" "video"] []];
-    sh_cbrowser = ["sh_cbrowser" 1002 [] []];
+    sh_cbrowser = sks: ["sh_cbrowser" 1002 [] sks];
     
     ### Host-user remote sets
     sh_yalda = ["sh_yalda" 1536 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]];

@@ -6,6 +6,7 @@
 let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
+  ssh_pub = (import ../../base/ssh_pub.nix).kokoro;
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -88,7 +89,7 @@ in {
   };
 
   containers = {
-    browsers = (import ../../containers).c.browsers;
+    browsers = ((import ../../containers).c [ssh_pub.sh] [ssh_pub.root]).browsers;
   };
   
   ### Networking
@@ -101,7 +102,7 @@ in {
   ### User / Group config
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.
-  users = (slib.mkUserGroups (with vars.userSpecs; default ++ [sh_prsw sh_cbrowser]));
+  users = (slib.mkUserGroups (with vars.userSpecs; default ++ [sh_prsw (sh_cbrowser [])]));
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
