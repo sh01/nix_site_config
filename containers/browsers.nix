@@ -17,7 +17,7 @@ in {
 
   services.sshd = {
     enable = true;
-    permitRootLogin = true;
+    permitRootLogin = "without-password";
   };
 
   environment.systemPackages = with pkgs; [firefox-esr chromium];
