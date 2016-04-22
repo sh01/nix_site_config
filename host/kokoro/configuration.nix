@@ -84,9 +84,6 @@ in {
     "/" = { label = "kokoro_root"; options=btrfsOpts ++ ["ssd"]; };
   };
 
-  ### Containered software
-  
-  
   ### Disable GRUB
   boot = {
     kernelPackages = pkgs.linuxPackages_4_3;
@@ -105,8 +102,14 @@ in {
   ### User / Group config
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.
-  users = (slib.mkUserGroups (with vars.userSpecs; default ++ [sh_prsw (sh_cbrowser [])]));
+  users = (slib.mkUserGroups (with vars.userSpecs {
+    u2g = { sh = ["sh_cbrowser"] ;};
+  }; default ++ [sh_prsw (sh_cbrowser)]));
 
+  security.sudo.extraConfig = ''
+sh    ALL=(prsw,sh_cbrowser) NOPASSWD: ALL
+'';
+  
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
 }

@@ -12,7 +12,7 @@ in {
   boot.isContainer = true;
   ### User / Group config
   users = let
-    us = with vars.userSpecs; default ++ [ (sh_cbrowser uks) ];
+    us = with vars.userSpecs { keys = { sh_cbrowser = uks;};}; default ++ [ sh_cbrowser ];
   in {
     users = (slib.mkUsers us) // {
       root.openssh.authorizedKeys.keys = rks;
