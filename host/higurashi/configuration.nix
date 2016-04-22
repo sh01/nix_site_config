@@ -58,7 +58,7 @@ in {
   ### User / Group config
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.
-  users = (slib.mkUserGroups (vars.userSpecs ++ [
+  users = (slib.mkUserGroups (vars.userSpecs.default ++ [
   ])) // {
     users = {
       root.hashedPassword = "$6$FBbDnoKGw3Z1.OO$/x8d4WXCSKLFt0w1CP/ladkGrZHMxvkWCzdz65iaJ7svUh4oEwB44xezqUPNYpKGzpLeisKqOVBuadjl9Bl.7/";

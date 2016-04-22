@@ -1,10 +1,19 @@
 let
   ssh_pub = import ./ssh_pub.nix;
 in {
-  userSpecs = [
-    ["sh" 1000 ["wheel" "nix-users" "audio" "video"] [ssh_pub.sh_allison]]
-    ["backup-client" 2000 [] [ssh_pub.root_keiko]]
-  ];
+  userSpecs = rec {
+    sh = ["sh" 1000 ["wheel" "nix-users" "audio" "video"] [ssh_pub.sh_allison]];
+    sh_prsw = ["sh_prsw" 1001 ["nix-users" "audio" "video"] []];
+    
+    ### Host-user remote sets
+    sh_yalda = ["sh_yalda" 1536 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]];
+
+    ### System users
+    backup_client = ["backup-client" 2000 [] [ssh_pub.root_keiko]];
+    cc = ["cc" 2048 [] []];
+
+    default = [sh backup_client];
+  };
 
   ### Base utilities and libraries
   pkg = pkgs: with pkgs; rec {

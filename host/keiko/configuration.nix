@@ -105,10 +105,7 @@ nameserver 10.16.0.1
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (vars.userSpecs ++ [
-      ["cc" 1005 [] []]
-      ["sh_yalda" 1006 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]]
-  ]);
+  users = slib.mkUserGroups (with vars.userSpecs; default ++ [cc sh_yalda]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";

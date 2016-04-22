@@ -91,9 +91,7 @@ in {
   ### User / Group config
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.
-  users = (slib.mkUserGroups (vars.userSpecs ++ [
-    ["prsw" 1001 ["nix-users" "audio" "video"] []]
-  ]));
+  users = (slib.mkUserGroups (with vars.userSpecs; default ++ [sh_prsw]));
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
