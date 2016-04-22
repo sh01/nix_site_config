@@ -9,7 +9,9 @@
           isReadOnly = false;
         };
       };
-    privateNetwork = true;
+      privateNetwork = true;
+      hostAddress = "10.231.1.1";
+      localAddress = "10.231.1.2";
     };
   };
 }

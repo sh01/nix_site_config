@@ -36,6 +36,12 @@ in {
         }];
       };
     };
+    dhcpcd.allowInterfaces = [];
+    nat = {
+      enable = true;
+      internalInterfaces = ["ve-+"];
+      externalInterface = "eth_lan";
+    };
   };
   
   # Name network devices statically based on MAC address
@@ -91,9 +97,6 @@ in {
   containers = {
     browsers = ((import ../../containers).c [ssh_pub.sh] [ssh_pub.root]).browsers;
   };
-  
-  ### Networking
-  networking.dhcpcd.allowInterfaces = [];
 
   ### Services
   services.openssh.enable = true;
