@@ -95,7 +95,7 @@ in {
   };
 
   containers = {
-    browsers = ((import ../../containers).c [ssh_pub.sh] [ssh_pub.root]).browsers;
+    browsers = ((import ../../containers).c [ssh_pub.root] [ssh_pub.sh]).browsers;
   };
 
   ### Services

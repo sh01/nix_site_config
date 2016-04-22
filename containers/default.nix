@@ -1,4 +1,11 @@
-{
+let
+  bbMounts = {
+    "/tmp/.X11-unix" = {
+      hostPath = "/tmp/.X11-unix";
+      isReadOnly = true;
+    };
+  };
+in {
   c = rk: uk: {
     browsers = {
       config = ((import ./browsers.nix) rk uk);
@@ -8,7 +15,7 @@
           hostPath = "/home/sh_cbrowser";
           isReadOnly = false;
         };
-      };
+      } // bbMounts;
       privateNetwork = true;
       hostAddress = "10.231.1.1";
       localAddress = "10.231.1.2";
