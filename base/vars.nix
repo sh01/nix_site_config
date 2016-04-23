@@ -70,6 +70,7 @@ in {
       bcache-tools
       cryptsetup
       smartmontools
+      multipath-tools
 
       nix-repl
       nox
