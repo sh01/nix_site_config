@@ -1,0 +1,2 @@
+#!/bin/sh
+P=~sh_cbrowser/.Xauthority; xauth -f $P generate :0 . untrusted group browsers timeout 0; chgrp sh_cbrowser $P; chmod g+r $P
