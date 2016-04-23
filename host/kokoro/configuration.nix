@@ -71,7 +71,6 @@ in {
     pulseaudio = {
       enable = true;
       support32Bit = true;
-      configFile = ./etc/pulseaudio/default.pa;
     };
   };
   
@@ -89,6 +88,10 @@ in {
     kernelPackages = pkgs.linuxPackages_4_3;
     loader.grub.enable = false;
     enableContainers = true;
+    postBootCommands = ''
+LS=/run/current-system/sw/share/local
+if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
+'';
   };
 
   containers = {

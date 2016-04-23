@@ -1,0 +1,5 @@
+#!/bin/sh
+mkdir -p /run/users/sh_shared/pulse/
+chown -R sh:sh /run/users/sh_shared/
+chmod go+rx /run/users/sh_shared/ /run/users/sh_shared/pulse/
+
