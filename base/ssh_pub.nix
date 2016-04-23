@@ -4,6 +4,12 @@ in rec {
   sh_allison = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDP2ErHhg1qHz/tsfoqjf9Z1TutbVWxPozW7kgOafrX3 sh@allison.sh.s.";
   sh_yalda = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINUoptwFK1lhRNiR978NN/95ZUre1Xe9GY6XSyursx7s sh@yalda.sh.s.";
 
+  yalda = {
+    # Placeholder values until system update and keygen
+    sh = "";
+    root = "";
+  };
+  
   kokoro = {
     sh = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIICdTEAJL0W3GwbSqby9UA5WkmGy/U7cmFvgMmAInj+p sh@kokoro";
     root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBklpUEs9lcmLxMlwQ6cQk0Fn6+F83D76g7dN4jEQgNN root@kokoro";

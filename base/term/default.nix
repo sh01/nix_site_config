@@ -3,6 +3,10 @@ let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
 in {
+  imports = [
+    ./boot.nix
+  ];
+
   ### System profile packages
   environment.systemPackages = with (vars.pkg pkgs); cliStd ++ nixBld ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui;
 
