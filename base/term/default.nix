@@ -8,7 +8,16 @@ in {
   ];
 
   ### System profile packages
-  environment.systemPackages = with (vars.pkg pkgs); cliStd ++ nixBld ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui;
+  environment.systemPackages = with (pkgs.callPackage ../../pkgs/meta {}); [
+    cliStd
+    nixBld
+    cliDbg
+    wifi
+    dev
+    video
+    audio
+    gui
+  ];
 
   services.xserver = {
     enable = true;

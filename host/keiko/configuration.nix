@@ -48,7 +48,7 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = with (vars.pkg pkgs); cliStd ++ nixBld;
+  environment.systemPackages = with (pkgs.callPackage ../../pkgs/meta {}); [cliStd nixBld];
 
   sound.enable = false;
   security.polkit.enable = false;
