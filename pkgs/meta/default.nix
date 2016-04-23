@@ -3,8 +3,8 @@ let P = name: d: derivation {
   name = "SH_M_" + name;
   system = system;
   coreutils = pkgs.coreutils;
-  builder = ./mkdir_out;
-  deps = d;
+  builder = ./store_pue;
+  propagatedUserEnvPkgs = d;
 }; in with pkgs; rec {
   ### Base utilities and libraries
   base = P "base" [

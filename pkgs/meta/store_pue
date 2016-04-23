@@ -1,0 +1,4 @@
+#!/bin/sh
+DD=$out/nix-support
+${coreutils}/bin/mkdir -p $DD
+echo $propagatedUserEnvPkgs > ${DD}/propagated-user-env-packages
