@@ -1,5 +1,4 @@
-# Higurashi is a NixOS-based rescue system-on-a-usb-drive.
-# This is its top-level configuration file.
+# Kokoro is an experimental desktop deployment.
 
 { _config, pkgs, lib, ... }:
 
