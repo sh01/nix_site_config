@@ -5,6 +5,10 @@ let
       isReadOnly = true;
     };
   };
+    "/run/users" = {
+      hostPath = "/run/users";
+      isReadOnly = true;
+  };
 in {
   c = rk: uk: {
     browsers = {
