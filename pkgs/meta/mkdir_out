@@ -1,0 +1,3 @@
+#!/bin/sh
+${coreutils}/bin/mkdir $out
+exit 0

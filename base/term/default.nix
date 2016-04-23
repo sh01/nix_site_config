@@ -9,14 +9,7 @@ in {
 
   ### System profile packages
   environment.systemPackages = with (pkgs.callPackage ../../pkgs/meta {}); [
-    cliStd
-    nixBld
-    cliDbg
-    wifi
-    dev
-    video
-    audio
-    gui
+    sys_terminal
   ];
 
   services.xserver = {

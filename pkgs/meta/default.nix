@@ -1,10 +1,13 @@
-{pkgs}:
-let P = d: {
-  type = "derivation";
+{pkgs, system}:
+let P = name: d: derivation {
+  name = "SH_M_" + name;
+  system = system;
+  coreutils = pkgs.coreutils;
+  builder = ./mkdir_out;
   deps = d;
 }; in with pkgs; rec {
   ### Base utilities and libraries
-  base = P [
+  base = P "base" [
     glibcLocales
 
     psmisc
@@ -67,7 +70,7 @@ let P = d: {
   ];
 
   ### Base documentation
-  baseDoc = P [
+  baseDoc = P "baseDoc" [
     manpages
     man_db
     posix_man_pages
@@ -75,23 +78,23 @@ let P = d: {
   ];
 
   ### Advanced file management
-  AFM = P [
+  AFM = P "AFM" [
     gitAndTools.git-annex
   ];
 
-  cliStd = P [base baseDoc AFM];
+  cliStd = P "cliStd" [base baseDoc AFM];
 
-  cliDbg = P [
+  cliDbg = P "cliDbg" [
     wireshark-cli
   ];
 
-  wifi = P [
+  wifi = P "wifi" [
     wpa_supplicant
     wirelesstools
     networkmanager
   ];
 
-  nixBld = P [
+  nixBld = P "nixBld" [
     glibc
     binutils
     gcc
@@ -99,7 +102,7 @@ let P = d: {
     zlib
   ];
     
-  dev = P [
+  dev = P "dev" [
     gcc
     gccgo
     ghc
@@ -111,25 +114,25 @@ let P = d: {
     valgrind
   ];
 
-  audio = P [
+  audio = P "audio" [
     alsaOss
     alsaPlugins
     alsaUtils
   ];
 
-  video = P [
+  video = P "video" [
     mpv
     vlc_qt5
   ];
 
   ### GUI stuff
-  fonts = P [
+  fonts = P "fonts" [
     dejavu_fonts
     unifont
     ttf_bitstream_vera    
   ];
     
-  xorg = with pkgs.xorg; P [
+  xorg = with pkgs.xorg; P "xorg" [
     xf86inputsynaptics
     xf86inputevdev
     xf86videointel
@@ -149,13 +152,13 @@ let P = d: {
   ];
 
   # To link directly into lib dirs for use by non-Nix programs
-  xlibs = with pkgs.xorg; P [
+  xlibs = with pkgs.xorg; P "xlibs" [
     libX11
     libXcursor
     libXrandr
   ];
 
-  guiMisc = P [
+  guiMisc = P "guiMisc" [
     redshift
     
     gucharmap
@@ -166,7 +169,7 @@ let P = d: {
     anki
   ];
 
-  kdeShared = x: with x; P [
+  kdeShared = x: with x; P "kdeShared" [
     kate
     kcolorchooser
     kdepim #akregator
@@ -179,7 +182,7 @@ let P = d: {
     okular
   ];
 
-  kde4 = with pkgs.kde4; P [
+  kde4 = with pkgs.kde4; P "kde4" [
     (kdeShared pkgs.kde4)
     kde_baseapps
     #kde_base_artwork
@@ -197,7 +200,7 @@ let P = d: {
     pykde4
   ];
 
-  kde5 = with pkgs.kde5; P [
+  kde5 = with pkgs.kde5; P "kde5" [
     (kdeShared pkgs.kde5)
     kde-baseapps
     kde-cli-tools
@@ -212,6 +215,17 @@ let P = d: {
     systemsettings
   ];
 
-  gui = P [fonts xorg xlibs kde4 guiMisc (import ../kde_conf) (import ../scripts)];
+  gui = P "gui" [fonts xorg xlibs kde4 guiMisc (import ../kde_conf) (import ../scripts)];
+
+  sys_terminal = P "sys_terminal" [
+    cliStd
+    nixBld
+    cliDbg
+    wifi
+    dev
+    video
+    audio
+    gui
+  ];
 }
 
