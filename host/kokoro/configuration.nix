@@ -71,6 +71,7 @@ in {
     pulseaudio = {
       enable = true;
       support32Bit = true;
+      configFile = ./etc/pulseaudio/default.pa;
     };
   };
   
