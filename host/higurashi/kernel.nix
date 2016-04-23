@@ -156,6 +156,7 @@ DEVFREQ_GOV_PERFORMANCE y
 DEVFREQ_GOV_POWERSAVE y
 DEVFREQ_GOV_USERSPACE y
       '';
+    ignoreConfigErrors = true;
     };
   };
 }
