@@ -6,6 +6,8 @@ let P = name: d: derivation {
   builder = ./store_pue;
   propagatedUserEnvPkgs = d;
 }; in with pkgs; rec {
+  emacs_packages = P "emacs_packages" (pkgs.callPackage ../../pkgs/emacs {}).emacsPackages;
+
   ### Base utilities and libraries
   base = P "base" [
     glibcLocales
@@ -28,6 +30,7 @@ let P = name: d: derivation {
     strace
     ltrace
     libcap_progs
+    emacs_packages
 
     gzip
     bzip2
