@@ -7,15 +7,14 @@ let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
 in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./kernel.nix
-      ./boot.nix
-      ../../base
-      ../../base/nox.nix
-      ../../base/site_stellvia.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./kernel.nix
+    ./boot.nix
+    ../../base
+    ../../base/nox.nix
+    ../../base/site_stellvia.nix
+  ];
 
   boot.kernelPackages = pkgs.linuxPackages_4_3;
   ##### Host id stuff

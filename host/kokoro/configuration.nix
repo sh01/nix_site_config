@@ -8,14 +8,13 @@ let
   vars = import ../../base/vars.nix;
   ssh_pub = (import ../../base/ssh_pub.nix).kokoro;
 in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./kernel.nix
-      ./boot.nix
-      ../../base
-      ../../base/site_stellvia.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./kernel.nix
+    ./boot.nix
+    ../../base
+    ../../base/site_stellvia.nix
+  ];
 
   ##### Host id stuff
   networking = {

@@ -9,14 +9,13 @@ let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
 in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./kernel.nix
-      ../../base
-      ../../base/nox.nix
-      ../../base/site_stellvia.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./kernel.nix
+    ../../base
+    ../../base/nox.nix
+    ../../base/site_stellvia.nix
+  ];
 
   boot.kernelPackages = pkgs.linuxPackages_4_3;
   boot.blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"];
