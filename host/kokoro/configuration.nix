@@ -9,7 +9,6 @@ in {
   imports = [
     ./hardware-configuration.nix
     ./kernel.nix
-    ./boot.nix
     ../../base
     ../../base/term
     ../../base/site_stellvia.nix
