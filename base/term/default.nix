@@ -1,0 +1,68 @@
+{pkgs, ...}:
+let
+  slib = import ../../lib;
+  vars = import ../../base/vars.nix;
+in {
+  ### System profile packages
+  environment.systemPackages = with (vars.pkg pkgs); cliStd ++ nixBld ++ cliDbg ++ wifi ++ dev ++ video ++ audio ++ gui;
+
+  services.xserver = {
+    enable = true;
+    displayManager.kdm.enable = true;
+    desktopManager.kde4.enable = true;
+    enableCtrlAltBackspace = true;
+    exportConfiguration = true;
+    synaptics = {
+      enable = true;
+    };
+    videoDrivers = ["intel"];
+  };
+
+  networking = {
+    nameservers = [ "10.16.0.1" ];
+    search = [ "sh.s ulwifi.s baughn-sh.s" ];
+    usePredictableInterfaceNames = false;
+    nat = {
+      enable = true;
+      internalInterfaces = ["ve-+"];
+      externalInterface = "eth_lan";
+    };
+  };
+  
+  hardware = {
+    opengl = {
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+    pulseaudio = {
+      enable = true;
+      support32Bit = true;
+    };
+  };
+  
+  sound.enable = true;
+
+  boot = {
+    kernelPackages = pkgs.linuxPackages_4_3;
+    loader.grub.enable = false;
+    enableContainers = true;
+    postBootCommands = ''
+LS=/run/current-system/sw/share/local
+if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
+'';
+  };
+
+  ### Services
+  services.openssh.enable = true;
+
+  ### User / Group config
+  # Define paired user/group accounts.
+  # Manually provided passwords are hashed empty strings.
+  users = (slib.mkUserGroups (with vars.userSpecs {
+    u2g = { sh = ["sh_cbrowser"] ;};
+  }; default ++ [sh_prsw (sh_cbrowser)]));
+
+  security.sudo.extraConfig = ''
+sh    ALL=(prsw,sh_cbrowser) NOPASSWD: ALL
+'';
+}

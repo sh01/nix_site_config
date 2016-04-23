@@ -9,7 +9,7 @@ let
       isReadOnly = true;
     };
   };
-in {
+in rec {
   c = rk: uk: {
     browsers = {
       config = ((import ./browsers.nix) rk uk);
@@ -24,5 +24,9 @@ in {
       hostAddress = "10.231.1.1";
       localAddress = "10.231.1.2";
     };
+  };
+  
+  termC = ssh_pub: {
+    browsers = (c [ssh_pub.root] [ssh_pub.sh]).browsers;
   };
 }
