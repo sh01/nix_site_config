@@ -73,7 +73,9 @@ in rec {
   nix = {
     allowedUsers = [ "@nix-users" ];
     binaryCachePublicKeys = [];
-    binaryCaches = [];
+    # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
+    # Give it one that allows it to fail-fast, instead.
+    binaryCaches = ["http://127.0.0.1"];
     buildCores = 0;
     requireSignedBinaryCaches = true;
     daemonIONiceLevel = 2;
