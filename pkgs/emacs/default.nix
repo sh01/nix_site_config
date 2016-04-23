@@ -16,7 +16,7 @@ let
     name = "emacs-config";
     FN = ./default.el;
 }; in {
-  environment.systemPackages = with pkgs; [
+  emacsPackages = with pkgs; [
     (emacsWithPackages (epkgs: [ epkgs.rainbow-delimiters (emacsConf epkgs) ]))
   ];
 }

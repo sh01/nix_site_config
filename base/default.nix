@@ -21,7 +21,6 @@ in rec {
 
   imports = [
     ./channel.nix
-    ./emacs
   ];
 
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
