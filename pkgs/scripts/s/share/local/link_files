@@ -2,4 +2,4 @@
 B=/run/current-system/sw/share/local
 
 ln -s ${B}/setup_auth ~sh/.kde/Autostart/
-D=~sh/.config/pulse; mkdir $D; ln -s ${B}/default.pa ${D}/
+D=~sh/.config/pulse; mkdir $D && chown sh:sh ~sh/.config ~sh/.config/pulse; ln -s ${B}/default.pa ${D}/
