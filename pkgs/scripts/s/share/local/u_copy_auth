@@ -1,0 +1,8 @@
+#!/bin/sh
+SP=.config/pulse/
+for P in $@; {
+  DP=${P}/.config/pulse
+  mkdir -p ${DP}
+  cp ${SP}/cookie ${DP}/
+  cp -a ${SP}/client.conf ${DP}/
+}
