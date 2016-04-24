@@ -7,7 +7,7 @@ in {
     sh_cbrowser = ["sh_cbrowser" 1002 [] (keys.sh_cbrowser or [])];
     
     ### Host-user remote sets
-    sh_yalda = ["sh_yalda" 1536 [] [ssh_pub.sh_allison ssh_pub.sh_yalda]];
+    sh_yalda = ["sh_yalda" 1536 [] [ssh_pub.sh_allison ssh_pub.yalda.sh]];
 
     ### System users
     backup_client = ["backup-client" 2000 [] [ssh_pub.root_keiko]];
