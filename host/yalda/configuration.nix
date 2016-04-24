@@ -34,7 +34,24 @@ in {
     };
     dhcpcd.allowInterfaces = [];
   };
-  
+
+  systemd = {
+    services.SH_local_setup = {
+      after = ["-.mount"];
+      description = "SH_local_setup";
+      script = ''
+# Set up /mnt/ys
+dmsetup mknodes
+modprobe bcache
+
+cryptsetup luksOpen --key-file=/var/crypt/ys0 /dev/md/yalda.sh.s:1 ys1
+for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; do echo $disk > /sys/fs/bcache/register; done
+mount /mnt/ys
+'';
+    };
+    enableEmergencyMode = false;
+  };
+    
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="74:d0:2b:2b:7c:7f", KERNEL=="eth*", NAME="eth_lan"
@@ -45,6 +62,7 @@ in {
     btrfsOpts = baseOpts ++ ["space_cache" "autodefrag"];
   in {
     "/" = { label = "yalda_root"; options=btrfsOpts ++ ["ssd"]; };
+    "/mnt/ys" = { label = "ys0b"; options=btrfsOpts ++ ["noauto"]; };
   };
   
   services.openssh.moduliFile = ./sshd_moduli;
