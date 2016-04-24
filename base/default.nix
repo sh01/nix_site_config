@@ -80,6 +80,10 @@ in rec {
     requireSignedBinaryCaches = true;
     daemonIONiceLevel = 2;
     daemonNiceLevel = 2;
+    extraOptions = ''
+use-binary-caches = false
+build-use-substitutes = false
+'';
   };
     
   #### Nix firewall
