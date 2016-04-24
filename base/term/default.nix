@@ -17,7 +17,8 @@ in {
     displayManager.kdm.enable = true;
     desktopManager.kde4.enable = true;
     enableCtrlAltBackspace = true;
-    exportConfiguration = true;
+    # Broken 2016-04-24 16.03.581.e409886
+    #exportConfiguration = true;
     synaptics = {
       enable = true;
     };
