@@ -82,7 +82,7 @@ in rec {
     daemonNiceLevel = 2;
     extraOptions = ''
 use-binary-caches = false
-build-use-substitutes = false
+build-use-substitutes = true
 '';
   };
     
