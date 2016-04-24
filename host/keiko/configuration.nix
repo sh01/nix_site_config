@@ -18,7 +18,7 @@ in {
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_4_3;
-  boot.blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"];
+  boot.blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
   ##### Host id stuff
   networking = {
     hostName = "keiko.sh.s";

@@ -57,6 +57,8 @@ in {
 LS=/run/current-system/sw/share/local
 if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
 '';
+    # DMA attack mitigation
+    blacklistedKernelModules = ["firewire_ohci" "firewire_core" "firewire_sbp2"];
   };
 
   ### Services

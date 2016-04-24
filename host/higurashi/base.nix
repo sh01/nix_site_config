@@ -48,6 +48,7 @@ in {
 
   ### Disable GRUB
   boot.loader.grub.enable = false;
+  boot.blacklistedKernelModules = ["firewire_ohci" "firewire_core" "firewire_sbp2"];
   
   ### Networking
   networking.dhcpcd.allowInterfaces = [];
