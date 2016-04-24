@@ -1,0 +1,8 @@
+[core]
+	pager = cat
+
+[color]
+	ui = auto
+
+[push]
+	default = simple
