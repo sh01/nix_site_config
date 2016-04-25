@@ -1,3 +1,13 @@
+[Data_4]
+AllowMerge=true
+Comment=This group contains actions that are set up by default.
+DataCount=1
+Enabled=true
+ImportId=printscreen
+Name=Preset Actions
+SystemGroup=0
+Type=ACTION_DATA_GROUP
+
 [Data_4_1]
 Comment=Launches KSnapShot when PrintScrn is pressed.
 Enabled=false
@@ -7,3 +17,4 @@ Type=SIMPLE_ACTION_DATA
 [Data_4_1Triggers]
 Comment=Simple_action
 TriggersCount=0
+
