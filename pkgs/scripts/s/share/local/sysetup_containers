@@ -1,4 +1,3 @@
 #!/bin/sh
 
-mkdir -p /run/users/sh
-chown sh:sh /run/users/sh
+chmod g+rwx ~sh_cbrowser/
