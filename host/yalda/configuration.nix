@@ -41,6 +41,8 @@ in {
       description = "SH_local_setup";
       script = ''
 # Set up /mnt/ys
+# FIXME: Clean the CS path use up.
+PATH=/run/current-system/sw/bin/
 dmsetup mknodes
 modprobe bcache
 
