@@ -43,17 +43,20 @@ in {
 # FIXME: Clean the CS path use up.
 PATH=/run/current-system/sw/bin/
 
+# Set up container dirs
+mkdir -p /run/users/sh
+chown sh:sh /run/users/sh
+
 # Set up /mnt/ys
 dmsetup mknodes
 modprobe bcache
 
 cryptsetup luksOpen --key-file=/var/crypt/ys0 /dev/md/yalda_ys1 ys1
-for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; do echo $disk > /sys/fs/bcache/register; done
+for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
+  echo $disk > /sys/fs/bcache/register
+}
+sleep 2 # wait for kernel to link disk label
 mount /mnt/ys
-
-# Set up container dirs
-mkdir -p /run/users/sh
-chown sh:sh /run/users/sh
 '';
     };
     enableEmergencyMode = false;
