@@ -37,7 +37,8 @@ in {
 
   systemd = {
     services.SH_local_setup = {
-      after = ["-.mount"];
+      partOf = ["multi-user.target"];
+      wantedBy = ["all-containers.service"];
       description = "SH_local_setup";
       script = ''
 # FIXME: Clean the CS path use up.
