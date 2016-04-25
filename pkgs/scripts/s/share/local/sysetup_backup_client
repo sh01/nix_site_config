@@ -1,0 +1,15 @@
+#!/bin/sh
+
+U=backup-client
+DD=~backup-client/bin
+DF=$DD/rsync
+
+mkdir -p $DD
+chown $U:$U $DD
+chmod 0700 $DD
+
+nix-env -p /nix/var/nix/profiles/backup -i rsync
+cp /nix/var/nix/profiles/backup/bin/rsync $DD
+chown root:$U $DF 
+chmod 710 $DF
+setcap cap_dac_read_search=ep $DF
