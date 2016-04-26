@@ -38,14 +38,14 @@ in {
 
   systemd = {
     services = {
-      SH_local_setup = {
+      SH_mount_ys = {
         partOf = ["multi-user.target"];
-        wantedBy = ["all-containers.service"];
-        description = "SH_local_setup";
+        description = "SH_mount_ys";
         script = ''
 # FIXME: Clean the CS path use up.
 PATH=/run/current-system/sw/bin/
 
+mountpoint -q /mnt/ys && exit 0
 # Set up /mnt/ys
 dmsetup mknodes
 modprobe bcache
