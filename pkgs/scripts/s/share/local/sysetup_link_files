@@ -1,4 +1,4 @@
-#!/bin/sh
+#!@bash@/bin/sh
 B=/run/current-system/sw/share/local
 
 ln -s ${B}/setup_auth ~sh/.kde/Autostart/

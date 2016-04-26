@@ -1,4 +1,4 @@
-#!/bin/sh
+#!@bash@/bin/sh
 SP=.config/pulse/
 for P in $@; {
   DP=${P}/.config/pulse

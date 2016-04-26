@@ -1,4 +1,4 @@
-#!/bin/sh
+#!@bash@/bin/sh
 P=~sh_cbrowser/.Xauthority
 
 rm -f ${P}-*

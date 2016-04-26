@@ -1,4 +1,4 @@
-#!/bin/sh
+#!@bash@/bin/sh
 
 U=backup-client
 DD=~backup-client/bin

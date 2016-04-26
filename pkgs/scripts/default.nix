@@ -6,8 +6,11 @@
 
 let
   pkgs = import <nixpkgs> {};
-in
-pkgs.srcOnly {
+in pkgs.substituteAllFiles {
   name = "SH_scripts";
+  bash = pkgs.bash;
+  python3 = pkgs.python3;
   src = ./s;
+  files = ["share"];
+  postInstall = "chmod a+x $out/share/local/*";
 }
