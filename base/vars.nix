@@ -2,9 +2,10 @@ let
   ssh_pub = import ./ssh_pub.nix;
 in {
   userSpecs = { u2g ? {}, keys ? {}}: rec {
-    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video"] ++ (u2g.sh or [])) [ssh_pub.sh_allison]];
-    sh_prsw = ["sh_prsw" 1001 ["nix-users" "audio" "video"] []];
-    sh_cbrowser = ["sh_cbrowser" 1002 [] (keys.sh_cbrowser or [])];
+    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) [ssh_pub.sh_allison]];
+    sh_prsw = ["sh_prsw" 1001 ["nix-users" "audio" "video" "sh_x"] []];
+    sh_x = ["sh_x" 1002 [] []];
+    sh_cbrowser = ["sh_cbrowser" 1003 ["sh_x"] (keys.sh_cbrowser or [])];
     
     ### Host-user remote sets
     sh_yalda = ["sh_yalda" 1536 [] [ssh_pub.sh_allison ssh_pub.yalda.sh]];

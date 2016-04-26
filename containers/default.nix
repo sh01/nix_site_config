@@ -29,4 +29,18 @@ in rec {
   termC = ssh_pub: {
     browsers = (c [ssh_pub.root] [ssh_pub.sh]).browsers;
   };
+
+  # Systemd service setup
+  termS = {
+    SH_containers_sh = {
+      wantedBy = ["all-containers.service"];
+      description = "SH_containers_sh";
+      script = ''
+# Set up container dirs
+mkdir -p /run/users/sh_x/pulse
+chown -R sh:sh_x /run/users/sh_x/
+chmod g+rx,o-rx -R /run/users/sh_x
+'';
+    };
+  };
 }

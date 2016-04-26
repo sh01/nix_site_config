@@ -4,6 +4,7 @@
 
 let
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
+  cont = import ../../containers;
 in {
   # Pseudo-static stuff
   imports = [
@@ -14,7 +15,7 @@ in {
     ../../base/site_stellvia.nix
   ];
  
-  containers = ((import ../../containers).termC ssh_pub);
+  containers = (cont.termC ssh_pub);
   
   ##### Host id stuff
   networking = {
@@ -36,17 +37,14 @@ in {
   };
 
   systemd = {
-    services.SH_local_setup = {
-      partOf = ["multi-user.target"];
-      wantedBy = ["all-containers.service"];
-      description = "SH_local_setup";
-      script = ''
+    services = {
+      SH_local_setup = {
+        partOf = ["multi-user.target"];
+        wantedBy = ["all-containers.service"];
+        description = "SH_local_setup";
+        script = ''
 # FIXME: Clean the CS path use up.
 PATH=/run/current-system/sw/bin/
-
-# Set up container dirs
-mkdir -p /run/users/sh
-chown sh:sh /run/users/sh
 
 # Set up /mnt/ys
 dmsetup mknodes
@@ -59,7 +57,8 @@ for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
 sleep 2 # wait for kernel to link disk label
 mount /mnt/ys
 '';
-    };
+      };
+    } // cont.termS;
     enableEmergencyMode = false;
   };
     
