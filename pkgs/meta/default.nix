@@ -102,6 +102,7 @@ let P = name: d: derivation {
     binutils
     gcc
     perl
+    perl522
     zlib
   ];
     

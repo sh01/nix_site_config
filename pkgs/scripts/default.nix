@@ -12,5 +12,5 @@ in pkgs.substituteAllFiles {
   python3 = pkgs.python3;
   src = ./s;
   files = ["share"];
-  postInstall = "chmod a+x $out/share/local/*";
+  postInstall = "chmod a+x $out/share/local/bin/*";
 }
