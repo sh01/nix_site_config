@@ -20,6 +20,11 @@ in {
     groups = (slib.mkGroups us);
   };
 
+  networking = {
+    nameservers = [ "10.16.0.1" ];
+    search = [ "sh.s ulwifi.s baughn-sh.s" ];
+  };
+  
   services.sshd = {
     enable = true;
     permitRootLogin = "without-password";

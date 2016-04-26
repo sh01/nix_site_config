@@ -1,16 +1,16 @@
 #!@bash@/bin/sh
 P=~sh_cbrowser/.Xauthority
 
-rm -f ${P}-*
-umask 026
+rm -f $P ${P}-*
+
 # This doesn't work (anymore?) for use on segments that have different hostnames for the same X server.
 # xauth -f $P generate :0 . untrusted group browsers timeout 0;
 
+umask 077
 T=$(mktemp)
 xauth -f $T generate :0 . untrusted group browsers timeout 0
-### TODO: Write a helper prog to do this cleanly and generally.
-touch $P
-xauth -f $T extract - :0 | sed -e $'s/\x05yalda/\x08browsers/' | xauth -f $P merge -
-rm $T
+umask 026
+cat $T | /run/current-system/sw/share/local/bin/patch_xauth browsers > $P
+rm -f $T
 
 chgrp sh_cbrowser $P; chmod g+r $P
