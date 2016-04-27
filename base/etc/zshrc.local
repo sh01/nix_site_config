@@ -2,6 +2,8 @@ HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=9223372036854775807
 
+export PATH=~/.exe:${PATH}
+
 if [[ -f /etc/NIXOS ]]; then
   SHELL=/run/current-system/sw/bin/zsh
 else
