@@ -1,6 +1,6 @@
 # Yalda is a desktop deployment with a focus on games.
 
-{ _config, pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
@@ -41,10 +41,8 @@ in {
       SH_mount_ys = {
         partOf = ["multi-user.target"];
         description = "SH_mount_ys";
+	path = with pkgs; [coreutils "util-linux" lvm2 config.system.sbin.modprobe cryptsetup];
         script = ''
-# FIXME: Clean the CS path use up.
-PATH=/run/current-system/sw/bin/
-
 mountpoint -q /mnt/ys && exit 0
 # Set up /mnt/ys
 dmsetup mknodes
