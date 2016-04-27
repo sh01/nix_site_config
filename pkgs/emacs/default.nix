@@ -17,6 +17,6 @@ let
     FN = ./default.el;
 }; in {
   emacsPackages = with pkgs; [
-    (emacsWithPackages (epkgs: [ epkgs.rainbow-delimiters (emacsConf epkgs) ]))
+    (emacsWithPackages (epkgs: with epkgs; [ rainbow-delimiters org (emacsConf epkgs) ]))
   ];
 }
