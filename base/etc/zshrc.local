@@ -11,7 +11,7 @@ else
 fi
 
 setopt incappendhistory notify extended_history hist_ignore_space bsdecho hist_fcntl_lock
-unsetopt beep extendedglob nomatch share_history hist_ignore_dups
+unsetopt beep extendedglob nomatch share_history hist_ignore_dups histfcntllock
 bindkey -e
 
 autoload -Uz compinit
