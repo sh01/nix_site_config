@@ -9,7 +9,20 @@ let
       isReadOnly = true;
     };
   };
+  gpuMounts = {
+    "/dev/dri" = {
+      hostPath = "/dev/dri";
+      isReadOnly = true;
+    };
+  };
+  net = num: {
+    hostAddress = "10.231.1.1";
+    localAddress = "10.231.1." + num;
+    privateNetwork = true;
+  };
 in rec {
+  ## Remember to also edit scripts->setup_container_route if you add to the network config here.
+  # TODO-maybe: Add some more elegant config mechanism.
   c = rk: uk: {
     browsers = {
       config = ((import ./browsers.nix) rk uk);
@@ -20,14 +33,22 @@ in rec {
           isReadOnly = false;
         };
       } // bbMounts;
-      privateNetwork = true;
-      hostAddress = "10.231.1.1";
-      localAddress = "10.231.1.2";
-    };
+    } // (net "2");
+    prsw = {
+      config = ((import ./prsw.nix) rk uk);
+      autoStart = true;
+      bindMounts = {
+        "/home/sh_prsw" = {
+	  hostPath = "/home/sh_prsw";
+	  isReadOnly = false;
+	};
+      } // bbMounts // gpuMounts;
+    } // (net "3");
   };
   
-  termC = ssh_pub: {
-    browsers = (c [ssh_pub.root] [ssh_pub.sh]).browsers;
+  termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh]); {
+    browsers = browsers;
+    prsw = prsw;
   };
 
   # Systemd service setup

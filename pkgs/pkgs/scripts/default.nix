@@ -9,6 +9,8 @@ pkgs.substituteAllFiles {
   name = "SH_scripts";
   bash = pkgs.bash;
   python3 = pkgs.python3;
+  iproute2 = pkgs.iproute;
+
   src = ./s;
   files = ["share"];
   postInstall = "chmod a+x $out/share/local/bin/*";
