@@ -6,7 +6,7 @@ let P = name: d: derivation {
   builder = ./store_pue;
   propagatedUserEnvPkgs = d;
 }; in with pkgs; rec {
-  emacs_packages = P "emacs_packages" (pkgs.callPackage ../../pkgs/emacs {}).emacsPackages;
+  emacs_packages = P "emacs_packages" (pkgs.callPackage ../emacs {}).emacsPackages;
 
   ### Base utilities and libraries
   base = P "base" [

@@ -8,7 +8,7 @@ in {
   ];
 
   ### System profile packages
-  environment.systemPackages = with (pkgs.callPackage ../../pkgs/meta {}); [
+  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
     sys_terminal
   ];
 

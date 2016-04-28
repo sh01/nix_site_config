@@ -1,6 +1,6 @@
-let
-  pkgs = import <nixpkgs> {};
-in pkgs.substituteAll {
+{ pkgs, ...}:
+
+pkgs.substituteAll {
   name = "start_nix";
   dir = "bin";
   src = ./start_nix.py;
