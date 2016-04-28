@@ -219,7 +219,7 @@ let P = name: d: derivation {
     systemsettings
   ];
 
-  gui = P "gui" [fonts xorg xlibs kde4 guiMisc (import ../kde_conf) (import ../scripts)];
+  gui = P "gui" [fonts xorg xlibs kde4 guiMisc (import ../kde_conf) (pkgs.callPackage ../scripts {})];
 
   sys_terminal = P "sys_terminal" [
     cliStd

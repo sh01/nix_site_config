@@ -30,5 +30,5 @@ in {
     permitRootLogin = "without-password";
   };
 
-  environment.systemPackages = with pkgs; [(import ../pkgs/pkgs/scripts) firefox chromium];
+  environment.systemPackages = with pkgs; [(pkgs.callPackage ../pkgs/pkgs/scripts {}) firefox chromium];
 }

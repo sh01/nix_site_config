@@ -4,9 +4,8 @@
 # the home-dir confs and update the actual scripts along with the rest of the
 # system.
 
-let
-  pkgs = import <nixpkgs> {};
-in pkgs.substituteAllFiles {
+{pkgs, ...}:
+pkgs.substituteAllFiles {
   name = "SH_scripts";
   bash = pkgs.bash;
   python3 = pkgs.python3;
