@@ -4,5 +4,6 @@ for P in $@; {
   DP=${P}/.config/pulse
   mkdir -p ${DP}
   cp ${SP}/cookie ${DP}/
-  cp -a ${SP}/client.conf ${DP}/
+  cp ${SP}/client.conf ${DP}/
+  echo "Remember to fix up permissions: >> chown .. -R ${DP}"
 }
