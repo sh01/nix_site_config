@@ -41,7 +41,7 @@ in {
       SH_mount_ys = {
         partOf = ["multi-user.target"];
         description = "SH_mount_ys";
-	path = with pkgs; [coreutils "util-linux" lvm2 config.system.sbin.modprobe cryptsetup];
+	path = with pkgs; [coreutils eject lvm2 config.system.sbin.modprobe cryptsetup];
         script = ''
 mountpoint -q /mnt/ys && exit 0
 # Set up /mnt/ys
