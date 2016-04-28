@@ -150,6 +150,7 @@ let P = name: d: derivation {
 
     xclock
     xdpyinfo
+    glxinfo
     xinit
     xrandr
     xvinfo
