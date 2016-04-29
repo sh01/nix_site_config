@@ -1,4 +1,4 @@
 #!@bash@/bin/sh
 
-chgrp sh_x ~sh_cbrower sh_prsw
-chmod g+rwx ~sh_cbrowser ~sh_prsw
+chgrp sh_x ~sh_cbrower ~sh_prsw ~sh_prsw_net
+chmod g+rwx ~sh_cbrowser ~sh_prsw ~sh_prsw_net

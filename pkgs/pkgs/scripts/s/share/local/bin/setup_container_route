@@ -10,6 +10,6 @@ add_route() {
 /run/current-system/sw/bin/env >> /tmp/y01.log
 
 case "${INTERFACE}" in
-    ve-prsw)     add_route 10.231.1.3;;
     ve-browsers) add_route 10.231.1.2;;
+    ve-prsw)     add_route 10.231.1.3;;
 esac
