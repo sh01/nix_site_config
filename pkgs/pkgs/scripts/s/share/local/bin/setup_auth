@@ -1,16 +1,23 @@
 #!@bash@/bin/sh
-P=~sh_cbrowser/.Xauthority
 
-rm -f $P ${P}-*
+for d in \
+    "$(echo ~sh_prsw) prsw " \
+    "$(echo ~sh_cbrowser) browsers un";
+{
+  read D hn user suff <<<"$d"
+    
+  P=${D}/.Xauthority
+  rm -f $P ${P}-*
 
-# This doesn't work (anymore?) for use on segments that have different hostnames for the same X server.
-# xauth -f $P generate :0 . untrusted group browsers timeout 0;
+  umask 077
+  T=$(mktemp)
+  xauth -f $T generate :0 . ${suff}trusted group $hn timeout 0
+  umask 026
+  ## We need to patch the Xauthority hostname for it to work right from inside containers.
+  cat $T | /run/current-system/sw/share/local/bin/patch_xauth $hn > $P
+  rm -f $T
 
-umask 077
-T=$(mktemp)
-xauth -f $T generate :0 . untrusted group browsers timeout 0
-umask 026
-cat $T | /run/current-system/sw/share/local/bin/patch_xauth browsers > $P
-rm -f $T
+  chgrp sh_x $P
+  chmod g+r $P
+}
 
-chgrp sh_cbrowser $P; chmod g+r $P
