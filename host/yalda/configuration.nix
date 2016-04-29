@@ -17,7 +17,8 @@ in {
   ];
  
   containers = (cont.termC ssh_pub);
-  
+  programs.ssh.extraConfig = cont.sshConfig;
+    
   ##### Host id stuff
   networking = {
     hostName = "yalda";

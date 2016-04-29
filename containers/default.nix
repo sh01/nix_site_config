@@ -51,6 +51,16 @@ in rec {
     prsw = prsw;
   };
 
+  sshConfig = ''
+Host sh_cbrowser
+HostName 10.231.1.2
+User sh_cbrowser
+  
+Host sh_prsw
+HostName 10.231.1.3
+User sh_prsw
+'';
+  
   # Systemd service setup
   termS = {
     SH_containers_sh = {
