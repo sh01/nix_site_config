@@ -1,0 +1,1 @@
+SUBSYSTEM=="net", ACTION=="add", KERNEL=="ve-*", RUN{program}="@scripts@/share/local/bin/setup_container_route"
