@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Logitech Trackman Marble setup
+D='Logitech USB Trackball'
+
+xinput list "$D" || exit 0
+
+# Emulate wheel functionaliry while b-3 is pressed
+xinput set-prop "$D" 'Evdev Wheel Emulation' 1
+xinput set-prop "$D" 'Evdev Wheel Emulation Button' 8
+# make scrolling 2d
+xinput set-prop "$D" 'Evdev Wheel Emulation Axes' 6 7 4 5
+# Remap b-2 to middle click
+# xinput set-button-map "$D" 1 0 3 4 5 6 7 8 2
+# ...and also disable b8->browser-back map
+xinput set-button-map "$D" 1 0 3 4 5 6 7 0 2

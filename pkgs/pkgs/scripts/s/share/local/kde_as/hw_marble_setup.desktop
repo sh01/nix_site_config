@@ -1,0 +1,5 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Name=hw_marble_setup
+Exec=/run/current-system/sw/share/local/bin/hw_marble_setup
