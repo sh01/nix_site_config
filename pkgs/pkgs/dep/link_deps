@@ -1,0 +1,13 @@
+#!/bin/sh
+
+export PATH=${coreutils}/bin
+
+O=${out}/share/lapps/${LINKNAME}/
+mkdir -p $O/lib $O/bin
+
+for D in ${LDEPS}; {
+    ln -s ${D}/lib/*.so* $O/lib
+}
+for D in ${BDEPS}; {
+    ln -s ${D}/bin/* $O/bin/
+}
