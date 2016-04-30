@@ -1,0 +1,10 @@
+{pkgs, system, name, LDEPS, BDEPS ? [], JDEPS ? [], ...}:
+with pkgs; derivation {
+  name = "SH_dep_" + name;
+  inherit system coreutils LDEPS BDEPS JDEPS;
+  LINKNAME = name;
+  SH = bash;
+  glibc = glibc;
+  builder = ./link_deps;
+  src = /var/empty;
+}

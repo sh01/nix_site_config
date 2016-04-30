@@ -3,6 +3,7 @@ rks: uks: { config, pkgs, lib, ... }:
 let
   vars = import ../base/vars.nix;
   slib = import ../lib;
+  lpkgs = (import ../pkgs {});
 in {
   imports = [
     ../base
@@ -37,5 +38,7 @@ in {
     extraConfig = "AcceptEnv DISPLAY";
   };
 
-  environment.systemPackages = with pkgs; [(pkgs.callPackage ../pkgs/pkgs/scripts {}) ];
+  environment.systemPackages = with pkgs; [
+    lpkgs.SH_scripts
+  ];
 }

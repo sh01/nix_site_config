@@ -9,5 +9,6 @@ let
     SH_udev_containers = callPackage ./pkgs/udev_containers {};
 
     SH_dep_mc0 = callPackage ./pkgs/dep/mc0 {};
+    SH_dep_factorio = callPackage ./pkgs/dep/factorio {};
   };
 in self

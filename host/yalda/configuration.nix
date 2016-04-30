@@ -19,6 +19,7 @@ in {
   environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
     SH_dep_mc0
+    SH_dep_factorio
   ];
   
   containers = (cont.termC ssh_pub);

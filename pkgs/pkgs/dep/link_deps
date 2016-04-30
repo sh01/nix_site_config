@@ -2,8 +2,12 @@
 
 export PATH=${coreutils}/bin
 
-O=${out}/share/lapps/${LINKNAME}/
-mkdir -p $O/lib $O/bin $O/share/java
+O=${out}/share/lapps/${LINKNAME}
+
+mkdir -p $O
+[ "${LDEPS}" != "" ] && mkdir $O/lib
+[ "${BDEPS}" != "" ] && mkdir $O/bin
+[ "${JDEPS}" != "" ] && mkdir -p $O/share/java
 
 for D in ${LDEPS}; {
     ln -s ${D}/lib/*.so* $O/lib
@@ -14,3 +18,13 @@ for D in ${BDEPS}; {
 for D in ${JDEPS}; {
     ln -s ${D}/share/java/* $O/share/java
 }
+
+RFN=${O}/run.sh
+
+cat >$RFN <<EOF
+#!${SH}/bin/sh
+export LD_LIBRARY_PATH=${O}/lib/
+exec $(echo ${glibc}/lib/ld-linux*so*) \$@
+
+EOF
+chmod a+x $RFN
