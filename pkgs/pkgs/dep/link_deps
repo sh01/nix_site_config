@@ -3,11 +3,14 @@
 export PATH=${coreutils}/bin
 
 O=${out}/share/lapps/${LINKNAME}/
-mkdir -p $O/lib $O/bin
+mkdir -p $O/lib $O/bin $O/share/java
 
 for D in ${LDEPS}; {
     ln -s ${D}/lib/*.so* $O/lib
 }
 for D in ${BDEPS}; {
     ln -s ${D}/bin/* $O/bin/
+}
+for D in ${JDEPS}; {
+    ln -s ${D}/share/java/* $O/share/java
 }
