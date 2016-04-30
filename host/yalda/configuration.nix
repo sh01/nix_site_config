@@ -15,7 +15,12 @@ in {
     ../../base/term
     ../../base/site_stellvia.nix
   ];
- 
+
+  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
+    games
+    SH_dep_mc0
+  ];
+  
   containers = (cont.termC ssh_pub);
   programs.ssh.extraConfig = cont.sshConfig;
     

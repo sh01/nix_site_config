@@ -220,6 +220,15 @@ let P = name: d: derivation {
     systemsettings
   ];
 
+  games = P "games" [
+    cataclysm-dda
+    crawl
+    #freeorion #doesn't exist yet
+    wesnoth
+    widelands
+    warzone2100
+  ];
+  
   gui = P "gui" [fonts xorg xlibs kde4 guiMisc (import ../kde_conf) (pkgs.callPackage ../scripts {})];
 
   sys_terminal = P "sys_terminal" [
