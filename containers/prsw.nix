@@ -8,6 +8,7 @@ in {
   imports = [
     ../base
     ../base/site_stellvia.nix
+    ../base/alsa2pulse.nix
   ];
 
   hardware.opengl = {
