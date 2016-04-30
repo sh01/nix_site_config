@@ -34,6 +34,8 @@ let P = name: d: derivation {
 
     gzip
     bzip2
+    p7zip
+    unzip
     xz
  
     python
@@ -154,6 +156,8 @@ let P = name: d: derivation {
     xinit
     xrandr
     xvinfo
+    xauth
+    xhost
   ];
 
   # To link directly into lib dirs for use by non-Nix programs
