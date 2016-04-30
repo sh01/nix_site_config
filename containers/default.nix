@@ -64,14 +64,17 @@ in rec {
   sshConfig = ''
 Host sh_cbrowser
 HostName 10.231.1.2
+SendEnv DISPLAY
 User sh_cbrowser
   
 Host sh_prsw
 HostName 10.231.1.3
+SendEnv DISPLAY
 User sh_prsw
 
 Host sh_prsw_net
 HostName 10.231.1.4
+SendEnv DISPLAY
 User sh_prsw_net
 '';
   

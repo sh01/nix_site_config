@@ -25,9 +25,10 @@ in {
     search = [ "sh.s ulwifi.s baughn-sh.s" ];
   };
   
-  services.sshd = {
+  services.openssh = {
     enable = true;
     permitRootLogin = "without-password";
+    extraConfig = "AcceptEnv DISPLAY";
   };
 
   environment.systemPackages = with pkgs; [(pkgs.callPackage ../pkgs/pkgs/scripts {}) firefox chromium];
