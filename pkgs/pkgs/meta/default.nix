@@ -30,6 +30,8 @@ let P = name: d: derivation {
     strace
     ltrace
     libcap_progs
+    moreutils
+
     emacs_packages
 
     gzip
