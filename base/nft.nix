@@ -60,7 +60,7 @@ table inet filter0 {
 C=/etc/nft.conf
 [ ! -f $C ] && exit 0
 
-nft delete table inet filter0 || true
+nft delete table inet filter0 2>/dev/null || true
 nft -f $C || true
 '';
     };
