@@ -50,8 +50,9 @@ in {
     services = {
       SH_mount_ys = {
         partOf = ["multi-user.target"];
+        wantedBy = ["SH_containers_sh.service"];
         description = "SH_mount_ys";
-	path = with pkgs; [coreutils eject lvm2 config.system.sbin.modprobe cryptsetup];
+        path = with pkgs; [coreutils eject lvm2 config.system.sbin.modprobe cryptsetup];
         script = ''
 mountpoint -q /mnt/ys && exit 0
 # Set up /mnt/ys
