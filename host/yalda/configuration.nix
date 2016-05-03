@@ -3,8 +3,10 @@
 { config, pkgs, lib, ... }:
 
 let
+  inherit (pkgs) callPackage;
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
   cont = import ../../containers;
+  nft = callPackage ../../base/nft.nix {};
   lpkgs = (import ../../pkgs {});
 in {
   # Pseudo-static stuff
@@ -16,7 +18,7 @@ in {
     ../../base/site_stellvia.nix
   ];
 
-  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
+  environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
     SH_dep_mc0
     SH_dep_factorio
@@ -64,9 +66,11 @@ sleep 2 # wait for kernel to link disk label
 mount /mnt/ys
 '';
       };
-    } // cont.termS;
+    } // cont.termS // nft.services;
     enableEmergencyMode = false;
   };
+  
+  environment.etc = nft.conf_terminal;
 
   services.udev = {
     extraRules = ''
