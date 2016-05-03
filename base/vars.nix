@@ -19,12 +19,35 @@ in {
   };
 
   kernelOpts = {
+    # We'd really want NFT_MASQ and NFT_REDIR as y, but that's impossible due to forward-y dependencies which are not supported by this version of the nix kernel conf infrastructure.
+    netStd = ''
+NF_CONNTRACK_IRC n
+NF_NAT y
+NF_TABLES y
+NF_TABLES_INET y
+NFT_META y
+NFT_CT y
+NFT_RBTREE y
+NFT_HASH y
+NFT_COUNTER y
+NFT_LOG y
+NFT_LIMIT y
+NFT_MASQ m
+NFT_REDIR m
+NFT_NAT y
+NFT_REJECT y
+NFT_COMPAT y
+
+NF_TABLES_IPV4 y
+NF_TABLES_IPV6 y
+'';
+  
     base = ''
 X86_INTEL_PSTATE n
 X86_ACPI_CPUFREQ y
 IDE n
 '';
-  
+
     blkStd = ''
 EXT2_FS y
 EXT3_FS y
