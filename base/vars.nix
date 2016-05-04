@@ -2,7 +2,7 @@ let
   ssh_pub = import ./ssh_pub.nix;
 in {
   userSpecs = { u2g ? {}, keys ? {}}: rec {
-    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) [ssh_pub.sh_allison]];
+    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) (keys.sh or [ssh_pub.sh_allison])];
     sh_prsw = ["sh_prsw" 1001 (["audio" "video" "sh_x"] ++ (u2g.prsw or [])) (keys.sh_prsw or [])];
     sh_prsw_net = ["sh_prsw_net" 1005 ["audio" "video" "sh_x"] (keys.sh_prsw or [])];
     sh_x = ["sh_x" 1002 [] []];

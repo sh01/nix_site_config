@@ -20,7 +20,7 @@ in {
   boot.isContainer = true;
   ### User / Group config
   users = let
-    us = with vars.userSpecs { keys = { sh_prsw = uks; sh_prsw_net = uks;};}; default ++ [ sh_prsw sh_prsw_net sh_x ];
+    us = with vars.userSpecs { keys = { sh = uks; sh_prsw = uks; sh_prsw_net = uks;};}; default ++ [ sh_prsw sh_prsw_net sh_x ];
   in {
     users = (slib.mkUsers us) // {
       root.openssh.authorizedKeys.keys = rks;
