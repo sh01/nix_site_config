@@ -1,5 +1,10 @@
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
+# Zsh:
+# 1. Stores this in a signed 64bit int
+# 2. Will modify it with x:(x+x/5) before performing a comparison to decide if it needs to rewrite the history file.
+# Thefore, values like 2**63-1 will trigger a rewrite on every command, which a) is slow and b) appears to be rac and carry a risk of data loss in the case of parallel access by several shells.
+# We for now set this to 2**62, which is small enough to not trigger the comparison bug and hopefully large enough that we will nevertheless not run out before we can increase the size of the relevant variables.
 SAVEHIST=4611686018427387904
 
 export PATH=~/.exe:${PATH}
