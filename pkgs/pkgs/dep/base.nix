@@ -1,4 +1,4 @@
-{pkgs, system, arch32, name, LDEPS, BDEPS ? [], JDEPS ? [], ...}:
+{pkgs, system, name, LDEPS, BDEPS ? [], JDEPS ? [], ...}:
 with pkgs; derivation {
   name = "SH_dep_" + name;
   inherit system coreutils LDEPS BDEPS JDEPS;
