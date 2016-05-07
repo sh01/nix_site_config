@@ -5,7 +5,7 @@
 let
   inherit (pkgs) callPackage;
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
-  cont = import ../../containers;
+  cont = callPackage ../../containers {};
   nft = callPackage ../../base/nft.nix {};
   lpkgs = (import ../../pkgs {});
 in {

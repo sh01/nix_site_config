@@ -1,5 +1,4 @@
-rks: uks: { config, pkgs, lib, ... }:
-
+{ pkgs, rks, uks, ... }:
 let
   vars = import ../base/vars.nix;
   slib = import ../lib;

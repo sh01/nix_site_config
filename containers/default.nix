@@ -1,3 +1,4 @@
+{pkgs}:
 let
   bbMounts = {
     "/tmp/.X11-unix" = {
@@ -21,9 +22,9 @@ let
     privateNetwork = true;
   };
 in rec {
-  c = rk: uk: {
+  c = rks: uks: {
     browsers = {
-      config = ((import ./browsers.nix) rk uk);
+      config = (import ./browsers.nix) {inherit pkgs rks uks;};
       autoStart = true;
       bindMounts = {
         "/home/sh_cbrowser" = {
@@ -33,7 +34,7 @@ in rec {
       } // bbMounts;
     } // (net "2");
     prsw = {
-      config = ((import ./prsw.nix) rk uk);
+      config = (import ./prsw.nix) {inherit pkgs rks uks;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw" = {
@@ -43,7 +44,7 @@ in rec {
       } // bbMounts // gpuMounts;
     } // (net "3");
     prsw_net = {
-      config = ((import ./prsw.nix) rk uk);
+      config = (import ./prsw.nix) {inherit pkgs rks uks;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw_net" = {
