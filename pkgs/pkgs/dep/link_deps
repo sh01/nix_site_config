@@ -24,7 +24,16 @@ RFN=${O}/run.sh
 cat >$RFN <<EOF
 #!${SH}/bin/sh
 export LD_LIBRARY_PATH=${O}/lib/
-exec $(echo ${glibc}/lib/ld-linux*so*) \$@
 
+for ld in ${glibc64}/lib/ld-linux*so* ${glibc32}/lib/ld-linux*so*; {
+  echo -n "Trying \$ld ..."
+  "\$ld" --verify "\$1" >/dev/null || {
+    echo "failed."
+    continue
+  }
+  echo ok.
+  exec \$ld \$@
+}
 EOF
+
 chmod a+x $RFN

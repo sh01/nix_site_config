@@ -1,5 +1,5 @@
-{pkgs, system, ...}:
-with pkgs; (pkgs.callPackage ../base.nix {
+{pkgs, system, callPackage, ...}:
+with pkgs; (callPackage ../base.nix {
   name = "factorio";
   LDEPS = with pkgs.xorg; [
     # Graphics stuff
