@@ -31,6 +31,7 @@ let P = name: d: derivation {
     ltrace
     libcap_progs
     moreutils
+    sshfsFuse
 
     emacs_packages
 
@@ -105,6 +106,8 @@ let P = name: d: derivation {
     glibc
     binutils
     gcc
+    ghc
+    bison
     perl
     perl522
     zlib
