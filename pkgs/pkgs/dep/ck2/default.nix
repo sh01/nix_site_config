@@ -5,7 +5,7 @@ with arch32.pkgs; (callPackage ../base.nix {
     zlib tbb stdenv.cc.cc
     # Graphics stuff
     libX11 libXext libSM libICE mesa_glu mesa_noglu
-    # Audio stuff
+    # Audio stuff. CK2 supports pulseaudio output directly.
     libpulseaudio 
   ];
 })
