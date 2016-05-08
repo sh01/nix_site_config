@@ -22,6 +22,7 @@ in {
     games
     SH_dep_mc0
     SH_dep_factorio
+    SH_dep_CK2
   ];
   
   containers = (cont.termC ssh_pub);
