@@ -14,6 +14,11 @@ in rec {
     root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBklpUEs9lcmLxMlwQ6cQk0Fn6+F83D76g7dN4jEQgNN root@kokoro";
   };
 
+  rune = rec {
+    sh = "__PLACEHOLDER__Z";
+    root = sh;
+  };
+
   root_keiko = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIITxN4NuMIY4hiYgZXpFRILKorw8Nxm95Qu1Ot6BccSn root@keiko.sh.s.";
 
   hk_allison = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGE+YvDLKwJ9SEm4NgYOELl0TWomv3fGSA7fwLjDWI9I";
