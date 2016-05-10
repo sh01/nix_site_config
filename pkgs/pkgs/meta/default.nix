@@ -99,6 +99,8 @@ let P = name: d: derivation {
   wifi = P "wifi" [
     wpa_supplicant
     wirelesstools
+    iw
+    firmwareLinuxNonfree
     networkmanager
   ];
 
