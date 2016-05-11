@@ -1,0 +1,43 @@
+port 1200
+client
+proto udp
+dev tun_msvpn
+float
+
+#remote greyc.dyndns.org
+#remote vpn.memespace.net
+remote 89.101.222.213
+
+cd /etc/openvpn/memespace-vpn/
+# TODO: Extend NixOS to support --cd so we do not require this hack.
+ca /etc/openvpn/memespace-vpn/ca.crt
+cert /etc/openvpn/memespace-vpn/rune.crt
+key /etc/openvpn/memespace-vpn/rune.key
+dh /etc/openvpn/memespace-vpn/dh2048.pem
+script-security 2
+
+cipher BF-CBC
+keysize 448
+
+keepalive 10 120
+
+comp-lzo
+
+user openvpn
+group openvpn
+
+persist-key
+persist-tun
+
+status /var/run2/openvpn/memespace-vpn.status
+#log-append  /var/log/openvpn/opennet_users.log
+
+#daemon ovpn-memespace-vpn
+ns-cert-type server
+
+cd /etc/openvpn
+up memespace-vpn/if_up.sh
+
+verb 5
+;mute 20
+mtu-disc yes

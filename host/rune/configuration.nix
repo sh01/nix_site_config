@@ -3,7 +3,7 @@
 { pkgs, ... }:
 
 let
-  inherit (pkgs) callPackage;
+  inherit (pkgs) callPackage lib;
   ssh_pub = (import ../../base/ssh_pub.nix).rune;
   cont = callPackage ../../containers {};
 in {
@@ -35,7 +35,7 @@ in {
         }];
       };
     };
-    dhcpcd.allowInterfaces = [];
+    dhcpcd.allowInterfaces = ["eth_wifi"];
   };
   
   # Name network devices statically based on MAC address
@@ -52,6 +52,11 @@ in {
   };
   
   services.openssh.moduliFile = ./sshd_moduli;
+  services.openvpn.servers = {
+    msvpn_client = {
+      config = lib.readFile ./vpn/memespace;
+    };
+  };
   
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";
