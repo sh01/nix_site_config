@@ -34,6 +34,8 @@ in rec {
 
     ne = "PAGER=cat nix-env";
     ns = "PAGER=cat nix-store";
+    
+    jctl = "journalctl -o short-iso";
 
     mp2mca = "mplayer2 -af resample=48000:1:2,hrtf -channels 6";
     ga = "git-annex";

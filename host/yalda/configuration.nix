@@ -46,6 +46,7 @@ in {
       };
     };
     dhcpcd.allowInterfaces = [];
+    localCommands = "ip route add default via 10.16.0.1 || true";
   };
 
   systemd = {
