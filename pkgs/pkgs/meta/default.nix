@@ -42,7 +42,8 @@ let P = name: d: derivation {
     xz
  
     python
-    python3
+    python35
+    python35Packages.pyusb
     bc
 
     iputils
