@@ -14,9 +14,9 @@ in rec {
     root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBklpUEs9lcmLxMlwQ6cQk0Fn6+F83D76g7dN4jEQgNN root@kokoro";
   };
 
-  rune = rec {
-    sh = "__PLACEHOLDER__Z";
-    root = sh;
+  rune = {
+    sh = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEKsBJt8b20KgeEGr3D7X1PlGlUPpn9O0AphPyF4fk4 sh@rune";
+    root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAQkWQOwK6rckcRplpCX2bpk/3NBwLtza6jJfAjGRW7v root@rune";
   };
 
   root_keiko = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIITxN4NuMIY4hiYgZXpFRILKorw8Nxm95Qu1Ot6BccSn root@keiko.sh.s.";
