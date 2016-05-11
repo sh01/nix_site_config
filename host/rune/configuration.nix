@@ -6,6 +6,7 @@ let
   inherit (pkgs) callPackage lib;
   ssh_pub = (import ../../base/ssh_pub.nix).rune;
   cont = callPackage ../../containers {};
+  nft = callPackage ../../base/nft.nix {};	
 in {
   # Pseudo-static stuff
   imports = [
@@ -15,10 +16,11 @@ in {
     ../../base/term
     ../../base/site_stellvia.nix
   ];
- 
+  
   containers = (cont.termC ssh_pub);
-  systemd.services = cont.termS;
+  systemd.services = cont.termS // nft.services;
   programs.ssh.extraConfig = cont.sshConfig;
+  environment.etc = nft.conf_terminal;
   
   ##### Host id stuff
   networking = {
