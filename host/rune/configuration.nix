@@ -42,9 +42,11 @@ in {
   };
   
   # Name network devices statically based on MAC address
+  # Make blink1 devices usable by sh and friends.
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="b8:88:e3:f5:24:ce", KERNEL=="eth*", NAME="eth_lan"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="60:6c:66:51:61:34", KERNEL=="wlan*", NAME="eth_wifi"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="27b8", ATTRS{idProduct}=="01ed", MODE:="660", GROUP="video"
   '';
 
   fileSystems = let
