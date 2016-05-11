@@ -43,6 +43,7 @@ let P = name: d: derivation {
  
     python
     python3
+    bc
 
     iputils
     ethtool
