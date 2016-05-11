@@ -17,6 +17,7 @@ in {
   ];
  
   containers = (cont.termC ssh_pub);
+  systemd.services = cont.termS;
   
   ##### Host id stuff
   networking = {
