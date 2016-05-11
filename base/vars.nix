@@ -13,6 +13,7 @@ in {
 
     ### System users
     backup_client = ["backup-client" 2000 [] [ssh_pub.root_keiko]];
+    openvpn = ["openvpn" 2001 [] []];
     cc = ["cc" 2048 [] []];
 
     default = [sh backup_client];

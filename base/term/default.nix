@@ -70,7 +70,7 @@ if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
   # Manually provided passwords are hashed empty strings.
   users = (slib.mkUserGroups (with vars.userSpecs {
     u2g = { sh = ["sh_cbrowser"] ;};
-  }; default ++ [sh_prsw sh_prsw_net sh_x sh_cbrowser]));
+  }; default ++ [openvpn sh_prsw sh_prsw_net sh_x sh_cbrowser]));
 
   security.sudo.extraConfig = ''
 sh    ALL=(prsw,sh_cbrowser) NOPASSWD: ALL
