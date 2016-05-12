@@ -92,6 +92,7 @@ mount /mnt/ys
   };
   
   services.openssh.moduliFile = ./sshd_moduli;
+  services.xserver.videoDrivers = ["intel" "ati"];
   
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";
