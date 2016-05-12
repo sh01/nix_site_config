@@ -39,6 +39,12 @@ in {
       };
     };
     dhcpcd.allowInterfaces = ["eth_wifi"];
+    localCommands = ''
+PATH=/run/current-system/sw/bin/
+rmmod iwlwifi || exit 0
+echo -n /run/current-system/firmware/ > /sys/module/firmware_class/parameters/path
+modprobe iwlwifi
+'';
   };
   
   # Name network devices statically based on MAC address
