@@ -45,6 +45,18 @@ table inet filter0 {
 		counter drop 
 	}
 }
+table ip nat {
+	chain postrouting {
+		type nat hook postrouting priority 0; policy accept;
+		oifname "eth_lan" masquerade
+		oifname "eth_wifi" masquerade
+	}
+
+	chain prerouting {
+		type nat hook prerouting priority 0; policy accept;
+	}
+}
+
 '');
 
   conf_terminal = (conf_simple [22]);
