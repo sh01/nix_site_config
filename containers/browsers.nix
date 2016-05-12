@@ -1,4 +1,4 @@
-{ pkgs, rks, uks, ... }:
+{ pkgs, sysPkgs, rks, uks }:
 let
   vars = import ../base/vars.nix;
   slib = import ../lib;
@@ -30,5 +30,5 @@ in {
     extraConfig = "AcceptEnv DISPLAY";
   };
 
-  environment.systemPackages = with pkgs; [(pkgs.callPackage ../pkgs/pkgs/scripts {}) firefox chromium];
+  environment.systemPackages = with pkgs; [(pkgs.callPackage ../pkgs/pkgs/scripts {}) firefox chromium] ++ sysPkgs;
 }

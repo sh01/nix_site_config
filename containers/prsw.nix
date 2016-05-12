@@ -1,8 +1,7 @@
-{ pkgs, rks, uks}:
+{ sysPkgs, rks, uks }:
 let
   vars = import ../base/vars.nix;
   slib = import ../lib;
-  lpkgs = (import ../pkgs {});
 in {
   imports = [
     ../base
@@ -38,7 +37,5 @@ in {
     extraConfig = "AcceptEnv DISPLAY";
   };
 
-  environment.systemPackages = with pkgs; [
-    lpkgs.SH_scripts
-  ];
+  environment.systemPackages = sysPkgs;
 }

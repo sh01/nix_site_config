@@ -21,10 +21,27 @@ let
     localAddress = "10.231.1." + num;
     privateNetwork = true;
   };
+  lpkgs = pkgs.callPackage ../pkgs {};
 in rec {
+  sysPkgsBase = with pkgs; [
+    less
+    file
+    zsh
+    hexedit
+    unzip
+    binutils
+    patchelf
+  ];
+  sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
+    SH_dep_mc0
+    SH_dep_factorio
+    SH_dep_KSP
+    SH_dep_CK2
+  ]);
+
   c = rks: uks: {
     browsers = {
-      config = (import ./browsers.nix) {inherit pkgs rks uks;};
+      config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase;};
       autoStart = true;
       bindMounts = {
         "/home/sh_cbrowser" = {
@@ -34,7 +51,7 @@ in rec {
       } // bbMounts;
     } // (net "2");
     prsw = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks;};
+      config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw" = {
@@ -44,7 +61,7 @@ in rec {
       } // bbMounts // gpuMounts;
     } // (net "3");
     prsw_net = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks;};
+      config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw_net" = {
