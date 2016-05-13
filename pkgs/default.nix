@@ -16,5 +16,6 @@ let
     SH_dep_factorio = callPackage ./pkgs/dep/factorio {};
     SH_dep_KSP = callPackage ./pkgs/dep/ksp {};
     SH_dep_CK2 = callPackage ./pkgs/dep/ck2 {};
+    SH_dep_WL2 = callPackage ./pkgs/dep/wl2 {};
   };
 in pkgs
