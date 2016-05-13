@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH=${coreutils}/bin
+export PATH=${coreutils}/bin:${findutils}/bin
 
 O=${out}/share/lapps/${LINKNAME}
 
@@ -10,7 +10,12 @@ mkdir -p $O
 [ "${JDEPS}" != "" ] && mkdir -p $O/share/java
 
 for D in ${LDEPS}; {
-    ln -s ${D}/lib/*.so* $O/lib
+    cd $D;
+    for d in $(find lib -type d); {
+	#echo $D $d
+	mkdir ${O}/${d}
+	ln -s $D/${d}/*so* ${O}/${d}/
+    }
 }
 for D in ${BDEPS}; {
     ln -s ${D}/bin/* $O/bin/

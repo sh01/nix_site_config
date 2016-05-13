@@ -1,7 +1,7 @@
 {pkgs, system, name, LDEPS, BDEPS ? [], JDEPS ? [], ...}:
 with pkgs; derivation {
   name = "SH_dep_" + name;
-  inherit system coreutils LDEPS BDEPS JDEPS;
+  inherit system coreutils findutils LDEPS BDEPS JDEPS;
   LINKNAME = name;
   SH = bash;
   glibc32 = pkgs.arch32.glibc;
