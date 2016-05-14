@@ -1,0 +1,6 @@
+{
+  'env': {
+    'XONSH_HISTORY_SIZE': '(4611686018427387904, "commands")'
+  }
+  'foreign_shells': [{"shell": "zsh"}]
+}

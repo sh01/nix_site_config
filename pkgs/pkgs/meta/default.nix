@@ -98,6 +98,11 @@ let P = name: d: derivation {
     wireshark-cli
   ];
 
+  cliMisc = P "cliMisc" [
+    xonsh
+    which # xonsh startup dependency
+  ];
+  
   wifi = P "wifi" [
     wpa_supplicant
     wirelesstools
@@ -253,6 +258,7 @@ let P = name: d: derivation {
     video
     audio
     gui
+    cliMisc
   ];
 }
 
