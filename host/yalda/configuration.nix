@@ -25,6 +25,7 @@ in {
     SH_dep_KSP
     SH_dep_CK2
     SH_dep_WL2
+    SH_dep_Stellaris
   ];
   
   containers = (cont.termC ssh_pub);
