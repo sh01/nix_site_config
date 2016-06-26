@@ -3,7 +3,9 @@
 { _config, pkgs, lib, ... }:
 
 let
+  inherit (pkgs) callPackage lib;
   ssh_pub = (import ../../base/ssh_pub.nix).kokoro;
+  cont = callPackage ../../containers {};
 in {
   # Pseudo-static stuff
   imports = [
@@ -13,8 +15,8 @@ in {
     ../../base/term
     ../../base/site_stellvia.nix
   ];
- 
-  containers = ((import ../../containers).termC ssh_pub);
+
+  containers = (cont.termC ssh_pub);
   
   ##### Host id stuff
   networking = {
@@ -33,6 +35,9 @@ in {
       };
     };
     dhcpcd.allowInterfaces = [];
+    networkmanager = {
+      enable = true;
+    };
   };
   
   # Name network devices statically based on MAC address
