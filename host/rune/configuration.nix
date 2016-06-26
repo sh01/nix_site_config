@@ -39,6 +39,9 @@ in {
       };
     };
     dhcpcd.allowInterfaces = ["eth_wifi"];
+    networkmanager = {
+      enable = true;
+    };
     localCommands = ''
 PATH=/run/current-system/sw/bin/
 rmmod iwlwifi || exit 0
