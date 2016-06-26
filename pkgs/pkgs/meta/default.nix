@@ -109,6 +109,7 @@ let P = name: d: derivation {
     iw
     firmwareLinuxNonfree
     networkmanager
+    networkmanagerapplet
   ];
 
   nixBld = P "nixBld" [
