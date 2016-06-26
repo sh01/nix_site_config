@@ -3,7 +3,9 @@
 { _config, pkgs, lib, ... }:
 
 let
+  inherit (pkgs) callPackage lib;
   ssh_pub = (import ../../base/ssh_pub.nix).kokoro;
+  cont = callPackage ../../containers {};
 in {
   # Pseudo-static stuff
   imports = [
@@ -13,8 +15,9 @@ in {
     ../../base/term
     ../../base/site_stellvia.nix
   ];
- 
-  containers = ((import ../../containers).termC ssh_pub);
+
+  containers = (cont.termC ssh_pub);
+  systemd.services = cont.termS;
   
   ##### Host id stuff
   networking = {
@@ -33,11 +36,21 @@ in {
       };
     };
     dhcpcd.allowInterfaces = [];
+    networkmanager = {
+      enable = true;
+    };
+    localCommands = ''
+PATH=/run/current-system/sw/bin/
+rmmod iwlwifi || exit 0
+echo -n /run/current-system/firmware/ > /sys/module/firmware_class/parameters/path
+modprobe iwlwifi
+'';
   };
   
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:90:f5:d4:e4:dc", KERNEL=="eth*", NAME="eth_lan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="88:53:2e:f2:e5:95", KERNEL=="wlan*", NAME="eth_wifi"
   '';
 
   fileSystems = let
