@@ -18,5 +18,6 @@ let
     SH_dep_CK2 = callPackage ./pkgs/dep/ck2 {};
     SH_dep_WL2 = callPackage ./pkgs/dep/wl2 {};
     SH_dep_Stellaris = callPackage ./pkgs/dep/stellaris {};
+    SH_dep_starbound = callPackage ./pkgs/dep/starbound {};
   };
 in pkgs
