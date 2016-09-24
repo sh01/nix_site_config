@@ -1,3 +1,5 @@
+# Higurashi is an emergency recovery/setup environment.
+
 let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;

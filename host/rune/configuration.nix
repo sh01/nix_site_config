@@ -1,4 +1,4 @@
-# Kokoro is an experimental desktop deployment.
+# Rune is a trusted-terminal deployment.
 
 { pkgs, ... }:
 
