@@ -1,5 +1,6 @@
 let
   ssh_pub = import ./ssh_pub.nix;
+  ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';
 in {
   userSpecs = { u2g ? {}, keys ? {}}: rec {
     sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) (keys.sh or [ssh_pub.sh_allison])];
@@ -9,7 +10,7 @@ in {
     sh_cbrowser = ["sh_cbrowser" 1003 ["sh_x"] (keys.sh_cbrowser or [])];
     
     ### Host-user remote sets
-    sh_yalda = ["sh_yalda" 1536 [] [ssh_pub.sh_allison ssh_pub.yalda.sh]];
+    sh_yalda = ["sh_yalda" 1536 [] [(ssho_gitannex + ssh_pub.yalda.sh)]];
 
     ### System users
     backup_client = ["backup-client" 2000 [] [ssh_pub.root_keiko]];
