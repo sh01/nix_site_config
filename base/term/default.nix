@@ -51,7 +51,7 @@ in {
   sound.enable = true;
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_4_3;
+    kernelPackages = pkgs.linuxPackages_4_7;
     loader.grub.enable = false;
     enableContainers = true;
     postBootCommands = ''
