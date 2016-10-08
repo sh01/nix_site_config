@@ -13,6 +13,7 @@ in {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+    s3tcSupport = true;
   };
   
   boot.isContainer = true;

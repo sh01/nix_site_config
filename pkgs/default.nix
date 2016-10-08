@@ -4,7 +4,7 @@ let
   pkgs_base = import <nixpkgs> { inherit system; };
   pkgs = pkgs_base // self;
   callPackage = pkgs.lib.callPackageWith(pkgs);
-  self = {
+  self = rec {
     inherit callPackage pkgs;
     arch32 = (import ./default.nix { system = "i686-linux";});
 
@@ -18,5 +18,8 @@ let
     SH_dep_CK2 = callPackage ./pkgs/dep/ck2 {};
     SH_dep_WL2 = callPackage ./pkgs/dep/wl2 {};
     SH_dep_Stellaris = callPackage ./pkgs/dep/stellaris {};
+    SH_dep_starbound = callPackage ./pkgs/dep/starbound {};
+    SH_dep_ggame = callPackage ./pkgs/dep/ggame {};
+    SH_dep_ggame32 = callPackage ./pkgs/dep/ggame {pkgs = arch32.pkgs;};
   };
 in pkgs

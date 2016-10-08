@@ -26,6 +26,8 @@ in {
     SH_dep_CK2
     SH_dep_WL2
     SH_dep_Stellaris
+    SH_dep_ggame
+    SH_dep_ggame32
   ];
   
   containers = (cont.termC ssh_pub);
