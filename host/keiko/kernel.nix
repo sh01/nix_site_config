@@ -1,11 +1,14 @@
 let
-  ko = (import ../../base/vars.nix).kernelOpts;
+  vars = (import ../../base/vars.nix);
+  kp = vars.kernelPatches;
+  ko = vars.kernelOpts;
 in
 {
   #### Kernel config
   powerManagement.cpuFreqGovernor = "ondemand";
   nixpkgs.config.packageOverrides = p: {
-    linux_4_3 = with ko; p.linux_4_3.override {
+    linux_4_4 = with ko; p.linux_4_4.override {
+      kernelPatches = p.linux_4_4.kernelPatches ++ kp;
       extraConfig = base + blkStd + termHwStd + termVideo + ''
 IRQ_TIME_ACCOUNTING y
 MODULE_FORCE_LOAD y

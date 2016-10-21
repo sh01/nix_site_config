@@ -14,7 +14,7 @@ in {
     ../../base/site_stellvia.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_4_3;
+  boot.kernelPackages = pkgs.linuxPackages_4_4;
   boot.blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
   ##### Host id stuff
   networking = {
