@@ -7,7 +7,7 @@ let
   ssh_pub = (import ../../base/ssh_pub.nix).rune;
   cont = callPackage ../../containers {};
   nft = callPackage ../../base/nft.nix {};	
-in {
+in rec {
   # Pseudo-static stuff
   imports = [
     ./hardware-configuration.nix
@@ -16,7 +16,8 @@ in {
     ../../base/term
     ../../base/site_stellvia.nix
   ];
-  
+
+  boot.kernelPackages = pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor pkgs.linux boot.kernelPackages);
   containers = (cont.termC ssh_pub);
   systemd.services = cont.termS // nft.services;
   programs.ssh.extraConfig = cont.sshConfig;
