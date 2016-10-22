@@ -8,7 +8,7 @@ let
   cont = callPackage ../../containers {};
   nft = callPackage ../../base/nft.nix {};
   lpkgs = (import ../../pkgs {});
-in {
+in rec {
   # Pseudo-static stuff
   imports = [
     ./hardware-configuration.nix
@@ -18,6 +18,7 @@ in {
     ../../base/site_stellvia.nix
   ];
 
+  boot.kernelPackages = pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor pkgs.linux boot.kernelPackages);
   environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
     SH_dep_mc0
