@@ -6,7 +6,8 @@ let
   inherit (pkgs) callPackage lib;
   ssh_pub = (import ../../base/ssh_pub.nix).rune;
   cont = callPackage ../../containers {};
-  nft = callPackage ../../base/nft.nix {};	
+  nft = callPackage ../../base/nft.nix {};
+  route = callPackage ../../base/route.nix {};
 in rec {
   # Pseudo-static stuff
   imports = [
@@ -19,7 +20,7 @@ in rec {
 
   boot.kernelPackages = pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor pkgs.linux boot.kernelPackages);
   containers = (cont.termC ssh_pub);
-  systemd.services = cont.termS // nft.services;
+  systemd.services = cont.termS // nft.services // route.services;
   programs.ssh.extraConfig = cont.sshConfig;
   environment.etc = nft.conf_terminal;
   

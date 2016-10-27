@@ -36,7 +36,7 @@ status /var/run2/openvpn/memespace-vpn.status
 ns-cert-type server
 
 cd /etc/openvpn
-up memespace-vpn/if_up.sh
+up /run/current-system/sw/share/local/bin/ovpn_ms_if_up
 
 verb 5
 ;mute 20

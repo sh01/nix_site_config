@@ -1,0 +1,10 @@
+#!@bash@/bin/sh
+
+PATH=@iproute2@/bin/:$PATH
+
+for ip in 10.16.0.65/32 10.16.0.128/25; do
+  ip route add $ip via $route_vpn_gateway
+done
+
+ip -6 route add fd9d:1852:3555::/48 via $ifconfig_ipv6_remote metric 32 table memespace
+
