@@ -12,21 +12,34 @@ in {
     sys_terminal
   ];
 
-  services.xserver = {
-    enable = true;
-    displayManager.kdm.enable = true;
-    desktopManager.kde4.enable = true;
-    enableCtrlAltBackspace = true;
-    # Broken 2016-04-24 16.03.581.e409886
-    #exportConfiguration = true;
-    synaptics = {
+  services = {
+    xserver = {
       enable = true;
+      displayManager.kdm.enable = true;
+      desktopManager.kde4.enable = true;
+      enableCtrlAltBackspace = true;
+      # Broken 2016-04-24 16.03.581.e409886
+      #exportConfiguration = true;
+      synaptics = {
+        enable = true;
+      };
+      videoDrivers = ["intel"];
     };
-    videoDrivers = ["intel"];
+
+    dnsmasq = {
+      enable = true;
+      extraConfig = ''
+interface=lo
+listen-address=10.231.1.1
+except-interface=eth_wifi
+except-interface=eth_lan
+except-interface=tun_msvpn
+server=/s/0.16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::1
+'';
+    };
   };
 
   networking = {
-    nameservers = [ "10.16.0.1" ];
     search = [ "sh.s ulwifi.s baughn-sh.s" ];
     usePredictableInterfaceNames = false;
     nat = {
