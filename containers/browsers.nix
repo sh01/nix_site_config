@@ -20,7 +20,7 @@ in {
   };
 
   networking = {
-    nameservers = [ "10.16.0.1" ];
+    nameservers = [ "10.231.1.1" ];
     search = [ "sh.s ulwifi.s baughn-sh.s" ];
   };
   
