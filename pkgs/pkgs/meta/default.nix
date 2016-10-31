@@ -22,6 +22,7 @@ let P = name: d: derivation {
     most
     hexedit
     screen
+    tmux
     tree
     zsh
     iotop
@@ -49,9 +50,12 @@ let P = name: d: derivation {
     iputils
     ethtool
     netcat
+    # nc6
     socat
     tcpdump
+    traceroute
     wget
+    whois
     ebtables
     nftables
     iftop
