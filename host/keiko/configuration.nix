@@ -5,6 +5,7 @@ let
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
+  dns = (import ../../base/dns.nix) {};
 in {
   imports = [
     ./hardware-configuration.nix
@@ -20,8 +21,6 @@ in {
   networking = {
     hostName = "keiko.sh.s";
     hostId = "84d5fcc6";
-    nameservers = [ "10.16.0.1" ];
-    search = [ "sh.s ulwifi.s baughn-sh.s" ];
     usePredictableInterfaceNames = false;
     interfaces = {
       "eth_lan" = {
@@ -35,9 +34,12 @@ in {
         }];
       };
     };
+    useDHCP = false;
+    dhcpcd.allowInterfaces = [];
+
     defaultGateway = "10.16.0.1";
     extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
-  };
+  } // dns.conf;
 
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
@@ -62,12 +64,7 @@ a1      /dev/md/a1      /var/crypt/a1_0 noauto,luks
 a2      /dev/md/a2      none            noauto,luks
 '';
     };
-    "resolv.conf" = {
-      text = ''
-search sh.s ulwifi.s baughn-sh.s
-nameserver 10.16.0.1
-'';
-    };
+    "resolv.conf" = dns.resolvConf;
   };
 
   fileSystems = let
@@ -94,8 +91,6 @@ nameserver 10.16.0.1
   };
 
   ### Networking
-  networking.useDHCP = false;
-  networking.dhcpcd.allowInterfaces = [];
 
   ### Services
   services.openssh.enable = true;

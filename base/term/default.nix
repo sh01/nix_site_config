@@ -2,6 +2,7 @@
 let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
+  dns = (import ../dns.nix) {};
 in {
   imports = [
     ./boot.nix
@@ -40,7 +41,7 @@ server=/s/0.16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::
   };
 
   networking = {
-    search = [ "sh.s ulwifi.s baughn-sh.s" ];
+    search = dns.conf.search;
     usePredictableInterfaceNames = false;
     nat = {
       enable = true;

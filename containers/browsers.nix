@@ -2,6 +2,7 @@
 let
   vars = import ../base/vars.nix;
   slib = import ../lib;
+  dns = (import ../base/dns.nix) {};
 in {
   imports = [
     ../base
@@ -21,7 +22,7 @@ in {
 
   networking = {
     nameservers = [ "10.231.1.1" ];
-    search = [ "sh.s ulwifi.s baughn-sh.s" ];
+    search = dns.conf.search;
   };
   
   services.openssh = {

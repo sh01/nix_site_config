@@ -19,8 +19,6 @@ in {
   boot.kernelPackages = pkgs.linuxPackages_4_3;
   ##### Host id stuff
   networking = {
-    # nameservers = [ "10.16.0.1" ];
-    # search = [ "sh.s ulwifi.s baughn-sh.s" ];
     usePredictableInterfaceNames = false;
   };
   
