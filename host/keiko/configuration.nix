@@ -34,6 +34,7 @@ in {
         }];
       };
     };
+    firewall.enable = false;
     useDHCP = false;
     dhcpcd.allowInterfaces = [];
 

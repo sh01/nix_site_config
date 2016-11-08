@@ -6,6 +6,7 @@ let
   inherit (pkgs) callPackage;
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
   cont = callPackage ../../containers {};
+  contBase = cont.termC ssh_pub;
   nft = callPackage ../../base/nft.nix {};
   lpkgs = (import ../../pkgs {});
 in rec {
@@ -31,7 +32,7 @@ in rec {
     SH_dep_ggame32
   ];
   
-  containers = (cont.termC ssh_pub);
+  containers = contBase;
   programs.ssh.extraConfig = cont.sshConfig;
     
   ##### Host id stuff

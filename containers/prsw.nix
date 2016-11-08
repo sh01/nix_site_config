@@ -28,6 +28,7 @@ in {
   };
 
   networking = {
+    firewall.enable = false;
     nameservers = [ "10.231.1.1" ];
   };
   

@@ -24,9 +24,13 @@ table inet filter0 {
 
 	chain a_forward {
 		type filter hook forward priority 0; policy accept;
-		iifname "ve-prsw" goto block 
 		iifname "eth_lan" goto notnew
 		iifname "eth_wifi" goto notnew
+
+		oifname "ve-prsw_net" counter accept
+		iifname "ve-prsw_net" counter accept
+
+		iifname "ve-prsw" goto block
 	}
 
 	chain ext_in {
@@ -54,6 +58,7 @@ table ip nat {
 
 	chain prerouting {
 		type nat hook prerouting priority 0; policy accept;
+		udp dport 32320 dnat 10.231.1.4 # aiwar
 	}
 }
 
@@ -73,6 +78,7 @@ C=/etc/nft.conf
 [ ! -f $C ] && exit 0
 
 nft delete table inet filter0 2>/dev/null || true
+nft delete table nat 2>/dev/null || true
 nft -f $C || true
 '';
     };
