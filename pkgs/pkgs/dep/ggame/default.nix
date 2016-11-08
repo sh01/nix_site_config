@@ -9,8 +9,8 @@ with pkgs; (callPackage ../base.nix {
     # SDL1
     SDL SDL_sound SDL_image SDL_gfx SDL_net SDL_ttf
     # Graphics stuff.
-    libX11 libXcursor libXinerama libXrandr libXi mesa libXxf86vm libXi
-    xorg.libXmu atk
+    libX11 libXcursor libXinerama libXrandr libXi mesa mesa_glu libXxf86vm libXi libXext
+    libXmu atk
     ## UI toolkits
     gnome.gtk pango
     # Audio stuff.
