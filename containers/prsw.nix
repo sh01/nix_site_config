@@ -31,7 +31,6 @@ in {
   environment.etc."resolv.conf" = dns.resolvConfCont;
   networking = {
     firewall.enable = false;
-    nameservers = [ "10.231.1.1" ];
   };
   
   services.openssh = {
