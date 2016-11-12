@@ -56,7 +56,7 @@ in rec {
     };
     dhcpcd.allowInterfaces = [];
     localCommands = ''
-ip route add default via 10.16.0.1 || true
+ip route replace default via 10.16.0.1 || true
 ip -6 route replace fd9d:1852:3555::/48 via fd9d:1852:3555:200::1 || true
 ip -6 route replace default via 2a00:15b8:109:1:1::1 || true
 '';
