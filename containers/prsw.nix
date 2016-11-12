@@ -2,6 +2,7 @@
 let
   vars = import ../base/vars.nix;
   slib = import ../lib;
+  dns = (import ../base/dns.nix) {};
 in {
   imports = [
     ../base
@@ -27,6 +28,7 @@ in {
     groups = (slib.mkGroups us);
   };
 
+  environment.etc."resolv.conf" = dns.resolvConfCont;
   networking = {
     firewall.enable = false;
     nameservers = [ "10.231.1.1" ];

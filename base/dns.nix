@@ -14,4 +14,5 @@ nameserver ${nss}
 '';
   };
   resolvConf = (mkResolvConf searchPath nameservers4);
+  resolvConfCont = (mkResolvConf searchPath ["10.231.1.1"]);
 }

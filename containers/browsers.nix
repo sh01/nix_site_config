@@ -20,6 +20,7 @@ in {
     groups = (slib.mkGroups us);
   };
 
+  environment.etc."resolv.conf" = dns.resolvConfCont;
   networking = {
     nameservers = [ "10.231.1.1" ];
     search = dns.conf.search;
