@@ -31,6 +31,8 @@ in rec {
     unzip
     binutils
     patchelf
+    screen
+    tmux
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_mc0
