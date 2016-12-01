@@ -89,6 +89,13 @@ use-binary-caches = false
 build-use-substitutes = true
 '';
   };
+  #### Nix setup scripts
+  system.activationScripts = {
+    cache_perms = {
+      text = ''[ -d /var/cache ] && chmod go+rx /var/cache'';
+      deps = [];
+    };
+  };
     
   #### Nix firewall
   networking.firewall.allowPing = true;

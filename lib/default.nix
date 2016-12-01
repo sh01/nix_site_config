@@ -9,7 +9,7 @@ in with pkgs.lib; rec {
     }; }) specs) ++ [{
       "nix-users" = { gid = 2049; };
     }]);
-   
+
   mkUsers = specs: mkMerge (map (s:
     let U = elemAt s 0;
     in { "${U}" = {
@@ -19,7 +19,7 @@ in with pkgs.lib; rec {
       extraGroups = (elemAt s 2);
       openssh.authorizedKeys.keys = (elemAt s 3);
       isNormalUser = true;
-    };
+    } // (elemAt s 4);
   }) specs);
 
   mkUserGroups = specs: {

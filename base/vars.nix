@@ -3,21 +3,22 @@ let
   ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';
 in {
   userSpecs = { u2g ? {}, keys ? {}}: rec {
-    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) (keys.sh or [ssh_pub.sh_allison])];
-    sh_prsw = ["sh_prsw" 1001 (["audio" "video" "sh_x"] ++ (u2g.prsw or [])) (keys.sh_prsw or [])];
-    sh_prsw_net = ["sh_prsw_net" 1005 ["audio" "video" "sh_x"] (keys.sh_prsw or [])];
-    sh_x = ["sh_x" 1002 [] []];
-    sh_cbrowser = ["sh_cbrowser" 1003 ["sh_x"] (keys.sh_cbrowser or [])];
+    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) (keys.sh or [ssh_pub.sh_allison]) {}];
+    sh_prsw = ["sh_prsw" 1001 (["audio" "video" "sh_x"] ++ (u2g.prsw or [])) (keys.sh_prsw or []) {}];
+    sh_prsw_net = ["sh_prsw_net" 1005 ["audio" "video" "sh_x"] (keys.sh_prsw or []) {}];
+    sh_x = ["sh_x" 1002 [] [] {}];
+    sh_cbrowser = ["sh_cbrowser" 1003 ["sh_x"] (keys.sh_cbrowser or []) {}];
     
     ### Host-user remote sets
-    sh_yalda = ["sh_yalda" 1536 [] [(ssho_gitannex + ssh_pub.yalda.sh)]];
+    sh_yalda = ["sh_yalda" 1536 [] [(ssho_gitannex + ssh_pub.yalda.sh)] {}];
 
     ### System users
-    backup_client = ["backup-client" 2000 [] [ssh_pub.root_keiko]];
-    openvpn = ["openvpn" 2001 [] []];
-    cc = ["cc" 2048 [] []];
+    backup_client = ["backup-client" 2000 [] [ssh_pub.root_keiko] {}];
+    openvpn = ["openvpn" 2001 [] [] {}];
+    nix_mirror = ["nix_mirror" 2002 [] [ssh_pub.root_keiko] {home = "/var/cache/nix_mirror";}];
+    cc = ["cc" 2048 [] [] {}];
 
-    default = [sh backup_client];
+    default = [sh backup_client nix_mirror];
   };
 
   kernelOpts = {

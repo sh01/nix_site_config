@@ -99,7 +99,7 @@ a2      /dev/md/a2      none            noauto,luks
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [cc sh_yalda]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; [sh backup_client cc sh_yalda]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";
