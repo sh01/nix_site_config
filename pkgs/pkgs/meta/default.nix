@@ -10,6 +10,8 @@ let P = name: d: derivation {
 
   ### Base utilities and libraries
   base = P "base" [
+    (import ../../default.nix {}).SH_scripts
+
     glibcLocales
 
     psmisc
