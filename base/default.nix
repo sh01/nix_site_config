@@ -1,4 +1,4 @@
-{config, pkgs, ...}: let
+{config, lib, pkgs, ...}: let
   ssh_pub = import ./ssh_pub.nix;
   # Recursively read all files from ./etc and build an environment.etc value.
   med = let bp = (builtins.toString ./etc); in p: if p == "" then bp else bp  + "/" + p;
@@ -91,10 +91,7 @@ build-use-substitutes = true
   };
   #### Nix setup scripts
   system.activationScripts = {
-    cache_perms = {
-      text = ''[ -d /var/cache ] && chmod go+rx /var/cache'';
-      deps = [];
-    };
+    cache_perms = lib.stringAfter ["users" "groups"] ''[ -d /var/cache ] && chmod go+rx /var/cache'';
   };
     
   #### Nix firewall
