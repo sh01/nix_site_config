@@ -1,4 +1,4 @@
-{config, pkgs, ...}: let
+{config, lib, pkgs, ...}: let
   ssh_pub = import ./ssh_pub.nix;
   # Recursively read all files from ./etc and build an environment.etc value.
   med = let bp = (builtins.toString ./etc); in p: if p == "" then bp else bp  + "/" + p;
@@ -91,10 +91,22 @@ build-use-substitutes = true
   };
   #### Nix setup scripts
   system.activationScripts = {
-    cache_perms = {
-      text = ''[ -d /var/cache ] && chmod go+rx /var/cache'';
-      deps = [];
-    };
+    cache_perms = lib.stringAfter ["users" "groups"] ''
+git=${pkgs.git}/bin/git
+if [ -d /var/cache/nix_mirror ]; then
+  chmod go+rx /var/cache
+  BD=/var/cache/nix_mirror
+  if [ -d $BD ]; then
+    SD=/var/cache/nix_mirror/site
+    if [ ! -d $SD ]; then
+      mkdir $SD
+      cd $SD
+      $git init --bare
+      chown -R nix_mirror:nix_mirror $SD
+    fi
+  fi
+fi
+'';
   };
     
   #### Nix firewall
