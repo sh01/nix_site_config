@@ -17,6 +17,7 @@ in {
     openvpn = ["openvpn" 2001 [] [] {}];
     nix_mirror = ["nix_mirror" 2002 [] [ssh_pub.root_keiko] {home = "/var/cache/nix_mirror";}];
     cc = ["cc" 2048 [] [] {}];
+    es_github = ["es_github" 4096 [] [] {}];
 
     default = [sh backup_client nix_mirror];
   };
