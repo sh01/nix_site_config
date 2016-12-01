@@ -16,6 +16,7 @@ in {
     backup_client = ["backup-client" 2000 [] [ssh_pub.root_keiko]];
     openvpn = ["openvpn" 2001 [] []];
     cc = ["cc" 2048 [] []];
+    es_github = ["es_github" 4096 [] []];
 
     default = [sh backup_client];
   };
