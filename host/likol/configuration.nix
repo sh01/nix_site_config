@@ -95,6 +95,9 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
       device = "/dev/vg0/root";
       fsType = "btrfs";
     };
+    "/boot" = {
+      device = "/dev/disk/by-label/\\x2fboot";
+    };
   };
 
   ### Networking
