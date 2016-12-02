@@ -47,7 +47,7 @@ in {
           prefixLength = 24;
         }];
         ip6 = [{
-          address = "2a00:15b8:109:1:1::3";
+          address = "fd9d:1852:3555:200::3";
           prefixLength = 80;
         }];
       };
@@ -60,6 +60,20 @@ in {
     extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   } // dns.conf;
 
+  systemd = {
+    services = {
+      SH_limit_cpufreq = {
+        wantedBy = ["sysinit.target"];
+        description = "SH_limit_cpufreq";
+        path = with pkgs; [coreutils cpufrequtils];
+        script = ''
+for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
+'';
+      };
+    };
+    enableEmergencyMode = false;
+  };
+  
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:90:f5:d4:e4:dc", KERNEL=="eth*", NAME="eth_lan"
