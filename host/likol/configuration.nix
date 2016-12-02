@@ -94,9 +94,11 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
       label = "root";
       device = "/dev/vg0/root";
       fsType = "btrfs";
+      options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
     "/boot" = {
       device = "/dev/disk/by-label/\\x2fboot";
+      options = ["noatime" "nodiratime"];
     };
   };
 
