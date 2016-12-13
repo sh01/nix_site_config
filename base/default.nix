@@ -93,17 +93,20 @@ build-use-substitutes = true
   system.activationScripts = {
     cache_perms = lib.stringAfter ["users" "groups"] ''
 git=${pkgs.git}/bin/git
-if [ -d /var/cache/nix_mirror ]; then
+if [ -d /var/cache/ ]; then
   chmod go+rx /var/cache
   BD=/var/cache/nix_mirror
-  if [ -d $BD ]; then
-    SD=/var/cache/nix_mirror/site
-    if [ ! -d $SD ]; then
-      mkdir $SD
-      cd $SD
-      $git init --bare
-      chown -R nix_mirror:nix_mirror $SD
-    fi
+  if [ -d "$BD" ]; then
+    mkdir -p "$BD/tar" 2>/dev/null
+    for SD in site nixpkgs; do
+      D="$BD/$SD"
+      if [ ! -d "$D" ]; then
+        mkdir "$D"
+        cd "$D"
+        $git init --bare
+        chown -R nix_mirror:nix_mirror "$D"
+      fi
+    done
   fi
 fi
 '';
