@@ -97,7 +97,12 @@ if [ -d /var/cache/ ]; then
   chmod go+rx /var/cache
   BD=/var/cache/nix_mirror
   if [ -d "$BD" ]; then
-    mkdir -p "$BD/tar" 2>/dev/null
+    D="$BD/tar"
+    if [ ! -d "$D" ]; then
+      mkdir -p "$D"
+      chown nix_mirror:nix_mirror "$D"
+    fi
+
     for SD in site nixpkgs; do
       D="$BD/$SD"
       if [ ! -d "$D" ]; then
