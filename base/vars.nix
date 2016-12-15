@@ -88,6 +88,6 @@ DRM n
   };
 
   kernelPatches = [
-    { name = "CVE-2016-5195-fix"; patch = ./cve-2016-5195_v4.4.patch; }
+    #{ name = "CVE-2016-5195-fix"; patch = ./cve-2016-5195_v4.4.patch; }
   ];
 }
