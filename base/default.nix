@@ -70,6 +70,7 @@ in rec {
   services.logind.extraConfig = ''
     HandleLidSwitch=ignore
     KillUserProcesses=no'';
+  services.cron.enable = true;
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
   
