@@ -75,7 +75,7 @@ table ip nat {
       wantedBy = ["network-pre.target"];
       description = "SH NFT setup";
       script = ''
-# Set up container dirs
+# Initialize nft rules
 C=/etc/nft.conf
 [ ! -f $C ] && exit 0
 
