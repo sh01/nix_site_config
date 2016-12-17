@@ -69,7 +69,7 @@ ip -6 route replace default via 2a00:15b8:109:1:1::1 || true
         partOf = ["multi-user.target"];
         wantedBy = ["SH_containers_sh.service"];
         description = "SH_mount_ys";
-        path = with pkgs; [coreutils eject lvm2 config.system.sbin.modprobe cryptsetup];
+        path = with pkgs; [coreutils eject lvm2 kmod cryptsetup];
         script = ''
 mountpoint -q /mnt/ys && exit 0
 # Set up /mnt/ys

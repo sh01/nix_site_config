@@ -134,7 +134,7 @@ let P = name: d: derivation {
     gccgo
     ghc
     go
-    rustPlatform.rustc
+    rustc
 
     gnumake
     gdb
