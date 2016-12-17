@@ -101,7 +101,7 @@ User sh_prsw_net
   # Systemd service setup
   termS = {
     SH_containers_sh = {
-      wantedBy = ["all-containers.service"];
+      wantedBy = ["container@browsers.service" "container@prsw.service" "container@prsw_net.service"];
       description = "SH_containers_sh";
       script = ''
 # Set up container dirs
