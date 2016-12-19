@@ -15,8 +15,6 @@ in {
     ../../base/site_stellvia.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_4_4;
-  boot.blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
   ##### Host id stuff
   networking = {
     hostName = "keiko.sh.s";
@@ -73,8 +71,8 @@ a2      /dev/md/a2      none            noauto,luks
     btrfsOpts = baseOpts ++ ["space_cache" "autodefrag"];
     btrfsOptsNA = btrfsOpts ++  ["noauto"];
   in {
-    "/" = { label = "keiko_root"; options=btrfsOpts; };
-    "/boot" = { device = "UUID=5e608f7c-d2ae-41f9-a14d-a81820d50122"; options=["noauto"] ++ baseOpts; };
+    "/" = { label = "keiko_root1"; options=btrfsOpts; };
+    "/boot" = { label = "keiko_boot1"; options=["noauto"] ++ baseOpts; };
     "/mnt/a0" = { device = "/dev/mapper/a0"; options = btrfsOptsNA; };
     "/mnt/a1" = { device = "/dev/mapper/a1"; options = btrfsOptsNA; };
     "/mnt/a2" = { device = "/dev/mapper/a2"; options = btrfsOptsNA; };
@@ -82,13 +80,25 @@ a2      /dev/md/a2      none            noauto,luks
 
   ### Boot config
   # boot.loader.initScript.enable = true;
-  boot.loader.grub = {
-    enable = true;
-    version = 2;
-    device = "/dev/sda";
-    fsIdentifier = "label";
-    memtest86.enable = true;
-    splashImage = null;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_4_4;
+    blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
+    initrd.luks.devices = [{
+      name = "luksVg0";
+      device = "/dev/disk/by-partlabel/keiko_vg0";
+      preLVM = true;
+      keyFile = "/dev/disk/by-partlabel/keiko_key1";
+      keyFileSize = 64;
+    }];
+    loader.grub = {
+      enable = true;
+      version = 2;
+      #device = "/dev/disk/by-id/usb-SanDisk_Cruzer_Blade_4C532000070826116035-0:0";
+      device = "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WX11DB56ZPT9";
+      fsIdentifier = "label";
+      memtest86.enable = true;
+      splashImage = null;
+    };
   };
 
   ### Networking
