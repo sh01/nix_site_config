@@ -53,18 +53,7 @@ in {
   sound.enable = false;
   security.polkit.enable = false;
 
-  environment.etc = {
-    "crypttab" = {
-      text = ''
-# <target name> <source device>         <key file>      <options>
-a0      /dev/md/a0      /var/crypt/a0_2 noauto,luks
-a1      /dev/md/a1      /var/crypt/a1_0 noauto,luks
-#a2     /dev/md/a2      /var/crypt/a2_0 noauto,luks
-a2      /dev/md/a2      none            noauto,luks
-'';
-    };
-    "resolv.conf" = dns.resolvConf;
-  };
+  environment.etc."resolv.conf" = dns.resolvConf;
 
   fileSystems = let
     baseOpts = ["noatime" "nodiratime"];
