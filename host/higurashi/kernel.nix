@@ -1,11 +1,15 @@
 let
-  ko = (import ../../base/vars.nix).kernelOpts;
+  vars = (import ../../base/vars.nix);
+  ko = vars.kernelOpts;
+  kp = vars.kernelPatches;
 in {
   #### Kernel config
   powerManagement.cpuFreqGovernor = "ondemand";
   nixpkgs.config.packageOverrides = p: {
-    linux_4_3 = p.linux_4_3.override {
-      extraConfig = with ko; base + termHwStd + termVideo + blkStd + ''
+    stdenv = p.stdenv // {
+      platform = p.stdenv.platform // {
+        kernelPatches = p.linux.kernelPatches ++ kp;
+        kernelExtraConfig = with ko; base + netStd + termHwStd + termVideo + blkStd + ''
 IRQ_TIME_ACCOUNTING y
 MODULE_FORCE_LOAD y
 MODULE_SRCVERSION_ALL y
@@ -155,8 +159,9 @@ DEVFREQ_GOV_SIMPLE_ONDEMAND y
 DEVFREQ_GOV_PERFORMANCE y
 DEVFREQ_GOV_POWERSAVE y
 DEVFREQ_GOV_USERSPACE y
-      '';
-    ignoreConfigErrors = true;
+        '';
+      ignoreConfigErrors = true;
+      };
     };
   };
 }

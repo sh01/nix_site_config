@@ -18,7 +18,6 @@ in rec {
     ../../base/site_stellvia.nix
   ];
 
-  boot.kernelPackages = pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor pkgs.linux boot.kernelPackages);
   containers = (cont.termC ssh_pub);
   systemd.services = cont.termS // nft.services // route.services;
   programs.ssh.extraConfig = cont.sshConfig;
