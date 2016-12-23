@@ -19,7 +19,7 @@ in rec {
     ../../base/site_stellvia.nix
   ];
 
-  boot.kernelPackages = pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor pkgs.linux boot.kernelPackages);
+  boot.kernelPackages = pkgs.linuxPackages_4_4;
   environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
     SH_dep_mc0

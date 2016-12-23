@@ -7,9 +7,10 @@ in {
   powerManagement.cpuFreqGovernor = "ondemand";
 
   nixpkgs.config.packageOverrides = p: {
-    linux = p.linux.override {
-      kernelPatches = p.linux.kernelPatches ++ kp;
-      extraConfig = with ko; base + netStd + termHwStd + termVideo + blkStd + ''
+    stdenv = p.stdenv // {
+      platform = p.stdenv.platform // {
+        kernelPatches = p.linux.kernelPatches ++ kp;
+        kernelExtraConfig = with ko; base + netStd + termHwStd + termVideo + blkStd + ''
 IRQ_TIME_ACCOUNTING y
 MODULE_FORCE_LOAD y
 MODULE_SRCVERSION_ALL y
@@ -98,7 +99,6 @@ CHR_DEV_SG y
 SCSI_SPI_ATTRS y
 SCSI_SAS_ATTRS y
 SCSI_MPT2SAS y
-SCSI_MPT2SAS_LOGGING y
 
 ATA y
 SATA_AHCI y
@@ -165,8 +165,9 @@ DEVFREQ_GOV_SIMPLE_ONDEMAND y
 DEVFREQ_GOV_PERFORMANCE y
 DEVFREQ_GOV_POWERSAVE y
 DEVFREQ_GOV_USERSPACE y
-      '';
-      ignoreConfigErrors = true;
+        '';
+        ignoreConfigErrors = true;
+      };
     };
   };
 }
