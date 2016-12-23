@@ -16,7 +16,6 @@ in {
     ../../base/site_stellvia.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_4_3;
   ##### Host id stuff
   networking = {
     usePredictableInterfaceNames = false;
