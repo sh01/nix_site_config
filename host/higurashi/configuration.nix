@@ -10,7 +10,10 @@ in {
     hostId = "85d5fcc6";
   };
 
-  services.openssh.enable = false;
+  services = {
+    openssh.enable = false;
+    mingetty.autologinUser = "root";
+  };
 
   ### User / Group config
   # Define paired user/group accounts.
