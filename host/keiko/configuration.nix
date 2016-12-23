@@ -98,7 +98,7 @@ in {
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; [sh backup_client cc sh_yalda es_github]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; [sh cc sh_yalda es_github]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";
