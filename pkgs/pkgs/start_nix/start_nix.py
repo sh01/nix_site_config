@@ -11,15 +11,34 @@ class Menu:
 
   def show_menu(self, scr):
     scr.clear()
-    scr.addstr(0, 0, "JSON NixOS boot menu:")
-    ym_base = 1
 
-    for l, e in enumerate(self.entries):
-      if (l == self.idx):
+    (height, _) = scr.getmaxyx()
+    ym_base = 0
+    # Only print header if we can spare a line
+    if (height > 1):
+      scr.addstr(0, 0, "JSON NixOS boot menu:")
+      ym_base += 1
+    height -= ym_base
+
+    if (len(self.entries) > height):
+      e_base, idx = divmod(self.idx, height)
+      e_base *= height
+      line_lim = e_base+height
+      entries = self.entries[e_base:line_lim]
+    else:
+      e_base = 0
+      entries = self.entries
+      idx = self.idx
+    
+    for l, e in enumerate(entries):
+      if (l == idx):
         a = (curses.A_REVERSE,)
       else:
         a = ()
-      scr.addstr(ym_base + l, 2, '{}: {}'.format(l, e['title']), *a)
+      try:
+        scr.addstr(ym_base + l, 2, '{}: {}'.format(e_base + l, e['title']), *a)
+      except curses.error:
+        continue
     scr.refresh()
 
   def update(self, scr):
