@@ -20,6 +20,7 @@ class Menu:
       ym_base += 1
     height -= ym_base
 
+    # Pick subrange of menu to display on screen
     if (len(self.entries) > height):
       e_base, idx = divmod(self.idx, height)
       e_base *= height
