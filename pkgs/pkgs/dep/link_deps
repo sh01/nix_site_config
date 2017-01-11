@@ -13,7 +13,9 @@ for D in ${LDEPS}; {
     cd $D;
     for d in $(find lib -type d); {
 	#echo $D $d
-	mkdir ${O}/${d}
+	if [ ! -e ${O}/${d} ]; then
+	    mkdir ${O}/${d}
+	fi
 	ln -s $D/${d}/*so* ${O}/${d}/
     }
 }
