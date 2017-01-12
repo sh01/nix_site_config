@@ -24,8 +24,8 @@ table inet filter0 {
 
 	chain a_forward {
 		type filter hook forward priority 0; policy accept;
-		iifname "eth_lan" goto notnew
-		iifname "eth_wifi" goto notnew
+		iifname "eth_lan" counter goto notnew
+		iifname "eth_wifi" counter goto notnew
 
 		oifname "ve-prsw_net" counter accept
 		iifname "ve-prsw_net" counter accept
@@ -37,7 +37,7 @@ table inet filter0 {
 		ip protocol icmp icmp type { echo-request, destination-unreachable, time-exceeded, parameter-problem} counter accept
 		ip6 nexthdr ipv6-icmp icmpv6 type { nd-neighbor-solicit, packet-too-big, nd-neighbor-advert, destination-unreachable, nd-router-advert, time-exceeded} counter accept
 		tcp dport {${inPortStr}} counter accept
-		goto notnew
+		counter goto notnew
 	}
 
 	chain notnew {
