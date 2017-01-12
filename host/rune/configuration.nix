@@ -49,6 +49,7 @@ rmmod iwlwifi || exit 0
 echo -n /run/current-system/firmware/ > /sys/module/firmware_class/parameters/path
 modprobe iwlwifi
 '';
+    firewall.enable = false;
   };
   
   # Name network devices statically based on MAC address
