@@ -29,14 +29,23 @@ in {
         ip6 = [{
           address = "2a00:15b8:109:1:1::2";
           prefixLength = 80;
-        }];
+        }
+	{ address = "fd9d:1852:3555:0200::2";
+	  prefixLength = 56;
+	}
+	];
       };
     };
+    localCommands = ''
+ip route replace default via 10.16.0.1 || true
+ip -6 route replace fd9d:1852:3555::/48 via fd9d:1852:3555:200::1 || true
+ip -6 route replace default via 2a00:15b8:109:1:1::1 || true
+'';
     firewall.enable = false;
     useDHCP = false;
     dhcpcd.allowInterfaces = [];
 
-    defaultGateway = "10.16.0.1";
+    #defaultGateway = "10.16.0.1";
     extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   } // dns.conf;
 
