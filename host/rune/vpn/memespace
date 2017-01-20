@@ -16,8 +16,7 @@ key /etc/openvpn/memespace-vpn/rune.key
 dh /etc/openvpn/memespace-vpn/dh2048.pem
 script-security 2
 
-cipher BF-CBC
-keysize 448
+cipher AES-256-CBC
 
 keepalive 10 120
 
