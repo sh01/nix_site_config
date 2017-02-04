@@ -33,12 +33,16 @@ in rec {
     patchelf
     screen
     tmux
+    git
+    python
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_mc0
     SH_dep_factorio
     SH_dep_KSP
     SH_dep_CK2
+    SH_dep_ggame
+    SH_dep_ggame32
   ]);
 
   c = rks: uks: {

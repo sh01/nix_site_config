@@ -32,7 +32,12 @@ in {
   networking = {
     firewall.enable = false;
   };
-  
+
+  fonts = {
+    enableDefaultFonts = true;
+    enableFontDir = true;
+  };
+
   services.openssh = {
     enable = true;
     permitRootLogin = "without-password";
