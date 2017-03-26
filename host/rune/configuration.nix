@@ -34,7 +34,7 @@ in rec {
           prefixLength = 24;
         }];
         ip6 = [{
-          address = "2a00:15b8:109:1:1:0:1:5";
+          address = "2001:470:7af3:1:1:0:1:5";
           prefixLength = 80;
         }];
       };
