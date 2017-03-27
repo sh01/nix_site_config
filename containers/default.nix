@@ -43,6 +43,7 @@ in rec {
     SH_dep_CK2
     SH_dep_ggame
     SH_dep_ggame32
+    pkgs.xorg.xrandr
   ]);
 
   c = rks: uks: {
