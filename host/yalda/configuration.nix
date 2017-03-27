@@ -46,7 +46,7 @@ in rec {
           prefixLength = 24;
         }];
         ip6 = [
-	{ address = "2a00:15b8:109:1:1:0:2:1";
+	{ address = "2001:470:7af3:1:1:0:2:1";
           prefixLength = 80; }
 	{ address = "fd9d:1852:3555:0200::41";
 	  prefixLength = 56;
@@ -58,7 +58,7 @@ in rec {
     localCommands = ''
 ip route replace default via 10.16.0.1 || true
 ip -6 route replace fd9d:1852:3555::/48 via fd9d:1852:3555:200::1 || true
-ip -6 route replace default via 2a00:15b8:109:1:1::1 || true
+ip -6 route replace default via 2001:470:7af3:1:1::1 || true
 '';
     nameservers = ["10.16.0.1"];
   };

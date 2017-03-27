@@ -39,7 +39,7 @@ for ld in ${glibc64}/lib/ld-linux*so* ${glibc32}/lib/ld-linux*so*; {
     continue
   }
   echo ok.
-  exec \$ld \$@
+  exec \$ld "\$@"
 }
 EOF
 
