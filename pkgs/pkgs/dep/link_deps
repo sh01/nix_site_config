@@ -9,6 +9,8 @@ mkdir -p $O
 [ "${BDEPS}" != "" ] && mkdir $O/bin
 [ "${JDEPS}" != "" ] && mkdir -p $O/share/java
 
+echo "== LDEPS: $LDEPS"
+
 for D in ${LDEPS}; {
     cd $D;
     for d in $(find lib -type d); {
