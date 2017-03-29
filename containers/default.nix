@@ -43,8 +43,17 @@ in rec {
     SH_dep_CK2
     SH_dep_ggame
     SH_dep_ggame32
+    # Used by libs
     pkgs.xorg.xrandr
+    gnome.zenity
   ]);
+
+  gpuAllow = {
+    allowedDevices = [{
+      modifier = "rw";
+      node = "char-drm";
+    }];
+  };
 
   c = rks: uks: {
     browsers = {
@@ -64,9 +73,9 @@ in rec {
         "/home/sh_prsw" = {
 	  hostPath = "/home/sh_prsw";
 	  isReadOnly = false;
-	};
+        };
       } // bbMounts // gpuMounts;
-    } // (net "3");
+    } // gpuAllow // (net "3");
     prsw_net = {
       config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
@@ -76,7 +85,7 @@ in rec {
 	  isReadOnly = false;
 	};
       } // bbMounts // gpuMounts;
-    } // (net "4");
+    } // gpuAllow // (net "4");
   };
   
   termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh]); {
