@@ -12,10 +12,12 @@ with pkgs; (callPackage ../base.nix {
     SDL SDL_sound SDL_image SDL_gfx SDL_net SDL_ttf
     # Graphics stuff.
     libX11 libXcursor libXinerama libXrandr libXi mesa mesa_glu libXxf86vm libXi libXext
-    libXmu atk
-    ## UI toolkits
-    gnome.gtk pango
+    libXmu atk libXt libXrender gdk_pixbuf cairo fontconfig.lib
+    ## toolkits
+    gnome.gtk pango.out glib
     # Audio stuff.
     alsaLib libpulseaudio openal alsaPlugins libvorbis
+    # Networking
+    nss nspr
   ];
 })
