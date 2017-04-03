@@ -23,7 +23,7 @@
   # services.openssh.enable = true;
   # users.extraUsers.root.password = "nixos";
     ## Digital Ocean networking setup; manage interfaces manually
-    networking.useDHCP = false;
+    # networking.useDHCP = false;
 
     systemd.services.setup-network = {
       wantedBy = [ "multi-user.target" ];
