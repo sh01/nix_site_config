@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-{
+let
+  deb_tools = (import ../../pkgs {}).SH_deb_tools;
+in {
   ## Everything below is generated from nixos-in-place; modify with caution!
   boot.kernelParams = ["boot.shell_on_fail"];
   boot.loader.grub.device = "/dev/vda";
@@ -27,12 +29,11 @@
 
     systemd.services.setup-network = {
       wantedBy = [ "multi-user.target" ];
-      after = [ "network-pre.target" ];
-      path = [ pkgs.gawk pkgs.iproute pkgs.openresolv ];
+      after = [ "network-pre.target" "local-fs.target" ];
+      path = [ pkgs.iproute pkgs.openresolv ];
       serviceConfig = {
-        ExecStart = "${pkgs.bash}/bin/bash /etc/nixos-in-place/setup-network";
+        Type = "oneshot";
+        ExecStart = "${deb_tools}/bin/ifup.py /etc/network/interfaces";
       };
     };
-  
-  
 }

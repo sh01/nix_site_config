@@ -2,6 +2,7 @@
 
 { config, pkgs, ... }:
 let
+  lpkgs = (import ../../pkgs {});
   slib = import ../../lib;
   ssh_pub = import ../../base/ssh_pub.nix;
   vars = import ../../base/vars.nix;
@@ -29,7 +30,11 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [base cliStd];
+  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
+    base
+    cliStd
+    SH_deb_tools
+  ];
 
   sound.enable = false;
   security.polkit.enable = false;
