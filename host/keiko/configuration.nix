@@ -30,10 +30,10 @@ in {
           address = "2001:470:7af3:1::2";
           prefixLength = 80;
         }
-	{ address = "fd9d:1852:3555:0200::2";
-	  prefixLength = 56;
-	}
-	];
+        { address = "fd9d:1852:3555:0200::2";
+          prefixLength = 56;
+        }
+        ];
       };
     };
     localCommands = ''
