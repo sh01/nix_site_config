@@ -10,7 +10,7 @@ let
 
     start_nix = callPackage ./pkgs/start_nix {};
     SH_scripts = callPackage ./pkgs/scripts {};
-    SH_deb_tools = callPackage ./pkgs/deb_tools {};
+    SH_sys_scripts = callPackage ./pkgs/sys_scripts {};
     SH_udev_containers = callPackage ./pkgs/udev_containers {};
 
     SH_dep_mc0 = callPackage ./pkgs/dep/mc0 {};

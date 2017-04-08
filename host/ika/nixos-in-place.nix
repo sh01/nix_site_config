@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  deb_tools = (import ../../pkgs {}).SH_deb_tools;
+  sys_scripts = (import ../../pkgs {}).SH_sys_scripts;
 in {
   ## Everything below is generated from nixos-in-place; modify with caution!
   boot.kernelParams = ["boot.shell_on_fail"];
@@ -33,7 +33,7 @@ in {
       path = [ pkgs.iproute pkgs.openresolv ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${deb_tools}/bin/ifup.py /etc/network/interfaces";
+        ExecStart = "${sys_scripts}/bin/ifup.py /etc/network/interfaces";
       };
     };
 }

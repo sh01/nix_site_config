@@ -33,7 +33,8 @@ in {
   environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     base
     cliStd
-    SH_deb_tools
+    nixBld
+    SH_sys_scripts
   ];
 
   sound.enable = false;
@@ -46,7 +47,13 @@ in {
   services.openssh.enable = true;
   services.openssh.moduliFile = ./sshd_moduli;
 
-  users = slib.mkUserGroups (with vars.userSpecs {}; [sh]);
+  services.openvpn.servers = {
+    vpn-ocean = {
+      config = (pkgs.callPackage ./vpn-ocean.nix {lpkgs = lpkgs;});
+    };
+  };
+
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [openvpn]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.09";
