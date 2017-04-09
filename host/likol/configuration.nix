@@ -6,6 +6,7 @@ let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {};
+  vpn_c = (import ../../base/openvpn/client.nix);
 in {
   imports = [
     ./hardware-configuration.nix
@@ -80,7 +81,13 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
   '';
 
   ### System profile packages
-  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [base cliStd nixBld];
+  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
+    base
+    cliStd
+    nixBld
+
+    openvpn
+  ];
 
   sound.enable = false;
   security.polkit.enable = false;
@@ -108,9 +115,18 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
   services.openssh.enable = true;
   services.openssh.moduliFile = ./sshd_moduli;
 
+  services.openvpn.servers = {
+    vpn-ocean = {
+      config = vpn_c.config (vpn_c.ocean // {
+        cert = ../../data/vpn-o/c_likol.crt;
+	key = "/var/auth/vpn_ocean_likol.key";
+      });
+    };
+  };
+  
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [cc sh_yalda es_github]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [cc sh_yalda es_github openvpn]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.09";
