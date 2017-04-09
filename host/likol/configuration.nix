@@ -119,7 +119,7 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
     vpn-ocean = {
       config = vpn_c.config (vpn_c.ocean // {
         cert = ../../data/vpn-o/c_likol.crt;
-	key = "/var/auth/vpn_ocean_likol.key";
+        key = "/var/auth/vpn_ocean_likol.key";
       });
     };
   };
