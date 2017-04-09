@@ -4,11 +4,12 @@ let
   crt = ../../data/vpn-o/s_ika.crt;
   dh = ./dh_vpn-o;
   ccs = (callPackage ../../pkgs/pkgs/openvpn_map_client {
-    netmask="255.255.255.0";
+    gateway4="10.16.132.1";
+    gateway6="fd9d:1852:3555:0102::1";
     clients=[
-      "'uiharu.vpn-o.sh.s': mkaddr('10.16.132.2')"
-      "'likol.vpn-o.sh.s': mkaddr('10.16.132.3')"
-      "'allison.vpn-o.sh.s': mkaddr('10.16.132.128')"
+      "'uiharu.vpn-o.sh.s': mkaddr('10.16.132.2','fd9d:1852:3555:0102::2')"
+      "'likol.vpn-o.sh.s': mkaddr('10.16.132.3', 'fd9d:1852:3555:0102::3')"
+      "'allison.vpn-o.sh.s': mkaddr('10.16.132.128', 'fd9d:1852:3555:0102::128')"
     ];
   });
   name = "ocean";
@@ -39,7 +40,7 @@ tun-ipv6
 push tun-ipv6
 ifconfig-ipv6 fd9d:1852:3555:0102::1/64 fd9d:1852:3555:0102::
 route-ipv6 fd9d:1852:3555:0102::/64
-push "route-ipv6 fd9d:1852:3555:0102::1"
+#push "route-ipv6 fd9d:1852:3555:0102::/64 fd9d:1852:3555:0102::1"
 
 mode server
 tls-server

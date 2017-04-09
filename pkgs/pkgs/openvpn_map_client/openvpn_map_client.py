@@ -3,8 +3,13 @@
 from os import environ
 from sys import argv, exit
 
-def mkaddr(a):
-  return 'ifconfig-push {} @netmask@\n'.format(a)
+def mkaddr(a, b=None):
+  lines = []
+  if not (a is None):
+    lines.append('ifconfig-push {} @gateway4@\n'.format(a))
+  if not (b is None):
+    lines.append('ifconfig-ipv6-push {}/64 @gateway6@\n'.format(b))
+  return ''.join(lines)
 
 clients = {
 @client_config@
