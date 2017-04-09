@@ -9,6 +9,7 @@ stdenv.mkDerivation {
   python2 = pkgs.python;
   bash = pkgs.bash;
   iproute = pkgs.iproute;
+  coreutils = pkgs.coreutils;
   patchPhase = ''
     substituteAllInPlace bin/ifup.py
     substituteAllInPlace bin/sh_ovpn_setup_iface.sh
