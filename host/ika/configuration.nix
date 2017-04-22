@@ -1,4 +1,7 @@
 # Ika is a small traffic-routing cloud deployment.
+# Manual setup things:
+#  /var/spool . go+rx (uptimed)
+#  /var/local/run/openvpn openvpn:openvpn
 
 { config, pkgs, ... }:
 let
@@ -35,6 +38,7 @@ in {
     cliStd
     nixBld
     SH_sys_scripts
+    uptimed
   ];
 
   sound.enable = false;
@@ -52,6 +56,7 @@ in {
       config = (pkgs.callPackage ./vpn-ocean.nix {lpkgs = lpkgs;});
     };
   };
+  services.uptimed.enable = true;
 
   users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [openvpn]);
 
