@@ -39,7 +39,7 @@ script-security 2
 up ${sys_scripts}/bin/sh_ovpn_setup_iface.sh
 tun-ipv6
 push tun-ipv6
-ifconfig-ipv6 fd9d:1852:3555:0101:1000:1/64 fd9d:1852:3555:0101:1000::
+ifconfig-ipv6 fd9d:1852:3555:0101:1000::1/64 fd9d:1852:3555:0101:1000::
 route-ipv6 fd9d:1852:3555:0101:1000::/64
 
 mode server
