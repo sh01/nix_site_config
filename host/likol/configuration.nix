@@ -2,6 +2,7 @@
 { config, pkgs, lib, ... }:
 
 let
+  lpkgs = (import ../../pkgs {});
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
@@ -87,6 +88,8 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
     nixBld
 
     openvpn
+    iptables
+    nftables
   ];
 
   sound.enable = false;
@@ -116,11 +119,16 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
   services.openssh.moduliFile = ./sshd_moduli;
 
   services.openvpn.servers = {
+    # Outgoing to ika
     vpn-ocean = {
       config = vpn_c.config (vpn_c.ocean // {
         cert = ../../data/vpn-o/c_likol.crt;
         key = "/var/auth/vpn_ocean_likol.key";
       });
+    };
+    # vpn-base server
+    vpn-base = {
+      config = (pkgs.callPackage ./vpn-base.nix {lpkgs=lpkgs;});
     };
   };
   
