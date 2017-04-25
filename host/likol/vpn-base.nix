@@ -18,7 +18,8 @@ in ''
 port 1200
 proto udp
 # Quick and dirty, try to avoid outside-tunnel fragmentation during double-tunneling
-tun-mtu 1400
+tun-mtu 1380
+comp-lzo
 
 dev tun_vpn_${iface_sx}
 float
