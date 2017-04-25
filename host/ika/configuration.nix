@@ -90,16 +90,25 @@ table inet filter0 {
 		counter drop
 	}
 }
+# NFT DNAT on incoming doesn't mangle source addresses; for that, we also need SNAT on the outgoing iface.
 table ip nat {
 	chain prerouting {
 		type nat hook prerouting priority 0; policy accept;
 		iif "eth0" udp dport 1200 dnat 10.16.132.3 # likol vpn
+	}
+	chain postrouting {
+		type nat hook postrouting priority 0; policy accept;
+		oifname "tun_vpn_o" masquerade
 	}
 }
 table ip6 nat {
 	chain prerouting {
 		type nat hook prerouting priority 0; policy accept;
 		iif "eth0" udp dport 1200 dnat fd9d:1852:3555:0102::3 # likol vpn
+	}
+	chain postrouting {
+		type nat hook postrouting priority 0; policy accept;
+		oifname "tun_vpn_o" masquerade
 	}
 }
 '';
