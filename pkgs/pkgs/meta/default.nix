@@ -119,17 +119,8 @@ let P = name: d: derivation {
   ];
 
   nixBld = P "nixBld" [
-    glibc
-    binutils
-    busybox
-    gcc
+    defaultStdenv
     ghc
-    gnumake
-    bison
-    perl
-    perl522
-    zlib
-    xz
   ];
     
   dev = P "dev" [
