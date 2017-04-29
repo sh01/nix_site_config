@@ -1,4 +1,4 @@
-# Keiko is a storage system.
+# Likol is a small server deployment.
 { config, pkgs, lib, ... }:
 
 let
@@ -6,7 +6,10 @@ let
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
-  dns = (import ../../base/dns.nix) {};
+  dns = (import ../../base/dns.nix) {
+    searchPath = [];
+    nameservers4 = ["8.8.8.8"];
+  };
   vpn_c = (import ../../base/openvpn/client.nix);
 in {
   imports = [
@@ -52,13 +55,17 @@ in {
           address = "fd9d:1852:3555:200::3";
           prefixLength = 80;
         }];
+      useDHCP = true;
       };
     };
+    dhcpcd = {
+      persistent = true;
+      allowInterfaces = ["eth_lan"];
+    };
     firewall.enable = false;
-    useDHCP = false;
-    dhcpcd.allowInterfaces = [];
+    useDHCP = true;
 
-    defaultGateway = "10.16.0.1";
+    #defaultGateway = "10.16.0.1";
     extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   } // dns.conf;
 
@@ -131,10 +138,15 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
       config = (pkgs.callPackage ./vpn-base.nix {lpkgs=lpkgs;});
     };
   };
+
+  services.dovecot2 = {
+    enable = true;
+    configFile = pkgs.copyPathToStore ./dovecot.conf;
+  };
   
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [cc sh_yalda es_github openvpn]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [cc sh_yalda es_github openvpn dovecot-auth mail-sh]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.09";
