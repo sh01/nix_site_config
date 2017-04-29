@@ -77,7 +77,7 @@ table inet filter0 {
 		ip protocol icmp icmp type { echo-request, destination-unreachable, time-exceeded, parameter-problem} counter accept
 		ip6 nexthdr ipv6-icmp icmpv6 type { nd-neighbor-solicit, packet-too-big, nd-neighbor-advert, destination-unreachable, nd-router-advert, time-exceeded} counter accept
 		udp dport 1210 counter accept # ocean vpn
-		tcp dport 22 counter accept
+		tcp dport 22 counter goto block
 		counter goto notnew
 	}
 	chain notnew {
@@ -132,6 +132,9 @@ table ip6 nat {
       };
     };
     uptimed.enable = true;
+  };
+  security.pam.services = {
+    su.requireWheel = true;
   };
 
   users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [openvpn]);
