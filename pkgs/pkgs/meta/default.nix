@@ -35,6 +35,7 @@ let P = name: d: derivation {
     libcap_progs
     moreutils
     sshfsFuse
+    binutils #strings
 
     emacs_packages
 
