@@ -144,6 +144,10 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
     configFile = pkgs.copyPathToStore ./dovecot.conf;
   };
 
+  # dspam doesn't self-setup its postgresql tables; for a fresh install, look
+  # for and run (via psql) the two /nix/store/*-dspam-*/share/dspam/sql/pgsql*.sql
+  # setup scripts.
+  # We do not expect this to come up.
   services.postgresql = {
     enable = true;
     enableTCPIP = false;
