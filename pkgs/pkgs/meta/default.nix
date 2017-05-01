@@ -35,6 +35,8 @@ let P = name: d: derivation {
     libcap_progs
     moreutils
     sshfsFuse
+    binutils #strings
+    pv
 
     emacs_packages
 
@@ -44,8 +46,8 @@ let P = name: d: derivation {
     unzip
     xz
  
-    python
-    python35
+    pythonFull
+    python3
     python35Packages.pyusb
     bc
 
