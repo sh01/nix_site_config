@@ -143,6 +143,95 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
     enable = true;
     configFile = pkgs.copyPathToStore ./dovecot.conf;
   };
+
+  services.postgresql = {
+    enable = true;
+    enableTCPIP = false;
+    package = pkgs.postgresql96;
+    authentication = ''
+local all dspam peer
+local all root peer
+'';
+    extraConfig = ''
+listen_addresses = '''
+bgwriter_flush_after = 0
+effective_io_concurrency = 4
+backend_flush_after = 0
+synchronous_commit = off
+commit_delay = 80000
+#fsync = off
+wal_compression = on
+checkpoint_flush_after = 0
+'';
+  };
+  
+  services.dspam = {
+    enable = true;
+    storageDriver = "pgsql";
+    extraConfig = ''
+PgSQLServer /tmp/
+PgSQLDb     dspam
+
+UserLog off
+SystemLog off
+OnFail unlearn
+TrainingMode teft
+TestConditionalTraining on
+Feature noise
+Feature whitelist
+Algorithm graham burton
+PValue graham
+ImprobabilityDrive on
+
+Preference "spamAction=tag"
+Preference "signatureLocation=headers"
+Preference "spamSubject="
+IgnoreHeader X-GMX-Antispam
+IgnoreHeader X-GMX-Antivirus
+IgnoreHeader X-Virus-Scanner-Result
+IgnoreHeader X-Spam-Checker-Version
+IgnoreHeader X-Spam-Level
+IgnoreHeader X-Spam-Status
+IgnoreHeader X-Spam-CMAETAG
+IgnoreHeader X-Spam-CMAECATEGORY: 0
+IgnoreHeader X-Spam-CMAESUBCATEGORY: 0
+IgnoreHeader X-Spam-CMAESCORE
+IgnoreHeader X-DSPAM-Result
+IgnoreHeader X-DSPAM-Processed
+IgnoreHeader X-DSPAM-Confidence
+IgnoreHeader X-DSPAM-Improbability
+IgnoreHeader X-DSPAM-Probability
+IgnoreHeader X-DSPAM-Signature
+IgnoreHeader X-DSPAM-Factors
+IgnoreHeader X-Virus-Scanned
+IgnoreHeader X-Antivirus
+IgnoreHeader X-Original-To
+IgnoreHeader Received
+IgnoreHeader Return-path
+IgnoreHeader X-Mailman-Version
+IgnoreHeader X-BeenThere
+IgnoreHeader Delivered-To
+IgnoreHeader Errors-To
+IgnoreHeader List-Subscribe
+IgnoreHeader List-Unsubscribe
+IgnoreHeader List-Post
+IgnoreHeader List-Archive
+IgnoreHeader List-Help
+IgnoreHeader List-Post
+IgnoreHeader List-Id
+IgnoreHeader Sender
+IgnoreHeader Precedence
+IgnoreHeader X-Sieve
+IgnoreHeader Mime-version
+IgnoreHeader Reply-To
+IgnoreHeader Content-Type
+
+LocalMX 134.119.228.54
+
+ProcessorWordFrequency  occurrence
+ProcessorBias on
+'';
+  };
   
   ### User / Group config
   # Define paired user/group accounts.
