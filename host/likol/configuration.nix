@@ -79,6 +79,20 @@ in {
 for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
 '';
       };
+      getmail_gmx = {
+        wantedBy = ["multi-user.target"];
+        description = "getmail: GMX";
+        path = with pkgs; [sudo dspam getmail maildrop];
+        serviceConfig = {
+          Restart = "always";
+          RestartSec = 600;
+          RuntimeMaxSec = 1800;
+	};
+        script = ''
+cd /var/local/mail/sh;
+exec sudo -u mail-sh getmail -r /var/local/etc/getmail/gmx 2>&1 | grep -v '^Copyright (C)'
+'';
+      };
     };
     enableEmergencyMode = false;
   };
@@ -99,7 +113,6 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
     nftables
 
     # non-nix-service parts of mail setup.
-    # The others (dovecot, dspam) get pulled in automatically.
     maildrop
     getmail
   ];
@@ -191,6 +204,9 @@ Feature whitelist
 Algorithm graham burton
 PValue graham
 ImprobabilityDrive on
+
+ServerPass.Local0 "nonsecret"
+ClientIdent "nonsecret@Local0"
 
 Preference "spamAction=tag"
 Preference "signatureLocation=headers"

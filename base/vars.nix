@@ -18,7 +18,7 @@ in {
     nix_mirror = ["nix_mirror" 2002 [] [ssh_pub.root_keiko] {home = "/var/cache/nix_mirror";}];
     cc = ["cc" 2048 [] [] {}];
     dovecot-auth = ["dovecot-auth" 2050 [] [] {}];
-    mail-sh = ["mail-sh" 2056 [] [] {}];
+    mail-sh = ["mail-sh" 2056 ["dspam"] [] {}];
     sh_i401 = ["sh_i401" 2056 [] [] {}];
     es_github = ["es_github" 4096 [] [] {}];
 
