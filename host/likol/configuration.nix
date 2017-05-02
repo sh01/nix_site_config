@@ -97,6 +97,11 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
     openvpn
     iptables
     nftables
+
+    # non-nix-service parts of mail setup.
+    # The others (dovecot, dspam) get pulled in automatically.
+    maildrop
+    getmail
   ];
 
   sound.enable = false;
@@ -190,8 +195,6 @@ ImprobabilityDrive on
 Preference "spamAction=tag"
 Preference "signatureLocation=headers"
 Preference "spamSubject="
-IgnoreHeader X-GMX-Antispam
-IgnoreHeader X-GMX-Antivirus
 IgnoreHeader X-Virus-Scanner-Result
 IgnoreHeader X-Spam-Checker-Version
 IgnoreHeader X-Spam-Level
@@ -200,6 +203,7 @@ IgnoreHeader X-Spam-CMAETAG
 IgnoreHeader X-Spam-CMAECATEGORY: 0
 IgnoreHeader X-Spam-CMAESUBCATEGORY: 0
 IgnoreHeader X-Spam-CMAESCORE
+
 IgnoreHeader X-DSPAM-Result
 IgnoreHeader X-DSPAM-Processed
 IgnoreHeader X-DSPAM-Confidence
@@ -207,6 +211,11 @@ IgnoreHeader X-DSPAM-Improbability
 IgnoreHeader X-DSPAM-Probability
 IgnoreHeader X-DSPAM-Signature
 IgnoreHeader X-DSPAM-Factors
+
+IgnoreHeader X-GMX-Antispam
+IgnoreHeader X-GMX-Antivirus
+IgnoreHeader X-UI-Filterresults
+
 IgnoreHeader X-Virus-Scanned
 IgnoreHeader X-Antivirus
 IgnoreHeader X-Original-To
