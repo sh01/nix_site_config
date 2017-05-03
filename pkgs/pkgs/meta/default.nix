@@ -35,6 +35,8 @@ let P = name: d: derivation {
     libcap_progs
     moreutils
     sshfsFuse
+    binutils #strings
+    pv
 
     emacs_packages
 
@@ -44,8 +46,8 @@ let P = name: d: derivation {
     unzip
     xz
  
-    python
-    python35
+    pythonFull
+    python3
     python35Packages.pyusb
     bc
 
@@ -119,14 +121,8 @@ let P = name: d: derivation {
   ];
 
   nixBld = P "nixBld" [
-    glibc
-    binutils
-    gcc
+    defaultStdenv
     ghc
-    bison
-    perl
-    perl522
-    zlib
   ];
     
   dev = P "dev" [

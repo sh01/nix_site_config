@@ -1,0 +1,92 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 0 (0x0)
+    Signature Algorithm: md5WithRSAEncryption
+        Issuer: C=US, ST=CA, L=SFO, O=memespace.net, OU=Ocean VPN, CN=ocean-vpn-root/emailAddress=sebastian_hagen@memespace.net
+        Validity
+            Not Before: Apr  7 01:20:20 2017 GMT
+            Not After : Jun 24 01:20:20 2028 GMT
+        Subject: C=US, ST=CA, O=memespace.net, OU=Ocean VPN, CN=ika.vpn-o.sh.s/emailAddress=sebastian_hagen@memespace.net
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:a1:d7:13:2c:90:c6:2d:c8:80:5a:6e:12:36:7e:
+                    68:a1:98:d0:4e:3f:a5:7f:c0:c6:ce:d4:42:c6:5a:
+                    54:e6:97:03:8e:ad:9f:91:96:a3:39:54:3c:b7:4e:
+                    32:b5:9b:6c:4f:af:1a:99:c5:3e:d3:35:59:77:e8:
+                    a4:68:7e:15:fb:36:df:89:61:e6:83:24:c7:63:9d:
+                    69:bc:3a:7f:35:b3:d6:e8:65:6b:77:60:cd:d8:68:
+                    6d:d5:3b:15:9e:02:a1:48:f8:f1:71:99:c6:0c:60:
+                    28:6f:f4:96:4f:63:b1:f4:a6:b4:ab:63:4a:6c:b2:
+                    26:e4:54:1f:15:68:3d:73:65:d4:db:ee:07:f5:e9:
+                    37:10:18:08:c5:c2:ea:55:d9:87:90:cb:d0:c3:66:
+                    47:23:25:14:04:cd:82:de:df:2d:56:19:d5:a7:67:
+                    c1:f6:c4:47:1d:c0:71:13:2d:ba:a9:6f:41:1e:a2:
+                    33:9a:1a:05:d6:1d:9f:7d:6a:a6:51:2e:58:bc:31:
+                    ce:ef:54:c2:98:19:3d:3d:b4:f2:f4:15:9b:c0:06:
+                    9f:10:f6:1e:5a:19:46:96:8b:2f:99:e6:ea:95:41:
+                    9b:75:d7:99:8d:14:8b:b5:83:0b:bd:67:cd:24:2a:
+                    aa:1f:a2:71:5f:fa:49:d5:6b:d9:9c:cc:2e:5b:89:
+                    64:c7
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Cert Type: 
+                SSL Server
+            Netscape Comment: 
+                OpenSSL Generated Server Certificate
+            X509v3 Subject Key Identifier: 
+                B1:43:B9:8F:E2:36:E4:3A:56:32:14:9B:39:B6:AB:42:A3:98:8F:2D
+            X509v3 Authority Key Identifier: 
+                keyid:8F:F9:A9:52:10:E0:5D:28:B3:CD:FC:D9:06:C7:62:99:E6:62:34:8E
+                DirName:/C=US/ST=CA/L=SFO/O=memespace.net/OU=Ocean VPN/CN=ocean-vpn-root/emailAddress=sebastian_hagen@memespace.net
+                serial:E2:B2:82:5F:B3:DA:EE:BA
+
+    Signature Algorithm: md5WithRSAEncryption
+         b9:41:a1:7f:0c:40:e9:05:5b:c1:77:76:c5:ef:59:02:76:c5:
+         a9:06:ed:ba:77:bc:65:4a:0a:9f:c6:d2:86:20:06:a1:f8:01:
+         e6:6d:f2:6b:c9:a8:c4:72:9c:0f:4d:ad:ce:2a:23:62:49:3a:
+         df:d2:ee:ea:24:c7:31:bc:b4:93:bb:5b:51:7e:7d:8a:c2:5e:
+         79:ca:7b:58:eb:f3:81:3b:08:cc:e3:6c:5f:de:dc:96:23:f0:
+         86:eb:58:06:6d:1a:89:91:95:23:fb:5d:df:e0:f6:21:a3:96:
+         5b:9c:ae:c8:13:7b:27:0a:44:c1:bd:e8:23:3e:5e:56:eb:24:
+         99:52:7b:e8:64:75:bf:a9:0a:00:dd:90:14:c7:3b:60:92:05:
+         59:fd:51:44:38:9c:82:bc:74:ab:9e:cb:17:75:e5:19:7c:45:
+         ae:42:56:37:87:73:ac:89:68:58:27:2f:6d:d6:07:3d:92:7d:
+         3e:9f:95:20:19:46:8a:a1:24:33:1d:bb:a2:d0:ce:b3:5a:f3:
+         8a:bc:01:40:92:7f:1b:45:45:53:eb:b2:af:4d:5b:b3:1d:2e:
+         ad:42:70:a4:f0:12:d4:18:d2:ef:38:09:c5:9a:53:b2:e0:fd:
+         a0:25:c0:6e:50:90:e4:88:a4:c5:3c:09:1f:13:e5:50:f2:55:
+         70:46:7f:a5
+-----BEGIN CERTIFICATE-----
+MIIE8DCCA9igAwIBAgIBADANBgkqhkiG9w0BAQQFADCBmzELMAkGA1UEBhMCVVMx
+CzAJBgNVBAgTAkNBMQwwCgYDVQQHEwNTRk8xFjAUBgNVBAoTDW1lbWVzcGFjZS5u
+ZXQxEjAQBgNVBAsTCU9jZWFuIFZQTjEXMBUGA1UEAxMOb2NlYW4tdnBuLXJvb3Qx
+LDAqBgkqhkiG9w0BCQEWHXNlYmFzdGlhbl9oYWdlbkBtZW1lc3BhY2UubmV0MB4X
+DTE3MDQwNzAxMjAyMFoXDTI4MDYyNDAxMjAyMFowgY0xCzAJBgNVBAYTAlVTMQsw
+CQYDVQQIEwJDQTEWMBQGA1UEChMNbWVtZXNwYWNlLm5ldDESMBAGA1UECxMJT2Nl
+YW4gVlBOMRcwFQYDVQQDEw5pa2EudnBuLW8uc2guczEsMCoGCSqGSIb3DQEJARYd
+c2ViYXN0aWFuX2hhZ2VuQG1lbWVzcGFjZS5uZXQwggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQCh1xMskMYtyIBabhI2fmihmNBOP6V/wMbO1ELGWlTmlwOO
+rZ+RlqM5VDy3TjK1m2xPrxqZxT7TNVl36KRofhX7Nt+JYeaDJMdjnWm8On81s9bo
+ZWt3YM3YaG3VOxWeAqFI+PFxmcYMYChv9JZPY7H0prSrY0pssibkVB8VaD1zZdTb
+7gf16TcQGAjFwupV2YeQy9DDZkcjJRQEzYLe3y1WGdWnZ8H2xEcdwHETLbqpb0Ee
+ojOaGgXWHZ99aqZRLli8Mc7vVMKYGT09tPL0FZvABp8Q9h5aGUaWiy+Z5uqVQZt1
+15mNFIu1gwu9Z80kKqofonFf+knVa9mczC5biWTHAgMBAAGjggFJMIIBRTAJBgNV
+HRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIGQDAzBglghkgBhvhCAQ0EJhYkT3BlblNT
+TCBHZW5lcmF0ZWQgU2VydmVyIENlcnRpZmljYXRlMB0GA1UdDgQWBBSxQ7mP4jbk
+OlYyFJs5tqtCo5iPLTCB0AYDVR0jBIHIMIHFgBSP+alSEOBdKLPN/NkGx2KZ5mI0
+jqGBoaSBnjCBmzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQwwCgYDVQQHEwNT
+Rk8xFjAUBgNVBAoTDW1lbWVzcGFjZS5uZXQxEjAQBgNVBAsTCU9jZWFuIFZQTjEX
+MBUGA1UEAxMOb2NlYW4tdnBuLXJvb3QxLDAqBgkqhkiG9w0BCQEWHXNlYmFzdGlh
+bl9oYWdlbkBtZW1lc3BhY2UubmV0ggkA4rKCX7Pa7rowDQYJKoZIhvcNAQEEBQAD
+ggEBALlBoX8MQOkFW8F3dsXvWQJ2xakG7bp3vGVKCp/G0oYgBqH4AeZt8mvJqMRy
+nA9Nrc4qI2JJOt/S7uokxzG8tJO7W1F+fYrCXnnKe1jr84E7CMzjbF/e3JYj8Ibr
+WAZtGomRlSP7Xd/g9iGjllucrsgTeycKRMG96CM+XlbrJJlSe+hkdb+pCgDdkBTH
+O2CSBVn9UUQ4nIK8dKueyxd15Rl8Ra5CVjeHc6yJaFgnL23WBz2SfT6flSAZRoqh
+JDMdu6LQzrNa84q8AUCSfxtFRVPrsq9NW7MdLq1CcKTwEtQY0u84CcWaU7Lg/aAl
+wG5QkOSIpMU8CR8T5VDyVXBGf6U=
+-----END CERTIFICATE-----

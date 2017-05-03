@@ -1,4 +1,5 @@
-{config, lib, pkgs, ...}: let
+{config, lib, pkgs, ...}:
+let
   ssh_pub = import ./ssh_pub.nix;
   # Recursively read all files from ./etc and build an environment.etc value.
   med = let bp = (builtins.toString ./etc); in p: if p == "" then bp else bp  + "/" + p;
@@ -56,6 +57,8 @@ in rec {
 
     # Put procps below coreutils for uptime(1).
     procps = pkgs.lib.hiPrio pkgs.procps;
+    # Add postgres support to dspam.
+    dspam = pkgs.dspam.override { withPgSQL = true; postgresql=pkgs.postgresql96; };
   };
 
   

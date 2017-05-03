@@ -27,13 +27,13 @@ in {
           prefixLength = 24;
         }];
         ip6 = [{
-          address = "2001:470:7af3:1::2";
+          address = "2001:470:7af3:1:1::2";
           prefixLength = 80;
         }
-	{ address = "fd9d:1852:3555:0200::2";
-	  prefixLength = 56;
-	}
-	];
+        { address = "fd9d:1852:3555:0200::2";
+          prefixLength = 56;
+        }
+        ];
       };
     };
     localCommands = ''
@@ -107,7 +107,7 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; [sh cc sh_yalda es_github]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; [sh cc sh_yalda es_github mail-sh]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";
