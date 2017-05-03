@@ -46,6 +46,7 @@ in rec {
     # Used by libs
     pkgs.xorg.xrandr
     gnome.zenity
+    xdg_utils
   ]);
 
   gpuAllow = {
