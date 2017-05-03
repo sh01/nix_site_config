@@ -120,9 +120,7 @@ exec sudo -u mail-sh getmail -r /var/local/etc/getmail/gmx 2>&1 | grep -v '^Copy
   sound.enable = false;
   security.polkit.enable = false;
 
-  environment.etc = {
-    "resolv.conf" = dns.resolvConf;
-  };
+  environment.etc."resolv.conf" = dns.resolvConf;
 
   fileSystems = {
     "/" = {
@@ -261,6 +259,69 @@ ProcessorWordFrequency  occurrence
 ProcessorBias on
 '';
   };
+
+  services.charybdis = {
+    enable = true;
+    config = ''
+serverinfo {
+ name = "likol.sh.s";
+ sid = "12S";
+ description = "We will do better this time.";
+ network_name = "sh-polis-net";
+ hub = yes;
+};
+admin {
+ name = "sh";
+ description = "Human. Allegedly.";
+ email = "sh@likol";
+};
+listen {
+ port = 6667;
+};
+class "default" {
+  max_number = 128;
+};
+class "local" {
+ sendq = 1 megabyte;
+ max_number = 1024;
+};
+auth {
+ user = "*@127.0.0.0/8";
+ user = "*@::1/128";
+ flags = kline_exempt, exceed_limit, no_tilde;
+ class = "local";
+};
+auth {
+ user = "*@*";
+ class = "default";
+};
+operator "sh" {
+ user = "*@127.*";
+ user = "*@::1";
+ password = "$6$sDpwqhePNrHl$xcFpHKHbktSj3UeE83eJHXbQaX4/qfrEq.ndhWWiOQ89LyMeTbxCyCD7UGow0UkN.PhJwHecmG4TaOxMFfuDL.";
+ flags = encrypted;
+};
+alias "NickServ" {
+ target = "NickServ";
+};
+alias "NS" {
+ target = "NickServ";
+};
+alias "ChanServ" {
+ target = "ChanServ";
+};	
+alias "CS" {
+ target = "ChanServ";
+};
+'';
+  };
+  environment.etc."ircd/ircd.motd".text = ''
+We play among the clouds
+in the pitch blackness of night.
+Our voices
+ascend to
+the stars.
+'';
   
   ### User / Group config
   # Define paired user/group accounts.
