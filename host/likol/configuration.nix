@@ -85,12 +85,14 @@ for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
         path = with pkgs; [sudo dspam getmail maildrop];
         serviceConfig = {
           Restart = "always";
+          User = "mail-sh";
+          Group = "mail-sh";
           RestartSec = 600;
           RuntimeMaxSec = 1800;
 	};
         script = ''
 cd /var/local/mail/sh;
-exec sudo -u mail-sh getmail -r /var/local/etc/getmail/gmx 2>&1 | grep -v '^Copyright (C)'
+exec getmail -r /var/local/etc/getmail/gmx 2>&1 | egrep -v '^Copyright |^getmail version|^[A-Za-z0-9]*Retriever:'
 '';
       };
     };
