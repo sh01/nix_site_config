@@ -272,6 +272,13 @@ serverinfo {
  network_name = "sh-polis-net";
  hub = yes;
 };
+channel {
+ default_split_user_count = 0;
+ default_split_server_count = 0;
+ no_create_on_split = no;
+ no_join_on_split = no;
+ autochanmodes = "+s";
+};
 admin {
  name = "sh";
  description = "Human. Allegedly.";
@@ -327,7 +334,7 @@ the stars.
   
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [cc sh_yalda es_github openvpn dovecot-auth mail-sh]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [cc sh_yalda es_github openvpn dovecot-auth mail-sh bouncer]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.09";
