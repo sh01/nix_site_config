@@ -10,14 +10,19 @@ with pkgs; (callPackage ../base.nix {
     pkgs.udev182 # TODO: See if we can get a sane index..
     # SDL1
     SDL SDL_sound SDL_image SDL_gfx SDL_net SDL_ttf
+    # SDL2
+    SDL2 SDL2_mixer SDL2_image SDL2_gfx SDL2_net SDL2_ttf
     # Graphics stuff.
-    libX11 libXcursor libXinerama libXrandr libXi mesa mesa_glu libXxf86vm libXi libXext
-    libXmu atk libXt libXrender gdk_pixbuf cairo fontconfig.lib
+    libX11 libXcursor libXinerama libXrandr libXi mesa mesa_glu libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE
     ## toolkits
     gnome.gtk pango.out glib
     # Audio stuff.
     alsaLib libpulseaudio openal alsaPlugins libvorbis
     # Networking
     nss nspr
+    # File formats
+    bzip2.out zziplib
+    # misc
+    utillinux.out
   ];
 })
