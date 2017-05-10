@@ -57,7 +57,12 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
   '';
 
   ### System profile packages
-  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [base cliStd nixBld];
+  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
+    base
+    cliStd
+    nixBld
+    uptimed
+  ];
 
   sound.enable = false;
   security.polkit.enable = false;
@@ -104,6 +109,7 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
   ### Services
   services.openssh.enable = true;
   services.openssh.moduliFile = ./sshd_moduli;
+  services.uptimed.enable = true;
 
   ### User / Group config
   # Define paired user/group accounts.
