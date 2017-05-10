@@ -192,7 +192,7 @@ let P = name: d: derivation {
     clementineFree
     hexchat
     pavucontrol
-    anki
+    #anki
   ];
 
   kdeShared = x: with x; P "kdeShared" [
