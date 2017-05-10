@@ -54,6 +54,9 @@ NF_TABLES_IPV6 y
 X86_INTEL_PSTATE n
 X86_ACPI_CPUFREQ y
 IDE n
+
+# CVE-2017-7308 mitigation
+USER_NS n
 '';
 
     blkStd = ''
