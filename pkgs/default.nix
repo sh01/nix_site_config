@@ -9,6 +9,7 @@ let
     arch32 = (import ./default.nix { system = "i686-linux";});
 
     start_nix = callPackage ./pkgs/start_nix {};
+    SH_blk_chk = callPackage ./pkgs/blk_chk {};
     SH_scripts = callPackage ./pkgs/scripts {};
     SH_sys_scripts = callPackage ./pkgs/sys_scripts {};
     SH_udev_containers = callPackage ./pkgs/udev_containers {};
