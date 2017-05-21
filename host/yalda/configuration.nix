@@ -54,6 +54,7 @@ in rec {
 	];
       };
     };
+    firewall.enable = false;
     dhcpcd.allowInterfaces = [];
     localCommands = ''
 ip route replace default via 10.16.0.1 || true
@@ -109,14 +110,14 @@ mount /mnt/ys
   services.xserver.videoDrivers = ["intel" "ati"];
 
 
-  services.charybdis = {
-    enable = true;
-    motd = ''foo
-bar
-
-quux'';
-    config = "";
-  };  
+#  services.charybdis = {
+#    enable = true;
+#    motd = ''foo
+#bar
+#
+#quux'';
+#    config = "";
+#  };
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";
 }
