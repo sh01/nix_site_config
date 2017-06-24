@@ -53,7 +53,7 @@ in rec {
     # We don't need this.
     grub2 = pkgs.grub2.override { zfsSupport = false; };
     # Don't pull in a full gtk stack for this.
-    gnupg = pkgs.gnupg.override { x11Support = false; };
+    gnupg = pkgs.gnupg.override { guiSupport = false; };
 
     # Put procps below coreutils for uptime(1).
     procps = pkgs.lib.hiPrio pkgs.procps;
