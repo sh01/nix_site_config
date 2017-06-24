@@ -84,7 +84,7 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
   ### Boot config
   # boot.loader.initScript.enable = true;
   boot = {
-    kernelPackages = pkgs.linuxPackages_4_4;
+    kernelPackages = pkgs.linuxPackages_4_9;
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     initrd.luks.devices = [{
       name = "luksVg0";

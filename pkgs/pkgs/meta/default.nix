@@ -121,7 +121,7 @@ let P = name: d: derivation {
   ];
 
   nixBld = P "nixBld" [
-    defaultStdenv
+    stdenv
     ghc
   ];
     
