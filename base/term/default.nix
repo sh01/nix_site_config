@@ -16,8 +16,8 @@ in {
   services = {
     xserver = {
       enable = true;
-      displayManager.kdm.enable = true;
-      desktopManager.kde4.enable = true;
+      displayManager.sddm.enable = true;
+      desktopManager.plasma5.enable = true;
       enableCtrlAltBackspace = true;
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;

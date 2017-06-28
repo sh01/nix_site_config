@@ -45,7 +45,7 @@ in rec {
     SH_dep_ggame32
     # Used by libs
     pkgs.xorg.xrandr
-    gnome.zenity
+    gnome3.zenity
     xdg_utils
   ]);
 

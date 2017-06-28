@@ -198,12 +198,11 @@ let P = name: d: derivation {
   kdeShared = x: with x; P "kdeShared" [
     kate
     kcolorchooser
-    kdepim #akregator
+    #kdepim #akregator
     kig
-    kmix
+    kdeApplications.kmix
     konsole
-    kwin_styles
-    marble
+    #marble # currently unreliable
       
     okular
   ];
@@ -212,17 +211,15 @@ let P = name: d: derivation {
     (kdeShared pkgs.kde4)
     kde_baseapps
     #kde_base_artwork
-    kde_wallpapers
+    plasma-workspace-wallpapers
     kde_workspace
 
     amarok
-    digikam
+    #digikam #broken on marble
 
     yakuake
 
-    kdeplasma_addons
-    ColorSchemes
-    desktopthemes
+    kdeplasma-addons
     pykde4
   ];
 
@@ -244,7 +241,7 @@ let P = name: d: derivation {
   games = P "games" [
     cataclysm-dda
     crawl
-    #freeorion #doesn't exist yet
+    freeorion
     wesnoth
     widelands
     warzone2100
