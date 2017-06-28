@@ -77,9 +77,10 @@ mountpoint -q /mnt/ys && exit 0
 dmsetup mknodes
 modprobe bcache
 
-cryptsetup luksOpen --key-file=/var/crypt/ys0 /dev/md/yalda_ys1 ys1
+test -e /dev/mapper/ys2 && cryptsetup luksOpen --key-file=/var/crypt/ys0 /dev/md/yalda_ys1 ys1
 for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
-  echo $disk > /sys/fs/bcache/register
+  # Already registered disks will throw errors; ignore those
+  echo $disk > /sys/fs/bcache/register || true
 }
 sleep 2 # wait for kernel to link disk label
 mount /mnt/ys
