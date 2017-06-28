@@ -78,6 +78,7 @@ table ip nat {
 # Initialize nft rules
 C=/etc/nft.conf
 [ ! -f $C ] && exit 0
+modprobe nft_chain_nat_ipv4 || true
 
 nft delete table inet filter0 2>/dev/null || true
 nft delete table nat 2>/dev/null || true
