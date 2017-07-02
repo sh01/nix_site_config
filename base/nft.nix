@@ -72,7 +72,7 @@ table ip nat {
     SH_nft_setup = {
       restartIfChanged = true;
       path = [pkgs.nftables];
-      wantedBy = ["network-pre.target"];
+      wantedBy = ["network.target"];
       description = "SH NFT setup";
       script = ''
 # Initialize nft rules
