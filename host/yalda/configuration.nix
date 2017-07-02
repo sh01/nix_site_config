@@ -56,6 +56,7 @@ in rec {
     };
     firewall.enable = false;
     dhcpcd.allowInterfaces = [];
+    dhcpcd.enable = false;
     localCommands = ''
 ip route replace default via 10.16.0.1 || true
 ip -6 route replace fd9d:1852:3555::/48 via fd9d:1852:3555:200::1 || true
@@ -77,7 +78,7 @@ mountpoint -q /mnt/ys && exit 0
 dmsetup mknodes
 modprobe bcache
 
-test -e /dev/mapper/ys2 && cryptsetup luksOpen --key-file=/var/crypt/ys0 /dev/md/yalda_ys1 ys1
+test -e /dev/mapper/ys2 || cryptsetup luksOpen --key-file=/var/crypt/ys0 /dev/md/yalda_ys1 ys1
 for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
   # Already registered disks will throw errors; ignore those
   echo $disk > /sys/fs/bcache/register || true
