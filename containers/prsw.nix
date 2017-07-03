@@ -8,6 +8,7 @@ in {
     ../base
     ../base/site_stellvia.nix
     ../base/alsa2pulse.nix
+    ./containers_common.nix
   ];
 
   hardware.opengl = {
@@ -17,7 +18,6 @@ in {
     s3tcSupport = true;
   };
   
-  boot.isContainer = true;
   ### User / Group config
   users = let
     us = with vars.userSpecs { keys = { sh = uks; sh_prsw = uks; sh_prsw_net = uks;};}; default ++ [ sh_prsw sh_prsw_net sh_x ];
@@ -28,7 +28,6 @@ in {
     groups = (slib.mkGroups us);
   };
 
-  environment.etc."resolv.conf" = dns.resolvConfCont;
   networking = {
     firewall.enable = false;
   };
@@ -36,12 +35,6 @@ in {
   fonts = {
     enableDefaultFonts = true;
     enableFontDir = true;
-  };
-
-  services.openssh = {
-    enable = true;
-    permitRootLogin = "without-password";
-    extraConfig = "AcceptEnv DISPLAY";
   };
 
   environment.systemPackages = sysPkgs;

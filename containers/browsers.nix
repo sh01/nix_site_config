@@ -7,9 +7,9 @@ in {
   imports = [
     ../base
     ../base/site_stellvia.nix
+    ./containers_common.nix
   ];
 
-  boot.isContainer = true;
   ### User / Group config
   users = let
     us = with vars.userSpecs { keys = { sh = uks; sh_cbrowser = uks;};}; default ++ [ sh_x sh_cbrowser ];
@@ -23,12 +23,6 @@ in {
   environment.etc."resolv.conf" = dns.resolvConfCont;
   networking = {
     search = dns.conf.search;
-  };
-  
-  services.openssh = {
-    enable = true;
-    permitRootLogin = "without-password";
-    extraConfig = "AcceptEnv DISPLAY";
   };
 
   environment.systemPackages = with pkgs; [(pkgs.callPackage ../pkgs/pkgs/scripts {}) firefox chromium] ++ sysPkgs;
