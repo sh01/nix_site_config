@@ -20,7 +20,9 @@ in {
     # bind mounts we put there, so reverse the mount here.
     tmp_root = {
       text = ''
-(mountpoint -q /tmp && umount /tmp) || true
+if mountpoint -q /tmp; then
+  umount /tmp && chmod 1777 /tmp
+fi
 '';
       deps = [];
     };
