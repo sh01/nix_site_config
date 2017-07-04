@@ -7,6 +7,9 @@ HISTSIZE=100000
 # We for now set this to 2**62, which is small enough to not trigger the comparison bug and hopefully large enough that we will nevertheless not run out before we can increase the size of the relevant variables.
 SAVEHIST=4611686018427387904
 
+# NixOS annoyingly insists on defining a command_not_found_handler() that breaks stuff. Get rid of it here.
+unfunction command_not_found_handler || true
+
 export PATH=~/.exe:${PATH}
 
 if [[ -f /etc/NIXOS ]]; then
