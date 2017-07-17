@@ -5,7 +5,7 @@ with pkgs; (callPackage ../base.nix {
   inherit name;
   LDEPS = with pkgs.xorg; [
     # base libs.
-    stdenv.cc.cc.lib curl glew libpng zlib freetype eject bzip2
+    glibc stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2
     # Device access. Used by e.g. Rimworld 1393.
     pkgs.udev.out # TODO: See if we can get a sane index..
     # SDL1
