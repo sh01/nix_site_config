@@ -9,7 +9,7 @@ with pkgs; (callPackage ../base.nix {
     # Device access. Used by e.g. Rimworld 1393.
     pkgs.udev.out # TODO: See if we can get a sane index..
     # SDL1
-    SDL SDL_sound SDL_image SDL_gfx SDL_net SDL_ttf
+    SDL SDL_sound SDL_mixer SDL_image SDL_gfx SDL_net SDL_ttf
     # SDL2
     SDL2 SDL2_mixer SDL2_image SDL2_gfx SDL2_net SDL2_ttf
     # Graphics stuff.
