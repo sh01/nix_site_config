@@ -15,7 +15,7 @@ with pkgs; (callPackage ../base.nix {
     # Graphics stuff.
     libX11 libXcursor libXinerama libXrandr libXi mesa mesa_glu libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE
     ## toolkits
-    gnome3.gtk pango.out glib
+    gnome3.gtk pango.out glib gtk2-x11
     # Audio stuff.
     alsaLib libpulseaudio openal alsaPlugins libvorbis
     # Networking
