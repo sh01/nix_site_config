@@ -1,5 +1,6 @@
 #!/bin/sh
 
+shopt -s nullglob
 export PATH=${coreutils}/bin:${findutils}/bin
 
 O=${out}/share/lapps/${LINKNAME}
@@ -12,14 +13,18 @@ mkdir -p $O
 echo "== LDEPS: $LDEPS"
 
 for D in ${LDEPS}; {
-    cd $D;
-    for d in $(find lib -type d); {
-	#echo $D $d
-	if [ ! -e ${O}/${d} ]; then
-	    mkdir ${O}/${d}
-	fi
-	ln -s $D/${d}/*so* ${O}/${d}/
+  cd $D;
+  for d in $(find lib -type d); {
+    #echo $D $d
+    if [ ! -e ${O}/${d} ]; then
+      mkdir -p ${O}/${d}
+    fi
+    for f in $(echo $D/${d}/*so*); {
+      ln -s "$f" "${O}/lib/"
+      ln -s "$f" "${O}/${d}/" 2>/dev/null
     }
+    #ln -s $D/${d}/*so* ${O}/${d}/
+  }
 }
 for D in ${BDEPS}; {
     ln -s ${D}/bin/* $O/bin/

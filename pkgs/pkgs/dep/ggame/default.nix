@@ -3,26 +3,36 @@
 {pkgs, system, callPackage, name, ...}:
 with pkgs; (callPackage ../base.nix {
   inherit name;
+  BDEPS = [openjdk];
+  JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
     # base libs.
     glibc stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2
-    # Device access. Used by e.g. Rimworld 1393.
-    pkgs.udev.out
+    # Device access
+    systemd.lib # udevlib's location now, for some reason.
+    libpciaccess
+    # OS stuff
+    libcap
+    # Weird services
+    systemd dbus
     # SDL1
     SDL SDL_sound SDL_mixer SDL_image SDL_gfx SDL_net SDL_ttf
     # SDL2
     SDL2 SDL2_mixer SDL2_image SDL2_gfx SDL2_net SDL2_ttf
     # Graphics stuff.
-    libX11 libXcursor libXinerama libXrandr libXi mesa mesa_glu libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE
+    libX11 libXcursor libXinerama libXrandr libXdamage libXfixes libXau libXdmcp libXi mesa mesa_glu libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE libtxc_dxtn libdrm
+    libxcb libxshmfence
+    # Video playback
+    smpeg
     ## toolkits
     gnome3.gtk pango.out glib gtk2-x11
     # Audio stuff.
-    alsaLib libpulseaudio openal alsaPlugins libvorbis
+    alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile flac
     # Networking
     nss nspr
-    # File formats
-    bzip2.out zziplib
+    # File parsing
+    bzip2.out zziplib xz expat lz4
     # misc
-    utillinux.out
+    utillinux.out libgcrypt libgpgerror
   ];
 })
