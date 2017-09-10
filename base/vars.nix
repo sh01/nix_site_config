@@ -51,7 +51,6 @@ NF_TABLES_IPV6 y
 '';
   
     base = ''
-X86_INTEL_PSTATE n
 ACPI_PROCESSOR y
 X86_ACPI_CPUFREQ y
 IDE n
