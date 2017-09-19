@@ -14,24 +14,26 @@ with pkgs; (callPackage ../base.nix {
     # OS stuff
     libcap
     # Weird services
-    systemd dbus
+    systemd dbus.lib
     # SDL1
     SDL SDL_sound SDL_mixer SDL_image SDL_gfx SDL_net SDL_ttf
     # SDL2
     SDL2 SDL2_mixer SDL2_image SDL2_gfx SDL2_net SDL2_ttf
     # Graphics stuff.
-    libX11 libXcursor libXinerama libXrandr libXdamage libXfixes libXau libXdmcp libXi mesa mesa_glu libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE libtxc_dxtn libdrm
+    libX11 libXcomposite libXcursor libXinerama libXrandr libXdamage libXfixes libXau libXdmcp libXi libXScrnSaver libXtst mesa mesa_glu libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE libtxc_dxtn libdrm
     libxcb libxshmfence
     # Video playback
     smpeg
     ## toolkits
-    gnome3.gtk pango.out glib gtk2-x11
+    gnome3.gtk gnome3.gconf pango.out glib gtk2-x11
     # Audio stuff.
     alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile flac
     # Networking
     nss nspr
     # File parsing
     bzip2.out zziplib xz expat lz4
+    # Printers ... why?
+    cups
     # misc
     utillinux.out libgcrypt libgpgerror
   ];
