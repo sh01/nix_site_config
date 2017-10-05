@@ -27,14 +27,17 @@ in {
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     # loader.initScript.enable = true;
     initrd.luks.devices = [ {
-      name = "luksVg0";
-      device = "/dev/sdb3";
-      preLVM = true;
+      name = "likol-root";
+      device = "/dev/vg_likol_0/root";
+      allowDiscards = true;
+      preLVM = false;
+      keyFile = "/dev/vg_likol_0/k0";
+      keyFileSize = 1024;
     }];
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/sdb";
+      device = "/dev/sdd";
       fsIdentifier = "label";
       memtest86.enable = true;
       splashImage = null;
@@ -127,12 +130,12 @@ exec getmail -r /var/local/etc/getmail/gmx 2>&1 | egrep -v '^Copyright |^getmail
   fileSystems = {
     "/" = {
       label = "root";
-      device = "/dev/vg0/root";
+      device = "/dev/mapper/likol-root";
       fsType = "btrfs";
       options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
     "/boot" = {
-      device = "/dev/disk/by-label/\\x2fboot";
+      device = "/dev/disk/by-label/likol-boot";
       options = ["noatime" "nodiratime"];
     };
   };
