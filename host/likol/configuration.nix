@@ -23,7 +23,7 @@ in {
 
   ### Boot config
   boot = {
-    kernelPackages = pkgs.linuxPackages_4_4;
+    kernelPackages = pkgs.linuxPackages_4_11;
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     # loader.initScript.enable = true;
     initrd.luks.devices = [ {
@@ -37,7 +37,7 @@ in {
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/sdd";
+      device = "/dev/sde";
       fsIdentifier = "label";
       memtest86.enable = true;
       splashImage = null;
@@ -46,16 +46,16 @@ in {
   ##### Host id stuff
   networking = {
     hostName = "likol.sh.s";
-    hostId = "84d5fcc8";
+    hostId = "84d5fcc9";
     usePredictableInterfaceNames = false;
     interfaces = {
       "eth_lan" = {
         ip4 = [{
-          address = "10.16.0.3";
+          address = "10.16.0.4";
           prefixLength = 24;
         }];
         ip6 = [{
-          address = "fd9d:1852:3555:200::3";
+          address = "fd9d:1852:3555:200::4";
           prefixLength = 80;
         }];
       useDHCP = true;
@@ -130,7 +130,7 @@ exec getmail -r /var/local/etc/getmail/gmx 2>&1 | egrep -v '^Copyright |^getmail
   fileSystems = {
     "/" = {
       label = "root";
-      device = "/dev/mapper/likol-root";
+      device = "/dev/vg_likol_0/root";
       fsType = "btrfs";
       options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
