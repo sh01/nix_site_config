@@ -18,6 +18,7 @@ in {
     ./nixos-in-place.nix
     ../../base
     ../../base/nox.nix
+    ./kernel.nix
   ];
 
   # Use the GRUB 2 boot loader.
