@@ -19,7 +19,8 @@ in rec {
     ../../base/site_stellvia.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_4_11;
+  #boot.kernelPackages = pkgs.linuxPackages_4_11;
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
   environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
     SH_dep_mc0
@@ -109,7 +110,7 @@ mount /mnt/ys
   };
   
   services.openssh.moduliFile = ./sshd_moduli;
-  services.xserver.videoDrivers = ["intel" "ati"];
+  services.xserver.videoDrivers = ["intel" "ati" "amdgpu"];
 
 
 #  services.charybdis = {

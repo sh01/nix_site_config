@@ -1,4 +1,4 @@
-{fetchurl, stdenv, perl, buildLinux, config, ...}: let
+{pkgs, fetchurl, stdenv, perl, buildLinux, config, ...}: let
   vars = import vars.nix;
 in (import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (rec {
   version = "4.14.12";
@@ -9,10 +9,10 @@ in (import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (rec {
 
   inherit stdenv perl buildLinux;
   #kernelPatches = vars.kernelPatches;
-  kernelPatches = [];
+  kernelPatches = [ pkgs.kernelPatches.modinst_arg_list_too_long ];
 
   features.iwlwifi = true;
   features.efiBootStub = true;
-  features.needsCifsUtils = true;
+  features.needsCifsUtils = false;
   features.netfilterRPFilter = true;
 }))
