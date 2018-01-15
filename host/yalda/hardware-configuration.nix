@@ -13,7 +13,8 @@
       text = (builtins.readFile ./999-layout.conf);
     };
   };
-  
+
+  hardware.cpu.intel.updateMicrocode = true;
   boot.extraModulePackages = [ ];
   swapDevices = [];
   nix.maxJobs = 8;
