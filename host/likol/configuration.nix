@@ -37,7 +37,7 @@ in {
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/sde";
+      device = "/dev/sdd";
       fsIdentifier = "label";
       memtest86.enable = true;
       splashImage = null;
@@ -130,7 +130,7 @@ exec getmail -r /var/local/etc/getmail/gmx 2>&1 | egrep -v '^Copyright |^getmail
   fileSystems = {
     "/" = {
       label = "root";
-      device = "/dev/vg_likol_0/root";
+      device = "/dev/mapper/likol-root";
       fsType = "btrfs";
       options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
