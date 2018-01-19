@@ -105,6 +105,7 @@ exec getmail -r /var/local/etc/getmail/gmx 2>&1 | egrep -v '^Copyright |^getmail
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:90:f5:d4:e4:dc", KERNEL=="eth*", NAME="eth_lan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="f4:4d:30:6a:7f:bf", KERNEL=="eth*", NAME="eth_lan"
   '';
 
   ### System profile packages
