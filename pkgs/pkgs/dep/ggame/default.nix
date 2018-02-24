@@ -28,7 +28,7 @@ with pkgs; (callPackage ../base.nix {
     ## toolkits
     gnome3.gtk gnome3.gconf pango.out glib gtk2-x11
     # Audio stuff.
-    alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile flac.out libmad fluidsynth
+    alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile.out flac.out libmad fluidsynth
     # Networking
     nss nspr
     # File parsing
