@@ -212,7 +212,7 @@ let P = name: d: derivation {
     kde_baseapps
     #kde_base_artwork
     plasma-workspace-wallpapers
-    kde_workspace
+    plasma-workspace
 
     amarok
     #digikam #broken on marble
@@ -220,7 +220,7 @@ let P = name: d: derivation {
     yakuake
 
     kdeplasma-addons
-    pykde4
+    #pykde4
   ];
 
   kde5 = with pkgs.kde5; P "kde5" [
