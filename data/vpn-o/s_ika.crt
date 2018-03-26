@@ -1,29 +1,92 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 0 (0x0)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=US, ST=CA, L=SFO, O=memespace.net, OU=Ocean VPN, CN=ocean-vpn-root/emailAddress=sebastian_hagen@memespace.net
+        Validity
+            Not Before: Mar 26 03:54:12 2018 GMT
+            Not After : Jun 12 03:54:12 2029 GMT
+        Subject: C=US, ST=CA, O=memespace.net, OU=Ocean VPN, CN=ika.vpn-o.sh.s/emailAddress=sebastian_hagen@memespace.net
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:dd:74:8a:2c:fb:e2:20:a9:5a:c6:d3:df:4b:ed:
+                    ce:4e:58:07:ac:18:d4:a9:57:7c:75:16:b5:78:82:
+                    ea:69:2e:fc:ac:89:2d:72:eb:a8:0c:cb:03:6f:91:
+                    7e:fc:fe:f1:04:bb:84:0e:b0:f2:d3:d0:bb:06:c5:
+                    08:e5:57:71:46:21:fc:e9:ab:16:40:13:8c:33:21:
+                    69:0d:b8:13:23:a2:16:c4:65:e5:48:4e:26:a6:ab:
+                    ab:91:65:ea:b4:36:4b:57:c1:b3:a2:bf:fc:d2:17:
+                    b4:f5:64:1f:4a:eb:d9:16:c7:48:ec:50:d5:6f:30:
+                    80:74:e3:6c:85:07:9b:96:73:37:51:2e:74:44:c6:
+                    b5:ec:61:61:8e:04:83:94:35:6f:32:18:26:9a:42:
+                    b8:b2:73:a7:8b:d5:90:06:ce:28:7f:67:4b:0c:75:
+                    03:11:fa:e6:11:d6:44:d6:42:b7:bf:90:c9:52:e6:
+                    8c:82:78:82:00:ec:cf:09:4c:41:25:7a:ea:fa:c8:
+                    1e:00:85:6b:ef:cb:fb:05:47:98:03:d1:fe:83:bb:
+                    0d:98:d1:7f:21:4e:20:d7:81:06:75:00:76:fe:68:
+                    55:d8:10:72:08:2e:b5:e1:5d:e2:05:f2:8c:46:d2:
+                    b1:ed:de:78:36:33:cb:23:ab:01:12:55:5c:5c:d6:
+                    34:e9
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Cert Type: 
+                SSL Server
+            Netscape Comment: 
+                OpenSSL Generated Server Certificate
+            X509v3 Subject Key Identifier: 
+                AF:62:2F:09:EF:DE:01:67:E5:D3:7A:FA:CF:87:05:CE:40:84:3E:FD
+            X509v3 Authority Key Identifier: 
+                keyid:10:EA:C5:DB:85:9E:88:01:B0:0F:8A:80:54:0B:7F:34:F0:47:82:4E
+                DirName:/C=US/ST=CA/L=SFO/O=memespace.net/OU=Ocean VPN/CN=ocean-vpn-root/emailAddress=sebastian_hagen@memespace.net
+                serial:EA:D3:7E:A8:B6:2E:81:7E
+
+    Signature Algorithm: sha256WithRSAEncryption
+         7b:38:fd:1e:0b:b5:43:d7:12:43:71:00:21:12:9d:79:71:bd:
+         89:f7:b0:1c:19:47:d8:5a:a0:80:5a:28:49:66:c2:50:c1:c4:
+         b6:f4:ee:6e:47:c1:65:49:b9:77:55:29:95:ec:be:e2:4e:f9:
+         35:6f:64:0b:9a:5d:7b:6e:b1:43:9d:3e:c5:8d:d3:af:77:98:
+         a2:c3:81:1f:c4:56:7b:7a:9a:0b:a6:bc:67:c9:d9:72:f5:b6:
+         ec:36:d5:4b:41:2a:ef:cb:09:6a:8b:4b:d2:84:cd:a4:27:7e:
+         69:6e:7e:3b:5e:1e:f1:36:ba:84:fe:d1:d6:56:29:97:b5:35:
+         fe:06:ca:0a:d4:74:23:0c:e2:03:26:e0:56:3e:1a:ce:cf:78:
+         38:ed:1c:af:97:5d:0e:88:d8:c1:b1:15:78:ac:63:51:4a:0a:
+         7b:6b:7b:26:ea:a3:f4:4d:69:da:38:a9:89:dc:09:d4:4b:03:
+         16:dd:2d:c8:02:f3:0b:b0:46:98:d6:55:b8:f8:57:82:1a:c6:
+         0b:4a:ec:4a:ec:9a:72:05:70:7b:f3:f8:0c:2d:35:97:87:63:
+         b4:b2:ae:b5:3e:e8:27:39:73:04:db:1e:2f:82:5c:d9:85:f5:
+         4f:95:61:25:51:79:c8:38:a0:60:9e:b6:10:bc:3c:62:83:b4:
+         66:d1:b4:f7
 -----BEGIN CERTIFICATE-----
 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
-DTE3MTIyODAzNDc1MloXDTI5MDMxNjAzNDc1MlowgY0xCzAJBgNVBAYTAlVTMQsw
+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
-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
+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
-TCBHZW5lcmF0ZWQgU2VydmVyIENlcnRpZmljYXRlMB0GA1UdDgQWBBTDVrk8OolQ
-FNlQUYhc1xHbh4MY8TCB0AYDVR0jBIHIMIHFgBQu31x9VADA3wrjj/USVgu09JwG
-SqGBoaSBnjCBmzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQwwCgYDVQQHEwNT
+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
-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
-gDwISmYVO9IgaVr1D+HEy3gil9w=
+bl9oYWdlbkBtZW1lc3BhY2UubmV0ggkA6tN+qLYugX4wDQYJKoZIhvcNAQELBQAD
+ggEBAHs4/R4LtUPXEkNxACESnXlxvYn3sBwZR9haoIBaKElmwlDBxLb07m5HwWVJ
+uXdVKZXsvuJO+TVvZAuaXXtusUOdPsWN0693mKLDgR/EVnt6mgumvGfJ2XL1tuw2
+1UtBKu/LCWqLS9KEzaQnfmlufjteHvE2uoT+0dZWKZe1Nf4GygrUdCMM4gMm4FY+
+Gs7PeDjtHK+XXQ6I2MGxFXisY1FKCntreybqo/RNado4qYncCdRLAxbdLcgC8wuw
+RpjWVbj4V4IaxgtK7ErsmnIFcHvz+AwtNZeHY7SyrrU+6Cc5cwTbHi+CXNmF9U+V
+YSVRecg4oGCethC8PGKDtGbRtPc=
 -----END CERTIFICATE-----
