@@ -12,6 +12,7 @@ with pkgs; (callPackage ../base.nix {
     libpciaccess
     # OS stuff
     libcap
+    lsb-release
     # Weird services
     systemd dbus.lib
     # SDL1
@@ -27,8 +28,9 @@ with pkgs; (callPackage ../base.nix {
     smpeg
     ## toolkits
     gnome3.gtk gnome3.gconf pango.out glib gtk2-x11
+    pythonPackages.pygame pythonPackages.pygame_sdl2
     # Audio stuff.
-    alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile flac.out libmad fluidsynth
+    alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile.out flac.out libmad fluidsynth
     # Networking
     nss nspr
     # File parsing
