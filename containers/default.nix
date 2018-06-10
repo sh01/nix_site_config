@@ -43,10 +43,11 @@ in rec {
     SH_dep_CK2
     SH_dep_ggame
     SH_dep_ggame32
-    # Used by libs
+    # Binaries used by libs
     pkgs.xorg.xrandr
     gnome3.zenity
     xdg_utils
+    xdg-user-dirs
   ]);
 
   gpuAllow = {
