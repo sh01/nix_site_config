@@ -1,0 +1,3 @@
+==== Bionic Dues
+ * Expects to be able to exec /usr/bin/lsb-release. Output likely doesn't matter much, but the path is hardcoded. Symlink manually or figure out how to provide stably.
+
