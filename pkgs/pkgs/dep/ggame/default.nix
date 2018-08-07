@@ -37,7 +37,7 @@ with pkgs; (callPackage ../base.nix {
     bzip2.out zziplib xz expat lz4
     libjpeg.out libjpeg_original.out libtiff.out libwebp libmodplug
     # Printers ... why?
-    cups
+    cups.lib
     # misc
     utillinux.out libgcrypt libgpgerror
   ];
