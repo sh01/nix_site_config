@@ -23,7 +23,7 @@ in {
 
   ### Boot config
   boot = {
-    kernelPackages = pkgs.linuxPackages_4_11;
+    kernelPackages = pkgs.linuxPackages_4_14;
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     # loader.initScript.enable = true;
     initrd.luks.devices = [ {
@@ -37,7 +37,7 @@ in {
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/sdd";
+      device = "/dev/sda";
       fsIdentifier = "label";
       memtest86.enable = true;
       splashImage = null;
