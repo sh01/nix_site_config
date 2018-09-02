@@ -11,6 +11,7 @@ let
     nameservers4 = ["8.8.8.8"];
   };
   vpn_c = (import ../../base/openvpn/client.nix);
+  vpn_c_sd = (import ./vpn/semidefinite.nix);
 in {
   imports = [
     ./hardware-configuration.nix
@@ -158,6 +159,9 @@ exec getmail -r /var/local/etc/getmail/gmx 2>&1 | egrep -v '^Copyright |^getmail
     # vpn-base server
     vpn-base = {
       config = (pkgs.callPackage ./vpn-base.nix {lpkgs=lpkgs;});
+    };
+    semidefinite-client = {
+      config = vpn_c_sd.config;
     };
   };
 
