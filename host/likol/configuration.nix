@@ -75,14 +75,14 @@ in {
 
   systemd = {
     services = {
-      SH_limit_cpufreq = {
-        wantedBy = ["sysinit.target"];
-        description = "SH_limit_cpufreq";
-        path = with pkgs; [coreutils cpufrequtils];
-        script = ''
-for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
-'';
-      };
+      #SH_limit_cpufreq = {
+      #  wantedBy = ["sysinit.target"];
+      #  description = "SH_limit_cpufreq";
+      #  path = with pkgs; [coreutils cpufrequtils];
+      #  script = ''
+#for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
+#'';
+      #};
       getmail_gmx = {
         wantedBy = ["multi-user.target"];
         description = "getmail: GMX";
