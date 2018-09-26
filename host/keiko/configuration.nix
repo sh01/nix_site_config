@@ -6,6 +6,7 @@ let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {};
+  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in {
   imports = [
     ./hardware-configuration.nix
@@ -87,6 +88,7 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
     #kernelPackages = pkgs.linuxPackages_4_9;
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
+    initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
     initrd.luks.devices = [{
       name = "luksVg0";
       device = "/dev/disk/by-partlabel/keiko_vg0";
@@ -104,7 +106,7 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
       splashImage = null;
     };
   };
-
+  
   ### Networking
 
   ### Services
