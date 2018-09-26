@@ -14,7 +14,7 @@
     };
   };
 
-  hardware.cpu.intel.updateMicrocode = true;
+  #hardware.cpu.intel.updateMicrocode = true;
   boot.extraModulePackages = [ ];
   swapDevices = [];
   nix.maxJobs = 8;

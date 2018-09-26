@@ -9,6 +9,7 @@ let
   contBase = cont.termC ssh_pub;
   nft = callPackage ../../base/nft.nix {};
   lpkgs = (import ../../pkgs {});
+  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in rec {
   # Pseudo-static stuff
   imports = [
@@ -21,6 +22,7 @@ in rec {
 
   #boot.kernelPackages = pkgs.linuxPackages_4_11;
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
+  boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
   environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
     SH_dep_mc0

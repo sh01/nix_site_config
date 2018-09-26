@@ -8,6 +8,7 @@ let
   cont = callPackage ../../containers {};
   nft = callPackage ../../base/nft.nix {};
   route = callPackage ../../base/route.nix {};
+  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in rec {
   # Pseudo-static stuff
   imports = [
@@ -22,7 +23,12 @@ in rec {
   systemd.services = cont.termS // nft.services // route.services;
   programs.ssh.extraConfig = cont.sshConfig;
   environment.etc = nft.conf_terminal;
-  
+
+  boot = {
+    initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
+  };
+    
   ##### Host id stuff
   networking = {
     hostName = "rune";
