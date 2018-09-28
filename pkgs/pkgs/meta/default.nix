@@ -79,7 +79,6 @@ let P = name: d: derivation {
     smartmontools
     multipath-tools
 
-    nix-repl
     nox
 
     git

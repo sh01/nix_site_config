@@ -4,6 +4,7 @@ let
   emacsConf = epkgs: pkgs.stdenv.mkDerivation {
     cu = pkgs.coreutils;
     rd = epkgs.rainbow-delimiters;
+    nm = epkgs.nix-mode;
 
     builder = builtins.toFile "builder.sh" ''
       PATH=$PATH:$cu/bin/
@@ -17,6 +18,6 @@ let
     FN = ./default.el;
 }; in {
   emacsPackages = with pkgs; [
-    (emacsWithPackages (epkgs: with epkgs; [ rainbow-delimiters org (emacsConf epkgs) ]))
+    (emacsWithPackages (epkgs: with epkgs; [ rainbow-delimiters nix-mode org (emacsConf epkgs) ]))
   ];
 }

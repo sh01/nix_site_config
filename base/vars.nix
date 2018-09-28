@@ -56,7 +56,7 @@ X86_ACPI_CPUFREQ y
 IDE n
 
 # CVE-2017-7308 mitigation
-USER_NS n
+# USER_NS n
 # CVE-2017-1000405 mitigation
 TRANSPARENT_HUGEPAGE n
 '';
