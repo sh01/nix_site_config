@@ -84,10 +84,9 @@ in rec {
   ##### Nix source and build config
   nix = {
     allowedUsers = [ "@nix-users" ];
-    binaryCachePublicKeys = ["foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI="];
     # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
     # Give it one that allows it to fail-fast, instead.
-    binaryCaches = ["http://127.0.0.1"];
+    binaryCaches = ["file:///var/local/nix/cache"];
     trustedBinaryCaches = [];
     buildCores = 0;
     requireSignedBinaryCaches = true;
@@ -97,7 +96,7 @@ in rec {
 #use-binary-caches = false
 keep-env-derivations = true
 build-use-substitutes = true
-substituters = http://127.0.0.1
+trusted-public-keys = foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI=
 '';
   };
   #### Nix setup scripts
