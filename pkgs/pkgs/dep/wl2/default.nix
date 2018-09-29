@@ -4,7 +4,7 @@ with arch32.pkgs; (callPackage ../base.nix {
   LDEPS = with xorg; [
     zlib stdenv.cc.cc
     # Graphics stuff
-    libX11 libXext libXcursor libXrandr libSM libICE mesa_glu mesa_noglu
+    libX11 libXext libXcursor libXrandr libSM libICE libGL_driver
     # Audio stuff. WL2 outputs ALSA.
     alsaLib
   ];
