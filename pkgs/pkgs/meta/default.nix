@@ -246,16 +246,19 @@ let P = name: d: derivation {
   
   gui = P "gui" [fonts xorg xlibs kde5 guiMisc (import ../kde_conf) (pkgs.callPackage ../scripts {})];
 
-  sys_terminal = P "sys_terminal" [
+
+  sys_terminal_wired = P "sys_terminal_wired" [
     cliStd
     nixBld
     cliDbg
-    wifi
-    dev
     video
     audio
     gui
     cliMisc
+  ];
+  sys_terminal = P "sys_terminal" [
+    sys_terminal_wired
+    wifi
   ];
 }
 

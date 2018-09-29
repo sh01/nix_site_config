@@ -8,11 +8,6 @@ in {
     ./boot.nix
   ];
 
-  ### System profile packages
-  environment.systemPackages = with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
-    sys_terminal
-  ];
-
   services = {
     xserver = {
       enable = true;
