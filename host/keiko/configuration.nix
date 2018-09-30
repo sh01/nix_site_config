@@ -88,14 +88,19 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
     #kernelPackages = pkgs.linuxPackages_4_9;
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
-    initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
-    initrd.luks.devices = [{
-      name = "luksVg0";
-      device = "/dev/disk/by-partlabel/keiko_vg0";
-      preLVM = true;
-      keyFile = "/dev/disk/by-partlabel/keiko_key1";
-      keyFileSize = 64;
-    }];
+    initrd = {
+      prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
+      luks.devices = [{
+        name = "luksVg0";
+        device = "/dev/disk/by-partlabel/keiko_vg0";
+        preLVM = true;
+        #keyFile = "/dev/disk/by-partlabel/keiko_key1";
+        #keyFileSize = 64;
+      }];
+      preFailCommands = ''${pkgs.bash}/bin/bash'';
+      supportedFilesystems = ["btrfs"];
+    };
+    supportedFilesystems = ["btrfs"];
     loader.grub = {
       enable = true;
       version = 2;
