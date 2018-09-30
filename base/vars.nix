@@ -59,7 +59,7 @@ IDE = no;
 # CVE-2017-7308 mitigation
 # USER_NS = no;
 # CVE-2017-1000405 mitigation
-TRANSPARENT_HUGEPAGE = no;
+# TRANSPARENT_HUGEPAGE = no;
 };
 
     blkStd = {
