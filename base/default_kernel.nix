@@ -1,4 +1,4 @@
-{pkgs, callPackage, buildPackages, ncurses, fetchurl, stdenv, perl, buildLinux, config, hostPlatform, ...}: let
+{pkgs, callPackage, buildPackages, ncurses, fetchurl, stdenv, perl, buildLinux, config, hostPlatform, structuredExtraConfig ? {}, ...}: let
   vars = import vars.nix;
 in (import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (rec {
   version = "4.14.71";
@@ -7,7 +7,7 @@ in (import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (rec {
     sha256 = "12blj3zzvzs2nz8rp1g5ykibfvm355442c31l4ijr4mxphylg93n";
   };
 
-  inherit buildPackages callPackage ncurses stdenv perl buildLinux hostPlatform;
+  inherit buildPackages callPackage ncurses stdenv perl buildLinux hostPlatform structuredExtraConfig;
   #kernelPatches = vars.kernelPatches;
   kernelPatches = [ pkgs.kernelPatches.modinst_arg_list_too_long ];
 

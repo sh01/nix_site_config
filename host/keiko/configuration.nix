@@ -86,7 +86,7 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
   # boot.loader.initScript.enable = true;
   boot = {
     #kernelPackages = pkgs.linuxPackages_4_9;
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     initrd = {
       prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];

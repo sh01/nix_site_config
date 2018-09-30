@@ -1,3 +1,4 @@
+with (import <nixpkgs/lib/kernel.nix> {lib = null; version = null;});
 let
   ssh_pub = import ./ssh_pub.nix;
   ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';
@@ -28,72 +29,72 @@ in {
 
   kernelOpts = {
     # We'd really want NFT_MASQ and NFT_REDIR as y, but that's impossible due to forward-y dependencies which are not supported by this version of the nix kernel conf infrastructure.
-    netStd = ''
-NF_CONNTRACK_IRC n
-NF_NAT y
-NF_TABLES y
-NF_TABLES_INET y
-NFT_META y
-NFT_CT y
-NFT_SET_RBTREE y
-NFT_HASH y
-NFT_COUNTER y
-NFT_LOG y
-NFT_LIMIT y
-NFT_MASQ m
-NFT_REDIR m
-NFT_NAT y
-NFT_REJECT y
-NFT_COMPAT y
+    netStd = {
+NF_CONNTRACK_IRC = no;
+NF_NAT = yes;
+NF_TABLES = yes;
+NF_TABLES_INET = yes;
+NFT_META = yes;
+NFT_CT = yes;
+NFT_SET_RBTREE = yes;
+NFT_HASH = yes;
+NFT_COUNTER = yes;
+NFT_LOG = yes;
+NFT_LIMIT = yes;
+NFT_MASQ = module;
+NFT_REDIR = module;
+NFT_NAT = yes;
+NFT_REJECT = yes;
+NFT_COMPAT = yes;
 
-NF_TABLES_IPV4 y
-NF_TABLES_IPV6 y
-'';
-  
-    base = ''
-ACPI_PROCESSOR y
-X86_ACPI_CPUFREQ y
-IDE n
+NF_TABLES_IPV4 = yes;
+NF_TABLES_IPV6 = yes;
+};
+
+    base = {
+ACPI_PROCESSOR = yes;
+X86_ACPI_CPUFREQ = yes;
+IDE = no;
 
 # CVE-2017-7308 mitigation
-# USER_NS n
+# USER_NS = no;
 # CVE-2017-1000405 mitigation
-TRANSPARENT_HUGEPAGE n
-'';
+TRANSPARENT_HUGEPAGE = no;
+};
 
-    blkStd = ''
-EXT2_FS y
-EXT3_FS y
-EXT4_FS y
-BTRFS_FS y
+    blkStd = {
+EXT2_FS = yes;
+EXT3_FS = yes;
+EXT4_FS = yes;
+BTRFS_FS = yes;
 
-DM_CRYPT y
-CRYPTO_XTS y
+DM_CRYPT = yes;
+CRYPTO_XTS = yes;
 
-FUSE_FS y
-CONFIGFS_FS y
-'';
+FUSE_FS = yes;
+CONFIGFS_FS = yes;
+};
 
-    termHwStd = ''
-KEYBOARD_ATKBD y
-'';
+    termHwStd = {
+KEYBOARD_ATKBD = yes;
+};
     # It's typically fine to keep these as modules instead, which NixOS will do by default.
-    termVideo = ''
-AGP n
-I2C_ALGOBIT y
-DRM_KMS_HELPER y
-DRM y
-DRM_I915 y
+    termVideo = {
+AGP = no;
+I2C_ALGOBIT = yes;
+DRM_KMS_HELPER = yes;
+DRM = yes;
+DRM_I915 = yes;
 
-FRAMEBUFFER_CONSOLE y
-FRAMEBUFFER_CONSOLE_DETECT_PRIMARY y
-'';
+FRAMEBUFFER_CONSOLE = yes;
+FRAMEBUFFER_CONSOLE_DETECT_PRIMARY = yes;
+};
     # This doesn't currently mix well with the default Nix kernel config, since that one forces the conflicting "DRM_LOAD_EDID_FIRMWARE y".
-    termHeadless = ''
-KEYBOARD_ATKBD y
-VT n
-DRM n
-'';
+    termHeadless = {
+KEYBOARD_ATKBD = yes;
+VT = no;
+DRM = no;
+};
   };
 
   kernelPatches = [
