@@ -106,7 +106,7 @@ let P = name: d: derivation {
   ];
 
   cliMisc = P "cliMisc" [
-    xonsh
+    #xonsh # 18.09: Borked.
     which # xonsh startup dependency
   ];
   
