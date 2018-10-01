@@ -26,7 +26,7 @@ in rec {
 
   boot = {
     initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
   };
     
   ##### Host id stuff
