@@ -4,7 +4,7 @@ with arch32.pkgs; (callPackage ../base.nix {
   LDEPS = with xorg; [
     zlib tbb stdenv.cc.cc
     # Graphics stuff
-    libX11 libXext libSM libICE mesa_glu mesa_noglu
+    libX11 libXext libSM libICE libGL_driver
     # Audio stuff. CK2 supports pulseaudio output directly.
     libpulseaudio 
   ];

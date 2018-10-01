@@ -16,7 +16,7 @@ in rec {
     ./hardware-configuration.nix
     ./kernel.nix
     ../../base
-    ../../base/term
+    ../../base/term/desktop.nix
     ../../base/site_stellvia.nix
   ];
 

@@ -174,6 +174,7 @@ let P = name: d: derivation {
     xvinfo
     xauth
     xhost
+    xsecurelock
   ];
 
   # To link directly into lib dirs for use by non-Nix programs
@@ -188,25 +189,13 @@ let P = name: d: derivation {
     
     gucharmap
     
-    clementineFree
+    clementine
     hexchat
     pavucontrol
     #anki
   ];
 
-  kdeShared = x: with x; P "kdeShared" [
-    kate
-    kcolorchooser
-    #kdepim #akregator
-    kig
-    kdeApplications.kmix
-    konsole
-    #marble # currently unreliable
-      
-    okular
-  ];
-
-  kde4 = with pkgs.kde4; P "kde4" [
+  kde4 = P "kde4" [
     (kdeShared pkgs.kde4)
     kde_baseapps
     #kde_base_artwork
@@ -222,17 +211,26 @@ let P = name: d: derivation {
     #pykde4
   ];
 
-  kde5 = with pkgs.kde5; P "kde5" [
-    (kdeShared pkgs.kde5)
-    kde-baseapps
-    kde-cli-tools
-    kde-base-artwork
-    kde-wallpapers
-    kde-workspace
-    kwin
+  kde5 = with pkgs.kdeApplications; P "kde5" [
+    kde2-decoration
+    kdeFrameworks.kded
+    libsForQt5.kdelibs4support
+    kdeFrameworks.kdelibs4support
+    plasma5.kdecoration
 
+    amarok
+    yakuake
+    konsole
+    kcolorchooser
+    kig
+    marble
+    okular
+
+    kdeplasma-addons
     oxygen
     plasma-desktop
+    plasma-workspace
+    plasma-workspace-wallpapers
     plasma-workspace-wallpapers
     systemsettings
   ];
@@ -246,18 +244,21 @@ let P = name: d: derivation {
     warzone2100
   ];
   
-  gui = P "gui" [fonts xorg xlibs kde4 guiMisc (import ../kde_conf) (pkgs.callPackage ../scripts {})];
+  gui = P "gui" [fonts xorg xlibs kde5 guiMisc (import ../kde_conf) (pkgs.callPackage ../scripts {})];
 
-  sys_terminal = P "sys_terminal" [
+
+  sys_terminal_wired = P "sys_terminal_wired" [
     cliStd
     nixBld
     cliDbg
-    wifi
-    dev
     video
     audio
     gui
     cliMisc
+  ];
+  sys_terminal = P "sys_terminal" [
+    sys_terminal_wired
+    wifi
   ];
 }
 
