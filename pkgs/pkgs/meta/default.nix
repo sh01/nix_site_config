@@ -92,6 +92,7 @@ let P = name: d: derivation {
     man_db
     posix_man_pages
     libcap_manpages
+    ascii
   ];
 
   ### Advanced file management
