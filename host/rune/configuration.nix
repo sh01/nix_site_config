@@ -35,11 +35,11 @@ in rec {
     hostId = "84d6fc02";
     interfaces = {
       "eth_lan" = {
-        ip4 = [{
+        ipv4.addresses = [{
           address = "10.16.0.136";
           prefixLength = 24;
         }];
-        ip6 = [{
+        ipv6.addresses = [{
           address = "2001:470:7af3:1:1:0:1:5";
           prefixLength = 80;
         }];
