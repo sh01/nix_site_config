@@ -74,7 +74,7 @@ ip -6 route replace default via 2001:470:7af3:1:1::1 || true
         partOf = ["multi-user.target"];
         wantedBy = ["SH_containers_sh.service"];
         description = "SH_mount_ys";
-        path = with pkgs; [coreutils eject lvm2 kmod cryptsetup];
+        path = with pkgs; [coreutils eject lvm2 kmod cryptsetup utillinux];
         script = ''
 mountpoint -q /mnt/ys && exit 0
 # Set up /mnt/ys
