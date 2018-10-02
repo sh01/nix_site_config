@@ -3,9 +3,10 @@ with pkgs; derivation {
   name = "SH_dep_" + name;
   inherit system coreutils findutils LDEPS BDEPS JDEPS;
   LINKNAME = name;
-  SH = bash;
+  PATH = ["${pkgs.bash}/bin"];
+  LINK_DEPS = ./link_deps;
   glibc32 = pkgs.arch32.glibc;
   glibc64 = pkgs.glibc;
-  builder = ./link_deps;
+  builder = ./link_pre.sh;
   src = /var/empty;
 }

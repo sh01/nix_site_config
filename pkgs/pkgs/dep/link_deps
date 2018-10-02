@@ -1,5 +1,3 @@
-#!/bin/sh
-
 shopt -s nullglob
 export PATH=${coreutils}/bin:${findutils}/bin
 
