@@ -21,7 +21,7 @@ in rec {
   ];
 
   #boot.kernelPackages = pkgs.linuxPackages_4_11;
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {});
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
   boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
   environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
