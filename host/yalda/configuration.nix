@@ -44,27 +44,28 @@ in rec {
     hostId = "84d6fc01";
     interfaces = {
       "eth_lan" = {
-        ip4 = [{
+        ipv4.addresses = [{
           address = "10.16.0.65";
           prefixLength = 24;
         }];
-        ip6 = [
-	{ address = "2001:470:7af3:1:1:0:2:1";
-          prefixLength = 80; }
-	{ address = "fd9d:1852:3555:0200::41";
-	  prefixLength = 56;
-	}
-	];
+        ipv4.routes = [{
+          address = "0.0.0.0";
+          prefixLength = 0;
+          via = "10.16.0.1";
+        }];
+        ipv6.addresses = [
+          { address = "2001:470:7af3:1:1:0:2:1"; prefixLength = 80;}
+          { address = "fd9d:1852:3555:0200::41"; prefixLength = 56;}
+        ];
+        ipv6.routes = [
+          { address = "fd9d:1852:3555::"; prefixLength = 48; via = "fd9d:1852:3555:200::1";}
+          { address = "::"; prefixLength = 0; via = "2001:470:7af3:1:1::1";}
+        ];
       };
     };
     firewall.enable = false;
     dhcpcd.allowInterfaces = [];
     dhcpcd.enable = false;
-    localCommands = ''
-ip route replace default via 10.16.0.1 || true
-ip -6 route replace fd9d:1852:3555::/48 via fd9d:1852:3555:200::1 || true
-ip -6 route replace default via 2001:470:7af3:1:1::1 || true
-'';
     nameservers = ["10.16.0.1"];
   };
 
