@@ -21,6 +21,7 @@ let
     SH_dep_WL2 = callPackage ./pkgs/dep/wl2 {};
     SH_dep_Stellaris = callPackage ./pkgs/dep/stellaris {};
     SH_dep_starbound = callPackage ./pkgs/dep/starbound {};
+    SH_dep_gbase = callPackage ./pkgs/dep/gbase {};
     SH_dep_ggame = callPackage ./pkgs/dep/ggame {name = "ggame";};
     SH_dep_ggame32 = callPackage ./pkgs/dep/ggame {pkgs = arch32.pkgs; name = "ggame32";};
   };
