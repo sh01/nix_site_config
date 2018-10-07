@@ -42,6 +42,9 @@ in rec {
     ga = "git-annex";
   };
 
+  # Local package includes.
+  environment.pathsToLink = ["/local"];
+
   programs.zsh = {
     enable = true;
     shellAliases = environment.shellAliases // {

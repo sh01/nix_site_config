@@ -1,7 +1,7 @@
 shopt -s nullglob
 export PATH=${coreutils}/bin:${findutils}/bin
 
-O=${out}/share/lapps/${LINKNAME}
+O=${out}/local/${LINKNAME}
 
 mkdir -p $O
 [ "${LDEPS}" != "" ] && mkdir $O/lib

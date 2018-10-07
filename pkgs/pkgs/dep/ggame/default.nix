@@ -1,7 +1,7 @@
 # Generic game environment.
-{pkgs, system, callPackage, name, ...}:
+{pkgs, system, callPackage, name, LINKNAME, ...}:
 with pkgs; (callPackage ../base.nix {
-  inherit name;
+  inherit name LINKNAME;
   BDEPS = [openjdk];
   JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
