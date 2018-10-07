@@ -20,7 +20,7 @@ with pkgs; (callPackage ../base.nix {
     # SDL2
     SDL2 SDL2_mixer SDL2_image SDL2_gfx SDL2_net SDL2_ttf
     # Graphics stuff.
-    libX11 libXcomposite libXcursor libXinerama libXrandr libXdamage libXfixes libXau libXdmcp libXi libXScrnSaver libXtst libGL_driver libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE libtxc_dxtn libdrm
+    libX11 libXcomposite libXcursor libXinerama libXrandr libXdamage libXfixes libXau libXdmcp libXi libXScrnSaver libXtst libGL libGLU libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE libtxc_dxtn libdrm
     libxkbcommon libxcb libxshmfence
     # Wayland graphics stuff (why).
     wayland
