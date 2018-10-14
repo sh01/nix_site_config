@@ -23,25 +23,22 @@ in {
     usePredictableInterfaceNames = false;
     interfaces = {
       "eth_lan" = {
-        ip4 = [{
-          address = "10.16.0.2";
-          prefixLength = 24;
-        }];
-        ip6 = [{
-          address = "2001:470:7af3:1:1::2";
-          prefixLength = 80;
-        }
-        { address = "fd9d:1852:3555:0200::2";
-          prefixLength = 56;
-        }
+        ipv4.addresses = [
+          {address = "10.16.0.2"; prefixLength = 24;}
+        ];
+        ipv4.routes = [
+          {address = "0.0.0.0"; prefixLength = 0; via = "10.16.0.1";}
+        ];
+        ipv6.addresses = [
+          { address = "2001:470:7af3:1:1::2"; prefixLength = 80;}
+          { address = "fd9d:1852:3555:0200::2"; prefixLength = 56;}
+        ];
+        ipv6.routes = [
+          { address = "fd9d:1852:3555::"; prefixLength = 48; via = "fd9d:1852:3555:200::1";}
+          { address = "::"; prefixLength = 0; via = "2001:470:7af3:1:1::1";}
         ];
       };
     };
-    localCommands = ''
-ip route replace default via 10.16.0.1 || true
-ip -6 route replace fd9d:1852:3555::/48 via fd9d:1852:3555:200::1 || true
-ip -6 route replace default via 2001:470:7af3:1:1::1 || true
-'';
     firewall.enable = false;
     useDHCP = false;
     dhcpcd.allowInterfaces = [];
