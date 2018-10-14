@@ -27,7 +27,6 @@ in rec {
     games
     SH_dep_mc0
     SH_dep_factorio
-    SH_dep_KSP
     SH_dep_CK2
     SH_dep_WL2
     SH_dep_Stellaris

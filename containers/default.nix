@@ -39,7 +39,6 @@ in rec {
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_mc0
     SH_dep_factorio
-    SH_dep_KSP
     SH_dep_CK2
     SH_dep_gbase
     SH_dep_ggame
