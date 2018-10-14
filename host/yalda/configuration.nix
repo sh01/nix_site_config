@@ -17,7 +17,7 @@ in rec {
     ./kernel.nix
     ../../base
     ../../base/term/desktop.nix
-    ../../base/site_stellvia.nix
+    ../../base/site_wl.nix
   ];
 
   #boot.kernelPackages = pkgs.linuxPackages_4_11;

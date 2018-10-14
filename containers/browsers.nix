@@ -6,7 +6,7 @@ let
 in {
   imports = [
     ../base
-    ../base/site_stellvia.nix
+    ../base/site_wl.nix
     ./containers_common.nix
   ];
 

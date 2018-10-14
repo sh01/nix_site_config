@@ -16,7 +16,7 @@ in rec {
     ./kernel.nix
     ../../base
     ../../base/term
-    ../../base/site_stellvia.nix
+    ../../base/site_wl.nix
   ];
 
   containers = (cont.termC ssh_pub);

@@ -13,7 +13,7 @@ in {
     ./boot.nix
     ../../base
     ../../base/nox.nix
-    ../../base/site_stellvia.nix
+    ../../base/site_wl.nix
   ];
 
   ##### Host id stuff
