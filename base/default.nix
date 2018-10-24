@@ -77,8 +77,8 @@ in rec {
     supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
   };
   ####
+  services.logind.lidSwitch = "lock";
   services.logind.extraConfig = ''
-    HandleLidSwitch=ignore
     KillUserProcesses=no'';
   services.cron.enable = true;
   #### Nixpkgs
