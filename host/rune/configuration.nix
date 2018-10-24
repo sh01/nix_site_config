@@ -48,6 +48,7 @@ in rec {
     dhcpcd.allowInterfaces = ["eth_wifi"];
     networkmanager = {
       enable = true;
+      unmanaged = ["eth_lan"];
     };
     localCommands = ''
 PATH=/run/current-system/sw/bin/
