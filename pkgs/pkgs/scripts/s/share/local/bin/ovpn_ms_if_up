@@ -2,7 +2,7 @@
 
 PATH=@iproute2@/bin/:$PATH
 
-for ip in 10.16.0.65/32 10.16.0.128/25; do
+for ip in 10.16.0.65/32 10.16.0.2/32 10.16.0.128/25; do
   ip route add $ip via $route_vpn_gateway
 done
 

@@ -5,7 +5,7 @@
     SH_route_setup = {
       restartIfChanged = true;
       path = [pkgs.iproute];
-      wantedBy = ["network-pre.target"];
+      wantedBy = ["network.target"];
       description = "SH route setup";
       script = ''
 # Set up container dirs

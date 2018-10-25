@@ -6,7 +6,8 @@ float
 
 #remote greyc.dyndns.org
 #remote vpn.memespace.net
-remote 89.101.222.213
+#remote 89.101.222.213
+remote 138.68.246.52 1199
 
 cd /etc/openvpn/memespace-vpn/
 # TODO: Extend NixOS to support --cd so we do not require this hack.
