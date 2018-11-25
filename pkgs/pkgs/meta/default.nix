@@ -176,6 +176,7 @@ let P = name: d: derivation {
     xauth
     xhost
     xsecurelock
+    xss-lock
   ];
 
   # To link directly into lib dirs for use by non-Nix programs
