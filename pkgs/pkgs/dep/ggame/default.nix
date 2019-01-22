@@ -6,7 +6,7 @@ with pkgs; (callPackage ../base.nix {
   JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
     # base libs.
-    glibc stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2
+    glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2
     # Device access
     systemd.lib # udevlib's location now, for some reason.
     libpciaccess
