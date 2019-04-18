@@ -73,7 +73,7 @@ in rec {
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
+    defaultLocale = "en_US.utf8";
     supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
   };
   ####
