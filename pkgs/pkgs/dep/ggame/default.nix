@@ -6,7 +6,7 @@ with pkgs; (callPackage ../base.nix {
   JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
     # base libs.
-    glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2
+    glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2 xz.out gmp
     # Device access
     systemd.lib # udevlib's location now, for some reason.
     libpciaccess
@@ -36,9 +36,13 @@ with pkgs; (callPackage ../base.nix {
     # File parsing
     bzip2.out zziplib xz expat lz4
     libjpeg.out libjpeg_original.out libtiff.out libwebp libmodplug
+    # DBs
+    sqlite.out
     # Printers ... why?
     cups.lib
+    # Crypto
+    libgcrypt nettle openssl.out libkrb5 openldap gnutls.out
     # misc
-    utillinux.out libgcrypt libgpgerror
+    utillinux.out libgpgerror
   ];
 })
