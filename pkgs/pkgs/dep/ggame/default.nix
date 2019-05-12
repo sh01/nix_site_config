@@ -22,6 +22,7 @@ with pkgs; (callPackage ../base.nix {
     # Graphics stuff.
     libX11 libXcomposite libXcursor libXinerama libXrandr libXdamage libXfixes libXau libXdmcp libXi libXScrnSaver libXtst libGL libGLU libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE libtxc_dxtn libdrm
     libxkbcommon libxcb libxshmfence
+    libXpm.out
     # Wayland graphics stuff (why).
     wayland
     # Video playback
