@@ -1,6 +1,5 @@
 # Higurashi is an emergency recovery/setup environment.
-
-let
+{ config, pkgs, lib, ... }: let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
 in {
@@ -10,6 +9,8 @@ in {
     hostId = "85d5fcc6";
   };
 
+  powerManagement.cpuFreqGovernor = "ondemand";
+  
   services = {
     openssh.enable = false;
     mingetty.autologinUser = "root";
