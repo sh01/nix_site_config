@@ -11,6 +11,7 @@ let
     nameservers4 = ["8.8.8.8"];
   };
   vpn_c = (import ../../base/openvpn/client.nix);
+  vpn_c_sd = (import ./vpn/semidefinite.nix);
 in {
   imports = [
     ./hardware-configuration.nix
@@ -23,7 +24,7 @@ in {
 
   ### Boot config
   boot = {
-    kernelPackages = pkgs.linuxPackages_4_11;
+    kernelPackages = pkgs.linuxPackages_4_14;
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     # loader.initScript.enable = true;
     initrd.luks.devices = [ {
@@ -37,7 +38,7 @@ in {
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/sdd";
+      device = "/dev/sda";
       fsIdentifier = "label";
       memtest86.enable = true;
       splashImage = null;
@@ -74,14 +75,14 @@ in {
 
   systemd = {
     services = {
-      SH_limit_cpufreq = {
-        wantedBy = ["sysinit.target"];
-        description = "SH_limit_cpufreq";
-        path = with pkgs; [coreutils cpufrequtils];
-        script = ''
-for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
-'';
-      };
+      #SH_limit_cpufreq = {
+      #  wantedBy = ["sysinit.target"];
+      #  description = "SH_limit_cpufreq";
+      #  path = with pkgs; [coreutils cpufrequtils];
+      #  script = ''
+#for i in 0 1 2 3 4 5 6 7; do cpufreq-set -c $i --max 1.2G; done
+#'';
+      #};
       getmail_gmx = {
         wantedBy = ["multi-user.target"];
         description = "getmail: GMX";
@@ -158,6 +159,9 @@ exec getmail -r /var/local/etc/getmail/gmx 2>&1 | egrep -v '^Copyright |^getmail
     # vpn-base server
     vpn-base = {
       config = (pkgs.callPackage ./vpn-base.nix {lpkgs=lpkgs;});
+    };
+    semidefinite-client = {
+      config = vpn_c_sd.config;
     };
   };
 

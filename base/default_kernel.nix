@@ -1,10 +1,10 @@
 {pkgs, callPackage, buildPackages, ncurses, fetchurl, stdenv, perl, buildLinux, config, hostPlatform, structuredExtraConfig ? {}, ...}: let
   vars = import vars.nix;
-in (import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (rec {
-  version = "4.14.71";
+in buildLinux rec {
+  version = "4.19.66";
   src = fetchurl {
     url = "mirror://kernel/linux/kernel/v4.x/linux-${version}.tar.xz";
-    sha256 = "12blj3zzvzs2nz8rp1g5ykibfvm355442c31l4ijr4mxphylg93n";
+    sha256 = "0r6vzarmi77fhivd1n6f667sgcw8zd54ykmhmp6rd52bbkhsp0f9";
   };
 
   inherit buildPackages callPackage ncurses stdenv perl buildLinux hostPlatform structuredExtraConfig;
@@ -15,4 +15,4 @@ in (import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (rec {
   features.efiBootStub = true;
   features.needsCifsUtils = false;
   features.netfilterRPFilter = true;
-}))
+}

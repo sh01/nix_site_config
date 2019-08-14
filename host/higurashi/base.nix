@@ -1,7 +1,7 @@
 # Higurashi is a NixOS-based rescue system-on-a-usb-drive.
 # This is its top-level configuration file.
 
-{ _config, pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   slib = import ../../lib;
@@ -9,7 +9,6 @@ let
 in {
   imports = [
     ./hardware-configuration.nix
-    ./kernel.nix
     ./boot.nix
     ../../base
     ../../base/nox.nix
@@ -44,9 +43,12 @@ in {
   };
 
   ### Disable GRUB
-  boot.loader.grub.enable = false;
-  boot.blacklistedKernelModules = ["firewire_ohci" "firewire_core" "firewire_sbp2"];
-  
+  boot = {
+    loader.grub.enable = false;  # We're using start_nix.
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
+    blacklistedKernelModules = ["firewire_ohci" "firewire_core" "firewire_sbp2"];
+  };
+
   ### Networking
   networking.dhcpcd.allowInterfaces = [];
 

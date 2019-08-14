@@ -104,6 +104,7 @@ let P = name: d: derivation {
 
   cliDbg = P "cliDbg" [
     wireshark-cli
+    stress-ng
   ];
 
   cliMisc = P "cliMisc" [
