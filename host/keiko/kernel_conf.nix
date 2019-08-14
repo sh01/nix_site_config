@@ -54,7 +54,6 @@ NETFILTER_XT_MATCH_POLICY = yes;
 NETFILTER_XT_MATCH_STATE = yes;
 
 NF_DEFRAG_IPV4 = yes;
-NF_CONNTRACK_IPV4 = yes;
 NF_REJECT_IPV4 = yes;
 
 IP_DCCP = no;
@@ -68,7 +67,6 @@ IP_NF_SECURITY = yes;
 IP_NF_ARPTABLES = yes;
 
 NF_DEFRAG_IPV6 = yes;
-NF_CONNTRACK_IPV6 = yes;
 NF_REJECT_IPV6 = yes;
 IP6_NF_IPTABLES = yes;
 IP6_NF_MATCH_IPV6HEADER = yes;
@@ -112,6 +110,7 @@ DM_UEVENT = yes;
 FUSION_LOGGING = yes;
 
 MII = yes;
+E100 = yes;
 E1000 = yes;
 R8169 = yes;
 
@@ -139,6 +138,7 @@ EXT3_FS = yes;
 EXT4_FS = yes;
 JBD2 = yes;
 FS_MBCACHE = yes;
+FS_ENCRYPTION = yes;
 BTRFS_FS = yes;
 FUSE_FS = yes;
 CUSE = yes;
