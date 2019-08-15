@@ -100,7 +100,7 @@ mount /mnt/ys
   services.udev = {
     extraRules = ''
       # Name network devices statically based on MAC address
-      SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="74:d0:2b:2b:7c:7f", KERNEL=="eth*", NAME="eth_lan"
+      SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="04:d4:c4:57:f9:da", KERNEL=="eth*", NAME="eth_lan"
     '';
   };
 
