@@ -10,13 +10,14 @@ let
     searchPath = [];
     nameservers4 = ["8.8.8.8"];
   };
+  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in {
   imports = [
     ./hardware-configuration.nix
     ./kernel.nix
     ../../base
     ../../base/nox.nix
-    ../../base/site_stellvia.nix
+    ../../base/site_wl.nix
   ];
 
 
@@ -25,15 +26,26 @@ in {
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     # loader.initScript.enable = true;
-    initrd.luks.devices = [ {
-      name = "root";
-      device = "/dev/sdb2";
-    }];
+    initrd = {
+      prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
+      luks.devices = [{
+        name = "root";
+        device = "/dev/disk/by-partlabel/bw0_r0_c";
+        preLVM = true;
+        fallbackToPassword = true;
+        allowDiscards = true;
+        keyFile = "/dev/disk/by-partlabel/bw0_key0";
+        keyFileSize = 64;
+      }];
+      preFailCommands = ''${pkgs.bash}/bin/bash'';
+      supportedFilesystems = ["btrfs"];
+    };
+
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/sdb";
-      fsIdentifier = "label";
+      device = "/dev/disk/by-id/usb-KINGSTON_SUV500MS240G_5002627783171569-0:0";
+      fsIdentifier = "uuid";
       memtest86.enable = true;
       splashImage = null;
     };
@@ -93,10 +105,7 @@ in {
       fsType = "btrfs";
       options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
-    "/boot" = {
-      device = "/dev/disk/by-label/\\x2fboot";
-      options = ["noatime" "nodiratime"];
-    };
+    "/boot" = { label = "bw0_b0"; options=["noauto" "noatime" "nodiratime"];};
   };
 
   ### Networking

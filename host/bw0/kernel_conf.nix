@@ -110,6 +110,7 @@ DM_UEVENT = yes;
 FUSION_LOGGING = yes;
 
 MII = yes;
+E100 = yes;
 E1000 = yes;
 R8169 = yes;
 
