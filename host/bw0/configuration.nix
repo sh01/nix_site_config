@@ -7,8 +7,7 @@ let
   slib = import ../../lib;
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {
-    searchPath = [];
-    nameservers4 = ["8.8.8.8"];
+    nameservers4 = ["127.0.0.1" "::1"];
   };
   ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in {
@@ -56,6 +55,7 @@ in {
     };
   };
 
+  ### Networking
   networking = {
     hostName = "bw0.ulwired-ctl.s.";
     hostId = "84d5fcc8";
@@ -88,9 +88,11 @@ in {
         enable = true;
         extraConfig = ''
           nodelay
+          hostname_short
           ;nogateway
           noipv4ll
           timeout 8
+          noohook lookup, resolv.conf
         '';
     };
 
@@ -103,9 +105,11 @@ in {
       enable = true;
       rulesetFile = ./nft.conf;
     };
+    # Push this way out of the way.
+    extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
+  };
+  environment.etc."resolv.conf" = dns.resolvConf;
 
-    #extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
-  } // dns.conf;
   services.dhcpd4 = {
     enable = true;
     configFile = ./dhcpd4.conf;
@@ -143,8 +147,6 @@ in {
   sound.enable = false;
   security.polkit.enable = false;
 
-  #environment.etc."resolv.conf" = dns.resolvConf;
-
   fileSystems = {
     "/" = {
       label = "root";
@@ -155,11 +157,14 @@ in {
     "/boot" = { device = "/dev/disk/by-partlabel/bw0_b0"; options=["noauto" "noatime" "nodiratime"];};
   };
 
-  ### Networking
-
   ### Services
   services.openssh.enable = true;
   services.openssh.moduliFile = ./sshd_moduli;
+  services.bind = {
+    enable = true;
+    cacheNetworks = ["10.0.0.0/8" "127.0.0.0/8" "fd9d:1852:3555::/48" "192.168.0.0/16"];
+    forwarders = ["8.8.8.8" "8.8.4.4" "2001:4860:4860::8888" "2001:4860:4860::8844"];
+  };
 
   ### User / Group config
   # Define paired user/group accounts.
