@@ -20,11 +20,16 @@ in {
     ../../base/site_wl.nix
   ];
 
-
   ### Boot config
   boot = {
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
+    kernelParams = [
+      # Reboot on kernel panic
+      "panic=1" "boot.panic_on_fail"
+      # Support serial console!
+      "console=tty0" "console=ttyS0,115200"
+    ];
     # loader.initScript.enable = true;
     initrd = {
       prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
@@ -48,6 +53,7 @@ in {
       fsIdentifier = "uuid";
       memtest86.enable = true;
       splashImage = null;
+      extraConfig = "serial; terminal_output.serial";
     };
   };
   ##### Host id stuff
@@ -109,6 +115,7 @@ in {
 
   systemd = {
     enableEmergencyMode = false;
+    services."serial-getty@ttyS0".enable = true;
   };
   
   # Name network devices statically based on MAC address
