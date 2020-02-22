@@ -6,11 +6,11 @@
 
   mkResolvConf = sp: ns: let
     sps = builtins.foldl' (a: b: a + " " + b) "" sp;
-    nss = builtins.foldl' (a: b: a + " " + b) "" ns;
+    nss = builtins.foldl' (a: b: a + "nameserver " + b + "\n") "" ns;
   in {
     text = ''
 search ${sps}
-nameserver ${nss}
+${nss}
 '';
   };
   resolvConf = (mkResolvConf searchPath nameservers4);
