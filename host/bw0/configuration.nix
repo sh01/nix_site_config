@@ -55,6 +55,10 @@ in {
     hostName = "bw0.ulwired-ctl.s.";
     hostId = "84d5fcc8";
     usePredictableInterfaceNames = false;
+    useDHCP = false;
+    firewall.enable = false;
+    networkmanager.enable = false;
+
     interfaces = {
       "eth_lan" = {
         ipv4.addresses = [
@@ -69,14 +73,23 @@ in {
           { address = "fd9d:1852:3555:200:ff00::1"; prefixLength = 64;}
         ];
       };
-      #useDHCP = false;
+      "eth_l_wired".ipv4.addresses = [{ address = "10.17.1.1"; prefixLength = 24; }];
+      "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
     };
-    firewall.enable = false;
-    useDHCP = false;
-
     defaultGateway = "10.19.4.2";
+
+    nftables = {
+      enable = true;
+      rulesetFile = ./nft.conf;
+    };
+
     #extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   } // dns.conf;
+  services.dhcpd4 = {
+    enable = true;
+    configFile = ./dhcpd4.conf;
+    interfaces = ["eth_l_wired" "eth_l_wifi"];
+  };
 
   systemd = {
     enableEmergencyMode = false;
@@ -86,10 +99,10 @@ in {
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_lan"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_o1"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_o2"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired" # o1
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"  # o2
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"      # o3
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"      # o4
   '';
 
   ### System profile packages
