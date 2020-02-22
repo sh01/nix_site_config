@@ -75,8 +75,24 @@ in {
       };
       "eth_l_wired".ipv4.addresses = [{ address = "10.17.1.1"; prefixLength = 24; }];
       "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
+      "eth_wan".useDHCP = true;
     };
     defaultGateway = "10.19.4.2";
+
+    dhcpcd = {
+        enable = true;
+        extraConfig = ''
+          nodelay
+          ;nogateway
+          noipv4ll
+          timeout 8
+        '';
+    };
+
+    iproute2 = {
+      enable = false;
+      rttablesExtraConfig = '''';
+    };
 
     nftables = {
       enable = true;
