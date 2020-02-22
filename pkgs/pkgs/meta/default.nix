@@ -63,6 +63,7 @@ let P = name: d: derivation {
     ebtables
     nftables
     iftop
+    dnsutils
 
     acpi
     pciutils
