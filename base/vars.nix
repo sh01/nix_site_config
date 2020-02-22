@@ -43,7 +43,7 @@ NFT_MASQ = module;
 NFT_REDIR = module;
 NFT_NAT = yes;
 NFT_REJECT = yes;
-NFT_COMPAT = yes;
+NFT_COMPAT = option yes;
 
 NF_TABLES_IPV4 = yes;
 NF_TABLES_IPV6 = yes;

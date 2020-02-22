@@ -14,7 +14,6 @@ let
 in {
   imports = [
     ./hardware-configuration.nix
-    ./kernel.nix
     ../../base
     ../../base/nox.nix
     ../../base/site_wl.nix
@@ -56,7 +55,7 @@ in {
       extraConfig = "serial; terminal_output.serial";
     };
   };
-  ##### Host id stuff
+
   networking = {
     hostName = "bw0.ulwired-ctl.s.";
     hostId = "84d5fcc8";
@@ -127,6 +126,8 @@ in {
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"      # o3
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"      # o4
   '';
+
+  powerManagement.cpuFreqGovernor = "ondemand";
 
   ### System profile packages
   environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
