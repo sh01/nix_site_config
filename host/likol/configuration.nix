@@ -49,6 +49,7 @@ in {
     hostName = "likol.sh.s";
     hostId = "84d5fcc9";
     usePredictableInterfaceNames = false;
+    iproute2 = vars.iproute2;
     interfaces = {
       "eth_lan" = {
         ip4 = [{

@@ -32,6 +32,7 @@ in {
     hostId = "84d5fcc9";
     useDHCP = false;
     firewall.enable = false;
+    iproute2 = vars.iproute2;
   };
 
   ### System profile packages

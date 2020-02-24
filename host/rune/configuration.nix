@@ -33,6 +33,7 @@ in rec {
   networking = {
     hostName = "rune";
     hostId = "84d6fc02";
+    iproute2 = vars.iproute2;
     interfaces = {
       "eth_lan" = {
         ipv4.addresses = [{

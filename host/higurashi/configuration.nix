@@ -5,6 +5,7 @@
 in {
   imports = [ ./base.nix ];
   networking = {
+    iproute2 = vars.iproute2;
     hostName = "higurashi";
     hostId = "85d5fcc6";
   };

@@ -21,6 +21,7 @@ in {
     hostName = "keiko.sh.s";
     hostId = "84d5fcc6";
     usePredictableInterfaceNames = false;
+    iproute2 = vars.iproute2;
     interfaces = {
       "eth_lan" = {
         ipv4.addresses = [

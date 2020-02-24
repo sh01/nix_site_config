@@ -27,6 +27,15 @@ in {
     default = [sh backup_client nix_mirror];
   };
 
+  iproute2 = {
+    enable = true;
+    rttablesExtraConfig = ''
+      # local
+      16 containers
+      17 memespace
+    '';
+  };  
+
   kernelOpts = {
     # We'd really want NFT_MASQ and NFT_REDIR as y, but that's impossible due to forward-y dependencies which are not supported by this version of the nix kernel conf infrastructure.
     netStd = {

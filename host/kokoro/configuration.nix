@@ -23,6 +23,7 @@ in {
   networking = {
     hostName = "kokoro";
     hostId = "84d6fc00";
+    iproute2 = vars.iproute2;
     interfaces = {
       "eth_lan" = {
         ip4 = [{

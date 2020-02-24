@@ -63,6 +63,7 @@ in {
     useDHCP = false;
     firewall.enable = false;
     networkmanager.enable = false;
+    iproute2 = vars.iproute2;
 
     interfaces = {
       "eth_lan" = {
