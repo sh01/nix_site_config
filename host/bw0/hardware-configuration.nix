@@ -10,7 +10,7 @@
 
   boot.initrd.availableKernelModules = [];
   boot.extraModulePackages = [ ];
-  #hardware.cpu.intel.updateMicrocode = true;
+  hardware.cpu.intel.updateMicrocode = true;
 
   swapDevices = [];
   nix.maxJobs = 4;

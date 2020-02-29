@@ -13,6 +13,7 @@ let
 in {
   imports = [
     ./hardware-configuration.nix
+    ./monitoring.nix
     ../../base
     ../../base/nox.nix
     ../../base/site_wl.nix
@@ -106,6 +107,7 @@ in {
       rulesetFile = ./nft.conf;
     };
     # Push this way out of the way.
+    #resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
     extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   };
   environment.etc."resolv.conf" = dns.resolvConf;
@@ -118,6 +120,7 @@ in {
 
   systemd = {
     enableEmergencyMode = false;
+    # Put a getty on serial console.
     services."serial-getty@ttyS0".enable = true;
   };
   
@@ -142,6 +145,10 @@ in {
     openvpn
     iptables
     nftables
+
+    # direct packages
+    prometheus_2
+    influxdb
   ];
 
   sound.enable = false;
@@ -165,11 +172,11 @@ in {
     cacheNetworks = ["10.0.0.0/8" "127.0.0.0/8" "fd9d:1852:3555::/48" "192.168.0.0/16"];
     forwarders = ["8.8.8.8" "8.8.4.4" "2001:4860:4860::8888" "2001:4860:4860::8844"];
   };
-
+  
   ### User / Group config
   # Define paired user/group accounts.
   users = slib.mkUserGroups (with vars.userSpecs {}; default ++ []);
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "16.09";
+  system.stateVersion = "19.09";
 }
