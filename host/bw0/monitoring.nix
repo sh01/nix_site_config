@@ -42,6 +42,9 @@ in {
           { source_labels = ["__param_target"]; target_label = "instance"; }
           { target_label = "__address__"; replacement = blackbox_tcp; source_labels = [];}
         ];
+      } {
+        job_name = "node";
+        static_configs = [{targets = ["localhost:9100"];}];
       }
     ];
     exporters = {
@@ -49,6 +52,38 @@ in {
         enable = true;
         configFile = ./mon_p_blackbox.conf;
         listenAddress = blackbox_ip;
+      };
+      node = {
+        enable = true;
+        listenAddress = blackbox_ip;
+        disabledCollectors = [
+          "arp"
+          "bcache"
+          "bonding"
+          "buddyinfo"
+          "entropy"
+          "filefd"
+          "interrupts"
+          "ipvs"
+          "loadavg"
+          "mdadm"
+          "nfs"
+          "nfsd"
+          "textfile"
+          "uname"
+          "time"
+          "xfs"
+          "zfs"
+        ];
+        enabledCollectors = [
+          "ntp"
+          "timex"
+        ];
+        extraFlags = [
+          "--collector.ntp.server-is-local"
+          "--collector.netstat.fields=Ip(6|Ext)_(InOctets|OutOctets)"
+          "--collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs|ramfs|tmpfs)$"
+        ];
       };
     };
   };
