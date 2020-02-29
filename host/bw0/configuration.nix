@@ -149,6 +149,7 @@ in {
     # direct packages
     prometheus_2
     influxdb
+    openntpd
   ];
 
   sound.enable = false;
@@ -165,12 +166,25 @@ in {
   };
 
   ### Services
-  services.openssh.enable = true;
-  services.openssh.moduliFile = ./sshd_moduli;
+  services.openssh = {
+    enable = true;
+    moduliFile = ./sshd_moduli;
+  };
   services.bind = {
     enable = true;
     cacheNetworks = ["10.0.0.0/8" "127.0.0.0/8" "fd9d:1852:3555::/48" "192.168.0.0/16"];
     forwarders = ["8.8.8.8" "8.8.4.4" "2001:4860:4860::8888" "2001:4860:4860::8844"];
+  };
+  services.openntpd = {
+    enable = true;
+    extraConfig = ''
+    listen on 127.0.0.1
+    listen on ::1
+    listen on 10.17.1.1
+    listen on 10.17.2.1
+    listen on 10.19.4.1
+    constraint from "https://www.google.com/"
+'';
   };
   
   ### User / Group config
