@@ -150,6 +150,7 @@ in {
     prometheus_2
     influxdb
     openntpd
+    uptimed
   ];
 
   sound.enable = false;
@@ -186,6 +187,7 @@ in {
     constraint from "https://www.google.com/"
 '';
   };
+  services.uptimed.enable = true;
   
   ### User / Group config
   # Define paired user/group accounts.
