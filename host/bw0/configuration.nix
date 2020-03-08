@@ -90,17 +90,49 @@ in {
         extraConfig = ''
           nodelay
           hostname_short
-          ;nogateway
+          nogateway
           noipv4ll
           timeout 8
-          noohook lookup, resolv.conf
+          nohook lookup, resolv.conf
+        '';
+
+        runHook = with pkgs; ''
+          PATH=$PATH:${iproute}/bin
+          # /usr/bin/env
+          if [[ "$interface" = "eth_wan" ]]; then
+            TABLE="up_0";
+          elif [[ "$interface" = "TODO" ]]; then
+            TABLE="up_1";
+          else
+            exit 0;
+          fi
+          # BOUND, RECONFIGURE,  NOCARRIER, EXPIRE, NAK
+          set -x
+          if [ "$reason" = BOUND -o "$reason" = RECONFIGURE ]; then
+            ip rule add from "''${new_ip_address}"/32 priority 32767 table "''${TABLE}"
+            for router in ''${new_routers}; do ip route add table "''${TABLE}" dev "''${interface}" via "''${router}" default; done;
+          elif [ "$reason" = "EXPIRY" -o "$reason" = NOCARRIER -o "$reason" = NAK ]; then
+            ip rule del priority 32767 table "''${TABLE}"
+            ip route flush table "''${TABLE}";
+          fi
+          exit 0
         '';
     };
 
     iproute2 = {
-      enable = false;
-      rttablesExtraConfig = '''';
+      enable = true;
+      rttablesExtraConfig = ''
+      # local
+      18 up_sticky
+      19 up_0
+      20 up_1
+'';
     };
+
+    localCommands = ''
+      ip rule add priority 65536 table up_0
+      ip rule add priority 65537 table up_1
+    '';
 
     nftables = {
       enable = true;
