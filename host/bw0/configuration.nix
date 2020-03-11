@@ -2,6 +2,7 @@
 { config, pkgs, lib, ... }:
 
 let
+  inherit (lib) mkForce;
   lpkgs = (import ../../pkgs {});
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = import ../../lib;
@@ -54,6 +55,14 @@ in {
       memtest86.enable = true;
       splashImage = null;
       extraConfig = "serial; terminal_output.serial";
+    };
+
+    # Enable packet routing.
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = mkForce true;
+      "net.ipv4.conf.all.forwarding" = mkForce true;
+      "net.ipv4.conf.default.forwarding" = mkForce true;
+      "net.ipv6.conf.all.forwarding" = mkForce true;
     };
   };
 
