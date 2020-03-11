@@ -21,6 +21,9 @@ let
   blackbox_ip = "127.0.0.1";
   blackbox_tcp = blackbox_ip + ":9115";
 in {
+  imports = [
+    ../../pkgs/pkgs/nft_prom/service.nix
+  ];
   # Prometheus
   systemd.services.prometheus.script = mkForce "exec ${pkgs.prometheus_2}/bin/prometheus --config.file=${promYml} --storage.tsdb.retention=128y";
   services.prometheus = {
@@ -33,9 +36,9 @@ in {
     scrapeConfigs = [
       {
         job_name = "up0_http";
-        scrape_interval = "256s";
         metrics_path = "/probe";
         params = { module = ["http_2xx"]; };
+        scrape_interval = "256s";
         static_configs = [{targets = ["www.google.com" "www.amazon.com"];}];
         relabel_configs = [
           { source_labels = ["__address__"]; target_label = "__param_target"; }
@@ -45,6 +48,12 @@ in {
       } {
         job_name = "node";
         static_configs = [{targets = ["localhost:9100"];}];
+      } {
+        job_name = "nft_prom";
+        metrics_path = "/probe";
+        params = { ct_name_fmt = ["^(?P<dir>[io])/(?P<iface>[^/]*)/(?P<ttype>[^/]*)$"]; };
+        scrape_interval = "64s";
+        static_configs = [{targets = ["localhost:9101"];}];
       }
     ];
     exporters = {

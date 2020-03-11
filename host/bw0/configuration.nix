@@ -10,6 +10,7 @@ let
     nameservers4 = ["127.0.0.1" "::1"];
   };
   ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
+  #nft_new = (pkgs.callPackage ../../pkgs/pkgs/nftables-0.9.2/default.nix {});
 in {
   imports = [
     ./hardware-configuration.nix
@@ -176,7 +177,7 @@ in {
 
     openvpn
     iptables
-    nftables
+    #nft_new
 
     # direct packages
     prometheus_2

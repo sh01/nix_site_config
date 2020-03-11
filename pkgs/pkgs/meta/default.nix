@@ -61,7 +61,8 @@ let P = name: d: derivation {
     wget
     whois
     ebtables
-    nftables
+    #nftables
+    (pkgs.callPackage ../nftables-0.9.2/default.nix {})
     iftop
     dnsutils
 
