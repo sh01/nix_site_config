@@ -1,6 +1,6 @@
 17.10.in-addr.arpa.	7200    IN SOA  bw0.y. root.bw0.y. (
-	1	; serial                                                                                                                                              
-	128	; refresh 
+	1	; serial
+	128	; refresh
 	128     ; retry
 	128     ; expire
 	1024    ; minimum
