@@ -46,6 +46,17 @@ in {
           { target_label = "__address__"; replacement = blackbox_tcp; source_labels = [];}
         ];
       } {
+        job_name = "up0_icmp";
+        metrics_path = "/probe";
+        params = { module = ["icmp_ping"]; } ;
+        scrape_interval = "64s";
+        static_configs = [{targets = ["8.8.8.8" "www.amazon.com" "l.root-servers.org"];}];
+        relabel_configs = [
+          { source_labels = ["__address__"]; target_label = "__param_target"; }
+          { source_labels = ["__param_target"]; target_label = "instance"; }
+          { target_label = "__address__"; replacement = blackbox_tcp; source_labels = [];}
+        ];
+      } {
         job_name = "node";
         static_configs = [{targets = ["localhost:9100"];}];
       } {
