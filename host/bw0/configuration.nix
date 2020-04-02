@@ -179,7 +179,10 @@ in {
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"      # o4
   '';
 
-  powerManagement.cpuFreqGovernor = "ondemand";
+  # intel_pstate cpufreq driver, on a HWP CPU.
+  # https://www.kernel.org/doc/html/v4.12/admin-guide/pm/intel_pstate.html#active-mode-with-hwp
+  # this is likely to behave similar to 'ondemand' on other governors.
+  powerManagement.cpuFreqGovernor = "powersave";
 
   ### System profile packages
   environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
