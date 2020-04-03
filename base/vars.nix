@@ -24,7 +24,11 @@ in {
     sh_i401 = ["sh_i401" 2056 [] [] {}];
     es_github = ["es_github" 4096 [] [] {}];
 
+    mon_0 = ["mon_0" 2080 [] [] {}];
+    mon_1 = ["mon_1" 2081 [] [] {}];
+
     default = [sh backup_client nix_mirror];
+    monitoring = [mon_0 mon_1];
   };
 
   iproute2 = {

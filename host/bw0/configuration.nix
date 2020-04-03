@@ -140,6 +140,17 @@ in {
     };
 
     localCommands = ''
+      set +e
+      # Link-probe addresses
+      ip addr replace dev lo noprefixroute scope link 10.250.0.10
+      ip addr replace dev lo noprefixroute scope link 10.250.0.11
+      ip rule add priority 1024 from 10.250.0.10 table up_0
+      ip rule add priority 1024 from 10.250.0.11 table up_1
+      ip rule add priority 1025 from 10.250.0.0/24 blackhole
+      ip rule add priority 40000 uidrange 2080-2080 table up_0
+      ip rule add priority 40000 uidrange 2081-2081 table up_1
+      ip rule add priority 40001 uidrange 2080-2081 blackhole
+      # default routes
       ip rule add priority 65536 table up_1
       ip rule add priority 65537 table up_0
     '';
@@ -246,7 +257,7 @@ in {
   
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ []);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ monitoring);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "19.09";

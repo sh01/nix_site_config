@@ -19,13 +19,44 @@ let
   };
   promYml = writePrettyJSON "prometheus.yml" promConfig;
   blackbox_ip = "127.0.0.1";
-  blackbox_tcp = blackbox_ip + ":9115";
-in {
+  blackbox_tcp0 = blackbox_ip + ":9115";
+  blackbox_tcp1 = blackbox_ip + ":9116";
+  prom_bb = (import ./prometheus_bb.nix);
+  icmp_probe = {name, addr}: {
+        job_name = name;
+        metrics_path = "/probe";
+        params = { module = ["icmp_ping"]; } ;
+        scrape_interval = "64s";
+        static_configs = [{targets = ["8.8.8.8" "www.amazon.com" "l.root-servers.org"];}];
+        relabel_configs = [
+          { source_labels = ["__address__"]; target_label = "__param_target"; }
+          { source_labels = ["__param_target"]; target_label = "instance"; }
+          { target_label = "__address__"; replacement = addr; source_labels = [];}
+        ];
+  };
+  http_probe = {name, addr}: {
+        job_name = name;
+        metrics_path = "/probe";
+        params = { module = ["http_2xx"]; };
+        scrape_interval = "256s";
+        static_configs = [{targets = ["www.google.com" "www.amazon.com"];}];
+        relabel_configs = [
+          { source_labels = ["__address__"]; target_label = "__param_target"; }
+          { source_labels = ["__param_target"]; target_label = "instance"; }
+          { target_label = "__address__"; replacement = addr; source_labels = [];}
+        ];
+  };
+in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
   ];
   # Prometheus
-  systemd.services.prometheus.script = mkForce "exec ${pkgs.prometheus_2}/bin/prometheus --config.file=${promYml} --storage.tsdb.retention=128y";
+  systemd.services = {
+    prometheus.script = mkForce "exec ${pkgs.prometheus_2}/bin/prometheus --config.file=${promYml} --storage.tsdb.retention=128y";
+    "prometheus-blackbox-exporter-0" = prom_bb {inherit pkgs; listen="127.0.0.1:9115"; user="mon_0";};
+    "prometheus-blackbox-exporter-1" = prom_bb {inherit pkgs; listen="127.0.0.1:9116"; user="mon_1";};
+  };
+
   services.prometheus = {
     enable = true;
     globalConfig = {
@@ -34,31 +65,13 @@ in {
       scrape_timeout = "32s";
     };
     scrapeConfigs = [
-      {
-        job_name = "up0_http";
-        metrics_path = "/probe";
-        params = { module = ["http_2xx"]; };
-        scrape_interval = "256s";
-        static_configs = [{targets = ["www.google.com" "www.amazon.com"];}];
-        relabel_configs = [
-          { source_labels = ["__address__"]; target_label = "__param_target"; }
-          { source_labels = ["__param_target"]; target_label = "instance"; }
-          { target_label = "__address__"; replacement = blackbox_tcp; source_labels = [];}
-        ];
-      } {
-        job_name = "up0_icmp";
-        metrics_path = "/probe";
-        params = { module = ["icmp_ping"]; } ;
-        scrape_interval = "64s";
-        static_configs = [{targets = ["8.8.8.8" "www.amazon.com" "l.root-servers.org"];}];
-        relabel_configs = [
-          { source_labels = ["__address__"]; target_label = "__param_target"; }
-          { source_labels = ["__param_target"]; target_label = "instance"; }
-          { target_label = "__address__"; replacement = blackbox_tcp; source_labels = [];}
-        ];
-      } {
-        job_name = "node";
-        static_configs = [{targets = ["localhost:9100"];}];
+      (icmp_probe {name = "up0_icmp"; addr=blackbox_tcp0;})
+      (icmp_probe {name = "up1_icmp"; addr=blackbox_tcp1;})
+
+      (http_probe {name = "up0_http"; addr=blackbox_tcp0;})
+      (http_probe {name = "up1_http"; addr=blackbox_tcp1;})
+
+      { job_name = "node"; static_configs = [{targets = ["localhost:9100"];}];
       } {
         job_name = "nft_prom";
         metrics_path = "/probe";
@@ -68,11 +81,6 @@ in {
       }
     ];
     exporters = {
-      blackbox = {
-        enable = true;
-        configFile = ./mon_p_blackbox.conf;
-        listenAddress = blackbox_ip;
-      };
       node = {
         enable = true;
         listenAddress = blackbox_ip;
