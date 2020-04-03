@@ -76,14 +76,10 @@ in {
     networkmanager.enable = false;
 
     interfaces = {
-      "eth_lan" = {
-        ipv4.addresses = [
-          { address = "10.19.4.1"; prefixLength = 24;}
-        ];
-        ipv6.addresses = [
-          { address = "fd9d:1852:3555:1200::1"; prefixLength = 80;}
-        ];
-      };
+      #"eth_lan" = {
+      #  ipv4.addresses = [{ address = "10.19.4.1"; prefixLength = 24;}];
+      #  ipv6.addresses = [{ address = "fd9d:1852:3555:1200::1"; prefixLength = 80;}];
+      #};
       "eth_o4" = {
         ipv6.addresses = [
           { address = "fd9d:1852:3555:200:ff00::1"; prefixLength = 64;}
@@ -94,7 +90,8 @@ in {
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::1"; prefixLength=64;}];
       };
       "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
-      "eth_wan".useDHCP = true;
+      "eth_wan0".useDHCP = true;
+      "eth_wan1".useDHCP = true;
     };
     # defaultGateway = "10.19.4.2";
 
@@ -112,9 +109,9 @@ in {
         runHook = with pkgs; ''
           PATH=$PATH:${iproute}/bin
           # /usr/bin/env
-          if [[ "$interface" = "eth_wan" ]]; then
+          if [[ "$interface" = "eth_wan0" ]]; then
             TABLE="up_0";
-          elif [[ "$interface" = "TODO" ]]; then
+          elif [[ "$interface" = "eth_wan1" ]]; then
             TABLE="up_1";
           else
             exit 0;
@@ -143,8 +140,8 @@ in {
     };
 
     localCommands = ''
-      ip rule add priority 65536 table up_0
-      ip rule add priority 65537 table up_1
+      ip rule add priority 65536 table up_1
+      ip rule add priority 65537 table up_0
     '';
 
     nftables = {
@@ -171,12 +168,12 @@ in {
   
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_lan"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired" # o1
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"  # o2
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"      # o3
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"      # o4
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan0"    # "wan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_wan1"    # "lan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired" # "o1"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"  # "o2"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"      # "o3"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"      # "o4"
   '';
 
   # intel_pstate cpufreq driver, on a HWP CPU.
