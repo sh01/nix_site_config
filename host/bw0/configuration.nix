@@ -104,11 +104,22 @@ in {
           noipv4ll
           timeout 8
           nohook lookup, resolv.conf
+          noipv6rs
+          waitip 4
+
+          interface eth_wan0
+            persistent
+          interface eth_wan1
+            persistent
+            #ipv6
+            #dhcp6
+            #ia_na
+            #ipv6rs
         '';
 
         runHook = with pkgs; ''
           PATH=$PATH:${iproute}/bin
-          # /usr/bin/env
+          #/usr/bin/env > "/tmp/t0/$$"
           if [[ "$interface" = "eth_wan0" ]]; then
             TABLE="up_0";
           elif [[ "$interface" = "eth_wan1" ]]; then
