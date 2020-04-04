@@ -3,8 +3,12 @@ let
   ssh_pub = import ./ssh_pub.nix;
   ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';
 in {
-  userSpecs = { u2g ? {}, keys ? {}}: rec {
-    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) (keys.sh or [ssh_pub.sh_allison]) {}];
+  userSpecs = { u2g ? {}, keys ? {}}:
+  let
+    sh_keys = keys.sh or [ssh_pub.sh_allison];
+  in rec {
+    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x"] ++ (u2g.sh or [])) sh_keys {}];
+    #root_sh = ["root_sh" 0 (["wheel" "root"]) sh_keys {home = "/root/sh";}];
     sh_prsw = ["sh_prsw" 1001 (["audio" "video" "sh_x"] ++ (u2g.prsw or [])) (keys.sh_prsw or []) {}];
     sh_prsw_net = ["sh_prsw_net" 1005 ["audio" "video" "sh_x"] (keys.sh_prsw or []) {}];
     sh_x = ["sh_x" 1002 [] [] {}];
