@@ -1,6 +1,7 @@
 #!@python3@/bin/python3
 
 import argparse
+import collections
 import json
 import re
 import subprocess
@@ -9,6 +10,7 @@ import sys
 from aiohttp import web
 
 
+# ================================ NFTables counters
 def parse_counters(jdc):
   tables = {}
   for it in jdc:
@@ -72,6 +74,48 @@ class NFT:
       
       return web.Response(text=''.join(output), content_type='text/plain; version=0.0.4')
     return handle
+
+
+# ================================ Iface info
+def INETstr2int(s):
+  from socket import inet_aton
+  from struct import unpack
+
+  rv, = unpack('>L', inet_aton(s))
+  return rv
+
+
+class IfInfo(collections.namedtuple('_IfInfo', ('addr', 'netmask'))):
+  def format(self, out, name, idx):
+    from json import dumps
+    label_str = '{{ifname={}, addr_idx="{:d}"}}'.format(dumps(name), idx)
+
+    out('ifinfo_address{} {:d}\n'.format(label_str, self.addr))
+    out('ifinfo_netmask{} {:d}\n'.format(label_str, self.netmask))
+
+def report_ifaces(req):
+  from netifaces import interfaces, ifaddresses, AF_INET
+  d = {}
+
+  for name in interfaces():
+    data = []
+    try:
+      v = ifaddresses(name)
+    except ValueError:
+      continue
+    for ad in v.get(AF_INET, []):
+      ii = IfInfo(INETstr2int(ad['addr']), INETstr2int(ad['netmask']))
+      data.append(ii)
+    d[name] = data
+
+  output = ['# TYPE ifinfo_{} gauge\n'.format(name) for name in ('address', 'netmask')]
+
+  for ifname, v in d.items():
+    for idx, ii in enumerate(v):
+      ii.format(output.append,  ifname, idx)
+
+  return web.Response(text=''.join(output), content_type='text/plain; version=0.0.4')
+
   
 def main():
   ap = argparse.ArgumentParser()
@@ -82,7 +126,8 @@ def main():
   app = web.Application()
   h = nft.get_handler()
   app.add_routes([
-    web.get('/probe', h)
+    web.get('/probe', h),
+    web.get('/probe_ifaces', report_ifaces)
    ])
   # Check NFT is present, functional and compatible.
   nft.get_counters()

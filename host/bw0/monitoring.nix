@@ -46,6 +46,7 @@ let
           { target_label = "__address__"; replacement = addr; source_labels = [];}
         ];
   };
+  nft_configs = [{targets = ["localhost:9101"];}];
 in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
@@ -77,7 +78,12 @@ in rec {
         metrics_path = "/probe";
         params = { ct_name_fmt = ["^(?P<dir>[io])/(?P<iface>[^/]*)/(?P<ttype>[^/]*)$"]; };
         scrape_interval = "64s";
-        static_configs = [{targets = ["localhost:9101"];}];
+        static_configs = nft_configs;
+      } {
+        job_name = "nft_prom_ii";
+        metrics_path = "/probe_ifaces";
+        scrape_interval = "256s";
+        static_configs = nft_configs;
       }
     ];
     exporters = {

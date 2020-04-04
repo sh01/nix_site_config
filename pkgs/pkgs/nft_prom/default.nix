@@ -6,6 +6,6 @@ let
 in pypkgs.buildPythonPackage rec {
   pname = "nft_prom";
   version = "0";
-  propagatedBuildInputs = [pypkgs.aiohttp nft];
+  propagatedBuildInputs = [pypkgs.aiohttp pypkgs.netifaces nft];
   src = ./py;
 }
