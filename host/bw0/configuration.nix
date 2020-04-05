@@ -130,7 +130,7 @@ in {
 
           TABLE="up_''${WIDX}"
           IF6="tun6_''${WIDX}"
-          new_ip_address_6to4="$(printf "2002:%02x%02x:%02x%02x::1" $(echo ''${new_ip_address} | tr "." " "))"
+          new_prefix="$(printf "2002:%02x%02x:%02x%02x" $(echo ''${new_ip_address} | tr "." " "))"
 
           # BOUND, RECONFIGURE,  NOCARRIER, EXPIRE, NAK
           set -x
@@ -141,8 +141,9 @@ in {
             # set up 6to4 tunnel
             ip tunnel add "''${IF6}" mode sit ttl 64 remote any local "''${new_ip_address}" || true
             ip link set dev "''${IF6}" up || true
-            ip -6 addr add ''${new_ip_address_6to4}/48 dev "''${IF6}" || true
-            ip -6 route add default via ::192.88.99.1 dev "''${IF6}" metric 1 table ''${TABLE} || true
+            ip -6 addr add ''${new_prefix}::1/48 dev "''${IF6}" || true
+            ip -6 route add default via ::192.88.99.1 dev "''${IF6}" metric 1 table "''${TABLE}" || true
+            ip -6 route add ''${new_prefix}:200::/64 dev eth_l_wired table "l_''${TABLE}"
 
           elif [ "$reason" = "EXPIRY" -o "$reason" = NOCARRIER -o "$reason" = NAK ]; then
             ip rule del priority 32767 table "''${TABLE}"
@@ -159,6 +160,8 @@ in {
       18 up_sticky
       19 up_0
       20 up_1
+      21 l_up_0
+      22 l_up_1
 '';
     };
 
@@ -179,6 +182,8 @@ in {
       done
 # No 6to4 support. Boo!
       ip -4 rule add priority 65537 table up_0
+      ip -6 rule add priority 30000 table l_up_1
+      ip -6 rule add priority 30000 table l_up_0
       true
     '';
 
@@ -196,6 +201,11 @@ in {
     enable = true;
     configFile = ./dhcpd4.conf;
     interfaces = ["eth_l_wired" "eth_l_wifi"];
+  };
+
+  services.radvd = {
+    enable = true;
+    config = (builtins.readFile ./radvd.conf);
   };
 
   systemd = {
@@ -227,6 +237,7 @@ in {
 
     openvpn
     iptables
+    radvd
     #nft_new
 
     # direct packages
