@@ -118,20 +118,32 @@ in {
         '';
 
         runHook = with pkgs; ''
-          PATH=$PATH:${iproute}/bin
+          PATH=$PATH:${iproute}/bin:${coreutils}/bin
           #/usr/bin/env > "/tmp/t0/$$"
           if [[ "$interface" = "eth_wan0" ]]; then
-            TABLE="up_0";
+            WIDX=0
           elif [[ "$interface" = "eth_wan1" ]]; then
-            TABLE="up_1";
+            WIDX=1
           else
-            exit 0;
+            exit 0
           fi
+
+          TABLE="up_''${WIDX}"
+          IF6="tun6_''${WIDX}"
+          new_ip_address_6to4="$(printf "2002:%02x%02x:%02x%02x::1" $(echo ''${new_ip_address} | tr "." " "))"
+
           # BOUND, RECONFIGURE,  NOCARRIER, EXPIRE, NAK
           set -x
-          if [ "$reason" = BOUND -o "$reason" = RECONFIGURE ]; then
+          if [ "$reason" = BOUND -o "$reason" = RECONFIGURE -o "$reason" = REBOOT ]; then
             ip rule add from "''${new_ip_address}"/32 priority 32767 table "''${TABLE}"
-            for router in ''${new_routers}; do ip route add table "''${TABLE}" dev "''${interface}" via "''${router}" default; done;
+            for router in ''${new_routers}; do ip route add table "''${TABLE}" dev "''${interface}" via "''${router}" default; done
+
+            # set up 6to4 tunnel
+            ip tunnel add "''${IF6}" mode sit ttl 64 remote any local "''${new_ip_address}" || true
+            ip link set dev "''${IF6}" up || true
+            ip -6 addr add ''${new_ip_address_6to4}/48 dev "''${IF6}" || true
+            ip -6 route add default via ::192.88.99.1 dev "''${IF6}" metric 1 table ''${TABLE} || true
+
           elif [ "$reason" = "EXPIRY" -o "$reason" = NOCARRIER -o "$reason" = NAK ]; then
             ip rule del priority 32767 table "''${TABLE}"
             ip route flush table "''${TABLE}";
@@ -152,18 +164,22 @@ in {
 
     localCommands = ''
       set +e
-      # Link-probe addresses
+# Link-probe addresses
       ip addr replace dev lo noprefixroute scope link 10.250.0.10
       ip addr replace dev lo noprefixroute scope link 10.250.0.11
       ip rule add priority 1024 from 10.250.0.10 table up_0
       ip rule add priority 1024 from 10.250.0.11 table up_1
       ip rule add priority 1025 from 10.250.0.0/24 blackhole
-      ip rule add priority 40000 uidrange 2080-2080 table up_0
-      ip rule add priority 40000 uidrange 2081-2081 table up_1
-      ip rule add priority 40001 uidrange 2080-2081 blackhole
-      # default routes
-      ip rule add priority 65536 table up_1
-      ip rule add priority 65537 table up_0
+      for v in 4 6; do
+        ip -$v rule add priority 40000 uidrange 2080-2080 table up_0
+        ip -$v rule add priority 40000 uidrange 2081-2081 table up_1
+        ip -$v rule add priority 40001 uidrange 2080-2081 blackhole
+# default routes
+        ip -$v rule add priority 65536 table up_1
+      done
+# No 6to4 support. Boo!
+      ip -4 rule add priority 65537 table up_0
+      true
     '';
 
     nftables = {
