@@ -51,6 +51,8 @@ bindkey ';5C' forward-word
 eval $(dircolors -b /etc/DIR_COLORS)
 # Less
 export LESS='-RQP%f %bB/%B (%lB/%L) ?e(EOF):[%pB\%].?x - Next\: %x.:?pB%pB\%..%t'
+# iostat
+export S_COLORS=always
 
 ### Shell style settings
 # Colored completions. :)
