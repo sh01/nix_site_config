@@ -77,7 +77,7 @@ in {
     "/boot" = { label = "keiko_boot1"; options=["noauto"] ++ baseOpts; };
     "/mnt/a0" = { device = "/dev/mapper/a0"; options = btrfsOptsNA; };
     "/mnt/a1" = { device = "/dev/mapper/a1"; options = btrfsOptsNA; };
-    "/mnt/a2" = { device = "/dev/mapper/a2"; options = btrfsOptsNA; };
+    "/mnt/a7" = { device = "/dev/mapper/a7"; options = btrfsOptsNA; };
   };
 
   ### Boot config
