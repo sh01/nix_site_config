@@ -82,7 +82,7 @@ in rec {
       } {
         job_name = "nft_prom_ii";
         metrics_path = "/probe_ifaces";
-        scrape_interval = "256s";
+        scrape_interval = "96s";
         static_configs = nft_configs;
       }
     ];
