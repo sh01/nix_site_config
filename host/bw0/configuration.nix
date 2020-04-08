@@ -249,6 +249,7 @@ in {
 
   sound.enable = false;
   security.polkit.enable = false;
+  security.sudo.wheelNeedsPassword = false;
 
   fileSystems = {
     "/" = {
