@@ -22,19 +22,24 @@ let
     privateNetwork = true;
   };
   lpkgs = pkgs.callPackage ../pkgs {};
+  mpkgs = pkgs.callPackage ../pkgs/pkgs/meta {};
 in rec {
   sysPkgsBase = with pkgs; [
     less
     file
     zsh
     hexedit
+    lsof
     unzip
     binutils
     patchelf
     screen
+    strace
     tmux
     git
-    python
+    python3
+    mpkgs.emacs_packages
+    psmisc
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_mc0
