@@ -1,5 +1,6 @@
+{ pkgs, ... }:
 let
-  lpkgs = (import ../.. {});
+  nft_prom = pkgs.callPackage ./default.nix {};
 in {
   systemd.services.nft_prom = {
     wantedBy = [ "prometheus.service" ];
@@ -7,7 +8,7 @@ in {
     serviceConfig = {
       Restart = "always";
       WorkingDirectory="/var/empty";
-      ExecStart = "${lpkgs.nft_prom}/bin/nft_prom.py --port 9101";
+      ExecStart = "${nft_prom}/bin/nft_prom.py --port 9101";
     };
   };
 }

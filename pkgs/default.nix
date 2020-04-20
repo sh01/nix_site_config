@@ -1,11 +1,12 @@
-{ system ? builtins.currentSystem }:
-
+{ system ? builtins.currentSystem, pkgs ? null }:
+assert pkgs != null;
 let
-  pkgs_base = import <nixpkgs> { inherit system; };
-  pkgs = pkgs_base // self;
-  callPackage = pkgs.lib.callPackageWith(pkgs);
+  pkgs_base = if pkgs != null then pkgs else (import <nixpkgs> { inherit system; });
+  pkgs_ = pkgs_base // self;
+  callPackage = pkgs_.lib.callPackageWith(pkgs_);
   self = rec {
-    inherit callPackage pkgs;
+    inherit callPackage;
+    pkgs = pkgs_;
     arch32 = (import ./default.nix { system = "i686-linux";});
 
     start_nix = callPackage ./pkgs/start_nix {};
@@ -27,4 +28,4 @@ let
     SH_dep_ggame = callPackage ./pkgs/dep/ggame {name = "ggame"; LINKNAME = "ggame/64"; };
     SH_dep_ggame32 = callPackage ./pkgs/dep/ggame {pkgs = arch32.pkgs; name = "ggame32"; LINKNAME = "ggame/32"; };
   };
-in pkgs
+in pkgs_

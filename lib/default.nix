@@ -1,6 +1,5 @@
-let
-  pkgs = import <nixpkgs> {};
-in with pkgs.lib; rec {
+{pkgs, ...}:
+with pkgs.lib; rec {
   mkGroups = specs: mkMerge ((map (s:
     let U = elemAt s 0;
     in { "${U}" = {
@@ -26,4 +25,6 @@ in with pkgs.lib; rec {
     users = mkUsers specs;
     groups = mkGroups specs;
   };
+
+  lpkgs = (pkgs.callPackage ../../pkgs {});
 }

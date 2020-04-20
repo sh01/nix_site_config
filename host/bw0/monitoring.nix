@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 with lib;
-
 let
+  slib = (pkgs.callPackage ../../lib {});
   influx_addr = "127.0.0.5:";
   # prometheus config things
   writePrettyJSON = name: x:
@@ -53,13 +53,14 @@ in rec {
   ];
   # Prometheus
   systemd.services = {
-    prometheus.script = mkForce "exec ${pkgs.prometheus_2}/bin/prometheus --config.file=${promYml} --storage.tsdb.retention=128y";
+    #prometheus.script = mkForce "exec ${pkgs.prometheus}/bin/prometheus --config.file=${promYml} --storage.tsdb.retention=128y";
     "prometheus-blackbox-exporter-0" = prom_bb {inherit pkgs; listen="127.0.0.1:9115"; user="mon_0";};
     "prometheus-blackbox-exporter-1" = prom_bb {inherit pkgs; listen="127.0.0.1:9116"; user="mon_1";};
   };
 
   services.prometheus = {
     enable = true;
+    extraFlags = ["--storage.tsdb.retention=128y"];
     globalConfig = {
       scrape_interval = "32s";
       evaluation_interval = "32s";
@@ -150,13 +151,13 @@ in rec {
   systemd.services.influxdb.postStart = lib.mkForce "";*/
 
   # Fix flake test error at 18.9 by overriding running of borked test cases.
-  nixpkgs.config.packageOverrides = super: {
+  #nixpkgs.config.packageOverrides = super: {
     # Prometheus fixes
-    python27 = super.python27.override {
-      packageOverrides = python-self: python-super: {
-        pyopenssl = python-super.pyopenssl.overridePythonAttrs (old: { doCheck = false;} );
-      };
-    };
-    prometheus_2 = super.prometheus_2.overrideAttrs (old: { doCheck = false; });
-  };
+    #python27 = super.python27.override {
+      #packageOverrides = python-self: python-super: {
+        #pyopenssl = python-super.pyopenssl.overridePythonAttrs (old: { doCheck = false;} );
+      #};
+    #};
+    #prometheus_2 = super.prometheus_2.overrideAttrs (old: { doCheck = false; });
+  #};
 }
