@@ -1,17 +1,14 @@
-# bw1 is a router box
+# bw0 is a router box
 { config, pkgs, lib, ... }:
 
 let
   inherit (lib) mkForce;
-  lpkgs = (import ../../pkgs {});
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = import ../../lib;
+  slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
   };
-  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
-  #nft_new = (pkgs.callPackage ../../pkgs/pkgs/nftables-0.9.2/default.nix {});
 in {
   imports = [
     ./hardware-configuration.nix
@@ -19,11 +16,14 @@ in {
     ../../base
     ../../base/nox.nix
     ../../base/site_wl.nix
+    ../../fix/19_9.nix
   ];
 
   ### Boot config
+  hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
+    #kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [
       # Reboot on kernel panic
@@ -33,7 +33,6 @@ in {
     ];
     # loader.initScript.enable = true;
     initrd = {
-      prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
       luks.devices = [{
         name = "root";
         device = "/dev/disk/by-partlabel/bw0_r0_c";
@@ -192,8 +191,8 @@ in {
       rulesetFile = ./nft.conf;
     };
     # Push this way out of the way.
-    #resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
-    extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
+    resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
+    #extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   };
   environment.etc."resolv.conf" = dns.resolvConf;
 
@@ -233,15 +232,16 @@ in {
   environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
     base
     cliStd
+    moreutils
     nixBld
 
     openvpn
     iptables
     radvd
-    #nft_new
+    nftables
 
     # direct packages
-    prometheus_2
+    prometheus
     influxdb
     openntpd
     uptimed
