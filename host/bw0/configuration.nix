@@ -22,7 +22,6 @@ in {
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    #kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
     kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [
@@ -73,6 +72,7 @@ in {
     useDHCP = false;
     firewall.enable = false;
     networkmanager.enable = false;
+    useNetworkd = false;
 
     interfaces = {
       #"eth_lan" = {
@@ -89,8 +89,14 @@ in {
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::1"; prefixLength=64;}];
       };
       "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
-      "eth_wan0".useDHCP = true;
-      "eth_wan1".useDHCP = true;
+      "eth_wan0" = {
+        preferTempAddress = false;
+        useDHCP = true;
+      };
+      "eth_wan1" = {
+        useDHCP = true;
+        preferTempAddress = false;
+      };
     };
     # defaultGateway = "10.19.4.2";
 
@@ -192,7 +198,6 @@ in {
     };
     # Push this way out of the way.
     resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
-    #extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
   };
   environment.etc."resolv.conf" = dns.resolvConf;
 
