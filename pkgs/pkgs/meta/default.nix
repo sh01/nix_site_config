@@ -46,7 +46,7 @@ let P = name: d: derivation {
     unzip
     xz
  
-    pythonFull
+    python
     python3
     python35Packages.pyusb
     bc
@@ -180,6 +180,9 @@ let P = name: d: derivation {
     xhost
     xsecurelock
     xss-lock
+
+    pythonFull
+    python3Full
   ];
 
   # To link directly into lib dirs for use by non-Nix programs
