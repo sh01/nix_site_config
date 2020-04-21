@@ -19,6 +19,18 @@ in {
       };
       patches = [];
     });
+    expat = overrideDerivation up.expat (up:
+      let
+        p0 = (elemAt up.patches 0);
+      in rec {
+      #patches = [(fetchpatch {
+      #  url = (elemAt p0.urls 0);
+      #  sha256 = p0.outputHash;
+      #  stripLen = 1;
+      #})];
+      patches = [];
+    });
+
     # Fix flake test error by overriding running of borked test cases.
     # Pythons: Skip stupid flaky tests.
     python27 = up.python27.override pyfix;
