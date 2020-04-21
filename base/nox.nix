@@ -19,6 +19,7 @@
     #    cairo = _: null;
     #  };
     #};
+    cairo = pkgs.cairo.override { x11Support = false; gobjectSupport = false; libGLSupported = false; glSupport = false; libGL = false; pdfSupport = false; };
   };
 
   fonts.fontconfig.enable = false;
