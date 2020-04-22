@@ -23,7 +23,7 @@ in rec {
   imports = [
     ./channel.nix
   ];
-
+  
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
   
@@ -134,6 +134,9 @@ fi
   networking.firewall.allowPing = true;
   networking.firewall.rejectPackets = true;
 
+  # Prevent dangerous distri hosts from being contacted.
+  networking.extraHosts = "127.255.0.1 cache.nixos.org";
+  
   #### Per-program config
   programs.ssh.startAgent = false;
   programs.ssh.knownHosts = ssh_pub.knownHosts;
