@@ -96,9 +96,9 @@ in rec {
     daemonIONiceLevel = 2;
     daemonNiceLevel = 2;
     extraOptions = ''
-#use-binary-caches = false
 keep-env-derivations = true
-build-use-substitutes = true
+substitute = false
+build-use-substitutes = false
 trusted-public-keys = foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI=
 '';
   };
@@ -136,7 +136,7 @@ fi
 
   # Prevent dangerous distri hosts from being contacted.
   networking.extraHosts = "127.255.0.1 cache.nixos.org";
-  
+
   #### Per-program config
   programs.ssh.startAgent = false;
   programs.ssh.knownHosts = ssh_pub.knownHosts;
