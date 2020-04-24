@@ -125,7 +125,6 @@ in rec {
 
   services.grafana = {
     enable = true;
-    package = (pkgs.callPackage ./grafana.nix {});
     auth.anonymous = {
       enable = true;
       org_name = "main";

@@ -1,4 +1,4 @@
-{mkForce, overrideDerivation, ...}: {
+{mkForce, lib, ...}: {
   nixpkgs.config.packageOverrides = pkgs: rec {
     # Don't pull in a full gtk stack for this.
     gnupg = pkgs.gnupg.override { guiSupport = false; };
@@ -20,9 +20,34 @@
     #  };
     #};
     # Pulled in indirectly for documentation compilation by build environments.
-    cairo = pkgs.cairo.override { x11Support = false; gobjectSupport = false; libGLSupported = false; glSupport = false; libGL = false; pdfSupport = false; };
+    cairo = pkgs.cairo.override { x11Support = true; libGLSupported = false; glSupport = false; libGL = false; pdfSupport = false; };
     # Borked.
     #pango = pkgs.pango.override { x11Support = false; };
+
+    qt5 = (pkgs.qt5.override { cups = null; postgresql = null; withGtk3 = false; dconf = null; gtk3 = null; libGLSupported = false; });
+    qt512 = pkgs.qt512.overrideScope' (_: up: {
+      qtwebkit = (up.qtwebkit.overrideAttrs (_: {
+        cmakeFlags = ["-DPORT=Qt" "-DENABLE_WEB_AUDIO=OFF" "-DENABLE_VIDEO=OFF" "-DENABLE_WEBGL=OFF" "-DENABLE_LEGACY_WEB_AUDIO=OFF" "-DENABLE_MEDIA_SOURCE=OFF"];
+        # --no-web-audio --no-webgl
+      })).override {
+        gst_all_1 = {
+          gstreamer = null;
+          gst-plugins-base = null;
+        };
+      };
+    });
+    mesa = pkgs.mesa.override { enableRadv = false; vulkanDrivers = []; eglPlatforms = ["x11" "surfaceless"]; withValgrind = false; };
+    gtk3 = pkgs.gtk3.override { x11Support = false; xineramaSupport = false; cupsSupport = false; };
+    gst_all_1 = pkgs.gst_all_1 // (let up = pkgs.gst_all_1; in {
+      #gst-plugins-base = up.gst-plugins-base.override { enableX11 = true; enableWayland = false; enableAlsa = false; enableCocoa = false; enableCdparanoia = false; };
+      gst-plugins-base = null;
+    });
+    libsForQt512 = pkgs.libsForQt512 // (let up = pkgs.libsForQt512; in {
+      qtbase = up.qtbase.override {libGLSupported = false; cups = null; mysql = null; postgresql = null; withGtk3 = false; dconf = null;};
+    });
+    libpulseaudio = null;
+    #libtheora = null;
+    libvorbis = null;
   };
 
   fonts.fontconfig.enable = false;

@@ -46,5 +46,11 @@ in {
         };
       };
     };
+    libuv = up.libuv.overrideAttrs (_: {
+      doCheck = false;
+    });
+    # Borked by unavailable patch for security issue.
+    libvorbis = null;
+    libtheora = null;
   };
 }
