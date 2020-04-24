@@ -52,5 +52,8 @@ in {
     # Borked by unavailable patch for security issue.
     libvorbis = null;
     libtheora = null;
+
+    # Non-crucial, but nice fixes.
+    nix = up.nix.override { withAWS = false; };
   };
 }
