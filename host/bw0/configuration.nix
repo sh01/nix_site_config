@@ -97,6 +97,14 @@ in {
         useDHCP = true;
         preferTempAddress = false;
       };
+      "tun6_0" = {
+        virtual = true;
+        virtualType = "tun";
+      };
+      "tun6_1" = {
+        virtual = true;
+        virtualType = "tun";
+      };
     };
     # defaultGateway = "10.19.4.2";
 
