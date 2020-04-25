@@ -197,6 +197,9 @@ in {
       ip -4 rule add priority 65537 table up_0
       ip -6 rule add priority 30000 table l_up_1
       ip -6 rule add priority 30000 table l_up_0
+
+      # Rerun nft setup here; it needs nixos's virtual ifaces to be created, and
+      # Nix runs its own nftables setup before that step.
       ${pkgs.nftables}/bin/nft -f ${./nft.conf}
       true
     '';
