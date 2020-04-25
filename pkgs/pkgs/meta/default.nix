@@ -58,6 +58,7 @@ let P = name: d: derivation {
     socat
     tcpdump
     traceroute
+    tunctl
     wget
     whois
     ebtables
@@ -86,6 +87,8 @@ let P = name: d: derivation {
     git
     openssl
     gnupg
+
+    stdenv
   ];
 
   ### Base documentation
