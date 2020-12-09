@@ -42,7 +42,7 @@ in rec {
   networking = {
     hostName = "yalda";
     hostId = "84d6fc01";
-    iproute2 = vars.iproute2;
+    #iproute2 = vars.iproute2;
     interfaces = {
       "eth_lan" = {
         ipv4.addresses = [{
