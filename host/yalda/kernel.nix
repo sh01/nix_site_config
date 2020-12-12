@@ -4,7 +4,7 @@ let
   kp = vars.kernelPatches;
 in {
   #### Kernel config
-  powerManagement.cpuFreqGovernor = "ondemand";
+  #powerManagement.cpuFreqGovernor = "ondemand";
 
   nixpkgs.config.packageOverrides = p: {
     stdenv = p.stdenv // {
