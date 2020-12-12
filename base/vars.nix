@@ -1,4 +1,4 @@
-with (import <nixpkgs/lib/kernel.nix> {lib = null; version = null;});
+with (import <nixpkgs/lib/kernel.nix> {lib = null;});
 let
   ssh_pub = import ./ssh_pub.nix;
   ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';

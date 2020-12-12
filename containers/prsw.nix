@@ -1,4 +1,4 @@
-{ sysPkgs, rks, uks }:
+{ sysPkgs, rks, uks, ... }:
 let
   vars = import ../base/vars.nix;
   slib = import ../lib;
@@ -15,7 +15,7 @@ in {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    s3tcSupport = true;
+    #s3tcSupport = true;
   };
   
   ### User / Group config

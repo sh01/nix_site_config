@@ -1,7 +1,7 @@
 let
   vars = (import ../../base/vars.nix);
   ko = vars.kernelOpts;
-in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null; version = null;}); base // netStd // termHwStd // termVideo // blkStd // {
+in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd // termHwStd // termVideo // blkStd // {
 IRQ_TIME_ACCOUNTING = yes;
 MODULE_FORCE_LOAD = yes;
 MODULE_SRCVERSION_ALL = yes;

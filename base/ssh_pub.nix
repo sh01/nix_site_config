@@ -30,14 +30,13 @@ in rec {
 
   hk_bw0 = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJtyFexV2+utU0Y0EYuJoxgfNKUcOqQ7yCx0QgKhEfbdmBB2U/usZ0gIoTT0pxoqbPOuqk1YYza7BwxM6AJs7hGcuMmRzsqSU9eG9Ow8JT7NyhdLUKes37U+6EA1vea2JmNsvmGvzsmRVB3/tDGpsoSgJhWsKK2Mboc1n6g5UAC+8GHDn329N6nQ7u/wucwC6vFEZa/T2Fppu79eKgjxpyDRO1iWHiEE8pO8mbFWQfrvoKcoyIWbjdh/6s9sARrZ1w15j90OFDOpPMKxIIOff5CIiiwQERdmRL/QNtZOkOCoEUUgU2byKNASoieC8w0voh6OUOtgoecjWsLTiNXJ5Z";
   
-
-  knownHosts = [
-    { hostNames = HN "allison"; publicKey = hk_allison;}
-    { hostNames = HN "keiko"; publicKey = hk_keiko;}
-    { hostNames = HN "uiharu"; publicKey = hk_uiharu;}
-    { hostNames = HN "yalda"; publicKey = hk_yalda;}
-    { hostNames = HN "rune"; publicKey = hk_rune;}
-    { hostNames = [ "ika.r.sh.s" "138.68.246.52"]; publicKey = hk_ika;}
-    { hostNames = ["bw0" "bw0.ulwired-ctl.s."]; publicKey = hk_bw0;}
-  ];
+  knownHosts = {
+    allison = { hostNames = HN "allison"; publicKey = hk_allison;};
+    keiko = { hostNames = HN "keiko"; publicKey = hk_keiko;};
+    uiharu = { hostNames = HN "uiharu"; publicKey = hk_uiharu;};
+    yalda = { hostNames = HN "yalda"; publicKey = hk_yalda;};
+    rune = { hostNames = HN "rune"; publicKey = hk_rune;};
+    ika = { hostNames = [ "ika.r.sh.s" "138.68.246.52"]; publicKey = hk_ika;};
+    bw0 = { hostNames = ["bw0" "bw0.ulwired-ctl.s."]; publicKey = hk_bw0;};
+  };
 }
