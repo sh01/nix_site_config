@@ -18,7 +18,7 @@ in {
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;
       synaptics = {
-        enable = true;
+        #enable = true;
       };
       videoDrivers = ["intel"];
     };

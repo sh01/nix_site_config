@@ -12,7 +12,7 @@ echo "== LDEPS: $LDEPS"
 
 for D in ${LDEPS}; {
   cd $D;
-  for d in $(find lib -type d); {
+  for d in $(find -L lib -type d); {
     #echo $D $d
     if [ ! -e ${O}/${d} ]; then
       mkdir -p ${O}/${d}

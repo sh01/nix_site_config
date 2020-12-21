@@ -48,7 +48,7 @@ let P = name: d: derivation {
  
     python
     python3
-    python35Packages.pyusb
+    python3Packages.pyusb
     bc
 
     iputils
@@ -170,8 +170,8 @@ let P = name: d: derivation {
 
     xorgserver
     xkeyboard_config
-    dri2proto
-    dri3proto
+    #dri2proto
+    #dri3proto
 
     xclock
     xdpyinfo
