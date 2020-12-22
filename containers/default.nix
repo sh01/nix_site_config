@@ -83,7 +83,7 @@ in rec {
         };
       } // bbMounts // gpuMounts;
     } // gpuAllow // (net "3");
-    prsw_net = {
+    "prsw-net" = {
       config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
@@ -98,7 +98,7 @@ in rec {
   termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh]); {
     browsers = browsers;
     prsw = prsw;
-    prsw_net = prsw_net;
+    "prsw-net" = prsw-net;
   };
 
   # TODO-maybe: Add some more functional way to derive this config.
