@@ -3,10 +3,9 @@
 
 let
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = import ../../lib;
+  slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {};
-  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in {
   imports = [
     ./hardware-configuration.nix
@@ -14,6 +13,7 @@ in {
     ../../base
     ../../base/nox.nix
     ../../base/site_wl.nix
+    ../../fix/19_9.nix
   ];
 
   ##### Host id stuff
@@ -38,14 +38,16 @@ in {
           { address = "fd9d:1852:3555::"; prefixLength = 48; via = "fd9d:1852:3555:200::1";}
           { address = "::"; prefixLength = 0; via = "2001:470:7af3:1:1::1";}
         ];
+      preferTempAddress = false;
       };
     };
     firewall.enable = false;
     useDHCP = false;
     dhcpcd.allowInterfaces = [];
+    useNetworkd = false;
 
     #defaultGateway = "10.16.0.1";
-    extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
+    resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   } // dns.conf;
 
   # Name network devices statically based on MAC address
@@ -82,12 +84,11 @@ in {
 
   ### Boot config
   # boot.loader.initScript.enable = true;
+  hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    #kernelPackages = pkgs.linuxPackages_4_9;
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     initrd = {
-      prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
       luks.devices = [{
         name = "luksVg0";
         device = "/dev/disk/by-partlabel/keiko_vg0";
@@ -119,10 +120,13 @@ in {
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; [sh cc sh_yalda es_github mail-sh]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [
+    sh cc es_github mail-sh
+    sh_yalda
+  ]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "16.03";
+  system.stateVersion = "16.09";
 
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;

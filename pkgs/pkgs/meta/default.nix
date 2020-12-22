@@ -10,7 +10,7 @@ let P = name: d: derivation {
 
   ### Base utilities and libraries
   base = P "base" [
-    (import ../../default.nix {}).SH_scripts
+    (pkgs.callPackage ../../default.nix {}).SH_scripts
 
     glibcLocales
 
@@ -46,7 +46,7 @@ let P = name: d: derivation {
     unzip
     xz
  
-    pythonFull
+    python
     python3
     python3Packages.pyusb
     bc
@@ -58,11 +58,12 @@ let P = name: d: derivation {
     socat
     tcpdump
     traceroute
+    tunctl
     wget
     whois
     ebtables
-    #nftables
-    (pkgs.callPackage ../nftables-0.9.2/default.nix {})
+    nftables
+    #(pkgs.callPackage ../nftables-0.9.2/default.nix {})
     iftop
     dnsutils
 
@@ -86,6 +87,8 @@ let P = name: d: derivation {
     git
     openssl
     gnupg
+
+    stdenv
   ];
 
   ### Base documentation
@@ -180,6 +183,9 @@ let P = name: d: derivation {
     xhost
     xsecurelock
     xss-lock
+
+    pythonFull
+    python3Full
   ];
 
   # To link directly into lib dirs for use by non-Nix programs

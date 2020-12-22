@@ -23,7 +23,7 @@ in rec {
   imports = [
     ./channel.nix
   ];
-
+  
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
   
@@ -96,9 +96,9 @@ in rec {
     daemonIONiceLevel = 2;
     daemonNiceLevel = 2;
     extraOptions = ''
-#use-binary-caches = false
 keep-env-derivations = true
-build-use-substitutes = true
+substitute = false
+build-use-substitutes = false
 trusted-public-keys = foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI=
 substituters = file:///var/local/nix/cache
 '';
@@ -134,6 +134,9 @@ fi
   #### Nix firewall
   networking.firewall.allowPing = true;
   networking.firewall.rejectPackets = true;
+
+  # Prevent dangerous distri hosts from being contacted.
+  networking.extraHosts = "127.255.0.1 cache.nixos.org";
 
   #### Per-program config
   programs.ssh.startAgent = false;

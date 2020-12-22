@@ -1,17 +1,14 @@
-# bw1 is a router box
+# bw0 is a router box
 { config, pkgs, lib, ... }:
 
 let
   inherit (lib) mkForce;
-  lpkgs = (import ../../pkgs {});
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = import ../../lib;
+  slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
   };
-  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
-  #nft_new = (pkgs.callPackage ../../pkgs/pkgs/nftables-0.9.2/default.nix {});
 in {
   imports = [
     ./hardware-configuration.nix
@@ -19,11 +16,13 @@ in {
     ../../base
     ../../base/nox.nix
     ../../base/site_wl.nix
+    ../../fix/19_9.nix
   ];
 
   ### Boot config
+  hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix { structuredExtraConfig = (import ./kernel_conf.nix);});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [
       # Reboot on kernel panic
@@ -33,7 +32,6 @@ in {
     ];
     # loader.initScript.enable = true;
     initrd = {
-      prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
       luks.devices = [{
         name = "root";
         device = "/dev/disk/by-partlabel/bw0_r0_c";
@@ -74,6 +72,7 @@ in {
     useDHCP = false;
     firewall.enable = false;
     networkmanager.enable = false;
+    useNetworkd = false;
 
     interfaces = {
       #"eth_lan" = {
@@ -90,8 +89,22 @@ in {
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::1"; prefixLength=64;}];
       };
       "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
-      "eth_wan0".useDHCP = true;
-      "eth_wan1".useDHCP = true;
+      "eth_wan0" = {
+        preferTempAddress = false;
+        useDHCP = true;
+      };
+      "eth_wan1" = {
+        useDHCP = true;
+        preferTempAddress = false;
+      };
+      "tun6_0" = {
+        virtual = true;
+        virtualType = "tun";
+      };
+      "tun6_1" = {
+        virtual = true;
+        virtualType = "tun";
+      };
     };
     # defaultGateway = "10.19.4.2";
 
@@ -184,6 +197,10 @@ in {
       ip -4 rule add priority 65537 table up_0
       ip -6 rule add priority 30000 table l_up_1
       ip -6 rule add priority 30000 table l_up_0
+
+      # Rerun nft setup here; it needs nixos's virtual ifaces to be created, and
+      # Nix runs its own nftables setup before that step.
+      ${pkgs.nftables}/bin/nft -f ${./nft.conf}
       true
     '';
 
@@ -192,8 +209,7 @@ in {
       rulesetFile = ./nft.conf;
     };
     # Push this way out of the way.
-    #resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
-    extraResolvconfConf = "resolv_conf=/etc/__resolvconf.out";
+    resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   };
   environment.etc."resolv.conf" = dns.resolvConf;
 
@@ -215,13 +231,14 @@ in {
   };
   
   # Name network devices statically based on MAC address
+  # Ports, in order: "wan", "lan", "o1", "o2", "o3", "o4"
   services.udev.extraRules = ''
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan0"    # "wan"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_wan1"    # "lan"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired" # "o1"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"  # "o2"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"      # "o3"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"      # "o4"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan0"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_wan1"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
   '';
 
   # intel_pstate cpufreq driver, on a HWP CPU.
@@ -233,15 +250,16 @@ in {
   environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
     base
     cliStd
+    moreutils
     nixBld
 
     openvpn
     iptables
     radvd
-    #nft_new
+    nftables
 
     # direct packages
-    prometheus_2
+    prometheus
     influxdb
     openntpd
     uptimed
