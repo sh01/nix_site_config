@@ -30,6 +30,7 @@ with pkgs; (callPackage ../base.nix {
     ## toolkits
     gnome3.gtk gnome2.GConf pango.out glib gtk2-x11
     pythonPackages.pygame pythonPackages.pygame_sdl2
+    glib.out
     # Audio stuff.
     alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile.out flac.out libmad fluidsynth
     # Networking

@@ -100,6 +100,7 @@ in rec {
 keep-env-derivations = true
 build-use-substitutes = true
 trusted-public-keys = foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI=
+substituters = file:///var/local/nix/cache
 '';
   };
   #### Nix setup scripts
