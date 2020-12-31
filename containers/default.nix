@@ -48,6 +48,7 @@ in rec {
     SH_dep_gbase
     SH_dep_ggame
     SH_dep_ggame32
+    wine
     # Binaries used by libs
     pkgs.xorg.xrandr
     gnome3.zenity
