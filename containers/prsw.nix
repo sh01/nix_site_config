@@ -1,7 +1,7 @@
-{ sysPkgs, rks, uks, ... }:
+{ pkgs, sysPkgs, rks, uks, ... }:
 let
   vars = import ../base/vars.nix;
-  slib = import ../lib;
+  slib = (pkgs.callPackage ../lib {});
   dns = (import ../base/dns.nix) {};
 in {
   imports = [

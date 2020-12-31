@@ -1,5 +1,4 @@
 # Yalda is a desktop deployment with a focus on games.
-
 { config, pkgs, lib, ... }:
 
 let

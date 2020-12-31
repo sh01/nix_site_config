@@ -74,7 +74,7 @@ in rec {
       } // bbMounts;
     } // (net "2");
     prsw = {
-      config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw" = {
@@ -84,7 +84,7 @@ in rec {
       } // bbMounts // gpuMounts;
     } // gpuAllow // (net "3");
     "prsw-net" = {
-      config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw_net" = {

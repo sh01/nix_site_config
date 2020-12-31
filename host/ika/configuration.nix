@@ -8,7 +8,7 @@ let
   inherit (pkgs) callPackage;
   inherit (lib) mkForce;
   lpkgs = (import ../../pkgs {});
-  slib = import ../../lib;
+  slib = (callPackage ../../lib {});
   ssh_pub = import ../../base/ssh_pub.nix;
   nft = callPackage ../../base/nft.nix {};
   vars = import ../../base/vars.nix;

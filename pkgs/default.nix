@@ -1,5 +1,5 @@
 { system ? builtins.currentSystem, pkgs ? null }:
-assert pkgs != null;
+#assert pkgs != null;
 let
   pkgs_base = if pkgs != null then pkgs else (import <nixpkgs> { inherit system; });
   pkgs_ = pkgs_base // self;

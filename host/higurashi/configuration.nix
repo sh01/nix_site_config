@@ -1,6 +1,6 @@
 # Higurashi is an emergency recovery/setup environment.
 { config, pkgs, lib, ... }: let
-  slib = import ../../lib;
+  slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
 in {
   imports = [ ./base.nix ];

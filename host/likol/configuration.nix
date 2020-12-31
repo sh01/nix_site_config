@@ -4,7 +4,7 @@
 let
   lpkgs = (import ../../pkgs {});
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = import ../../lib;
+  slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {
     searchPath = [];
