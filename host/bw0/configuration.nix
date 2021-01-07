@@ -220,7 +220,7 @@ in {
   };
 
   services.radvd = {
-    enable = true;
+    enable = false;
     config = (builtins.readFile ./radvd.conf);
   };
 
