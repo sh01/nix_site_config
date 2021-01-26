@@ -39,7 +39,7 @@ in {
           { address = "fd9d:1852:3555::"; prefixLength = 48; via = "fd9d:1852:3555:200::1";}
           { address = "::"; prefixLength = 0; via = "2001:470:7af3:1:1::1";}
         ];
-      preferTempAddress = false;
+      tempAddress = "disabled";
       };
     };
     firewall.enable = false;
