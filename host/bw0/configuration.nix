@@ -22,7 +22,8 @@ in {
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
+    #kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [
       # Reboot on kernel panic
@@ -32,15 +33,16 @@ in {
     ];
     # loader.initScript.enable = true;
     initrd = {
-      luks.devices = [{
-        name = "root";
-        device = "/dev/disk/by-partlabel/bw0_r0_c";
-        preLVM = true;
-        fallbackToPassword = true;
-        allowDiscards = true;
-        keyFile = "/dev/disk/by-partlabel/bw0_key0";
-        keyFileSize = 64;
-      }];
+      luks.devices = {
+        "root" = {
+          device = "/dev/disk/by-partlabel/bw0_r0_c";
+          preLVM = true;
+          fallbackToPassword = true;
+          allowDiscards = true;
+          keyFile = "/dev/disk/by-partlabel/bw0_key0";
+          keyFileSize = 64;
+        };
+      };
       preFailCommands = ''${pkgs.bash}/bin/bash'';
       supportedFilesystems = ["btrfs"];
     };
@@ -66,7 +68,7 @@ in {
 
   ### Networking
   networking = {
-    hostName = "bw0.ulwired-ctl.s.";
+    hostName = "bw0";
     hostId = "84d5fcc8";
     usePredictableInterfaceNames = false;
     useDHCP = false;
