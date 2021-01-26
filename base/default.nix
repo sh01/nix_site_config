@@ -71,10 +71,12 @@ in rec {
   
   ##### Internationalisation properties
   i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "us";
     defaultLocale = "en_US.utf8";
     supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
+  };
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
   };
   ####
   services.logind.lidSwitch = "lock";
