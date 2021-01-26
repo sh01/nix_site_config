@@ -1,11 +1,14 @@
 let
   vars = (import ../../base/vars.nix);
   ko = vars.kernelOpts;
-in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null; version = null;}); base // netStd // termHwStd // termVideo // blkStd // {
+in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd // termHwStd // termVideo // blkStd // {
 IRQ_TIME_ACCOUNTING = yes;
 MODULE_FORCE_LOAD = yes;
 MODULE_SRCVERSION_ALL = yes;
-IOSCHED_DEADLINE = yes;
+IOSCHED_BFQ = yes;
+BFQ_GROUP_IOSCHED = yes;
+MQ_IOSCHED_KYBER = yes;
+MQ_IOSCHED_DEADLINE = yes;
 X86_MSR = yes;
 X86_CPUID = yes;
 MEMORY_FAILURE = yes;
@@ -16,7 +19,6 @@ CPU_FREQ_GOV_POWERSAVE = yes;
 CPU_FREQ_GOV_USERSPACE = yes;
 CPU_FREQ_GOV_ONDEMAND = yes;
 CPU_FREQ_GOV_CONSERVATIVE = yes;
-PCIE_ECRC = yes;
 
 BINFMT_MISC = yes;
 PACKET = yes;
@@ -33,9 +35,7 @@ DEFAULT_CUBIC = yes;
 
 IPV6 = yes;
 INET6_AH = yes;
-INET6_XFRM_MODE_TRANSPORT = yes;
-INET6_XFRM_MODE_TUNNEL = yes;
-INET6_XFRM_MODE_BEET = yes;
+INET6_XFRM_TUNNEL = option yes;
 IPV6_SIT = yes;
 IPV6_MULTIPLE_TABLES = yes;
 IPV6_FOU_TUNNEL = yes;
@@ -56,7 +56,7 @@ NETFILTER_XT_MATCH_STATE = yes;
 NF_DEFRAG_IPV4 = yes;
 NF_REJECT_IPV4 = yes;
 
-IP_DCCP = no;
+IP_DCCP = option module;
 IP_DCCP_CCID3 = option no;
 IP_NF_IPTABLES = yes;
 IP_NF_FILTER = yes;
@@ -123,7 +123,7 @@ USB_COMMON = yes;
 USB = yes;
 USB_MON = yes;
 USB_XHCI_HCD = yes;
-USB_XHCI_PCI = yes;
+USB_XHCI_PCI = option yes;
 USB_EHCI_HCD = yes;
 USB_EHCI_PCI = yes;
 USB_STORAGE = yes;

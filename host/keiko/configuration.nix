@@ -16,9 +16,10 @@ in {
     ../../fix/19_9.nix
   ];
 
+  #environment.etc."nix/nix.conf".source = mkForce (builtins.readFile ../../base/nix.conf);
   ##### Host id stuff
   networking = {
-    hostName = "keiko.sh.s";
+    hostName = "keiko";
     hostId = "84d5fcc6";
     usePredictableInterfaceNames = false;
     iproute2 = vars.iproute2;
@@ -89,13 +90,14 @@ in {
     kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     initrd = {
-      luks.devices = [{
-        name = "luksVg0";
-        device = "/dev/disk/by-partlabel/keiko_vg0";
-        preLVM = true;
-        #keyFile = "/dev/disk/by-partlabel/keiko_key1";
-        #keyFileSize = 64;
-      }];
+      luks.devices = {
+        "luksVg0" = {
+          device = "/dev/disk/by-partlabel/keiko_vg0";
+          preLVM = true;
+          #keyFile = "/dev/disk/by-partlabel/keiko_key1";
+          #keyFileSize = 64;
+        };
+      };
       preFailCommands = ''${pkgs.bash}/bin/bash'';
       supportedFilesystems = ["btrfs"];
     };
