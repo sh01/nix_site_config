@@ -1,6 +1,6 @@
 {pkgs, ...}:
 let
-  slib = import ../../lib;
+  slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
   dns = (import ../dns.nix) {};
 in {
@@ -18,7 +18,7 @@ in {
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;
       synaptics = {
-        enable = true;
+        #enable = true;
       };
       videoDrivers = ["intel"];
     };
@@ -77,9 +77,11 @@ if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
   ### User / Group config
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.
-  users = (slib.mkUserGroups (with vars.userSpecs {
-    u2g = { sh = ["sh_cbrowser"] ;};
-  }; default ++ [openvpn sh_prsw sh_prsw_net sh_x sh_cbrowser]));
+  users = slib.mkUserGroups (with vars.userSpecs {
+    u2g = {
+      sh = ["sh_cbrowser"];
+    };
+  }; default ++ [openvpn sh_prsw sh_prsw_net sh_x sh_cbrowser]);
 
   security.sudo.extraConfig = ''
 sh    ALL=(prsw,sh_cbrowser) NOPASSWD: ALL

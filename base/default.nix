@@ -100,6 +100,7 @@ keep-env-derivations = true
 substitute = false
 build-use-substitutes = false
 trusted-public-keys = foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI=
+substituters = file:///var/local/nix/cache
 '';
   };
   #### Nix setup scripts

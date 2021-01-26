@@ -48,6 +48,7 @@ in rec {
     SH_dep_gbase
     SH_dep_ggame
     SH_dep_ggame32
+    wine
     # Binaries used by libs
     pkgs.xorg.xrandr
     gnome3.zenity
@@ -74,7 +75,7 @@ in rec {
       } // bbMounts;
     } // (net "2");
     prsw = {
-      config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw" = {
@@ -83,8 +84,8 @@ in rec {
         };
       } // bbMounts // gpuMounts;
     } // gpuAllow // (net "3");
-    prsw_net = {
-      config = (import ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw;};
+    "prsw-net" = {
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
         "/home/sh_prsw_net" = {
@@ -98,7 +99,7 @@ in rec {
   termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh]); {
     browsers = browsers;
     prsw = prsw;
-    prsw_net = prsw_net;
+    "prsw-net" = prsw-net;
   };
 
   # TODO-maybe: Add some more functional way to derive this config.

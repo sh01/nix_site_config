@@ -4,7 +4,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  slib = import ../../lib;
+  slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
 in {
   imports = [

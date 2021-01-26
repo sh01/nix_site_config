@@ -1,4 +1,4 @@
-with (import <nixpkgs/lib/kernel.nix> {lib = null; version = null;});
+with (import <nixpkgs/lib/kernel.nix> {lib = null;});
 let
   ssh_pub = import ./ssh_pub.nix;
   ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';
@@ -61,6 +61,7 @@ NFT_REDIR = module;
 NFT_NAT = yes;
 NFT_REJECT = yes;
 NFT_COMPAT = option yes;
+BRIDGE = yes;
 
 NF_TABLES_IPV4 = yes;
 NF_TABLES_IPV6 = yes;
@@ -75,6 +76,17 @@ IDE = no;
 # USER_NS = no;
 # CVE-2017-1000405 mitigation
 # TRANSPARENT_HUGEPAGE = no;
+
+# Work around options missing in newer kernels
+JOYSTICK_IFORCE_USB = option no;
+JOYSTICK_IFORCE_232 = option no;
+BLK_WBT_SQ = option yes;
+CFQ_GROUP_IOSCHED = option yes;
+CIFS_ACL = option yes;
+DEBUG_STACKOVERFLOW = option yes;
+IOSCHED_CFQ = option yes;
+LDM_PARTITION = option yes;
+SECURITY_SELINUX_BOOTPARAM_VALUE = option no;
 };
 
     blkStd = {
@@ -84,6 +96,7 @@ EXT4_FS = yes;
 BTRFS_FS = yes;
 
 DM_CRYPT = yes;
+CRYPTO_ESSIV = yes;
 CRYPTO_XTS = yes;
 
 FUSE_FS = yes;
@@ -99,7 +112,7 @@ AGP = no;
 I2C_ALGOBIT = yes;
 DRM_KMS_HELPER = yes;
 DRM = yes;
-DRM_I915 = yes;
+DRM_I915 = module;
 
 FRAMEBUFFER_CONSOLE = yes;
 FRAMEBUFFER_CONSOLE_DETECT_PRIMARY = yes;
