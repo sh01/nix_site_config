@@ -50,7 +50,7 @@ in {
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/disk/by-id/usb-KINGSTON_SUV500MS240G_5002627783171569-0:0";
+      device = "/dev/disk/by-id/ata-KINGSTON_SUV500MS240G_50026B77831715F9";
       fsIdentifier = "uuid";
       memtest86.enable = true;
       splashImage = null;
