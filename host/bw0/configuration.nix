@@ -92,12 +92,12 @@ in {
       };
       "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
       "eth_wan0" = {
-        preferTempAddress = false;
         useDHCP = true;
+        tempAddress = "disabled";
       };
       "eth_wan1" = {
         useDHCP = true;
-        preferTempAddress = false;
+        tempAddress = "disabled";
       };
       "tun6_0" = {
         virtual = true;
