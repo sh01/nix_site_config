@@ -289,6 +289,7 @@ in {
   services.bind = {
     enable = true;
     cacheNetworks = ["10.0.0.0/8" "127.0.0.0/8" "fd9d:1852:3555::/48" "192.168.0.0/16"];
+    extraOptions = "qname-minimization off;";
     forwarders = ["8.8.8.8" "8.8.4.4" "2001:4860:4860::8888" "2001:4860:4860::8844"];
     zones = [{
       name = "y";
