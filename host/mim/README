@@ -1,4 +1,0 @@
-==== Image build
-$ env NIXOS_CONFIG=/etc/nixos_site/host/mim/configuration.nix time nix-build '<nixpkgs/nixos>' -A config.system.build.mim_image
-$ cp result/nixos.img .
-$ ./strip_images.sh nixos.img
