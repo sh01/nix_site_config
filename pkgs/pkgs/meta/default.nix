@@ -29,6 +29,7 @@ let P = name: d: derivation {
     zsh
     iotop
     lsof
+    renameutils
     rsync
     strace
     ltrace
