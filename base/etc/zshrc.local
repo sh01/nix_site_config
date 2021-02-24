@@ -47,6 +47,8 @@ bindkey ';5D' backward-word
 bindkey ';5C' forward-word
 
 ### Env vars
+# EDITOR
+export VISUAL='emacs -nw'
 # For tree(1)
 eval $(dircolors -b /etc/DIR_COLORS)
 # Less
