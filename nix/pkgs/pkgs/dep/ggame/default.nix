@@ -45,6 +45,6 @@ with pkgs; (callPackage ../base.nix {
     # Crypto
     libgcrypt nettle openssl.out libkrb5 openldap gnutls.out
     # misc
-    utillinux.out libgpgerror
+    utillinux.out libgpgerror at_spi2_atk at_spi2_core
   ];
 })
