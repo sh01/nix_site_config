@@ -87,7 +87,10 @@ in {
         ];
       };
       "eth_l_wired" = {
-        ipv4.addresses = [{ address = "10.17.1.1"; prefixLength = 24; }];
+        ipv4.addresses = [
+          { address = "10.17.1.1"; prefixLength = 24; }
+          { address = "10.17.8.255"; prefixLength = 24; }
+        ];
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::1"; prefixLength=64;}];
       };
       "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];

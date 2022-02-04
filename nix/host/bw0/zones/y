@@ -1,5 +1,5 @@
 y.	7200    IN SOA  bw0.y. root.bw0.y. (
-	3	; serial
+	4	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -11,3 +11,5 @@ bw0		86400	IN	A	10.17.1.1
 uiharu		86400	IN	A	10.17.1.4
 echo1		86400	IN	A	10.17.1.8
 echo-chonk	86400	IN	A	10.17.1.9
+
+1.sens		86400	IN	A	10.17.8.1
