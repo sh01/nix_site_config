@@ -85,6 +85,13 @@ in rec {
         metrics_path = "/probe_ifaces";
         scrape_interval = "96s";
         static_configs = nft_configs;
+      } {
+        job_name = "envmon";
+        metrics_path = "/probe";
+        scrape_interval = "64s";
+        static_configs = [
+          {targets = ["1.sens.y.:80"];}
+        ];
       }
     ];
     exporters = {
