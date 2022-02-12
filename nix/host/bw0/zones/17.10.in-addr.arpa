@@ -1,5 +1,5 @@
 17.10.in-addr.arpa.	7200    IN SOA  bw0.y. root.bw0.y. (
-	4	; serial
+	5	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -14,3 +14,10 @@
 9.1	86400	IN PTR  echo-chonk.y.
 
 1.8	86400	IN PTR  1.sens.y.
+2.8	86400	IN PTR  2.sens.y.
+3.8	86400	IN PTR  3.sens.y.
+4.8	86400	IN PTR  4.sens.y.
+5.8	86400	IN PTR  5.sens.y.
+6.8	86400	IN PTR  6.sens.y.
+7.8	86400	IN PTR  7.sens.y.
+8.8	86400	IN PTR  8.sens.y.

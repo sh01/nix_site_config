@@ -90,7 +90,10 @@ in rec {
         metrics_path = "/probe";
         scrape_interval = "64s";
         static_configs = [
-          {targets = ["1.sens.y.:80"];}
+          {targets = [
+"1.sens.y.:80"
+"2.sens.y.:80"
+          ];}
         ];
       }
     ];
