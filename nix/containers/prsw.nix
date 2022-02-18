@@ -17,7 +17,7 @@ in {
     driSupport32Bit = true;
     #s3tcSupport = true;
   };
-  
+
   ### User / Group config
   users = let
     us = with vars.userSpecs { keys = { sh = uks; sh_prsw = uks; sh_prsw_net = uks;};}; default ++ [ sh_prsw sh_prsw_net sh_x ];
@@ -30,6 +30,7 @@ in {
 
   networking = {
     firewall.enable = false;
+    extraHosts = "127.0.0.1 sessionserver.mojang.com\n";
   };
 
   fonts = {
