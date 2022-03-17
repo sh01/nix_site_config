@@ -93,6 +93,8 @@ in rec {
           {targets = [
 "1.sens.y.:80"
 "2.sens.y.:80"
+"3.sens.y.:80"
+"4.sens.y.:80"
           ];}
         ];
       }
