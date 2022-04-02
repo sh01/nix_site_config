@@ -72,7 +72,10 @@ if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
   };
 
   ### Services
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+  };
 
   ### User / Group config
   # Define paired user/group accounts.
