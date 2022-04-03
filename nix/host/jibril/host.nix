@@ -46,7 +46,7 @@ in {
     };
 
     loader.efi = {
-      #canTouchEfiVariables = true;
+      canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
     };
 
@@ -59,7 +59,7 @@ in {
       splashImage = null;
 
       efiSupport = true;
-      efiInstallAsRemovable = true;
+      #efiInstallAsRemovable = true;
     };
   };
 
@@ -72,11 +72,12 @@ in {
     firewall.enable = false;
     networkmanager.enable = false;
     useNetworkd = false;
+    nameservers = ["10.17.1.1"];
 
     interfaces = {
       "eth0" = {
         ipv4.addresses = [{ address = "10.17.1.7"; prefixLength = 24; }];
-        ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.16.1.1"; }];
+        ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::7"; prefixLength=64;}];
       };
     };
@@ -86,9 +87,9 @@ in {
       rulesetFile = ./nft.conf;
     };
     # Push this way out of the way.
-    resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
+    #resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   };
-  environment.etc."resolv.conf" = dns.resolvConf;
+  #environment.etc."resolv.conf" = dns.resolvConf;
 
   # services.udev.extraRules = (builtins.readFile ./udev.rules);
   # powerManagement.cpuFreqGovernor = "powersave";
@@ -121,7 +122,7 @@ in {
       fsType = "btrfs";
       options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
-    "/boot" = { device = "/dev/disk/by-partlabel/liel_b0"; options=["noauto" "noatime" "nodiratime"];};
+    "/boot" = { device = "/dev/disk/by-partlabel/jibril_EFI_sys"; options=["noauto" "noatime" "nodiratime"];};
   };
 
   ### Services
