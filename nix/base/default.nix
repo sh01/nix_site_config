@@ -26,6 +26,12 @@ in rec {
   
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
+
+  security.sudo.execWheelOnly = true;
+  security.pam.services = {
+    su.requireWheel = true;
+    sudo.requireWheel = true;
+  };
   
   environment.shellAliases = {
     grep = "grep --color=auto";
