@@ -72,6 +72,7 @@ let P = name: d: derivation {
     pciutils
     usbutils
     cpufrequtils
+    lm_sensors
     
     mdadm
     gnufdisk
