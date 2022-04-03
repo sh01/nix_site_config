@@ -22,8 +22,8 @@ in {
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
     #kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
-    #kernelPackages = pkgs.linuxPackages_5_15;
-    kernelPackages = pkgs.linuxPackages_5_9;
+    kernelPackages = pkgs.linuxPackages_5_15;
+    #kernelPackages = pkgs.linuxPackages_5_9;
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [
       # Reboot on kernel panic
@@ -31,7 +31,7 @@ in {
     ];
     # loader.initScript.enable = true;
     initrd = {
-      kernelModules = ["vmd" "btrfs" "nvme" "pcieport" "sata_nv" "sata_ahci"];
+      kernelModules = ["vmd" "nvme" "btrfs"];
       luks.devices = {
         "root" = {
           device = "/dev/jibril_vg0/root";
@@ -72,7 +72,9 @@ in {
     firewall.enable = false;
     networkmanager.enable = false;
     useNetworkd = false;
+
     nameservers = ["10.17.1.1"];
+    #search = ["x.s." "s."];
 
     interfaces = {
       "eth0" = {
@@ -142,5 +144,5 @@ in {
   users = slib.mkUserGroups (with vars.userSpecs {}; default);
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "20.09";
+  system.stateVersion = "21.11";
 }

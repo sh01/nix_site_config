@@ -100,8 +100,10 @@ in rec {
     trustedBinaryCaches = [];
     buildCores = 0;
     requireSignedBinaryCaches = true;
-    daemonIONiceLevel = 2;
-    daemonNiceLevel = 2;
+    #daemonIONiceLevel = 2;
+    #daemonNiceLevel = 2;
+    daemonCPUSchedPolicy = "idle";
+    daemonIOSchedClass = "idle";
     extraOptions = ''
 keep-env-derivations = true
 substitute = false
