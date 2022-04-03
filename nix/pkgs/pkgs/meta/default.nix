@@ -82,6 +82,7 @@ let P = name: d: derivation {
     cryptsetup
     smartmontools
     multipath-tools
+    efibootmgr
 
     nox
 
