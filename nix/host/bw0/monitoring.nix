@@ -91,10 +91,10 @@ in rec {
         scrape_interval = "64s";
         static_configs = [
           {targets = [
-"1.sens.y.:80"
-"2.sens.y.:80"
-"3.sens.y.:80"
-"4.sens.y.:80"
+"1.sens.s.:80"
+"2.sens.s.:80"
+"3.sens.s.:80"
+"4.sens.s.:80"
           ];}
         ];
       }

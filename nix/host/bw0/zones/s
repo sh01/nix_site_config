@@ -1,16 +1,15 @@
-y.	7200    IN SOA  bw0.y. root.bw0.y. (
-	5	; serial
+s.	7200    IN SOA  bw0.s. root.bw0.s. (
+	6	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
 	1024    ; minimum
 )
 
-		1800	NS	bw0.y.
+		1800	NS	bw0.s.
 bw0		86400	IN	A	10.17.1.1
-uiharu		86400	IN	A	10.17.1.4
-echo1		86400	IN	A	10.17.1.8
-echo-chonk	86400	IN	A	10.17.1.9
+jibril.x	86400	IN	A	10.17.1.7
+jibril.x	86400	IN	AAAA	fd9d:1852:3555:200:ff01::7
 
 1.sens		86400	IN	A	10.17.8.1
 2.sens		86400	IN	A	10.17.8.2

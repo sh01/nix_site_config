@@ -275,6 +275,7 @@ in {
     influxdb
     openntpd
     uptimed
+    dhcp
   ];
 
   sound.enable = false;
@@ -299,9 +300,9 @@ in {
     extraOptions = "qname-minimization off;";  # Mitigate CVE-2020-8621
     forwarders = ["8.8.8.8" "8.8.4.4" "2001:4860:4860::8888" "2001:4860:4860::8844"];
     zones = [{
-      name = "y";
+      name = "s";
       master = true;
-      file = ./zones/y;
+      file = ./zones/s;
     } {
       master = true;
       file = ./zones/17.10.in-addr.arpa;
