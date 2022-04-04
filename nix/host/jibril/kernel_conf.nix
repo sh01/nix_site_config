@@ -5,8 +5,6 @@ in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd
 IRQ_TIME_ACCOUNTING = yes;
 MODULE_FORCE_LOAD = yes;
 MODULE_SRCVERSION_ALL = yes;
-IOSCHED_BFQ = yes;
-BFQ_GROUP_IOSCHED = yes;
 MQ_IOSCHED_KYBER = yes;
 MQ_IOSCHED_DEADLINE = yes;
 X86_MSR = yes;
@@ -19,7 +17,7 @@ CPU_FREQ_GOV_POWERSAVE = yes;
 CPU_FREQ_GOV_USERSPACE = yes;
 CPU_FREQ_GOV_ONDEMAND = yes;
 CPU_FREQ_GOV_CONSERVATIVE = yes;
-PCIE_ECRC = yes;
+IPV6_FOU_TUNNEL = option yes;
 
 BINFMT_MISC = yes;
 PACKET = yes;
@@ -39,7 +37,6 @@ INET6_AH = yes;
 INET6_XFRM_TUNNEL = option yes;
 IPV6_SIT = yes;
 IPV6_MULTIPLE_TABLES = yes;
-IPV6_FOU_TUNNEL = yes;
 
 NF_CONNTRACK = yes;
 NETFILTER_NETLINK = yes;
@@ -47,8 +44,6 @@ NETFILTER_NETLINK_LOG = yes;
 
 IP_DCCP = option module;
 IP_DCCP_CCID3 = option no;
-
-UEVENT_HELPER = yes;
 
 BLK_DEV_LOOP = yes;
 BLK_DEV_RAM = yes;
@@ -66,7 +61,6 @@ SCSI_MPT2SAS = yes;
 ATA = yes;
 SATA_AHCI = yes;
 PATA_VIA = yes;
-CONFIG_VMD = yes;
 
 BLK_DEV_MD = yes;
 MD_AUTODETECT = yes;
@@ -119,10 +113,10 @@ FSCACHE_STATS = yes;
 ISO9660_FS = yes;
 CONFIGFS_FS = yes;
 
-NLS_CODEPAGE_437 = yes;
+#NLS_CODEPAGE_437 = yes;
 NLS_ASCII = yes;
-NLS_ISO8859_1 = yes;
-NLS_UTF8 = yes;
+#NLS_ISO8859_1 = yes;
+#NLS_UTF8 = yes;
 
 
 DEBUG_INFO = yes;
