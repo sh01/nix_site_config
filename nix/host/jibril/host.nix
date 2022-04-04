@@ -138,6 +138,7 @@ in {
 '';
   };
   services.uptimed.enable = true;
+  services.prometheus.exporters.node = (import ../../base/node_exporter.nix);
   
   ### User / Group config
   # Define paired user/group accounts.
