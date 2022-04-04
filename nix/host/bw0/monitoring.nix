@@ -73,7 +73,10 @@ in rec {
       (http_probe {name = "up0_http"; addr=blackbox_tcp0;})
       (http_probe {name = "up1_http"; addr=blackbox_tcp1;})
 
-      { job_name = "node"; static_configs = [{targets = ["localhost:9100"];}];
+      {
+        job_name = "node";
+        scrape_interval = "256s";
+        static_configs = [{targets = ["localhost:9100" "jibril.x.s.:9100"];}];
       } {
         job_name = "nft_prom";
         metrics_path = "/probe";
