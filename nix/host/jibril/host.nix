@@ -126,6 +126,7 @@ in {
 
   containers = contBase;
   programs.ssh.extraConfig = cont.sshConfig;
+  systemd.services = cont.termS;
 
   fileSystems = {
     "/" = {
