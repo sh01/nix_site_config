@@ -36,7 +36,7 @@
         };
       };
     });
-    mesa = pkgs.mesa.override { enableRadv = false; vulkanDrivers = []; eglPlatforms = ["x11" "surfaceless"]; withValgrind = false; };
+    mesa = pkgs.mesa.override { vulkanDrivers = []; eglPlatforms = ["x11" "surfaceless"]; withValgrind = false; };
     gtk3 = pkgs.gtk3.override { x11Support = false; xineramaSupport = false; cupsSupport = false; };
     gst_all_1 = pkgs.gst_all_1 // (let up = pkgs.gst_all_1; in {
       #gst-plugins-base = up.gst-plugins-base.override { enableX11 = true; enableWayland = false; enableAlsa = false; enableCocoa = false; enableCdparanoia = false; };

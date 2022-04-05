@@ -5,7 +5,6 @@ in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd
 IRQ_TIME_ACCOUNTING = yes;
 MODULE_FORCE_LOAD = yes;
 MODULE_SRCVERSION_ALL = yes;
-IOSCHED_BFQ = yes;
 BFQ_GROUP_IOSCHED = yes;
 MQ_IOSCHED_KYBER = yes;
 MQ_IOSCHED_DEADLINE = yes;
@@ -76,8 +75,6 @@ IP6_NF_MANGLE = yes;
 IP6_NF_RAW = yes;
 IP6_NF_SECURITY = yes;
 
-UEVENT_HELPER = yes;
-
 BLK_DEV_LOOP = yes;
 BLK_DEV_RAM = yes;
 
@@ -146,10 +143,10 @@ FSCACHE_STATS = yes;
 ISO9660_FS = yes;
 CONFIGFS_FS = yes;
 
-NLS_CODEPAGE_437 = yes;
-NLS_ASCII = yes;
-NLS_ISO8859_1 = yes;
-NLS_UTF8 = yes;
+#NLS_CODEPAGE_437 = option yes;
+#NLS_ASCII = option yes;
+#NLS_ISO8859_1 = option yes;
+#NLS_UTF8 = option yes;
 
 
 DEBUG_INFO = yes;

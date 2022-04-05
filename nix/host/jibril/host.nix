@@ -3,9 +3,13 @@
 
 let
   inherit (lib) mkForce;
-  ssh_pub = import ../../base/ssh_pub.nix;
+  inherit (pkgs) callPackage;
+  ssh_pub = (import ../../base/ssh_pub.nix).jibril;
   slib = (pkgs.callPackage ../../lib {});
+  cont = callPackage ../../containers {};
+  contBase = cont.termC ssh_pub;
   vars = import ../../base/vars.nix;
+  lpkgs = (import ../../pkgs {});
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
   };
@@ -13,7 +17,6 @@ in {
   imports = [
     ./hardware-configuration.nix
     ../../base
-    ../../base/nox.nix
     ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
@@ -97,25 +100,44 @@ in {
   # powerManagement.cpuFreqGovernor = "powersave";
 
   ### System profile packages
-  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
-    base
-    cliStd
-    moreutils
+  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     nixBld
-
-    openvpn
-    iptables
-    radvd
-    nftables
+    # Desktop things
+    #base
+    sys_terminal_wired
+    gui
+    games
+    SH_dep_ggame
+    SH_dep_ggame32
 
     # direct packages
     prometheus
     openntpd
     uptimed
+    mpv
   ];
 
+  services.xserver = {
+    enable = true;
+    enableCtrlAltBackspace = true;
+    desktopManager = {
+      lxqt.enable = true;
+      xfce.enable = true;
+    };
+    displayManager = {
+      startx.enable = true;
+      sx.enable = true;
+      sddm = {
+        enable = true;
+        enableHidpi = true;
+      };
+    };
+  };
+
+  containers = contBase;
+  programs.ssh.extraConfig = cont.sshConfig;
+
   sound.enable = false;
-  security.polkit.enable = false;
 
   fileSystems = {
     "/" = {

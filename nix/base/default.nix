@@ -93,6 +93,7 @@ in rec {
     enable = true;
     passwordAuthentication = false;
   };
+  services.gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
 
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
