@@ -132,10 +132,28 @@ in {
         enableHidpi = true;
       };
     };
+    extraConfig = ''
+# Logitech Marble tweaks
+      Section "InputClass"
+        Identifier "Logitech USB Trackball"
+        Driver "libinput"
+        Option "ButtonMapping" "1 0 3 4 5 6 7 0 2"
+        Option "ScrollMethod" "button"
+        Option "ScrollButton" "8"
+        Option "HorizontalScrolling" "false"
+      EndSection
+'';
   };
 
   containers = contBase;
-  programs.ssh.extraConfig = cont.sshConfig;
+  programs = {
+    ssh.extraConfig = cont.sshConfig;
+    "xss-lock" = {
+      enable = true;
+      extraOptions = ["-l"];
+      lockerCommand = "env XSECURELOCK_PASSWORD_PROMPT=time_hex XSECURELOCK_SHOW_DATETIME=1 XSECURELOCK_SHOW_HOSTNAME=1 XSECURELOCK_SHOW_USERNAME=1 ${pkgs.xsecurelock}/bin/xsecurelock";
+    };
+  };
 
   sound.enable = false;
 
