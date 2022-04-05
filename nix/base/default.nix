@@ -32,6 +32,7 @@ in rec {
     su.requireWheel = true;
     sudo.requireWheel = true;
   };
+  boot.kernel.sysctl."kernel.unprivileged_bpf_disabled" = 1;
   
   environment.shellAliases = {
     grep = "grep --color=auto";

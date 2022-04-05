@@ -17,6 +17,7 @@ in {
   imports = [
     ./hardware-configuration.nix
     ../../base
+    ../../base/term/desktop.nix
     ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
@@ -103,8 +104,6 @@ in {
   environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     nixBld
     # Desktop things
-    #base
-    sys_terminal_wired
     gui
     games
     SH_dep_ggame
@@ -118,44 +117,15 @@ in {
   ];
 
   services.xserver = {
-    enable = true;
-    enableCtrlAltBackspace = true;
+    videoDrivers = ["intel" "amdgpu"];
     desktopManager = {
       lxqt.enable = true;
       xfce.enable = true;
     };
-    displayManager = {
-      startx.enable = true;
-      sx.enable = true;
-      sddm = {
-        enable = true;
-        enableHidpi = true;
-      };
-    };
-    extraConfig = ''
-# Logitech Marble tweaks
-      Section "InputClass"
-        Identifier "Logitech USB Trackball"
-        Driver "libinput"
-        Option "ButtonMapping" "1 0 3 4 5 6 7 0 2"
-        Option "ScrollMethod" "button"
-        Option "ScrollButton" "8"
-        Option "HorizontalScrolling" "false"
-      EndSection
-'';
   };
 
   containers = contBase;
-  programs = {
-    ssh.extraConfig = cont.sshConfig;
-    "xss-lock" = {
-      enable = true;
-      extraOptions = ["-l"];
-      lockerCommand = "env XSECURELOCK_PASSWORD_PROMPT=time_hex XSECURELOCK_SHOW_DATETIME=1 XSECURELOCK_SHOW_HOSTNAME=1 XSECURELOCK_SHOW_USERNAME=1 ${pkgs.xsecurelock}/bin/xsecurelock";
-    };
-  };
-
-  sound.enable = false;
+  programs.ssh.extraConfig = cont.sshConfig;
 
   fileSystems = {
     "/" = {

@@ -11,16 +11,33 @@ in {
   services = {
     xserver = {
       enable = true;
-      displayManager.sddm.enable = true;
+      displayManager = {
+        startx.enable = true;
+        sx.enable = true;
+        sddm = {
+          enable = true;
+          enableHidpi = true;
+        };
+      };
+      enableCtrlAltBackspace = true;
+      libinput.enable = true;
+
       #windowManager.awesome.enable = true;
       #desktopManager.plasma5.enable = true;
-      enableCtrlAltBackspace = true;
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;
-      synaptics = {
-        #enable = true;
-      };
       videoDrivers = ["intel"];
+      # Logitech Marble tweaks
+      extraConfig = ''
+      Section "InputClass"
+        Identifier "Logitech USB Trackball"
+        Driver "libinput"
+        Option "ButtonMapping" "1 0 3 4 5 6 7 0 2"
+        Option "ScrollMethod" "button"
+        Option "ScrollButton" "8"
+        Option "HorizontalScrolling" "false"
+      EndSection
+'';
     };
 
     dnsmasq = {
@@ -36,6 +53,15 @@ server=/s/16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::1
     };
   };
 
+  # xsecurelock setup.
+  programs."xss-lock" = {
+      enable = true;
+      extraOptions = [''-l''];
+      lockerCommand = ''env XSECURELOCK_PASSWORD_PROMPT=time_hex XSECURELOCK_SHOW_DATETIME=1 XSECURELOCK_DATETIME_FORMAT='%%Y-%%m-%%d %%H:%%M:%%S' XSECURELOCK_SHOW_HOSTNAME=1 XSECURELOCK_SHOW_USERNAME=1 ${pkgs.xsecurelock}/bin/xsecurelock'';
+  };
+
+
+  
   networking = {
     search = dns.conf.search;
     usePredictableInterfaceNames = false;
@@ -61,7 +87,7 @@ server=/s/16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::1
   sound.enable = true;
 
   boot = {
-    loader.grub.enable = false;
+    #loader.grub.enable = false;
     enableContainers = true;
     postBootCommands = ''
 LS=/run/current-system/sw/share/local
