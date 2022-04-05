@@ -26,6 +26,12 @@ in rec {
   
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
+
+  security.sudo.execWheelOnly = true;
+  security.pam.services = {
+    su.requireWheel = true;
+    sudo.requireWheel = true;
+  };
   
   environment.shellAliases = {
     grep = "grep --color=auto";
@@ -68,11 +74,10 @@ in rec {
     });
   };
 
-  
   ##### Internationalisation properties
   i18n = {
     defaultLocale = "en_US.utf8";
-    supportedLocales = ["en_US.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
+    supportedLocales = ["en_US.UTF-8/UTF-8" "en_GB.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" "en_IE.UTF-8/UTF-8" "en_US/ISO-8859-1" "en_DK/ISO-8859-1" "en_IE/ISO-8859-1" "en_IE@euro/ISO-8859-15" ];
   };
   console = {
     font = "Lat2-Terminus16";
@@ -83,6 +88,13 @@ in rec {
   services.logind.extraConfig = ''
     KillUserProcesses=no'';
   services.cron.enable = true;
+  ### Services
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+  };
+  services.gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
+
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
   
@@ -95,8 +107,10 @@ in rec {
     trustedBinaryCaches = [];
     buildCores = 0;
     requireSignedBinaryCaches = true;
-    daemonIONiceLevel = 2;
-    daemonNiceLevel = 2;
+    #daemonIONiceLevel = 2;
+    #daemonNiceLevel = 2;
+    daemonCPUSchedPolicy = "idle";
+    daemonIOSchedClass = "idle";
     extraOptions = ''
 keep-env-derivations = true
 substitute = false

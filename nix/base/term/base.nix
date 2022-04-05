@@ -12,8 +12,8 @@ in {
     xserver = {
       enable = true;
       displayManager.sddm.enable = true;
-      windowManager.awesome.enable = true;
-      desktopManager.plasma5.enable = true;
+      #windowManager.awesome.enable = true;
+      #desktopManager.plasma5.enable = true;
       enableCtrlAltBackspace = true;
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;
@@ -70,9 +70,6 @@ if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
     # DMA attack mitigation
     blacklistedKernelModules = ["firewire_ohci" "firewire_core" "firewire_sbp2"];
   };
-
-  ### Services
-  services.openssh.enable = true;
 
   ### User / Group config
   # Define paired user/group accounts.

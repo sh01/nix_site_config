@@ -5,7 +5,6 @@ in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd
 IRQ_TIME_ACCOUNTING = yes;
 MODULE_FORCE_LOAD = yes;
 MODULE_SRCVERSION_ALL = yes;
-BFQ_GROUP_IOSCHED = yes;
 MQ_IOSCHED_KYBER = yes;
 MQ_IOSCHED_DEADLINE = yes;
 X86_MSR = yes;
@@ -18,6 +17,7 @@ CPU_FREQ_GOV_POWERSAVE = yes;
 CPU_FREQ_GOV_USERSPACE = yes;
 CPU_FREQ_GOV_ONDEMAND = yes;
 CPU_FREQ_GOV_CONSERVATIVE = yes;
+IPV6_FOU_TUNNEL = option yes;
 
 BINFMT_MISC = yes;
 PACKET = yes;
@@ -37,43 +37,13 @@ INET6_AH = yes;
 INET6_XFRM_TUNNEL = option yes;
 IPV6_SIT = yes;
 IPV6_MULTIPLE_TABLES = yes;
-IPV6_FOU_TUNNEL = yes;
 
+NF_CONNTRACK = yes;
 NETFILTER_NETLINK = yes;
 NETFILTER_NETLINK_LOG = yes;
-NF_CONNTRACK = yes;
-NF_CT_NETLINK = yes;
-NETFILTER_XTABLES = yes;
-NETFILTER_XT_MARK = yes;
-NETFILTER_XT_CONNMARK = yes;
-NETFILTER_XT_TARGET_CONNSECMARK = yes;
-NETFILTER_XT_MATCH_CONNMARK = yes;
-NETFILTER_XT_MATCH_CONNTRACK = yes;
-NETFILTER_XT_MATCH_POLICY = yes;
-NETFILTER_XT_MATCH_STATE = yes;
-
-NF_DEFRAG_IPV4 = yes;
-NF_REJECT_IPV4 = yes;
 
 IP_DCCP = option module;
 IP_DCCP_CCID3 = option no;
-IP_NF_IPTABLES = yes;
-IP_NF_FILTER = yes;
-IP_NF_TARGET_REJECT = yes;
-IP_NF_MANGLE = yes;
-IP_NF_RAW = yes;
-IP_NF_SECURITY = yes;
-IP_NF_ARPTABLES = yes;
-
-NF_DEFRAG_IPV6 = yes;
-NF_REJECT_IPV6 = yes;
-IP6_NF_IPTABLES = yes;
-IP6_NF_MATCH_IPV6HEADER = yes;
-IP6_NF_FILTER = yes;
-IP6_NF_TARGET_REJECT = yes;
-IP6_NF_MANGLE = yes;
-IP6_NF_RAW = yes;
-IP6_NF_SECURITY = yes;
 
 BLK_DEV_LOOP = yes;
 BLK_DEV_RAM = yes;
@@ -120,7 +90,7 @@ USB_COMMON = yes;
 USB = yes;
 USB_MON = yes;
 USB_XHCI_HCD = yes;
-USB_XHCI_PCI = option yes;
+USB_XHCI_PCI = yes;
 USB_EHCI_HCD = yes;
 USB_EHCI_PCI = yes;
 USB_STORAGE = yes;
@@ -143,10 +113,10 @@ FSCACHE_STATS = yes;
 ISO9660_FS = yes;
 CONFIGFS_FS = yes;
 
-#NLS_CODEPAGE_437 = option yes;
-#NLS_ASCII = option yes;
-#NLS_ISO8859_1 = option yes;
-#NLS_UTF8 = option yes;
+#NLS_CODEPAGE_437 = yes;
+NLS_ASCII = yes;
+#NLS_ISO8859_1 = yes;
+#NLS_UTF8 = yes;
 
 
 DEBUG_INFO = yes;

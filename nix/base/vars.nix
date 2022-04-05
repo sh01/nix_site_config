@@ -65,13 +65,15 @@ BRIDGE = yes;
 
 NF_TABLES_IPV4 = yes;
 NF_TABLES_IPV6 = yes;
+TUN = yes;
+
+PTP_1588_CLOCK = yes;
+E1000E = yes;
 };
 
     base = {
 ACPI_PROCESSOR = yes;
 X86_ACPI_CPUFREQ = yes;
-IDE = no;
-
 # CVE-2017-7308 mitigation
 # USER_NS = no;
 # CVE-2017-1000405 mitigation
@@ -83,10 +85,29 @@ JOYSTICK_IFORCE_232 = option no;
 BLK_WBT_SQ = option yes;
 CFQ_GROUP_IOSCHED = option yes;
 CIFS_ACL = option yes;
-DEBUG_STACKOVERFLOW = option yes;
-IOSCHED_CFQ = option yes;
+#DEBUG_STACKOVERFLOW = option yes;
+#IOSCHED_CFQ = option yes;
 LDM_PARTITION = option yes;
 SECURITY_SELINUX_BOOTPARAM_VALUE = option no;
+
+VMD = yes;
+CRYPTO_AES_NI_INTEL = yes;
+USB_XHCI_PCI = yes;
+USB_XHCI_PCI_RENESAS = yes;
+
+INET_MPTCP_DIAG = yes;
+IDE = option no;
+
+CRYPTO_DEFLATE = yes;
+INTEL_MEI = yes;
+INTEL_MEI_ME = yes;
+I2C = yes;
+I2C_I801 = yes;
+I2C_SMBUS = yes;
+X86_PKG_TEMP_THERMAL = yes;
+
+CRYPTO_GHASH_CLMUL_NI_INTEL = option yes;
+CONFIG_CRYPTO_AES_NI_INTEL = option yes;
 };
 
     blkStd = {
@@ -95,6 +116,7 @@ EXT3_FS = yes;
 EXT4_FS = yes;
 BTRFS_FS = yes;
 
+TRUSTED_KEYS = no;
 ENCRYPTED_KEYS = yes;
 DM_CRYPT = yes;
 CRYPTO_ESSIV = yes;
@@ -102,18 +124,34 @@ CRYPTO_XTS = yes;
 
 FUSE_FS = yes;
 CONFIGFS_FS = yes;
+
+BLK_DEV_NVME = yes;
+NVME_CORE = yes;
+NVME_HWMON = yes;
+SATA_AHCI = yes;
 };
 
-    termHwStd = {
+termHwStd = {
 KEYBOARD_ATKBD = yes;
+USB4 = yes;
+USB_HID = yes;
+SOUND = yes;
+SND = yes;
+SND_HDA_INTEL = yes;
+SND_TIMER = yes;
 };
     # It's typically fine to keep these as modules instead, which NixOS will do by default.
     termVideo = {
 AGP = no;
 I2C_ALGOBIT = yes;
-DRM_KMS_HELPER = yes;
 DRM = yes;
+DRM_SCHED = option yes;
+DRM_KMS_HELPER = option yes;
+DRM_TTM = option yes;
+DRM_TTM_HELPER = option yes;
 DRM_I915 = module;
+AMD_IOMMU_V2 = yes;
+DRM_AMDGPU = module;
 
 FRAMEBUFFER_CONSOLE = yes;
 FRAMEBUFFER_CONSOLE_DETECT_PRIMARY = yes;

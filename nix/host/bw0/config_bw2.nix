@@ -1,4 +1,4 @@
-# bw0 is a router box
+# bw2 is a router box
 { config, pkgs, lib, ... }:
 
 let
@@ -35,11 +35,11 @@ in {
     initrd = {
       luks.devices = {
         "root" = {
-          device = "/dev/disk/by-partlabel/bw0_r0_c";
+          device = "/dev/disk/by-partlabel/bw2_r0_c";
           preLVM = true;
           fallbackToPassword = true;
           allowDiscards = true;
-          keyFile = "/dev/disk/by-partlabel/bw0_key0";
+          keyFile = "/dev/disk/by-partlabel/bw2_key0";
           keyFileSize = 64;
         };
       };
@@ -50,7 +50,7 @@ in {
     loader.grub = {
       enable = true;
       version = 2;
-      device = "/dev/disk/by-id/ata-KINGSTON_SUV500MS240G_50026B77831715F9";
+      device = "/dev/disk/by-id/ata-JAJMS600M1TB_AB202100000003000921";
       fsIdentifier = "uuid";
       memtest86.enable = true;
       splashImage = null;
@@ -68,8 +68,8 @@ in {
 
   ### Networking
   networking = {
-    hostName = "bw0";
-    hostId = "84d5fcc8";
+    hostName = "bw2";
+    hostId = "84d5fcc9";
     usePredictableInterfaceNames = false;
     useDHCP = false;
     firewall.enable = false;
@@ -244,6 +244,13 @@ in {
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
+
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e4", KERNEL=="eth*", NAME="eth_wan0"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e5", KERNEL=="eth*", NAME="eth_wan1"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e6", KERNEL=="eth*", NAME="eth_l_wired"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e7", KERNEL=="eth*", NAME="eth_l_wifi"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e8", KERNEL=="eth*", NAME="eth_o3"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e9", KERNEL=="eth*", NAME="eth_o4"
   '';
 
   # intel_pstate cpufreq driver, on a HWP CPU.
@@ -281,7 +288,7 @@ in {
       fsType = "btrfs";
       options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
     };
-    "/boot" = { device = "/dev/disk/by-partlabel/bw0_b0"; options=["noauto" "noatime" "nodiratime"];};
+    "/boot" = { device = "/dev/disk/by-partlabel/bw2_b0"; options=["noauto" "noatime" "nodiratime"];};
   };
 
   ### Services

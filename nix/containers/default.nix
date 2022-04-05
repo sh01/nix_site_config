@@ -28,7 +28,8 @@ let
   lpkgs = pkgs.callPackage ../pkgs {};
   mpkgs = pkgs.callPackage ../pkgs/pkgs/meta {};
 in rec {
-  sysPkgsBase = with pkgs; [
+  sysPkgsBase = with pkgs; with (pkgs.callPackage ../pkgs/pkgs/meta {}); [
+    base
     less
     file
     zsh
@@ -46,10 +47,6 @@ in rec {
     psmisc
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
-    SH_dep_mc0
-    SH_dep_factorio
-    SH_dep_CK2
-    SH_dep_gbase
     SH_dep_ggame
     SH_dep_ggame32
     wine

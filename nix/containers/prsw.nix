@@ -35,7 +35,7 @@ in {
 
   fonts = {
     enableDefaultFonts = true;
-    enableFontDir = true;
+    fontDir.enable = true;
   };
 
   environment.systemPackages = sysPkgs;

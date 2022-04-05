@@ -2,7 +2,7 @@
 {pkgs, system, callPackage, name, LINKNAME, ...}:
 with pkgs; (callPackage ../base.nix {
   inherit name LINKNAME;
-  BDEPS = [openjdk];
+  BDEPS = [openjdk17];
   JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
     # base libs.
@@ -29,7 +29,7 @@ with pkgs; (callPackage ../base.nix {
     smpeg
     ## toolkits
     gnome3.gtk gnome2.GConf pango.out glib gtk2-x11
-    pythonPackages.pygame pythonPackages.pygame_sdl2
+    python3Packages.pygame python3Packages.pygame_sdl2 python3Packages.pygame-gui
     glib.out
     # Audio stuff.
     alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile.out flac.out libmad fluidsynth
