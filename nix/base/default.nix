@@ -27,10 +27,14 @@ in rec {
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
-  security.sudo.execWheelOnly = true;
-  security.pam.services = {
-    su.requireWheel = true;
-    sudo.requireWheel = true;
+  security = {
+    sudo.execWheelOnly = true;
+    pam.services = {
+      su.requireWheel = true;
+      sudo.requireWheel = true;
+    };
+    # needed for nix sandboxing, unfortunately.
+    # allowUserNamespaces = false;
   };
   boot.kernel.sysctl."kernel.unprivileged_bpf_disabled" = 1;
   
