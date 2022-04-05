@@ -16,18 +16,18 @@ let
 in {
   imports = [
     ./hardware-configuration.nix
+    ./sys_pulseaudio.nix
     ../../base
     ../../base/term/desktop.nix
     ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
-
+  
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
     #kernelPackages = pkgs.linuxPackages_5_15;
-    #kernelPackages = pkgs.linuxPackages_5_9;
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [
       # Reboot on kernel panic
