@@ -13,6 +13,7 @@ with pkgs.lib; rec {
     let U = elemAt s 0;
     in { "${U}" = {
       name = U;
+      createHome = false;
       uid = (elemAt s 1);
       group = U;
       extraGroups = (elemAt s 2);

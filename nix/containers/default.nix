@@ -65,8 +65,8 @@ in rec {
       config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase;};
       autoStart = true;
       bindMounts = {
-        "/home/sh_cbrowser" = {
-          hostPath = "/home/sh_cbrowser";
+        "/home/browsers" = {
+          hostPath = "/home/browsers";
           isReadOnly = false;
         };
       } // bbMounts;
@@ -75,8 +75,8 @@ in rec {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
-        "/home/sh_prsw" = {
-	  hostPath = "/home/sh_prsw";
+        "/home/prsw" = {
+	  hostPath = "/home/prsw";
 	  isReadOnly = false;
         };
       } // bbMounts // gpuMounts;
@@ -85,8 +85,8 @@ in rec {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
-        "/home/sh_prsw_net" = {
-	  hostPath = "/home/sh_prsw_net";
+        "/home/prsw_net" = {
+	  hostPath = "/home/prsw_net";
 	  isReadOnly = false;
 	};
       } // bbMounts // gpuMounts;
@@ -101,20 +101,20 @@ in rec {
 
   # TODO-maybe: Add some more functional way to derive this config.
   sshConfig = ''
-Host sh_cbrowser
+Host cbrowser
 HostName 10.231.1.2
 SendEnv DISPLAY
-User sh_cbrowser
+#User cbrowser_sh
   
-Host sh_prsw
+Host prsw
 HostName 10.231.1.3
 SendEnv DISPLAY
-User sh_prsw
+#User prsw_sh
 
-Host sh_prsw_net
+Host prsw_net
 HostName 10.231.1.4
 SendEnv DISPLAY
-User sh_prsw_net
+#User prsw_net_sh
 '';
   
   # Systemd service setup
