@@ -4,6 +4,12 @@
     support32Bit = true;
     systemWide = true;
     #tcp.enable = true;
-    extraConfig = "load-module module-native-protocol-unix socket=/run/users/sh_x/pulse/native";
+    daemon.config = {
+      # Nix defaults
+      "flat-volumes" = "no";
+      "resample-method" = "speex-float-5";
+      # Disable runtime module-loading to reduce shared-user attack surface.
+      "allow-module-loading" = "no";
+    };
   };
 }

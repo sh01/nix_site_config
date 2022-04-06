@@ -128,13 +128,13 @@ SendEnv DISPLAY
   # Systemd service setup
   termS = {
     SH_containers_sh = {
-      wantedBy = ["container@browsers.service" "container@prsw.service" "container@prsw_net.service"];
-      description = "SH_containers_sh";
+      wantedBy = ["container@browsers.service" "container@prsw.service" "container@prsw_net.service" "pulseaudio.service"];
+      before = ["pulseaudio.service"];
       script = ''
-# Set up container dirs
-mkdir -p /run/pulse
-#chown -R sh:sh_x /run/users/sh_x/
-#chmod g+rx,o-rx -R /run/users/sh_x
+# Work around https://github.com/NixOS/nixpkgs/issues/114399 :
+# Reset pulse homedir to fix permissions if they're incorrect.
+D=/run/pulse
+ls -dl1 "$D" | grep -q '^d...r.x' || rm -rf "$D"
 '';
     };
   };

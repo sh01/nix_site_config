@@ -10,7 +10,7 @@ in {
       group = "pulse";
       extraGroups = [ "audio" ];
       home = "/run/pulse";
-      createHome = true;
+      createHome = mkForce false;
       isSystemUser = true;
     };
     groups.pulse.gid = mkForce uid;
