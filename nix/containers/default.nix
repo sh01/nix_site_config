@@ -5,9 +5,17 @@ let
       hostPath = "/tmp/.X11-unix";
       isReadOnly = true;
     };
-    "/run/users" = {
-      hostPath = "/run/users";
+    #"/run/users" = {
+    #  hostPath = "/run/users";
+    #  isReadOnly = true;
+    #};
+    "/home/stash" = {
+      hostPath = "/home/stash";
       isReadOnly = true;
+    };
+    "/run/pulse" = {
+      hostPath = "/run/pulse";
+      isReadOnly = false;
     };
   };
   gpuMounts = {
@@ -124,9 +132,9 @@ SendEnv DISPLAY
       description = "SH_containers_sh";
       script = ''
 # Set up container dirs
-mkdir -p /run/users/sh_x/pulse
-chown -R sh:sh_x /run/users/sh_x/
-chmod g+rx,o-rx -R /run/users/sh_x
+mkdir -p /run/pulse
+#chown -R sh:sh_x /run/users/sh_x/
+#chmod g+rx,o-rx -R /run/users/sh_x
 '';
     };
   };

@@ -7,16 +7,16 @@ let
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
   slib = (pkgs.callPackage ../../lib {});
   cont = callPackage ../../containers {};
-  contBase = cont.termC ssh_pub;
   vars = import ../../base/vars.nix;
   lpkgs = (import ../../pkgs {});
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
   };
-in {
+in rec {
   imports = [
     ./hardware-configuration.nix
     ./sys_pulseaudio.nix
+    ../../base/sys_pulseaudio_user.nix
     ../../base
     ../../base/term/desktop.nix
     ../../base/site_wi.nix
@@ -124,7 +124,7 @@ in {
     };
   };
 
-  containers = contBase;
+  containers = (cont.termC ssh_pub);
   programs.ssh.extraConfig = cont.sshConfig;
   systemd.services = cont.termS;
 

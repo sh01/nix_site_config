@@ -7,10 +7,10 @@ in {
   let
     sh_keys = keys.sh or [ssh_pub.sh_allison];
   in rec {
-    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x" "stash"] ++ (u2g.sh or [])) sh_keys {}];
+    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.sh or [])) sh_keys {}];
     #root_sh = ["root_sh" 0 (["wheel" "root"]) sh_keys {home = "/root/sh";}];
-    sh_prsw = ["prsw_sh" 1001 (["audio" "video" "sh_x" "stash"] ++ (u2g.prsw or [])) (keys.sh_prsw or []) {home="/home/prsw/sh";}];
-    sh_prsw_net = ["prsw_net_sh" 1005 ["audio" "video" "sh_x"] (keys.sh_prsw or []) {home="/home/prsw_net/sh";}];
+    sh_prsw = ["prsw_sh" 1001 (["audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.prsw or [])) (keys.sh_prsw or []) {home="/home/prsw/sh";}];
+    sh_prsw_net = ["prsw_net_sh" 1005 ["audio" "video" "sh_x" "stash" "pulse"] (keys.sh_prsw or []) {home="/home/prsw_net/sh";}];
     sh_x = ["sh_x" 1002 [] [] {}];
     sh_cbrowser = ["browsers_sh" 1003 ["sh_x"] (keys.sh_cbrowser or []) {home="/home/browsers/sh";}];
     stash = ["stash" 1004 [] sh_keys {}];
