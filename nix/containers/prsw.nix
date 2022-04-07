@@ -37,5 +37,5 @@ in {
     fontDir.enable = true;
   };
 
-  environment.systemPackages = sysPkgs;
+  environment.systemPackages = with (import ../pkgs {}); sysPkgs ++ [SH_dep_gbase];
 }
