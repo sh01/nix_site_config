@@ -3,15 +3,15 @@
 for d in \
     "$(echo sh_prsw) prsw"\
     "$(echo sh_prsw_net) prsw_net"\
-    "$(echo sh_cbrowser) browsers";
+    "$(echo sh_cbrowser) browsers un";
 {
-  read D un <<<"$d"
+  read D un tlvl <<<"$d"
   fn=".Xauthority"
   hn=$(echo "${un}" | sed 's:_:-:g')
 
   umask 077
   T=$(mktemp)
-  xauth -f "$T" generate :0 . "untrusted" group "$hn" timeout 0
+  xauth -f "$T" generate :0 . "${tlvl}trusted" group "$hn" timeout 0
   umask 026
   ## We need to patch the Xauthority hostname for it to work right from inside containers.
   cat $T | /run/current-system/sw/share/local/bin/patch_xauth "${hn}" | ssh "${un}_$(whoami)@${hn}" "rm -f ${fn}; umask 026; cat > ${fn}"
