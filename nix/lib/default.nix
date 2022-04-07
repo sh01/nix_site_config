@@ -25,6 +25,7 @@ with pkgs.lib; rec {
   mkUserGroups = specs: {
     users = mkUsers specs;
     groups = mkGroups specs;
+    enforceIdUniqueness = false;
   };
 
   lpkgs = (pkgs.callPackage ../../pkgs {});

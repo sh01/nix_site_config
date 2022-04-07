@@ -6,11 +6,15 @@ in {
   userSpecs = { u2g ? {}, keys ? {}}:
   let
     sh_keys = keys.sh or [ssh_pub.sh_allison];
+    sophia_keys = keys.sophia or [];
   in rec {
     sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.sh or [])) sh_keys {}];
+    sophia = ["sophia" 1006 (["nix-users" "audio" "video" "stash" "pulse"] ++ (u2g.sh or [])) sophia_keys {}];
     #root_sh = ["root_sh" 0 (["wheel" "root"]) sh_keys {home = "/root/sh";}];
     sh_prsw = ["prsw_sh" 1001 (["audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.prsw or [])) (keys.sh_prsw or []) {home="/home/prsw/sh";}];
+    prsw_sophia = ["prsw_sophia" 1001 (["audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.prsw or [])) (sophia_keys) {home="/home/prsw/sophia";}];
     sh_prsw_net = ["prsw_net_sh" 1005 ["audio" "video" "sh_x" "stash" "pulse"] (keys.sh_prsw or []) {home="/home/prsw_net/sh";}];
+    prsw_net_sophia = ["prsw_net_sophia" 1005 ["audio" "video" "sh_x" "stash" "pulse"] sophia_keys {home="/home/prsw_net/sophia";}];
     sh_x = ["sh_x" 1002 [] [] {}];
     sh_cbrowser = ["browsers_sh" 1003 ["sh_x"] (keys.sh_cbrowser or []) {home="/home/browsers/sh";}];
     stash = ["stash" 1004 [] sh_keys {}];
