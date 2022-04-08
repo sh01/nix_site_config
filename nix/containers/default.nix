@@ -101,7 +101,7 @@ in rec {
     } // gpuAllow // (net "4");
   };
   
-  termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh]); {
+  termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh ssh_pub.sophia]); {
     browsers = browsers;
     prsw = prsw;
     "prsw-net" = prsw-net;

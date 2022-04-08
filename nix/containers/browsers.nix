@@ -18,6 +18,7 @@ in {
       root.openssh.authorizedKeys.keys = rks;
     };
     groups = (slib.mkGroups us);
+    inherit (slib.mkUserGroups {}) enforceIdUniqueness;
   };
 
   environment.etc."resolv.conf" = dns.resolvConfCont;

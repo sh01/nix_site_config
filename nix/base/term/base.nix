@@ -104,7 +104,7 @@ if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
     u2g = {
       sh = ["sh_cbrowser"];
     };
-  }; default ++ [openvpn sh_prsw sh_prsw_net sh_x sh_cbrowser stash]);
+  }; default ++ [openvpn prsw_sh prsw_net_sh sh_x sh_cbrowser stash]);
 
   security.sudo.extraConfig = ''
 sh    ALL=(prsw,sh_cbrowser) NOPASSWD: ALL

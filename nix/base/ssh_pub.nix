@@ -11,6 +11,7 @@ in rec {
 
   jibril = {
     sh = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGpNjJO3NLBz37ZV/32tkOCO+TTHctiszdlCBuwJaUuX sh@jibril";
+    sophia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAOH97qerZCs1LPWarwCFoZR8a4GlKBJC4WF/+/fYH0 sophia@jibril";
   };
   
   kokoro = {

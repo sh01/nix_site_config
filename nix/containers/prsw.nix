@@ -3,6 +3,7 @@ let
   vars = import ../base/vars.nix;
   slib = (pkgs.callPackage ../lib {});
   dns = (import ../base/dns.nix) {};
+  ssh_pub = (import ../base/ssh_pub.nix);
 in {
   imports = [
     ../base
@@ -20,12 +21,13 @@ in {
   
   ### User / Group config
   users = let
-    us = with vars.userSpecs { keys = { sh = uks; sh_prsw = uks; sh_prsw_net = uks; sophia = [];};}; default ++ [ sh_prsw sh_prsw_net sh_x stash ];
+    us = with vars.userSpecs { keys = { sh = [ssh_pub.sh_allison]; sh_prsw = uks; sh_prsw_net = uks; sophia = [];};}; default ++ [ prsw_sh prsw_net_sh sh_x stash prsw_sophia prsw_net_sophia ];
   in {
     users = (slib.mkUsers us) // {
       root.openssh.authorizedKeys.keys = rks;
     };
     groups = (slib.mkGroups us);
+    inherit (slib.mkUserGroups {}) enforceIdUniqueness;
   };
 
   networking = {
