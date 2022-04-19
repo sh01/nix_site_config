@@ -21,7 +21,7 @@ in {
   
   ### User / Group config
   users = let
-    us = with vars.userSpecs { keys = { sh = [ssh_pub.sh_allison]; sh_prsw = uks; sh_prsw_net = uks; sophia = [];};}; default ++ [ prsw_sh prsw_net_sh sh_x stash prsw_sophia prsw_net_sophia ];
+    us = with vars.userSpecs { keys = { sh = [ssh_pub.sh_allison]; sh_prsw = uks; sh_prsw_net = uks; sophia = [];};}; default ++ [ prsw prsw_net sh_x stash ];
   in {
     users = (slib.mkUsers us) // {
       root.openssh.authorizedKeys.keys = rks;

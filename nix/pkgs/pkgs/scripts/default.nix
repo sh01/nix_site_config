@@ -12,6 +12,6 @@ pkgs.substituteAllFiles {
   iproute2 = pkgs.iproute;
 
   src = ./s;
-  files = ["share"];
-  postInstall = "chmod a+x $out/share/local/bin/*";
+  files = ["share" "bin"];
+  postInstall = "chmod a+x $out/share/local/bin/* $out/bin/*";
 }

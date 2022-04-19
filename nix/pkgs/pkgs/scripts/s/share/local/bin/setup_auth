@@ -6,7 +6,7 @@ for d in \
     "$(echo sh_cbrowser) browsers un";
 {
   read D un tlvl <<<"$d"
-  fn=".Xauthority"
+  fn="/home/${un}/$(whoami)/.Xauthority"
   hn=$(echo "${un}" | sed 's:_:-:g')
 
   umask 077
@@ -14,7 +14,7 @@ for d in \
   xauth -f "$T" generate "${DISPLAY}" . "${tlvl}trusted" group "$hn" timeout 0
   umask 026
   ## We need to patch the Xauthority hostname for it to work right from inside containers.
-  cat $T | /run/current-system/sw/share/local/bin/patch_xauth "${hn}" | ssh "${un}_$(whoami)@${hn}" "rm -f ${fn}; umask 026; cat > ${fn}"
+  cat $T | /run/current-system/sw/share/local/bin/patch_xauth "${hn}" | ssh "${un}@${hn}" "rm -f ${fn}; umask 026; cat > ${fn}"
   rm -f $T
-  ssh "${un}_$(whoami)@${hn}" "chgrp sh_x ${fn}; chmod g+r ${fn}"
+  ssh "${un}@${hn}" "chgrp sh_x ${fn}; chmod g+r ${fn}"
 }

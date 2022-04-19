@@ -33,7 +33,6 @@ fi
   services.openssh = {
     enable = true;
     permitRootLogin = "without-password";
-    extraConfig = "AcceptEnv DISPLAY";
+    extraConfig = "AcceptEnv DISPLAY HOME LANG LC_*";
   };
 }
-

@@ -112,17 +112,14 @@ in rec {
 Host cbrowser
 HostName 10.231.1.2
 SendEnv DISPLAY
-#User cbrowser_sh
   
 Host prsw
 HostName 10.231.1.3
 SendEnv DISPLAY
-#User prsw_sh
 
 Host prsw_net
 HostName 10.231.1.4
 SendEnv DISPLAY
-#User prsw_net_sh
 '';
   
   # Systemd service setup
