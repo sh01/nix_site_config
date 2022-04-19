@@ -7,6 +7,7 @@ with pkgs; (callPackage ../base.nix {
   LDEPS = with pkgs.xorg; [
     # base libs.
     glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2 xz.out gmp
+    libpng12 # Portal 1
     # Device access
     libudev
     libpciaccess
