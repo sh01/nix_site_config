@@ -259,7 +259,7 @@ let P = name: d: derivation {
     #warzone2100
   ];
   
-  gui = P "gui" [fonts xorg xlibs guiMisc yakuake konsole (import ../kde_conf) (pkgs.callPackage ../scripts {})];
+  gui = P "gui" [fonts xorg xlibs guiMisc tilda yakuake konsole (import ../kde_conf) (pkgs.callPackage ../scripts {})];
 
 
   sys_terminal_wired = P "sys_terminal_wired" [
