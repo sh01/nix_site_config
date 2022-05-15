@@ -55,6 +55,8 @@ eval $(dircolors -b /etc/DIR_COLORS)
 export LESS='-RQP%f %bB/%B (%lB/%L) ?e(EOF):[%pB\%].?x - Next\: %x.:?pB%pB\%..%t'
 # iostat
 export S_COLORS=always
+# tar
+export XZ_OPT="-T0"
 
 ### Shell style settings
 # Colored completions. :)
