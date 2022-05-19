@@ -55,6 +55,9 @@ in rec {
     SH_dep_ggame32
     wine
     wine64
+    winetricks
+    vulkan-loader
+    vulkan-tools
     # Binaries used by libs
     pkgs.xorg.xrandr
     gnome3.zenity

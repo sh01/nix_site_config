@@ -47,5 +47,7 @@ with pkgs; (callPackage ../base.nix {
     libgcrypt nettle openssl.out libkrb5 openldap gnutls.out
     # misc
     util-linux.out util-linux.lib libgpgerror
+    # Goldberg steam emu
+    protobuf protobuf3_9
   ];
 })

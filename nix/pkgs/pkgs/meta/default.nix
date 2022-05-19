@@ -171,6 +171,13 @@ let P = name: d: derivation {
     xf86videoati
     xorg_sys_opengl
 
+    vulkan-extension-layer
+    vulkan-headers
+    vulkan-loader
+    vulkan-tools
+    vulkan-tools-lunarg
+    vulkan-validation-layers
+
     xorgserver
     xkeyboard_config
     #dri2proto
