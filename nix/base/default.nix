@@ -83,9 +83,15 @@ in rec {
   services.logind.extraConfig = ''
     KillUserProcesses=no'';
   services.cron.enable = true;
+
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+  };
+
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
-  
+
   ##### Nix source and build config
   nix = {
     allowedUsers = [ "@nix-users" ];

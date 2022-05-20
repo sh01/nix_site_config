@@ -14,7 +14,7 @@ in {
     ./hardware-configuration.nix
     ../../base
     ../../base/nox.nix
-    ../../base/site_wl.nix
+    ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
 
@@ -44,7 +44,7 @@ in {
     };
 
     loader.efi = {
-      #canTouchEfiVariables = true;
+      canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
     };
 
@@ -59,7 +59,7 @@ in {
       splashImage = null;
 
       efiSupport = true;
-      efiInstallAsRemovable = true;
+      #efiInstallAsRemovable = true;
     };
   };
 
@@ -136,10 +136,7 @@ in {
   };
 
   ### Services
-  services.openssh = {
-    enable = true;
-    moduliFile = ./sshd_moduli;
-  };
+  services.openssh.moduliFile = ./sshd_moduli;
 
   services.openntpd = {
     enable = true;
