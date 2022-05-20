@@ -95,7 +95,7 @@ mount /mnt/ys
     enableEmergencyMode = false;
   };
   
-  environment.etc = nft.conf_terminal;
+  environment.etc = nft.env_conf_terminal;
 
   services.udev = {
     extraRules = ''

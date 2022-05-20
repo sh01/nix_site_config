@@ -1,15 +1,10 @@
 {pkgs, ...}:
 let
   inherit (pkgs.lib) intersperse concatStrings;
-  mkFile = text: {
-    "nft.conf" = {
-      text = text;
-    };
-  };
 in rec {
   conf_simple = ports: let
     inPortStr = concatStrings (intersperse "," (map toString ports));
-  in (mkFile ''
+  in (''
 table inet filter0 {
 	chain a_input {
 		type filter hook input priority 0; policy accept;
@@ -68,7 +63,12 @@ table ip nat {
 '');
 
   conf_terminal = (conf_simple [22]);
-
+  env_conf_terminal = {
+    "nft.conf" = {
+      text = (conf_terminal);
+    };
+  };
+  
   services = {
     SH_nft_setup = {
       restartIfChanged = true;
