@@ -8,6 +8,11 @@ in rec {
     sh = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJG516zaBDacLrq8WTy+TJ7cZ65hJD/n9kVxw8u14tey sh@yalda";
     root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAGr8SrFisvyBMOPV5spfH5P8PXIF3DrOdvLENUzKPOd root@yalda";
   };
+
+  jibril = {
+    sh = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGpNjJO3NLBz37ZV/32tkOCO+TTHctiszdlCBuwJaUuX sh@jibril";
+    sophia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAOH97qerZCs1LPWarwCFoZR8a4GlKBJC4WF/+/fYH0 sophia@jibril";
+  };
   
   kokoro = {
     sh = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIICdTEAJL0W3GwbSqby9UA5WkmGy/U7cmFvgMmAInj+p sh@kokoro";

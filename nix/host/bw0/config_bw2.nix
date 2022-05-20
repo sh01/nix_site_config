@@ -292,10 +292,7 @@ in {
   };
 
   ### Services
-  services.openssh = {
-    enable = true;
-    moduliFile = ./sshd_moduli;
-  };
+  services.openssh.moduliFile = ./sshd_moduli;
   services.bind = {
     enable = true;
     cacheNetworks = ["10.0.0.0/8" "127.0.0.0/8" "fd9d:1852:3555::/48" "192.168.0.0/16"];

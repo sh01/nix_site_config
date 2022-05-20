@@ -72,6 +72,7 @@ let P = name: d: derivation {
     pciutils
     usbutils
     cpufrequtils
+    lm_sensors
     
     mdadm
     gnufdisk
@@ -170,6 +171,13 @@ let P = name: d: derivation {
     xf86videoati
     xorg_sys_opengl
 
+    vulkan-extension-layer
+    vulkan-headers
+    vulkan-loader
+    vulkan-tools
+    vulkan-tools-lunarg
+    vulkan-validation-layers
+
     xorgserver
     xkeyboard_config
     #dri2proto
@@ -224,7 +232,7 @@ let P = name: d: derivation {
     #pykde4
   ];
 
-  kde5 = with pkgs.kdeApplications; P "kde5" [
+  kde5 = with pkgs.libsForQt5; P "kde5" [
     kde2-decoration
     kdeFrameworks.kded
     libsForQt5.kdelibs4support
@@ -254,10 +262,11 @@ let P = name: d: derivation {
     freeorion
     wesnoth
     widelands
-    warzone2100
+    # Borked in 21.11
+    #warzone2100
   ];
   
-  gui = P "gui" [fonts xorg xlibs kde5 guiMisc (import ../kde_conf) (pkgs.callPackage ../scripts {})];
+  gui = P "gui" [fonts xorg xlibs guiMisc tilda yakuake konsole (import ../kde_conf) (pkgs.callPackage ../scripts {})];
 
 
   sys_terminal_wired = P "sys_terminal_wired" [

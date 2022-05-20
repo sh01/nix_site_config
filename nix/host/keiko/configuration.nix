@@ -9,7 +9,6 @@ let
 in {
   imports = [
     ./hardware-configuration.nix
-    ./kernel.nix
     ../../base
     ../../base/nox.nix
     ../../base/site_wl.nix

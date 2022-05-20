@@ -2,11 +2,12 @@
 {pkgs, system, callPackage, name, LINKNAME, ...}:
 with pkgs; (callPackage ../base.nix {
   inherit name LINKNAME;
-  BDEPS = [openjdk];
+  BDEPS = [openjdk17];
   JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
     # base libs.
     glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2 xz.out gmp
+    libpng12 # Portal 1
     # Device access
     libudev
     libpciaccess
@@ -29,7 +30,7 @@ with pkgs; (callPackage ../base.nix {
     smpeg
     ## toolkits
     gnome3.gtk gnome2.GConf pango.out glib gtk2-x11
-    pythonPackages.pygame pythonPackages.pygame_sdl2
+    python3Packages.pygame python3Packages.pygame_sdl2 python3Packages.pygame-gui
     glib.out
     # Audio stuff.
     alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile.out flac.out libmad fluidsynth
@@ -45,6 +46,8 @@ with pkgs; (callPackage ../base.nix {
     # Crypto
     libgcrypt nettle openssl.out libkrb5 openldap gnutls.out
     # misc
-    utillinux.out libgpgerror
+    util-linux.out util-linux.lib libgpgerror
+    # Goldberg steam emu
+    protobuf protobuf3_9
   ];
 })

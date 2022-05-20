@@ -2,6 +2,9 @@
 let
   dns = (import ../base/dns.nix) {};
 in {
+  imports = [
+    ../base/sys_pulseaudio_user.nix
+  ];
   environment.etc."resolv.conf" = dns.resolvConfCont;
   boot = {
     tmpOnTmpfs = false;
@@ -30,7 +33,6 @@ fi
   services.openssh = {
     enable = true;
     permitRootLogin = "without-password";
-    extraConfig = "AcceptEnv DISPLAY";
+    extraConfig = "AcceptEnv DISPLAY HOME LANG LC_*";
   };
 }
-
