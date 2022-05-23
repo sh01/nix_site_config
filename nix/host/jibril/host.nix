@@ -91,7 +91,7 @@ in rec {
 
     nftables = {
       enable = true;
-      ruleset = nft.conf_terminal;
+      ruleset = nft.conf_simple [22 9100];
     };
     # Push this way out of the way.
     #resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
