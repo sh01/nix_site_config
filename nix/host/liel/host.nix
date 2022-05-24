@@ -142,12 +142,12 @@ in {
   ### Services
   services.openssh.moduliFile = ./sshd_moduli;
 
-  services.openntpd = {
+  services.chrony = {
     enable = true;
-    servers = ["10.16.1.1"];
-    extraConfig = ''
-    constraint from "https://www.google.com/"
-'';
+    servers = ["10.17.1.1"];
+    #extraConfig = ''
+    #constraint from "https://www.google.com/"
+#'';
   };
   services.uptimed.enable = true;
   

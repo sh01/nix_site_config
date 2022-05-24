@@ -101,6 +101,12 @@ in rec {
       enable = true;
       passwordAuthentication = false;
     };
+
+    # NTP
+    timesyncd.enable = false;
+    chrony = {
+      #enable = true;
+    };
     gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
   };
 
