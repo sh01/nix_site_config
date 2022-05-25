@@ -7,7 +7,7 @@ let
   slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {
-    nameservers4 = ["127.0.0.1" "::1"];
+    nameservers4 = ["10.17.1.1" "::1"];
   };
 in {
   imports = [
