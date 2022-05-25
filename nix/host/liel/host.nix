@@ -80,7 +80,7 @@ in {
       #};
       "eth0" = {
         ipv4.addresses = [{ address = "10.17.1.6"; prefixLength = 24; }];
-        ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.16.1.1"; }];
+        ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::6"; prefixLength=64;}];
       };
     };
@@ -124,6 +124,10 @@ in {
 
   sound.enable = false;
   security.polkit.enable = false;
+  services.udisks2.enable = false;
+  nixpkgs.config.packageOverrides = pkgs: {
+    gnupg22 = pkgs.gnupg22.override { pcsclite = null; };
+  };
 
   fileSystems = {
     "/" = {
