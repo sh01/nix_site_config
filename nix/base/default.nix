@@ -74,9 +74,9 @@ in rec {
     # Add postgres support to dspam.
     dspam = pkgs.dspam.override { withPgSQL = true; postgresql=pkgs.postgresql96; };
     # Take configs from /etc/ircd so we can override MOTD files.
-    charybdis = pkgs.stdenv.lib.overrideDerivation pkgs.charybdis (a: {
-      configureFlags = a.configureFlags ++ ["--sysconfdir=/etc/ircd"];
-    });
+    #charybdis = pkgs.stdenv.lib.overrideDerivation pkgs.charybdis (a: {
+    #  configureFlags = a.configureFlags ++ ["--sysconfdir=/etc/ircd"];
+    #});
   };
 
   ##### Internationalisation properties

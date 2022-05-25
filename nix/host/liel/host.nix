@@ -150,6 +150,10 @@ in {
 #'';
   };
   services.uptimed.enable = true;
+  services.charybdis = {
+    enable = true;
+    config = (builtins.readFile ./charybdis.conf);
+  };
   
   ### User / Group config
   # Define paired user/group accounts.
