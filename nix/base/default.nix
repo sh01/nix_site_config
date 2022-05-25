@@ -88,18 +88,21 @@ in rec {
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
-  ####
-  services.logind.lidSwitch = "lock";
-  services.logind.extraConfig = ''
-    KillUserProcesses=no'';
-  services.cron.enable = true;
 
-  ### Services
-  services.openssh = {
-    enable = true;
-    passwordAuthentication = false;
+  services = {
+    logind = {
+      lidSwitch = "lock";
+      extraConfig = ''
+        KillUserProcesses=no'';
+    };
+    cron.enable = true;
+
+    openssh = {
+      enable = true;
+      passwordAuthentication = false;
+    };
+    gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
   };
-  services.gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
 
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
