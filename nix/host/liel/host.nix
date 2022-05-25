@@ -158,10 +158,21 @@ in {
   services.httpd = {
     enable = true;
     adminAddr = ".";
+    extraConfig = ''
+LogFormat "%{%Y-%m-%d_%H:%M:%S}t.%{usec_frac}t %h %l %u \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" clog
+'';
+    logFormat = "clog";
     virtualHosts = {
       "liel.x.s" = {
         #addSSL = true;
         enableUserDir = true;
+        logFormat = "clog";
+        extraConfig = ''
+<Directory "/home/*/public_html">
+		Options +ExecCGI
+</Directory>
+AddHandler cgi-script .cgi .py
+'';
       };
     };
   };
