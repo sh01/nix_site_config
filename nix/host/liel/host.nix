@@ -127,6 +127,7 @@ in {
   services.udisks2.enable = false;
   nixpkgs.config.packageOverrides = pkgs: {
     gnupg22 = pkgs.gnupg22.override { pcsclite = null; };
+    logrotate = pkgs.logrotate.override { mailutils = null; };
   };
 
   fileSystems = {
@@ -153,6 +154,16 @@ in {
   services.charybdis = {
     enable = true;
     config = (builtins.readFile ./charybdis.conf);
+  };
+  services.httpd = {
+    enable = true;
+    adminAddr = ".";
+    virtualHosts = {
+      "liel.x.s" = {
+        #addSSL = true;
+        enableUserDir = true;
+      };
+    };
   };
   
   ### User / Group config
