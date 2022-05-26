@@ -9,6 +9,7 @@ let
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["10.17.1.1" "::1"];
   };
+  gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
 in {
   imports = [
     ./hardware-configuration.nix
@@ -16,6 +17,7 @@ in {
     ../../base/nox.nix
     ../../base/site_wi.nix
     ../../fix/19_9.nix
+    (gitit "polis" 2019 8005)
   ];
 
   ### Boot config
@@ -52,9 +54,7 @@ in {
       enable = true;
       copyKernels = true;
       version = 2;
-      #device = "/dev/disk/by-id/ata-Micron_M600_MTFDDAT128MBF_14450F3723E9";
       device = "nodev";
-      # fsIdentifier = "uuid";
       # memtest86.enable = true;
       splashImage = null;
 
