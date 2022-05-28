@@ -96,6 +96,7 @@ EXT4_FS = yes;
 BTRFS_FS = yes;
 
 ENCRYPTED_KEYS = yes;
+#TRUSTED_KEYS = no;
 DM_CRYPT = yes;
 CRYPTO_ESSIV = yes;
 CRYPTO_XTS = yes;
