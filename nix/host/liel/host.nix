@@ -10,6 +10,7 @@ let
     nameservers4 = ["10.17.1.1" "::1"];
   };
   gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
+  apache2 = (pkgs.callPackage ../../services/apache2.nix {});
 in {
   imports = [
     ./hardware-configuration.nix
@@ -157,24 +158,13 @@ in {
   };
   services.httpd = {
     enable = true;
-    adminAddr = ".";
-    extraConfig = ''
-LogFormat "%{%Y-%m-%d_%H:%M:%S}t.%{usec_frac}t %h %l %u \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" clog
-'';
-    logFormat = "clog";
-    virtualHosts = {
-      "liel.x.s" = {
-        #addSSL = true;
-        enableUserDir = true;
-        logFormat = "clog";
-        extraConfig = ''
-<Directory "/home/*/public_html">
-		Options +ExecCGI
-</Directory>
-AddHandler cgi-script .cgi .py
-'';
-      };
-    };
+    configFile = with apache2; confFile modsDefault [
+      (fVhost "liel.x.s" [fUserdirs fUserdirsCGI])
+      (fVhost "polis-wiki.s" [
+        (fAuth {name="polis-wiki.s"; fn="/etc/www/polis_wiki/auth_digest";})
+        (fForward "http://127.0.0.2:8005/")
+      ])
+    ];
   };
   
   ### User / Group config
