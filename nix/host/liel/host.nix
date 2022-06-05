@@ -11,6 +11,7 @@ let
   };
   gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
   apache2 = (pkgs.callPackage ../../services/apache2.nix {});
+  vpn_c = (import ../../base/openvpn/client.nix);
 in {
   imports = [
     ./hardware-configuration.nix
@@ -166,10 +167,18 @@ in {
       ])
     ];
   };
-  
+
+  services.openvpn.servers = {
+    # Outgoing to ika
+    vpn-ocean = {
+      config = vpn_c.config (vpn_c.ocean // {
+        cert = ../../data/vpn-o/c_liel.crt;
+      });
+    };
+  };
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [openvpn]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "20.09";
