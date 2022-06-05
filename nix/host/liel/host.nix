@@ -20,6 +20,7 @@ in {
     ../../base/site_wi.nix
     ../../fix/19_9.nix
     (gitit "polis" 2019 8005)
+    (gitit "rpg_c0" 2020 8006)
   ];
 
   ### Boot config
@@ -164,6 +165,11 @@ in {
       (fVhost "polis-wiki.s" [
         (fAuth {name="polis-wiki.s"; fn="/etc/www/polis_wiki/auth_digest";})
         (fForward "http://127.0.0.2:8005/")
+      ])
+      (fVhost "rpg-c0-wiki" [
+        ''    ServerAlias rpg-c0-wiki.s rpg-c0-w.memespace.net''
+        (fAuth {name="rpg-c0-w.memespace.net"; fn="/etc/www/rpg_c0_wiki/auth_digest";})
+        (fForward "http://127.0.0.2:8006/")
       ])
     ];
   };
