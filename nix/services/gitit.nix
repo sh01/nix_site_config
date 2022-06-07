@@ -13,6 +13,7 @@
 
     front-page: front
     no-delete: front, Help
+    no-edit:
   '';
   gititWithPkgs = pkgs.haskellPackages.ghcWithPackages (self: [ self.gitit self ]);
 in rec {
