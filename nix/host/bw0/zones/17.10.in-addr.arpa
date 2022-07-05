@@ -1,5 +1,5 @@
 17.10.in-addr.arpa.	7200    IN SOA  bw0.y. root.bw0.y. (
-	7	; serial
+	8	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -11,8 +11,7 @@
 1.2	86400	IN PTR	bw0.x.s.
 4.1	86400	IN PTR	uiharu.x.s.
 6.1	86400	IN PTR  liel.x.s.
-8.1	86400	IN PTR	echo1.x.s.
-9.1	86400	IN PTR  echo-chonk.x.s.
+10.1	86400	IN PTR	yalda.sh.s.
 
 1.8	86400	IN PTR  1.sens.s.
 2.8	86400	IN PTR  2.sens.s.
