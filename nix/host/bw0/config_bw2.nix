@@ -87,14 +87,26 @@ in {
         ];
       };
       "eth_l_wired" = {
-        ipv4.addresses = [
-          { address = "10.17.1.1"; prefixLength = 24; }
-          { address = "10.17.8.255"; prefixLength = 24; }
-        ];
+        ipv4 = {
+          addresses = [
+            { address = "10.17.1.1"; prefixLength = 24; }
+            { address = "10.17.8.255"; prefixLength = 24; }
+          ];
+          routes = [
+            { address = "10.17.1.0"; prefixLength = 24; }
+            { address = "10.17.8.0"; prefixLength = 24; }
+          ];
+        };
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::1"; prefixLength=64;}];
       };
-      "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
-      "eth_l_wifi_g".ipv4.addresses = [{ address = "10.17.3.1"; prefixLength = 24; }];
+      "eth_l_wifi".ipv4 = {
+        addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
+        routes = [{ address = "10.17.2.0"; prefixLength = 24; }];
+      };
+      "eth_l_wifi_g".ipv4 = {
+        addresses = [{ address = "10.17.3.1"; prefixLength = 24; }];
+        routes = [{ address = "10.17.3.0"; prefixLength = 24; }];
+      };
       "eth_wan0" = {
         useDHCP = true;
         tempAddress = "disabled";
@@ -141,6 +153,7 @@ in {
           #/usr/bin/env > "/tmp/t0/$$"
           if [[ "$interface" = "eth_wan0" ]]; then
             WIDX=0
+            ip route add 192.168.1.254/32 dev "$interface"
           elif [[ "$interface" = "eth_wan1" ]]; then
             WIDX=1
           else
