@@ -51,7 +51,7 @@ in rec {
         ipv4.routes = [{
           address = "0.0.0.0";
           prefixLength = 0;
-          via = "10.16.0.1";
+          via = "10.17.1.1";
         }];
         ipv6.addresses = [
           { address = "2001:470:7af3:1:1:0:2:1"; prefixLength = 80;}
@@ -66,7 +66,7 @@ in rec {
     firewall.enable = false;
     dhcpcd.allowInterfaces = [];
     dhcpcd.enable = false;
-    nameservers = ["10.16.0.1"];
+    nameservers = ["10.17.1.1"];
   };
 
   systemd = {

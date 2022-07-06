@@ -25,10 +25,10 @@ in {
     interfaces = {
       "eth_lan" = {
         ipv4.addresses = [
-          {address = "10.16.0.2"; prefixLength = 24;}
+          {address = "10.17.1.11"; prefixLength = 24;}
         ];
         ipv4.routes = [
-          {address = "0.0.0.0"; prefixLength = 0; via = "10.16.0.1";}
+          {address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1";}
         ];
         ipv6.addresses = [
           { address = "2001:470:7af3:1:1::2"; prefixLength = 80;}
@@ -46,7 +46,6 @@ in {
     dhcpcd.allowInterfaces = [];
     useNetworkd = false;
 
-    #defaultGateway = "10.16.0.1";
     resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   } // dns.conf;
 
