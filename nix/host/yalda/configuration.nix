@@ -66,7 +66,7 @@ in rec {
     firewall.enable = false;
     dhcpcd.allowInterfaces = [];
     dhcpcd.enable = false;
-    nameservers = ["10.16.0.1"];
+    nameservers = ["10.17.1.1"];
   };
 
   systemd = {
