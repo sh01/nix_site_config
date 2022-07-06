@@ -1,5 +1,5 @@
 s.	7200    IN SOA  bw0.s. root.bw0.s. (
-	9	; serial
+	13	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -7,13 +7,19 @@ s.	7200    IN SOA  bw0.s. root.bw0.s. (
 )
 
 		1800	NS	bw0.s.
+bw0.x		86400	IN	PTR	bw0.s.
 bw0		86400	IN	A	10.17.1.1
-bw0.x		86400	IN	A	10.17.1.1
-liel.x		86500	IN	A	10.17.1.6
-polis-wiki	86400	IN	CNAME	liel.x.s.
-irc.x		86400   IN	CNAME	liel.x.s.
+bw0		86400	IN	AAAA	fd9d:1852:3555:200:ff01::1
+liel.x		86400	IN	A	10.17.1.6
+liel.x		86400	IN	AAAA	fd9d:1852:3555:200:ff01::6
 jibril.x	86400	IN	A	10.17.1.7
 jibril.x	86400	IN	AAAA	fd9d:1852:3555:200:ff01::7
+
+polis-wiki	86400	IN	CNAME	liel.x.s.
+rpg-c0-wiki	86400	IN	CNAME	liel.x.s.
+irc.x		86400   IN	CNAME	liel.x.s.
+
+yalda.sh	86400	IN	A	10.17.1.10
 
 1.sens		86400	IN	A	10.17.8.1
 2.sens		86400	IN	A	10.17.8.2
