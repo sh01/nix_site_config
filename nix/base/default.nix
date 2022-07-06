@@ -2,7 +2,7 @@
 let
   ssh_pub = import ./ssh_pub.nix;
   # Recursively read all files from ./etc and build an environment.etc value.
-  med = let bp = (builtins.toString ./etc); in p: if p == "" then bp else bp  + "/" + p;
+  med = let bp = (builtins.toString ../../etc); in p: if p == "" then bp else bp  + "/" + p;
   pdir = (p:
   let
     dd = (builtins.readDir (builtins.toPath (med p)));

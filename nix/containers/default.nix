@@ -18,9 +18,13 @@ let
       isReadOnly = false;
     };
   };
-  gpuMounts = {
+  devMounts = {
     "/dev/dri" = {
       hostPath = "/dev/dri";
+      isReadOnly = true;
+    };
+    "/dev/input" = {
+      hostPath = "/dev/input";
       isReadOnly = true;
     };
   };
@@ -66,10 +70,13 @@ in rec {
   ]);
 
   gpuAllow = {
-    allowedDevices = [{
-      modifier = "rw";
-      node = "char-drm";
-    }];
+    allowedDevices = [
+      { modifier = "rw"; node = "char-drm";}
+      # Microsoft xbox core controller
+      { modifier = "rwm"; node = "/dev/input/js0";}
+      { modifier = "rwm"; node = "/dev/input/by-id/usb-Microsoft_Controller_3039373133383636303934313235-event-joystick";}
+      { modifier = "rwm"; node = "/dev/input/by-id/usb-Microsoft_Controller_3039373133383636303934313235-joystick";}
+    ];
   };
 
   c = rks: uks: {
@@ -91,7 +98,7 @@ in rec {
 	  hostPath = "/home/prsw";
 	  isReadOnly = false;
         };
-      } // bbMounts // gpuMounts;
+      } // bbMounts // devMounts;
     } // gpuAllow // (net "3");
     "prsw-net" = {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
@@ -101,7 +108,7 @@ in rec {
 	  hostPath = "/home/prsw_net";
 	  isReadOnly = false;
 	};
-      } // bbMounts // gpuMounts;
+      } // bbMounts // devMounts;
     } // gpuAllow // (net "4");
   };
   
