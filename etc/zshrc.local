@@ -69,3 +69,7 @@ test -f /usr/share/autojump/autojump.zsh && . /usr/share/autojump/autojump.zsh
 
 # Temporary hacks
 export MPV_HOME=/etc/mpv
+
+# Aliases
+ls='ls --color=auto --time-style=long-iso'
+exa='exa -B --time-style=long-iso'
