@@ -13,7 +13,6 @@ in rec {
   # Pseudo-static stuff
   imports = [
     ./hardware-configuration.nix
-    ./kernel.nix
     ../../base
     ../../base/term/desktop.nix
     ../../base/site_wl.nix
@@ -24,6 +23,7 @@ in rec {
   boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
   environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
     games
+    kde5
     SH_dep_mc0
     SH_dep_factorio
     SH_dep_CK2
@@ -95,7 +95,7 @@ mount /mnt/ys
     enableEmergencyMode = false;
   };
   
-  environment.etc = nft.conf_terminal;
+  environment.etc = nft.env_conf_terminal;
 
   services.udev = {
     extraRules = ''

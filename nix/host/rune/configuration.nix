@@ -22,7 +22,7 @@ in rec {
   containers = (cont.termC ssh_pub);
   systemd.services = cont.termS // nft.services // route.services;
   programs.ssh.extraConfig = cont.sshConfig;
-  environment.etc = nft.conf_terminal;
+  environment.etc = nft.env_conf_terminal;
 
   boot = {
     initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];

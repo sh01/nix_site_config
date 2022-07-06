@@ -1,0 +1,7 @@
+#!@bash@/bin/sh
+USER=$1
+# Many games reference user homedir rather than $HOME for defaulting XDG dirs;
+# set them explicitly here to work around this.
+# Note that some applications (e.g. Stellaris) will still disrespect these
+# environment variables, also.
+exec ssh -t "$USER"@"$USER" "export HOME=/home/$USER/$(whoami);"'export XDG_DATA_HOME="$HOME/.local/share" XDG_CONFIG_HOME="$HOME/.config" XDG_STATE_HOME="$HOME/.local/state"; cd $HOME;'" exec $SHELL"

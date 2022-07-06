@@ -5,9 +5,17 @@ let
       hostPath = "/tmp/.X11-unix";
       isReadOnly = true;
     };
-    "/run/users" = {
-      hostPath = "/run/users";
+    #"/run/users" = {
+    #  hostPath = "/run/users";
+    #  isReadOnly = true;
+    #};
+    "/home/stash" = {
+      hostPath = "/home/stash";
       isReadOnly = true;
+    };
+    "/run/pulse" = {
+      hostPath = "/run/pulse";
+      isReadOnly = false;
     };
   };
   devMounts = {
@@ -28,7 +36,8 @@ let
   lpkgs = pkgs.callPackage ../pkgs {};
   mpkgs = pkgs.callPackage ../pkgs/pkgs/meta {};
 in rec {
-  sysPkgsBase = with pkgs; [
+  sysPkgsBase = with pkgs; with (pkgs.callPackage ../pkgs/pkgs/meta {}); [
+    base
     less
     file
     zsh
@@ -46,13 +55,13 @@ in rec {
     psmisc
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
-    SH_dep_mc0
-    SH_dep_factorio
-    SH_dep_CK2
-    SH_dep_gbase
     SH_dep_ggame
     SH_dep_ggame32
     wine
+    wine64
+    winetricks
+    vulkan-loader
+    vulkan-tools
     # Binaries used by libs
     pkgs.xorg.xrandr
     gnome3.zenity
@@ -75,8 +84,8 @@ in rec {
       config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase;};
       autoStart = true;
       bindMounts = {
-        "/home/sh_cbrowser" = {
-          hostPath = "/home/sh_cbrowser";
+        "/home/browsers" = {
+          hostPath = "/home/browsers";
           isReadOnly = false;
         };
       } // bbMounts;
@@ -85,8 +94,8 @@ in rec {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
-        "/home/sh_prsw" = {
-	  hostPath = "/home/sh_prsw";
+        "/home/prsw" = {
+	  hostPath = "/home/prsw";
 	  isReadOnly = false;
         };
       } // bbMounts // devMounts;
@@ -95,15 +104,15 @@ in rec {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
-        "/home/sh_prsw_net" = {
-	  hostPath = "/home/sh_prsw_net";
+        "/home/prsw_net" = {
+	  hostPath = "/home/prsw_net";
 	  isReadOnly = false;
 	};
       } // bbMounts // devMounts;
     } // gpuAllow // (net "4");
   };
   
-  termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh]); {
+  termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh ssh_pub.sophia]); {
     browsers = browsers;
     prsw = prsw;
     "prsw-net" = prsw-net;
@@ -111,32 +120,29 @@ in rec {
 
   # TODO-maybe: Add some more functional way to derive this config.
   sshConfig = ''
-Host sh_cbrowser
+Host cbrowser
 HostName 10.231.1.2
 SendEnv DISPLAY
-User sh_cbrowser
   
-Host sh_prsw
+Host prsw
 HostName 10.231.1.3
 SendEnv DISPLAY
-User sh_prsw
 
-Host sh_prsw_net
+Host prsw_net
 HostName 10.231.1.4
 SendEnv DISPLAY
-User sh_prsw_net
 '';
   
   # Systemd service setup
   termS = {
     SH_containers_sh = {
-      wantedBy = ["container@browsers.service" "container@prsw.service" "container@prsw_net.service"];
-      description = "SH_containers_sh";
+      wantedBy = ["container@browsers.service" "container@prsw.service" "container@prsw_net.service" "pulseaudio.service"];
+      before = ["pulseaudio.service"];
       script = ''
-# Set up container dirs
-mkdir -p /run/users/sh_x/pulse
-chown -R sh:sh_x /run/users/sh_x/
-chmod g+rx,o-rx -R /run/users/sh_x
+# Work around https://github.com/NixOS/nixpkgs/issues/114399 :
+# Reset pulse homedir to fix permissions if they're incorrect.
+D=/run/pulse
+ls -dl1 "$D" | grep -q '^d...r.x' || rm -rf "$D"
 '';
     };
   };

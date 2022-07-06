@@ -33,9 +33,9 @@ compdef -d mdadm	# yup.
 
 ### prompt setup
 if [[ ${EUID} == 0 ]] ; then
-   PS1=$'%{\033[01;30m%}%D{%d.%H:%M:%S} %{\033[01;31m%}%n@%m%{\033[01;34m%} %~ %# %{\033[00m%}'
+   PS1=$'%{\033[90m%}%D{%d.%H:%M:%S} %{\033[01;31m%}%n@%m%{\033[01;34m%} %~ %# %{\033[00m%}'
 else
-   PS1=$'%{\033[01;30m%}%D{%d.%H:%M:%S} %{\033[01;32m%}%n@%m%{\033[01;34m%} %~ %# %{\033[00m%}'
+   PS1=$'%{\033[90m%}%D{%d.%H:%M:%S} %{\033[01;32m%}%n@%m%{\033[01;34m%} %~ %# %{\033[00m%}'
 fi
 
 for v in RPROMPT RPS1 RPROMPT2 RPS2; { unset $v }
@@ -55,6 +55,8 @@ eval $(dircolors -b /etc/DIR_COLORS)
 export LESS='-RQP%f %bB/%B (%lB/%L) ?e(EOF):[%pB\%].?x - Next\: %x.:?pB%pB\%..%t'
 # iostat
 export S_COLORS=always
+# tar
+export XZ_OPT="-T0"
 
 ### Shell style settings
 # Colored completions. :)
