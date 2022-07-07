@@ -3,10 +3,8 @@
 
 let
   inherit (pkgs) callPackage;
-  ssh_pub = (import ../../base/ssh_pub.nix).yalda;
   cont = callPackage ../../containers {};
-  contBase = cont.termC ssh_pub;
-  nft = callPackage ../../base/nft.nix {};
+  ssh_pub = (import ../../base/ssh_pub.nix).yalda;
   lpkgs = (import ../../pkgs {});
   ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in rec {
@@ -14,7 +12,10 @@ in rec {
   imports = [
     ./hardware-configuration.nix
     ../../base
+    ../jibril/sys_pulseaudio.nix
+    ../../base/sys_pulseaudio_user.nix
     ../../base/term/desktop.nix
+    ../../base/term/gaming_box.nix
     ../../base/site_wl.nix
   ];
 
@@ -22,10 +23,8 @@ in rec {
   boot.loader.grub.enable = false;
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
   boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
-  environment.systemPackages = [(callPackage ../../pkgs/pkgs/meta {}).gamingBox];
 
-  containers = contBase;
-  programs.ssh.extraConfig = cont.sshConfig;
+  containers = (cont.termC ssh_pub);
     
   ##### Host id stuff
   networking = {
@@ -53,10 +52,6 @@ in rec {
         ];
       };
     };
-    firewall.enable = false;
-    dhcpcd.allowInterfaces = [];
-    dhcpcd.enable = false;
-    nameservers = ["10.17.1.1"];
   };
 
   systemd = {
@@ -81,11 +76,9 @@ sleep 2 # wait for kernel to link disk label
 mount /mnt/ys
 '';
       };
-    } // cont.termS // nft.services;
+    };
     enableEmergencyMode = false;
   };
-  
-  environment.etc = nft.env_conf_terminal;
 
   services.udev = {
     extraRules = ''
@@ -103,17 +96,6 @@ mount /mnt/ys
   };
   
   services.openssh.moduliFile = ./sshd_moduli;
-  services.xserver.videoDrivers = ["intel" "ati" "amdgpu"];
-
-
-#  services.charybdis = {
-#    enable = true;
-#    motd = ''foo
-#bar
-#
-#quux'';
-#    config = "";
-#  };
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "16.03";
+  system.stateVersion = "21.11";
 }
