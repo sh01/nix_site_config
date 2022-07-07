@@ -101,21 +101,7 @@ in rec {
   services.udev.extraRules = (builtins.readFile ./udev.rules);
   # powerManagement.cpuFreqGovernor = "powersave";
 
-  ### System profile packages
-  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
-    nixBld
-    # Desktop things
-    gui
-    games
-    SH_dep_ggame
-    SH_dep_ggame32
-
-    # direct packages
-    prometheus
-    openntpd
-    uptimed
-    mpv
-  ];
+  environment.systemPackages = [(callPackage ../../pkgs/pkgs/meta {}).gamingBox];
 
   services.xserver = {
     videoDrivers = ["intel" "amdgpu"];

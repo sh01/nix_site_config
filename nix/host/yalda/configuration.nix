@@ -22,21 +22,8 @@ in rec {
   boot.loader.grub.enable = false;
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
   boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
-  environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
-    nixBld
-    # Desktop things
-    gui
-    games
-    SH_dep_ggame
-    SH_dep_ggame32
+  environment.systemPackages = [(callPackage ../../pkgs/pkgs/meta {}).gamingBox];
 
-    # direct packages
-    prometheus
-    openntpd
-    uptimed
-    mpv
-  ];
-  
   containers = contBase;
   programs.ssh.extraConfig = cont.sshConfig;
     
