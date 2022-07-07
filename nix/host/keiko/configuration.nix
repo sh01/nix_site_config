@@ -47,6 +47,12 @@ in {
     useNetworkd = false;
 
     resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
+
+    nftables = {
+      enable = true;
+      rulesetFile = ./nft.conf;
+    };
+    
   } // dns.conf;
 
   # Name network devices statically based on MAC address
