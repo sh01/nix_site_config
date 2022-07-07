@@ -16,8 +16,6 @@ in rec {
   imports = [
     ./hardware-configuration.nix
     ../../base
-    ./sys_pulseaudio.nix
-    ../../base/sys_pulseaudio_user.nix
     ../../base/term/desktop.nix
     ../../base/term/gaming_box.nix
     ../../base/site_wi.nix

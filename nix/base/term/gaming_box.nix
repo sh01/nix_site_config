@@ -4,6 +4,10 @@ let
   cont = callPackage ../../containers {};
   nft = callPackage ../../base/nft.nix {};
 in {
+  imports = [
+    ../sys_pulseaudio.nix
+    ../sys_pulseaudio_user.nix
+  ];
   networking = {
     usePredictableInterfaceNames = false;
     useDHCP = false;
