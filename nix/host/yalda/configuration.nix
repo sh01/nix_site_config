@@ -19,19 +19,22 @@ in rec {
   ];
 
   #boot.kernelPackages = pkgs.linuxPackages_4_11;
+  boot.loader.grub.enable = false;
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
   boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
   environment.systemPackages = with (callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
+    nixBld
+    # Desktop things
+    gui
     games
-    kde5
-    SH_dep_mc0
-    SH_dep_factorio
-    SH_dep_CK2
-    SH_dep_WL2
-    SH_dep_Stellaris
-    SH_dep_gbase
     SH_dep_ggame
     SH_dep_ggame32
+
+    # direct packages
+    prometheus
+    openntpd
+    uptimed
+    mpv
   ];
   
   containers = contBase;
