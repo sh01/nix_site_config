@@ -14,7 +14,7 @@ in rec {
     ../../base
     ../../base/term/desktop.nix
     ../../base/term/gaming_box.nix
-    ../../base/site_wl.nix
+    ../../base/site_wi.nix
   ];
 
   #boot.kernelPackages = pkgs.linuxPackages_4_11;
