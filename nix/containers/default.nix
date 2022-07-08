@@ -57,8 +57,12 @@ in rec {
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_ggame
     SH_dep_ggame32
-    wine
-    wine64
+    wine64Packages.fonts
+    winePackages.fonts
+    wine64Packages.stableFull
+    winePackages.stableFull
+    #wine
+    #wine64
     winetricks
     vulkan-loader
     vulkan-tools
