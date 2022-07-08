@@ -216,6 +216,21 @@ let P = name: d: derivation {
     #anki
   ];
 
+  gamingBox = with (import ../.. {}); P "gamingBox" [
+    nixBld
+    # Desktop things
+    gui
+    games
+    SH_dep_ggame
+    SH_dep_ggame32
+
+    # direct packages
+    prometheus
+    openntpd
+    uptimed
+    mpv
+  ];
+
   kde4 = P "kde4" [
     (kdeShared pkgs.kde4)
     kde_baseapps

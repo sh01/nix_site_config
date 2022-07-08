@@ -112,7 +112,7 @@ in rec {
     } // gpuAllow // (net "4");
   };
   
-  termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh ssh_pub.sophia]); {
+  termC = ssh_pub: with (c [ssh_pub.root] ssh_pub.cont_users); {
     browsers = browsers;
     prsw = prsw;
     "prsw-net" = prsw-net;

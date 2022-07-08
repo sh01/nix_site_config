@@ -18,7 +18,7 @@ in {
           enable = true;
           enableHidpi = true;
         };
-        defaultSession = "xfce";
+        #defaultSession = "xfce";
       };
       enableCtrlAltBackspace = true;
       libinput.enable = true;

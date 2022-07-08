@@ -4,10 +4,9 @@
 let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
+  cont = callPackage ../../containers {};
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
   slib = (pkgs.callPackage ../../lib {});
-  cont = callPackage ../../containers {};
-  nft = callPackage ../../base/nft.nix {};
   vars = import ../../base/vars.nix;
   lpkgs = (import ../../pkgs {});
   dns = (import ../../base/dns.nix) {
@@ -16,10 +15,9 @@ let
 in rec {
   imports = [
     ./hardware-configuration.nix
-    ./sys_pulseaudio.nix
-    ../../base/sys_pulseaudio_user.nix
     ../../base
     ../../base/term/desktop.nix
+    ../../base/term/gaming_box.nix
     ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
@@ -68,18 +66,12 @@ in rec {
     };
   };
 
+  containers = (cont.termC ssh_pub);
+
   ### Networking
   networking = {
     hostName = "jibril";
     hostId = "84d5fccb";
-    usePredictableInterfaceNames = false;
-    useDHCP = false;
-    firewall.enable = false;
-    networkmanager.enable = false;
-    useNetworkd = false;
-
-    nameservers = ["10.17.1.1"];
-    #search = ["x.s." "s."];
 
     interfaces = {
       "eth_lan" = {
@@ -88,46 +80,9 @@ in rec {
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::7"; prefixLength=64;}];
       };
     };
-
-    nftables = {
-      enable = true;
-      ruleset = nft.conf_simple [22 9100];
-    };
-    # Push this way out of the way.
-    #resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   };
-  #environment.etc."resolv.conf" = dns.resolvConf;
-
   services.udev.extraRules = (builtins.readFile ./udev.rules);
   # powerManagement.cpuFreqGovernor = "powersave";
-
-  ### System profile packages
-  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); with lpkgs; [
-    nixBld
-    # Desktop things
-    gui
-    games
-    SH_dep_ggame
-    SH_dep_ggame32
-
-    # direct packages
-    prometheus
-    openntpd
-    uptimed
-    mpv
-  ];
-
-  services.xserver = {
-    videoDrivers = ["intel" "amdgpu"];
-    desktopManager = {
-      lxqt.enable = true;
-      xfce.enable = true;
-    };
-  };
-
-  containers = (cont.termC ssh_pub);
-  programs.ssh.extraConfig = cont.sshConfig;
-  systemd.services = cont.termS;
 
   fileSystems = {
     "/" = {
@@ -142,16 +97,6 @@ in rec {
   ### Services
   services.openssh.moduliFile = ./sshd_moduli;
 
-  services.openntpd = {
-    enable = true;
-    servers = ["10.16.1.1"];
-    extraConfig = ''
-    constraint from "https://www.google.com/"
-'';
-  };
-  services.uptimed.enable = true;
-  services.prometheus.exporters.node = (import ../../base/node_exporter.nix);
-  
   ### User / Group config
   # Define paired user/group accounts.
   users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia]);
