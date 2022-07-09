@@ -1,5 +1,5 @@
 s.	7200    IN SOA  bw0.s. root.bw0.s. (
-	13	; serial
+	14	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -19,6 +19,7 @@ polis-wiki	86400	IN	CNAME	liel.x.s.
 rpg-c0-wiki	86400	IN	CNAME	liel.x.s.
 irc.x		86400   IN	CNAME	liel.x.s.
 
+allison.sh	86400	IN	A	10.17.1.5
 yalda.sh	86400	IN	A	10.17.1.10
 
 1.sens		86400	IN	A	10.17.8.1
