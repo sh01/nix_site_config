@@ -57,6 +57,7 @@ in rec {
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_ggame
     SH_dep_ggame32
+    SH_dep_java8
     wine
     wine64
     winetricks
