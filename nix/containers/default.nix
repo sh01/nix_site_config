@@ -56,7 +56,9 @@ in rec {
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_ggame
+    SH_dep_ggame_rg
     SH_dep_ggame32
+    SH_dep_ggame32_rg
     
     wine64Packages.fonts
     winePackages.fonts
