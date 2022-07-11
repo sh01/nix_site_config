@@ -32,7 +32,7 @@ in rec {
     interfaces = {
       "eth_lan" = {
         ipv4.addresses = [{
-          address = "10.17.1.10";
+          address = "10.17.1.65";
           prefixLength = 24;
         }];
         ipv4.routes = [{
