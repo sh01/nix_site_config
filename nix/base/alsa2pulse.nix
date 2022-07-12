@@ -7,16 +7,16 @@ let
   alsaPlugins32 = pkgs.pkgsi686Linux.alsaPlugins;
   alsaConf = pkgs.writeText "asound.conf" ''
     pcm_type.pulse {
-      lib ${alsaPlugins}/lib/alsa-lib/libasound_module_pcm_pulse.so
-      lib ${alsaPlugins32}/lib/alsa-lib/libasound_module_pcm_pulse.so
+      libs.native = ${alsaPlugins}/lib/alsa-lib/libasound_module_pcm_pulse.so
+      libs.32Bit = ${alsaPlugins32}/lib/alsa-lib/libasound_module_pcm_pulse.so
     }
     pcm.!default {
       type pulse
       hint.description "Default Audio Device (via PulseAudio)"
     }
     ctl_type.pulse {
-      lib ${alsaPlugins}/lib/alsa-lib/libasound_module_ctl_pulse.so
-      lib ${alsaPlugins32}/lib/alsa-lib/libasound_module_ctl_pulse.so
+      libs.native = ${alsaPlugins}/lib/alsa-lib/libasound_module_ctl_pulse.so
+      libs.32Bit = ${alsaPlugins32}/lib/alsa-lib/libasound_module_ctl_pulse.so
     }
     ctl.!default {
       type pulse
