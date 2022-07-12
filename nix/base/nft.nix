@@ -5,6 +5,8 @@ in rec {
   conf_simple = ports: let
     inPortStr = concatStrings (intersperse "," (map toString ports));
   in (''
+flush ruleset;
+
 table inet filter0 {
 	chain a_input {
 		type filter hook input priority 0; policy accept;
@@ -62,7 +64,7 @@ table ip nat {
 
 	chain prerouting {
 		type nat hook prerouting priority 0; policy accept;
-		iifname "eth_lan" ct state { established, related} goto dnats;
+		iifname "eth_lan" ct state new goto dnats;
 	}
 }
 
