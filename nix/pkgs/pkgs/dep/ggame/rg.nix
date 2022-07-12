@@ -10,7 +10,7 @@
   };
   rg = writeText "rg" ''
 #!/bin/sh
-export ALSA_CONFIG_PATH=$HOME/../conf/asound_${b.bitS}.conf LD_LIBRARY_PATH=${ggame}/local/ggame/${b.bitS}/lib:/run/opengl-driver${b.glSuff}/lib
+export LD_LIBRARY_PATH=${ggame}/local/ggame/${b.bitS}/lib:/run/opengl-driver${b.glSuff}/lib
 exec "$@"
 '';
 in stdenv.mkDerivation {
