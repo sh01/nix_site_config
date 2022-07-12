@@ -57,6 +57,8 @@ table ip nat {
 	chain prerouting {
 		type nat hook prerouting priority 0; policy accept;
 		udp dport 32320 dnat 10.231.1.4 # aiwar
+		tcp dport {20000-20020} dnat 10.231.1.4
+		udp dport {20000-20020} dnat 10.231.1.4
 	}
 }
 
