@@ -56,14 +56,14 @@ NF_TABLES = yes;
 NF_TABLES_INET = yes;
 NFT_CT = yes;
 NFT_HASH = yes;
-NFT_COUNTER = yes;
+#NFT_COUNTER = yes;
 NFT_LOG = yes;
 NFT_LIMIT = yes;
 NFT_MASQ = module;
 NFT_REDIR = module;
 NFT_NAT = yes;
 NFT_REJECT = yes;
-NFT_COMPAT = option yes;
+#NFT_COMPAT = option yes;
 BRIDGE = yes;
 
 NF_TABLES_IPV4 = yes;
