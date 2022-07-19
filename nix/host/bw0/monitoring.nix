@@ -76,7 +76,7 @@ in rec {
       {
         job_name = "node";
         scrape_interval = "256s";
-        static_configs = [{targets = ["localhost:9100" "jibril.x.s.:9100" "liel.x.s.:9100"];}];
+        static_configs = [{targets = ["localhost:9100" "jibril.x.s.:9100" "yalda.sh.s.:9100" "liel.x.s.:9100"];}];
       } {
         job_name = "nft_prom";
         metrics_path = "/probe";
