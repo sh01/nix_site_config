@@ -74,9 +74,9 @@ in rec {
     # Add postgres support to dspam.
     dspam = pkgs.dspam.override { withPgSQL = true; postgresql=pkgs.postgresql96; };
     # Take configs from /etc/ircd so we can override MOTD files.
-    charybdis = pkgs.stdenv.lib.overrideDerivation pkgs.charybdis (a: {
-      configureFlags = a.configureFlags ++ ["--sysconfdir=/etc/ircd"];
-    });
+    #charybdis = pkgs.stdenv.lib.overrideDerivation pkgs.charybdis (a: {
+    #  configureFlags = a.configureFlags ++ ["--sysconfdir=/etc/ircd"];
+    #});
   };
 
   ##### Internationalisation properties
@@ -88,21 +88,31 @@ in rec {
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
-  ####
-  services.logind.lidSwitch = "lock";
-  services.logind.extraConfig = ''
-    KillUserProcesses=no'';
-  services.cron.enable = true;
-  ### Services
-  services.openssh = {
-    enable = true;
-    passwordAuthentication = false;
+
+  services = {
+    logind = {
+      lidSwitch = "lock";
+      extraConfig = ''
+        KillUserProcesses=no'';
+    };
+    cron.enable = true;
+
+    openssh = {
+      enable = true;
+      passwordAuthentication = false;
+    };
+
+    # NTP
+    timesyncd.enable = false;
+    chrony = {
+      #enable = true;
+    };
+    gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
   };
-  services.gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
 
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
-  
+
   ##### Nix source and build config
   nix = {
     allowedUsers = [ "@nix-users" ];

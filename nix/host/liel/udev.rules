@@ -1,0 +1,15 @@
+# bw0
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan0"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_wan1"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
+# bw2
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e4", KERNEL=="eth*", NAME="eth_wan0"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e5", KERNEL=="eth*", NAME="eth_wan1"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e6", KERNEL=="eth*", NAME="eth_l_wired"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e7", KERNEL=="eth*", NAME="eth_l_wifi"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e8", KERNEL=="eth*", NAME="eth_o3"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e9", KERNEL=="eth*", NAME="eth_o4"
+# liel
