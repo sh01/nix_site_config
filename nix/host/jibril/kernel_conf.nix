@@ -1,4 +1,6 @@
+{lib, ...}:
 let
+  inherit (lib) mkForce;
   vars = (import ../../base/vars.nix);
   ko = vars.kernelOpts;
 in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd // termHwStd // termVideo // blkStd // {
@@ -19,6 +21,9 @@ CPU_FREQ_GOV_ONDEMAND = yes;
 CPU_FREQ_GOV_CONSERVATIVE = yes;
 IPV6_FOU_TUNNEL = option yes;
 
+DEBUG_INFO = mkForce (option module);
+NFSD_V3 = mkForce (option module);
+
 BINFMT_MISC = yes;
 PACKET = yes;
 XFRM_ALGO = yes;
@@ -34,7 +39,7 @@ DEFAULT_CUBIC = yes;
 
 IPV6 = yes;
 INET6_AH = yes;
-INET6_XFRM_TUNNEL = option yes;
+#INET6_XFRM_TUNNEL = option yes;
 IPV6_SIT = yes;
 IPV6_MULTIPLE_TABLES = yes;
 
@@ -69,6 +74,10 @@ MD_RAID0 = yes;
 MD_RAID1 = yes;
 MD_RAID10 = yes;
 MD_RAID456 = yes;
+ACPI_NFIT = yes;
+LIBNVDIMM = yes;
+BLK_DEV_PMEM = yes;
+DAX = yes;
 BLK_DEV_DM = yes;
 DM_MIRROR = yes;
 DM_RAID = yes;
@@ -117,9 +126,6 @@ CONFIGFS_FS = yes;
 NLS_ASCII = yes;
 #NLS_ISO8859_1 = yes;
 #NLS_UTF8 = yes;
-
-
-DEBUG_INFO = yes;
 
 DEVFREQ_GOV_SIMPLE_ONDEMAND = yes;
 DEVFREQ_GOV_PERFORMANCE = yes;

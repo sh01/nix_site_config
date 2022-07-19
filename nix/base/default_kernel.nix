@@ -1,10 +1,10 @@
 {pkgs, callPackage, buildPackages, ncurses, fetchurl, stdenv, perl, buildLinux, config, hostPlatform, structuredExtraConfig ? {}, cpio, ...}: let
   vars = import vars.nix;
 in (buildLinux rec {
-  version = "5.15.32";
+  version = "5.18.12";
   src = fetchurl {
     url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
-    sha256 = "1463cdfa223088610dd65d3eadeffa44ec49746091b8ae8ddac6f3070d17df86";
+    sha256 = "40b74d0942f255da07481710e1083412d06e37e45b8f9d9e34ae856db37b9527";
   };
 
   inherit buildPackages callPackage ncurses stdenv perl buildLinux hostPlatform structuredExtraConfig;

@@ -25,7 +25,7 @@ in rec {
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
     #kernelPackages = pkgs.linuxPackages_5_15;
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [
@@ -75,7 +75,7 @@ in rec {
 
     interfaces = {
       "eth_lan" = {
-        ipv4.addresses = [{ address = "10.17.1.7"; prefixLength = 24; }];
+        ipv4.addresses = [{ address = "10.17.1.70"; prefixLength = 24; }];
         ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::7"; prefixLength=64;}];
       };
