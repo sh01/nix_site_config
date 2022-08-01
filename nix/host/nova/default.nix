@@ -16,6 +16,7 @@ in {
     ../../base
     ../../base/site_wi.nix
     ../../fix/19_9.nix
+    ../../base/ntp_client_default.nix
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;});})
   ];
 
@@ -82,10 +83,6 @@ in {
   ### Services
   services.openssh.moduliFile = ./sshd_moduli;
 
-  services.chrony = {
-    enable = mkForce false;
-    servers = ["10.17.1.1"];
-  };
   services.udisks2.enable = false;
   services.uptimed.enable = true;
 

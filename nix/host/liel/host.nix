@@ -19,6 +19,7 @@ in {
     ../../base/nox.nix
     ../../base/site_wi.nix
     ../../fix/19_9.nix
+    ../../base/ntp_client_default.nix
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
   ];
@@ -147,13 +148,6 @@ in {
   ### Services
   services.openssh.moduliFile = ./sshd_moduli;
 
-  services.chrony = {
-    enable = true;
-    servers = ["10.17.1.1"];
-    #extraConfig = ''
-    #constraint from "https://www.google.com/"
-#'';
-  };
   services.uptimed.enable = true;
   services.charybdis = {
     enable = true;
