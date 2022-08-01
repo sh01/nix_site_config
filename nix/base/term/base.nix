@@ -20,25 +20,12 @@ in {
         };
         #defaultSession = "xfce";
       };
-      enableCtrlAltBackspace = true;
       libinput.enable = true;
 
       #windowManager.awesome.enable = true;
       #desktopManager.plasma5.enable = true;
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;
-      videoDrivers = ["intel"];
-      # Logitech Marble tweaks
-      extraConfig = ''
-      Section "InputClass"
-        Identifier "Logitech USB Trackball"
-        Driver "libinput"
-        Option "ButtonMapping" "1 0 3 4 5 6 7 0 2"
-        Option "ScrollMethod" "button"
-        Option "ScrollButton" "8"
-        Option "HorizontalScrolling" "false"
-      EndSection
-'';
     };
 
     dnsmasq = {

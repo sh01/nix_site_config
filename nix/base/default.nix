@@ -108,6 +108,21 @@ in rec {
       #enable = true;
     };
     gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
+    xserver = {
+      enableCtrlAltBackspace = true;
+      videoDrivers = ["intel"];
+      # Logitech Marble tweaks
+      extraConfig = ''
+      Section "InputClass"
+        Identifier "Logitech USB Trackball"
+        Driver "libinput"
+        Option "ButtonMapping" "1 0 3 4 5 6 7 0 2"
+        Option "ScrollMethod" "button"
+        Option "ScrollButton" "8"
+        Option "HorizontalScrolling" "false"
+      EndSection
+'';
+    };
   };
 
   #### Nixpkgs
