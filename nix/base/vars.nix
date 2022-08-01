@@ -47,7 +47,7 @@ in {
     '';
   };  
 
-  kernelOpts = {
+  kernelOpts = rec {
     # We'd really want NFT_MASQ and NFT_REDIR as y, but that's impossible due to forward-y dependencies which are not supported by this version of the nix kernel conf infrastructure.
     netStd = {
 NF_CONNTRACK_IRC = no;
@@ -72,6 +72,13 @@ TUN = yes;
 
 PTP_1588_CLOCK = yes;
 E1000E = yes;
+
+IPV6 = yes;
+INET6_AH = yes;
+
+IPV6_SIT = yes;
+IPV6_MULTIPLE_TABLES = yes;
+IPV6_FOU_TUNNEL = yes;
 };
 
     base = {
@@ -111,6 +118,11 @@ X86_PKG_TEMP_THERMAL = yes;
 
 CRYPTO_GHASH_CLMUL_NI_INTEL = option yes;
 CONFIG_CRYPTO_AES_NI_INTEL = option yes;
+
+BLK_DEV_LOOP = yes;
+BLK_DEV_RAM = yes;
+
+BINFMT_MISC = yes;
 };
 
     blkStd = {
@@ -129,21 +141,55 @@ CRYPTO_XTS = yes;
 FUSE_FS = yes;
 CONFIGFS_FS = yes;
 
+FS_ENCRYPTION = yes;
+
+ACPI_NFIT = yes;
+LIBNVDIMM = yes;
+BLK_DEV_PMEM = yes;
+DAX = yes;
+BLK_DEV_MD = yes;
+MD_AUTODETECT = yes;
+MD_LINEAR = yes;
+MD_RAID0 = yes;
+MD_RAID1 = yes;
+MD_RAID10 = yes;
+MD_RAID456 = yes;
+BLK_DEV_DM = yes;
+DM_MIRROR = yes;
+DM_RAID = yes;
+DM_ZERO = yes;
+DM_UEVENT = yes;
+FUSION_LOGGING = yes;
+
 BLK_DEV_NVME = yes;
 NVME_CORE = yes;
 NVME_HWMON = yes;
 SATA_AHCI = yes;
 };
 
-termHwStd = {
+    usbStd = {
+HID = yes;
+HID_GENERIC = yes;
+USB_HID = yes;
+USB_COMMON = yes;
+USB = yes;
+USB_MON = yes;
+USB_XHCI_HCD = yes;
+USB_XHCI_PCI = yes;
+USB_EHCI_HCD = yes;
+USB_EHCI_PCI = yes;
+USB_STORAGE = yes;
+};
+
+    termHwStd = {
 KEYBOARD_ATKBD = yes;
 USB4 = yes;
-USB_HID = yes;
 SOUND = yes;
 SND = yes;
 SND_HDA_INTEL = yes;
 SND_TIMER = yes;
-};
+} // usbStd;
+    
     # It's typically fine to keep these as modules instead, which NixOS will do by default.
     termVideo = {
 AGP = no;

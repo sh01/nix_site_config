@@ -163,11 +163,16 @@ fi
   };
     
   #### Nix firewall
-  networking.firewall.allowPing = true;
-  networking.firewall.rejectPackets = true;
-
-  # Prevent dangerous distri hosts from being contacted.
-  networking.extraHosts = "127.255.0.1 cache.nixos.org";
+  networking = {
+    usePredictableInterfaceNames = false;
+    useNetworkd = false;
+    firewall = {
+      allowPing = true;
+      rejectPackets = true;
+    };
+    # Prevent dangerous distri hosts from being contacted.
+    extraHosts = "127.255.0.1 cache.nixos.org";
+  };
 
   #### Per-program config
   programs.ssh.startAgent = false;
