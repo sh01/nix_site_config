@@ -89,8 +89,6 @@ in {
   services.udisks2.enable = false;
   services.uptimed.enable = true;
 
-  boot.loader.efi.canTouchEfiVariables = mkForce false;
-  boot.loader.grub.efiInstallAsRemovable = mkForce true;
   ### User / Group config
   # Define paired user/group accounts.
   users = slib.mkUserGroups (with vars.userSpecs {}; default);
