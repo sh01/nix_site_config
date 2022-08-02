@@ -73,7 +73,6 @@ in {
 
   sound.enable = true;
   security.polkit.enable = true;
-  services.prometheus.exporters.node = (import ../../base/node_exporter.nix);
 
   fileSystems = {
     "/".device = "/dev/mapper/nova0-main";
@@ -81,10 +80,18 @@ in {
   };
 
   ### Services
-  services.openssh.moduliFile = ./sshd_moduli;
-
-  services.udisks2.enable = false;
-  services.uptimed.enable = true;
+  services = {
+    openssh.moduliFile = ./sshd_moduli;
+    prometheus.exporters.node = (import ../../base/node_exporter.nix);
+    udisks2.enable = false;
+    uptimed.enable = true;
+    xserver = {
+      enable = true;
+      displayManager = {
+        startx.enable = true;
+      };
+    };
+  };
 
   ### User / Group config
   # Define paired user/group accounts.
