@@ -92,9 +92,17 @@ in {
       enable = true;
       displayManager = {
         startx.enable = true;
+        job.execCmd = "/run/current-system/sw/bin/Xorg -config /etc/X11/xorg.conf -verbose 3 -auth /var/local/x11/xauth_0";
       };
+      extraConfig = mkForce ''
+Section "ServerFlags"
+        Option "AutoEnableDevices" "false"
+        Option "AutoAddDevices" "false"
+EndSection
+'';
     };
   };
+  systemd.services.display-manager.enable = mkForce true;
 
   ### User / Group config
   # Define paired user/group accounts.
