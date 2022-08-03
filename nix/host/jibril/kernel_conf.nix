@@ -1,7 +1,7 @@
 {lib, ...}:
 let
   inherit (lib) mkForce;
-  vars = (import ../../base/vars.nix);
+  vars = import ../../base/vars.nix {inherit lib;};
   ko = vars.kernelOpts;
 in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd // termHwStd // termVideo // hwAudio // blkStd // {
 IRQ_TIME_ACCOUNTING = yes;
@@ -20,9 +20,6 @@ CPU_FREQ_GOV_USERSPACE = yes;
 CPU_FREQ_GOV_ONDEMAND = yes;
 CPU_FREQ_GOV_CONSERVATIVE = yes;
 IPV6_FOU_TUNNEL = option yes;
-
-DEBUG_INFO = mkForce (option module);
-NFSD_V3 = mkForce (option module);
 
 BINFMT_MISC = yes;
 PACKET = yes;
@@ -43,7 +40,6 @@ INET6_AH = yes;
 IPV6_SIT = yes;
 IPV6_MULTIPLE_TABLES = yes;
 
-NF_CONNTRACK = yes;
 NETFILTER_NETLINK = yes;
 NETFILTER_NETLINK_LOG = yes;
 
@@ -63,7 +59,6 @@ SCSI_SPI_ATTRS = yes;
 SCSI_SAS_ATTRS = yes;
 SCSI_MPT2SAS = yes;
 
-ATA = yes;
 SATA_AHCI = yes;
 PATA_VIA = yes;
 

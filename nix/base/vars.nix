@@ -1,5 +1,7 @@
+{ lib, ...}:
 with (import <nixpkgs/lib/kernel.nix> {lib = null;});
 let
+  inherit (lib) mkForce;
   ssh_pub = import ./ssh_pub.nix;
   ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';
 in {
@@ -50,6 +52,7 @@ in {
   kernelOpts = rec {
     # We'd really want NFT_MASQ and NFT_REDIR as y, but that's impossible due to forward-y dependencies which are not supported by this version of the nix kernel conf infrastructure.
     netStd = {
+NF_CONNTRACK = yes;
 NF_CONNTRACK_IRC = no;
 NF_NAT = yes;
 NF_TABLES = yes;
@@ -90,6 +93,8 @@ X86_ACPI_CPUFREQ = yes;
 # TRANSPARENT_HUGEPAGE = no;
 
 # Work around options missing in newer kernels
+NFSD_V3 = mkForce (option module);
+DEBUG_INFO = mkForce (option module);
 JOYSTICK_IFORCE_USB = option no;
 JOYSTICK_IFORCE_232 = option no;
 BLK_WBT_SQ = option yes;
@@ -105,7 +110,7 @@ CRYPTO_AES_NI_INTEL = yes;
 USB_XHCI_PCI = yes;
 USB_XHCI_PCI_RENESAS = yes;
 
-INET_MPTCP_DIAG = yes;
+#INET_MPTCP_DIAG = yes;
 IDE = option no;
 
 CRYPTO_DEFLATE = yes;
@@ -164,6 +169,7 @@ FUSION_LOGGING = yes;
 BLK_DEV_NVME = yes;
 NVME_CORE = yes;
 NVME_HWMON = yes;
+ATA = yes;
 SATA_AHCI = yes;
 };
 

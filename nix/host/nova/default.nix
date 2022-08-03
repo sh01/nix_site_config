@@ -5,7 +5,7 @@ let
   inherit (lib) mkForce;
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = (pkgs.callPackage ../../lib {});
-  vars = import ../../base/vars.nix;
+  vars = import ../../base/vars.nix {inherit lib;};
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["10.17.1.1" "::1"];
   };
@@ -17,7 +17,7 @@ in {
     ../../base/site_wi.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
-    (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;} // vars.kernelOpts.hwAudio);})
+    (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});})
   ];
 
   ### Boot config

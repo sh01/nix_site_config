@@ -7,7 +7,7 @@ let
   cont = callPackage ../../containers {};
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
   slib = (pkgs.callPackage ../../lib {});
-  vars = import ../../base/vars.nix;
+  vars = import ../../base/vars.nix {inherit lib;};
   lpkgs = (import ../../pkgs {});
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
