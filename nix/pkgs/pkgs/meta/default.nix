@@ -154,7 +154,7 @@ let P = name: d: derivation {
 
   video = P "video" [
     mpv
-    vlc_qt5
+    #vlc
   ];
 
   ### GUI stuff

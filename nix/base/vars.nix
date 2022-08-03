@@ -15,7 +15,7 @@ in {
     prsw_net = ["prsw_net" 1005 ["audio" "video" "sh_x" "stash" "pulse"] (keys.sh_prsw or []) {}];
     sh_x = ["sh_x" 1002 [] [] {}];
     sh_cbrowser = ["browsers_sh" 1003 ["sh_x"] (keys.sh_cbrowser or []) {home="/home/browsers/sh";}];
-    stash = ["stash" 1004 [] sh_keys {}];
+    stash = ["stash" 1004 [] (sh_keys ++ [ssh_pub.root_keiko]) {}];
 
     ### Host-user remote sets
     sh_yalda = ["sh_yalda" 1536 [] [(ssho_gitannex + ssh_pub.yalda.sh)] {}];

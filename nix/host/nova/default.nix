@@ -66,11 +66,11 @@ in {
     radvd
     nftables
 
+    video
+
     # direct packages
     prometheus
     uptimed
-
-    #gui
   ];
 
   sound.enable = true;
