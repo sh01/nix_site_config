@@ -17,7 +17,7 @@ in {
     ../../base/site_wi.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
-    (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;});})
+    (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;} // vars.kernelOpts.hwAudio);})
   ];
 
   ### Boot config

@@ -3,7 +3,7 @@ let
   inherit (lib) mkForce;
   vars = (import ../../base/vars.nix);
   ko = vars.kernelOpts;
-in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd // termHwStd // termVideo // blkStd // {
+in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd // termHwStd // termVideo // hwAudio // blkStd // {
 IRQ_TIME_ACCOUNTING = yes;
 MODULE_FORCE_LOAD = yes;
 MODULE_SRCVERSION_ALL = yes;
@@ -133,32 +133,4 @@ DEVFREQ_GOV_POWERSAVE = yes;
 DEVFREQ_GOV_USERSPACE = yes;
 UNWINDER_ORC = no;
 UNWINDER_FRAME_POINTER = yes;
-
-SND_SOC = yes;
-SND_SOC_SOF_HDA = yes;
-SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH = yes;
-SND_HDA_I915 = yes;
-SND_HDA_GENERIC = yes;
-SND_HDA_CODEC_HDMI = yes;
-SND_SOC_INTEL_SKYLAKE_HDAUDIO_CODEC = yes;
-SND_SOC_SOF_HDA_AUDIO_CODEC = yes;
-SND_HDA_INTEL_HDMI_SILENT_STREAM = option yes;
-SND_SOC_SOF_TOPLEVEL = yes;
-SND_SOC_SOF_INTEL_TOPLEVEL = yes;
-SND_SOC_SOF_PCI = yes;
-SND_SOC_SOF_ACPI = yes;
-SND_SOC_SOF_HDA_LINK = yes;
-SND_SOC_INTEL_SKYLAKE = yes;
-SND_SOC_INTEL_SKL = yes;
-SND_SOC_INTEL_KBL = yes;
-SND_SOC_INTEL_CML_H = yes;
-SND_SOC_INTEL_CML_LP = yes;
-SND_SOC_SOF_ALDERLAKE = yes;
-SND_SOC_SOF_COFFEELAKE = yes;
-SND_SOC_SPDIF = option module;
-SND_SOC_SIMPLE_AMPLIFIER = yes;
-SND_SOC_SIMPLE_MUX = yes;
-SND_SOC_AC97_CODEC = yes;
-SND_HDA_RECONFIG = yes;
-SND_HDA_HWDEP = yes;
 }
