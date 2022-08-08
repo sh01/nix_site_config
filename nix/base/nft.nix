@@ -1,15 +1,12 @@
 {pkgs, ...}:
 let
   inherit (pkgs.lib) intersperse concatStrings;
-  mkFile = text: {
-    "nft.conf" = {
-      text = text;
-    };
-  };
 in rec {
   conf_simple = ports: let
     inPortStr = concatStrings (intersperse "," (map toString ports));
-  in (mkFile ''
+  in (''
+flush ruleset;
+
 table inet filter0 {
 	chain a_input {
 		type filter hook input priority 0; policy accept;
@@ -24,11 +21,11 @@ table inet filter0 {
 
 	chain a_forward {
 		type filter hook forward priority 0; policy accept;
+		oifname "ve-prsw-net" counter accept
+		iifname "ve-prsw-net" counter accept
+
 		iifname "eth_lan" counter goto notnew
 		iifname "eth_wifi" counter goto notnew
-
-		oifname "ve-prsw_net" counter accept
-		iifname "ve-prsw_net" counter accept
 
 		iifname "ve-prsw" goto block
 	}
@@ -42,7 +39,7 @@ table inet filter0 {
 	}
 
 	chain notnew {
-		ct state { established, related} accept 
+		ct state { established, related} accept
 		goto block 
 	}
 
@@ -59,16 +56,27 @@ table ip nat {
 		oifname "eth_wifi" masquerade
 	}
 
+  chain dnats {
+	  udp dport 32320 dnat 10.231.1.4 # aiwar
+		tcp dport {20000-20020} dnat 10.231.1.4
+		udp dport {20000-20020} dnat 10.231.1.4
+  }
+
 	chain prerouting {
 		type nat hook prerouting priority 0; policy accept;
-		udp dport 32320 dnat 10.231.1.4 # aiwar
+		iifname "eth_lan" ct state new goto dnats;
 	}
 }
 
 '');
 
   conf_terminal = (conf_simple [22]);
-
+  env_conf_terminal = {
+    "nft.conf" = {
+      text = (conf_terminal);
+    };
+  };
+  
   services = {
     SH_nft_setup = {
       restartIfChanged = true;

@@ -87,13 +87,26 @@ in {
         ];
       };
       "eth_l_wired" = {
-        ipv4.addresses = [
-          { address = "10.17.1.1"; prefixLength = 24; }
-          { address = "10.17.8.255"; prefixLength = 24; }
-        ];
+        ipv4 = {
+          addresses = [
+            { address = "10.17.1.1"; prefixLength = 24; }
+            { address = "10.17.8.255"; prefixLength = 24; }
+          ];
+          routes = [
+            { address = "10.17.1.0"; prefixLength = 24; }
+            { address = "10.17.8.0"; prefixLength = 24; }
+          ];
+        };
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::1"; prefixLength=64;}];
       };
-      "eth_l_wifi".ipv4.addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
+      "eth_l_wifi".ipv4 = {
+        addresses = [{ address = "10.17.2.1"; prefixLength = 24; }];
+        routes = [{ address = "10.17.2.0"; prefixLength = 24; }];
+      };
+      "eth_l_wifi_g".ipv4 = {
+        addresses = [{ address = "10.17.3.1"; prefixLength = 24; }];
+        routes = [{ address = "10.17.3.0"; prefixLength = 24; }];
+      };
       "eth_wan0" = {
         useDHCP = true;
         tempAddress = "disabled";
@@ -140,6 +153,7 @@ in {
           #/usr/bin/env > "/tmp/t0/$$"
           if [[ "$interface" = "eth_wan0" ]]; then
             WIDX=0
+            ip route add 192.168.1.254/32 dev "$interface"
           elif [[ "$interface" = "eth_wan1" ]]; then
             WIDX=1
           else
@@ -221,7 +235,7 @@ in {
   services.dhcpd4 = {
     enable = true;
     configFile = ./dhcpd4.conf;
-    interfaces = ["eth_l_wired" "eth_l_wifi"];
+    interfaces = ["eth_l_wired" "eth_l_wifi" "eth_l_wifi_g"];
   };
 
   services.radvd = {
@@ -249,7 +263,7 @@ in {
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e5", KERNEL=="eth*", NAME="eth_wan1"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e6", KERNEL=="eth*", NAME="eth_l_wired"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e7", KERNEL=="eth*", NAME="eth_l_wifi"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e8", KERNEL=="eth*", NAME="eth_o3"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e8", KERNEL=="eth*", NAME="eth_l_wifi_g"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e9", KERNEL=="eth*", NAME="eth_o4"
   '';
 
@@ -275,6 +289,7 @@ in {
     influxdb
     openntpd
     uptimed
+    dhcp
   ];
 
   sound.enable = false;
@@ -299,9 +314,9 @@ in {
     extraOptions = "qname-minimization off;";  # Mitigate CVE-2020-8621
     forwarders = ["8.8.8.8" "8.8.4.4" "2001:4860:4860::8888" "2001:4860:4860::8844"];
     zones = [{
-      name = "y";
+      name = "s";
       master = true;
-      file = ./zones/y;
+      file = ./zones/s;
     } {
       master = true;
       file = ./zones/17.10.in-addr.arpa;

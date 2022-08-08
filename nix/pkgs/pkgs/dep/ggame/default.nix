@@ -49,5 +49,6 @@ with pkgs; (callPackage ../base.nix {
     util-linux.out util-linux.lib libgpgerror
     # Goldberg steam emu
     protobuf protobuf3_9
+    utillinux.out libgpgerror at_spi2_atk at_spi2_core
   ];
 })

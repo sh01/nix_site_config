@@ -2,7 +2,7 @@
 let
   ssh_pub = import ./ssh_pub.nix;
   # Recursively read all files from ./etc and build an environment.etc value.
-  med = let bp = (builtins.toString ./etc); in p: if p == "" then bp else bp  + "/" + p;
+  med = let bp = (builtins.toString ../../etc); in p: if p == "" then bp else bp  + "/" + p;
   pdir = (p:
   let
     dd = (builtins.readDir (builtins.toPath (med p)));
@@ -108,6 +108,21 @@ in rec {
       #enable = true;
     };
     gvfs.package = pkgs.gvfs.override { gnomeSupport = false; };
+    xserver = {
+      enableCtrlAltBackspace = true;
+      videoDrivers = ["intel"];
+      # Logitech Marble tweaks
+      extraConfig = ''
+      Section "InputClass"
+        Identifier "Logitech USB Trackball"
+        Driver "libinput"
+        Option "ButtonMapping" "1 0 3 4 5 6 7 0 2"
+        Option "ScrollMethod" "button"
+        Option "ScrollButton" "8"
+        Option "HorizontalScrolling" "false"
+      EndSection
+'';
+    };
   };
 
   #### Nixpkgs
@@ -163,11 +178,16 @@ fi
   };
     
   #### Nix firewall
-  networking.firewall.allowPing = true;
-  networking.firewall.rejectPackets = true;
-
-  # Prevent dangerous distri hosts from being contacted.
-  networking.extraHosts = "127.255.0.1 cache.nixos.org";
+  networking = {
+    usePredictableInterfaceNames = false;
+    useNetworkd = false;
+    firewall = {
+      allowPing = true;
+      rejectPackets = true;
+    };
+    # Prevent dangerous distri hosts from being contacted.
+    extraHosts = "127.255.0.1 cache.nixos.org";
+  };
 
   #### Per-program config
   programs.ssh.startAgent = false;

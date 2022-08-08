@@ -18,14 +18,19 @@ let
     SH_sys_scripts = callPackage ./pkgs/sys_scripts {};
     SH_udev_containers = callPackage ./pkgs/udev_containers {};
 
+    SH_dep_gbase = callPackage ./pkgs/dep/gbase {};
+    SH_dep_ggame = callPackage ./pkgs/dep/ggame {name = "ggame"; LINKNAME = "ggame/64"; };
+    SH_dep_ggame_rg = callPackage ./pkgs/dep/ggame/rg.nix {ggame = SH_dep_ggame; is32 = false;};
+    SH_dep_ggame32 = callPackage ./pkgs/dep/ggame {pkgs = arch32.pkgs; name = "ggame32"; LINKNAME = "ggame/32"; };
+    SH_dep_ggame32_rg = callPackage ./pkgs/dep/ggame/rg.nix {ggame = SH_dep_ggame32; is32 = true;};
+    SH_dep_java8 = callPackage ./pkgs/dep/java8.nix {};
+
+    # old stuff
     SH_dep_mc0 = callPackage ./pkgs/dep/mc0 {};
     SH_dep_factorio = callPackage ./pkgs/dep/factorio {};
     SH_dep_CK2 = callPackage ./pkgs/dep/ck2 {};
     SH_dep_WL2 = callPackage ./pkgs/dep/wl2 {};
     SH_dep_Stellaris = callPackage ./pkgs/dep/stellaris {};
     SH_dep_starbound = callPackage ./pkgs/dep/starbound {};
-    SH_dep_gbase = callPackage ./pkgs/dep/gbase {};
-    SH_dep_ggame = callPackage ./pkgs/dep/ggame {name = "ggame"; LINKNAME = "ggame/64"; };
-    SH_dep_ggame32 = callPackage ./pkgs/dep/ggame {pkgs = arch32.pkgs; name = "ggame32"; LINKNAME = "ggame/32"; };
   };
 in pkgs_

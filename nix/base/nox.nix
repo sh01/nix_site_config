@@ -47,7 +47,7 @@
     });
     libpulseaudio = null;
     #libtheora = null;
-    libvorbis = null;
+    #libvorbis = null;
   };
 
   fonts.fontconfig.enable = false;

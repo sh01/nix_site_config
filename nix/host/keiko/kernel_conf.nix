@@ -1,5 +1,5 @@
 let
-  vars = (import ../../base/vars.nix);
+  vars = import ../../base/vars.nix {inherit lib;};
   ko = vars.kernelOpts;
 in with ko; with (import <nixpkgs/lib/kernel.nix> {lib = null;}); base // netStd // termHwStd // termVideo // blkStd // {
 IRQ_TIME_ACCOUNTING = yes;
@@ -41,7 +41,6 @@ IPV6_FOU_TUNNEL = yes;
 
 NETFILTER_NETLINK = yes;
 NETFILTER_NETLINK_LOG = yes;
-NF_CONNTRACK = yes;
 NF_CT_NETLINK = yes;
 NETFILTER_XTABLES = yes;
 NETFILTER_XT_MARK = yes;
@@ -88,7 +87,6 @@ SCSI_SPI_ATTRS = yes;
 SCSI_SAS_ATTRS = yes;
 SCSI_MPT2SAS = yes;
 
-ATA = yes;
 SATA_AHCI = yes;
 PATA_VIA = yes;
 
@@ -147,9 +145,6 @@ CONFIGFS_FS = yes;
 #NLS_ASCII = option yes;
 #NLS_ISO8859_1 = option yes;
 #NLS_UTF8 = option yes;
-
-
-DEBUG_INFO = yes;
 
 DEVFREQ_GOV_SIMPLE_ONDEMAND = yes;
 DEVFREQ_GOV_PERFORMANCE = yes;

@@ -5,7 +5,7 @@ let
   inherit (lib) mkForce;
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = (pkgs.callPackage ../../lib {});
-  vars = import ../../base/vars.nix;
+  vars = import ../../base/vars.nix {inherit lib;};
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
   };
@@ -22,7 +22,7 @@ in {
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
     #kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     kernelParams = [

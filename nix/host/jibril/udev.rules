@@ -1,0 +1,2 @@
+# jibril
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="04:42:1a:f1:87:3f", KERNEL=="eth*", NAME="eth_lan"

@@ -18,9 +18,13 @@ let
       isReadOnly = false;
     };
   };
-  gpuMounts = {
+  devMounts = {
     "/dev/dri" = {
       hostPath = "/dev/dri";
+      isReadOnly = true;
+    };
+    "/dev/input" = {
+      hostPath = "/dev/input";
       isReadOnly = true;
     };
   };
@@ -52,9 +56,17 @@ in rec {
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_ggame
+    SH_dep_ggame_rg
     SH_dep_ggame32
-    wine
-    wine64
+    SH_dep_ggame32_rg
+    
+    wine64Packages.fonts
+    winePackages.fonts
+    wine64Packages.stableFull
+    winePackages.stableFull
+
+    SH_dep_java8
+
     winetricks
     vulkan-loader
     vulkan-tools
@@ -66,10 +78,13 @@ in rec {
   ]);
 
   gpuAllow = {
-    allowedDevices = [{
-      modifier = "rw";
-      node = "char-drm";
-    }];
+    allowedDevices = [
+      { modifier = "rw"; node = "char-drm";}
+      # Microsoft xbox core controller
+      { modifier = "rwm"; node = "/dev/input/js0";}
+      { modifier = "rwm"; node = "/dev/input/by-id/usb-Microsoft_Controller_3039373133383636303934313235-event-joystick";}
+      { modifier = "rwm"; node = "/dev/input/by-id/usb-Microsoft_Controller_3039373133383636303934313235-joystick";}
+    ];
   };
 
   c = rks: uks: {
@@ -91,21 +106,21 @@ in rec {
 	  hostPath = "/home/prsw";
 	  isReadOnly = false;
         };
-      } // bbMounts // gpuMounts;
+      } // bbMounts // devMounts;
     } // gpuAllow // (net "3");
     "prsw-net" = {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
       bindMounts = {
         "/home/prsw_net" = {
-	        hostPath = "/home/prsw_net";
-	        isReadOnly = false;
-	      };
-      } // bbMounts // gpuMounts;
+	  hostPath = "/home/prsw_net";
+	  isReadOnly = false;
+	};
+      } // bbMounts // devMounts;
     } // gpuAllow // (net "4");
   };
   
-  termC = ssh_pub: with (c [ssh_pub.root] [ssh_pub.sh ssh_pub.sophia]); {
+  termC = ssh_pub: with (c [ssh_pub.root] ssh_pub.cont_users); {
     browsers = browsers;
     prsw = prsw;
     "prsw-net" = prsw-net;

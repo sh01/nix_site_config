@@ -154,7 +154,7 @@ let P = name: d: derivation {
 
   video = P "video" [
     mpv
-    vlc_qt5
+    #vlc
   ];
 
   ### GUI stuff
@@ -214,6 +214,21 @@ let P = name: d: derivation {
     hexchat
     pavucontrol
     #anki
+  ];
+
+  gamingBox = with (import ../.. {}); P "gamingBox" [
+    nixBld
+    # Desktop things
+    gui
+    games
+    SH_dep_ggame
+    SH_dep_ggame32
+
+    # direct packages
+    prometheus
+    openntpd
+    uptimed
+    mpv
   ];
 
   kde4 = P "kde4" [
