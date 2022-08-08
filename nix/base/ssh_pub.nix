@@ -24,6 +24,11 @@ in rec {
     root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAQkWQOwK6rckcRplpCX2bpk/3NBwLtza6jJfAjGRW7v root@rune";
   };
 
+  euphorbia = {
+    rtanen = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFUQX6hAHsnGikM6W6hRki7oI7jSlIvHhWixemheSDK rtanen@euphorbia";
+  };
+  
+
   root_keiko = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEL4qDILq50ODZBN5lqF1YK/8bm5TEYnZnsh/fYp9x11 root@keiko.sh.s.";
 
   hk_allison = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGE+YvDLKwJ9SEm4NgYOELl0TWomv3fGSA7fwLjDWI9I";

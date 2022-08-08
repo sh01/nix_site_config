@@ -23,8 +23,8 @@ in {
       </LimitExcept>
     </Directory>
 '';
-  fUserdirsCGI = ''
-    <Directory "/home/*/public_html">
+  fUserdirsCGIsh = ''
+    <Directory "/home/sh/public_html">
 		  Options +ExecCGI
     </Directory>
     AddHandler cgi-script .cgi .py

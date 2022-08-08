@@ -7,9 +7,11 @@ in {
   let
     sh_keys = keys.sh or [ssh_pub.sh_allison];
     sophia_keys = keys.sophia or [];
+    rtanen_keys = keys.rtanen or [ssh_pub.euphorbia.rtanen];
   in rec {
     sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.sh or [])) sh_keys {}];
     sophia = ["sophia" 1006 (["nix-users" "audio" "video" "stash" "pulse"] ++ (u2g.sh or [])) sophia_keys {}];
+    rtanen = ["rtanen" 1007 ["nix-users" "audio" "stash" "pulse"] rtanen_keys {}];
     #root_sh = ["root_sh" 0 (["wheel" "root"]) sh_keys {home = "/root/sh";}];
     prsw = ["prsw" 1001 (["audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.prsw or [])) (keys.sh_prsw or []) {}];
     prsw_net = ["prsw_net" 1005 ["audio" "video" "sh_x" "stash" "pulse"] (keys.sh_prsw or []) {}];

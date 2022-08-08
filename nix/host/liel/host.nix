@@ -162,7 +162,7 @@ in {
   services.httpd = {
     enable = true;
     configFile = with apache2; confFile modsDefault [
-      (fVhost "liel.x.s" [fUserdirs fUserdirsCGI])
+      (fVhost "liel.x.s" [fUserdirs fUserdirsCGIsh])
       (fVhost "polis-wiki.s" [
         (fAuth {name="polis-wiki.s"; fn="/etc/www/polis_wiki/auth_digest";})
         (fForward "http://127.0.0.2:8005/")
@@ -185,7 +185,7 @@ in {
   };
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [openvpn]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia rtanen openvpn]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "20.09";
