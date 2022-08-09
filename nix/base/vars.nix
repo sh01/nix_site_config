@@ -112,7 +112,7 @@ CRYPTO_AES_NI_INTEL = yes;
 USB_XHCI_PCI = yes;
 USB_XHCI_PCI_RENESAS = yes;
 
-#INET_MPTCP_DIAG = yes;
+INET_MPTCP_DIAG = mkForce yes;
 IDE = option no;
 
 CRYPTO_DEFLATE = yes;
