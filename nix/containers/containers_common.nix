@@ -32,7 +32,7 @@ fi
   };
   services.openssh = {
     enable = true;
-    permitRootLogin = "without-password";
+    permitRootLogin = "prohibit-password";
     extraConfig = "AcceptEnv DISPLAY HOME LANG LC_*";
   };
 }
