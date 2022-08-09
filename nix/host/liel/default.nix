@@ -22,48 +22,16 @@ in {
     ../../base/ntp_client_default.nix
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
+    (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;});})
   ];
 
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ../bw0/kernel_conf.nix);});
-    blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
-    kernelParams = [
-      # Reboot on kernel panic
-      "panic=1" "boot.panic_on_fail"
-    ];
-    # loader.initScript.enable = true;
-    initrd = {
-      luks.devices = {
-        "root" = {
-          device = "/dev/disk/by-partlabel/liel_r0_c";
-          preLVM = true;
-          fallbackToPassword = true;
-          allowDiscards = true;
-          keyFile = "/dev/disk/by-partlabel/liel_key0";
-          keyFileSize = 64;
-        };
-      };
-      preFailCommands = ''${pkgs.bash}/bin/bash'';
-      supportedFilesystems = ["btrfs"];
-    };
-
-    loader.efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
-    };
-
-    loader.grub = {
-      enable = true;
-      copyKernels = true;
-      version = 2;
-      device = "nodev";
-      # memtest86.enable = true;
-      splashImage = null;
-
-      efiSupport = true;
-      #efiInstallAsRemovable = true;
+    kernelParams = ["panic=1" "boot.panic_on_fail"];
+    initrd.luks.devices."root" = {
+      device = "/dev/disk/by-partlabel/liel_r0_c";
+      keyFile = "/dev/disk/by-partlabel/liel_key0";
     };
   };
 
@@ -136,13 +104,8 @@ in {
   };
 
   fileSystems = {
-    "/" = {
-      label = "root";
-      device = "/dev/mapper/root";
-      fsType = "btrfs";
-      options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
-    };
-    "/boot" = { device = "/dev/disk/by-partlabel/liel_b0"; options=["noauto" "noatime" "nodiratime"];};
+    "/".device = "/dev/mapper/root";
+    "/boot" = { device = "/dev/disk/by-partlabel/EFI_sys"; options=["noauto" "noatime" "nodiratime"];};
   };
 
   ### Services
