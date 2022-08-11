@@ -124,21 +124,28 @@ in rec {
     upAddr = (net "1").localAddress;
     vNet = (net "5");
     vAddr = vNet.localAddress;
-    cAddr = (net "6").localAddress;
+    cNet = (net "6");
+    cAddr = cNet.localAddress;
+    brDev = "lc_br_vu";
     cont = {
       "vpn-up" = {
-      config = (import ./vpn_up.nix {inherit lib pkgs cAddr; sysPkgs = sysPkgsBase;});
-      enableTun = true;
-      autoStart = true;
-      hostBridge = "lc_br_vu";
+        config = (import ./vpn_up.nix {inherit lib pkgs cAddr; sysPkgs = sysPkgsBase;});
+        enableTun = true;
+        autoStart = true;
+        hostBridge = brDev;
       } // vNet;
+      "vpn-in" = {
+        config = (import ./vpn_in.nix {inherit lib pkgs upAddr vAddr; sysPkgs = sysPkgsBase;});
+        autoStart = true;
+        hostBridge = brDev;
+      } // cNet;
     };
 
     br = {
-      "lc_br_vu" = { interfaces = [];};
+      "${brDev}" = { interfaces = [];};
     };
 
-    ifaces."lc_br_vu".ipv4 = {
+    ifaces."${brDev}".ipv4 = {
       addresses = [{address = upAddr; prefixLength = 32; }];
       routes = [
         { address = vAddr; prefixLength = 32;}
