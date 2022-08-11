@@ -79,7 +79,7 @@ table ip filter0 {
     type filter hook forward priority 0
     policy drop
     iif "eth0" oifname "${ifname}" counter accept
-    tcp dport { 22 } drop
+    tcp dport { 22 } counter drop
     iifname "${ifname}" oif "eth0" counter accept
     counter drop
 	}
@@ -92,8 +92,8 @@ table ip nat {
 	}
 
 	chain dnats {
-    udp dport {54922} dnat to ${cAddr}
-    tcp dport {54922} dnat to ${cAddr}
+    udp dport {54921} counter dnat to ${cAddr}
+    tcp dport {54921} counter dnat to ${cAddr}
 	}
 
 	chain prerouting {
