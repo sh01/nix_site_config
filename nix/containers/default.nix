@@ -1,4 +1,4 @@
-{pkgs}:
+{pkgs, lib, ...}:
 let
   bbMounts = {
     "/tmp/.X11-unix" = {
@@ -119,7 +119,34 @@ in rec {
       } // bbMounts // devMounts;
     } // gpuAllow // (net "4");
   };
-  
+
+  c_vpn = rec {
+    upAddr = (net "1").localAddress;
+    vNet = (net "5");
+    vAddr = vNet.localAddress;
+    cAddr = (net "6").localAddress;
+    cont = {
+      "vpn-up" = {
+      config = (import ./vpn_up.nix {inherit lib pkgs cAddr; sysPkgs = sysPkgsBase;});
+      enableTun = true;
+      autoStart = true;
+      hostBridge = "lc_br_vu";
+      } // vNet;
+    };
+
+    br = {
+      "lc_br_vu" = { interfaces = [];};
+    };
+
+    ifaces."lc_br_vu".ipv4 = {
+      addresses = [{address = upAddr; prefixLength = 32; }];
+      routes = [
+        { address = vAddr; prefixLength = 32;}
+        { address = cAddr; prefixLength = 32;}
+      ];
+    };
+  };
+
   termC = ssh_pub: with (c [ssh_pub.root] ssh_pub.cont_users); {
     browsers = browsers;
     prsw = prsw;

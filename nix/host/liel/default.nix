@@ -3,15 +3,17 @@
 
 let
   inherit (lib) mkForce;
+  inherit (pkgs) callPackage;
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = (pkgs.callPackage ../../lib {});
+  slib = (callPackage ../../lib {});
   vars = import ../../base/vars.nix {inherit lib;};
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["10.17.1.1" "::1"];
   };
   gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
-  apache2 = (pkgs.callPackage ../../services/apache2.nix {});
+  apache2 = (callPackage ../../services/apache2.nix {});
   vpn_c = (import ../../base/openvpn/client.nix);
+  c_vpn = (callPackage ../../containers {}).c_vpn;
 in {
   imports = [
     ./hardware-configuration.nix
@@ -29,6 +31,10 @@ in {
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
     kernelParams = ["panic=1" "boot.panic_on_fail"];
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = mkForce true;
+      "net.ipv4.conf.all.forwarding" = mkForce true;
+    };
     initrd.luks.devices."root" = {
       device = "/dev/disk/by-partlabel/liel_r0_c";
       keyFile = "/dev/disk/by-partlabel/liel_key0";
@@ -55,12 +61,14 @@ in {
         ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::6"; prefixLength=64;}];
       };
-    };
+    } // c_vpn.ifaces;
 
     nftables = {
       enable = true;
       rulesetFile = ./nft.conf;
     };
+
+    bridges = c_vpn.br;
     # Push this way out of the way.
     resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   };
@@ -77,7 +85,7 @@ in {
   # powerManagement.cpuFreqGovernor = "powersave";
 
   ### System profile packages
-  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
+  environment.systemPackages = with pkgs; with (callPackage ../../pkgs/pkgs/meta {}); [
     base
     cliStd
     moreutils
@@ -140,6 +148,8 @@ in {
       });
     };
   };
+
+  containers = c_vpn.cont;
   ### User / Group config
   # Define paired user/group accounts.
   users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia rtanen openvpn]);
