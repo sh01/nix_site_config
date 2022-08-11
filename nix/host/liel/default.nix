@@ -154,14 +154,18 @@ in {
       enable = true;
       downloadDirPermissions = "755";
       settings = {
-        download-dir = "/var/lib/transmission/ds";
+        download-dir = "/var/lib/transmission/d";
         incomplete-dir = "/var/lib/transmission/temp";
-        peer-port = 54922;
+        peer-port = 54921;
         port-forwarding-enabled = false;
         #rpc-authentication-required = true;
         rpc-bind-address = "0.0.0.0";
         rpc-whitelist = "127.*.*.*,10.16.*.*,10.17.*.*,10.231.*.*";
         rpc-whitelist-enabled = true;
+        speed-limit-down = 4096;
+        speed-limit-down-enabled = true;
+        speed-limit-up = 250;
+        speed-limit-up-enabled = true;
       };
       performanceNetParameters = true;
     };
