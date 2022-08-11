@@ -1,5 +1,6 @@
 { pkgs, sysPkgs, lib, cAddr, ... }:
 let
+  inherit (lib) mkForce;
   vars = pkgs.callPackage ../base/vars.nix {};
   slib = (pkgs.callPackage ../lib {});
   ssh_pub = (import ../base/ssh_pub.nix);
@@ -27,7 +28,7 @@ in {
     ./containers_common.nix
   ];
 
-  environment.etc."resolv.conf".text = lib.mkForce "nameserver 8.8.8.8\n";
+  environment.etc."resolv.conf".text = mkForce "nameserver 8.8.8.8\n";
 
   ### User / Group config
   users = let
@@ -38,6 +39,11 @@ in {
     inherit (slib.mkUserGroups {}) enforceIdUniqueness;
   };
 
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = mkForce true;
+    "net.ipv4.conf.all.forwarding" = mkForce true;
+  };
+  
   networking = {
     firewall.enable = false;
     iproute2 = {
@@ -48,6 +54,7 @@ in {
 ${pkgs.openvpn}/bin/openvpn --mktun --dev "${ifname}"
 ip rule add from "${cAddr}" lookup "${rtable}" 
 '';
+
     nftables = {
       enable = true;
       ruleset = ''
@@ -99,7 +106,7 @@ table ip nat {
   };
 
   services = {
-    openssh.enable = lib.mkForce false;
+    openssh.enable = mkForce false;
     openvpn.servers.up.config = ''
 client
 proto udp
