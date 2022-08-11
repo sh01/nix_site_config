@@ -149,7 +149,23 @@ in {
     };
   };
 
-  containers = c_vpn.cont;
+  containers = c_vpn.cont {
+    services.transmission = {
+      enable = true;
+      downloadDirPermissions = "755";
+      settings = {
+        download-dir = "/var/lib/transmission/ds";
+        incomplete-dir = "/var/lib/transmission/temp";
+        peer-port = 54922;
+        port-forwarding-enabled = false;
+        #rpc-authentication-required = true;
+        rpc-bind-address = "0.0.0.0";
+        rpc-whitelist = "127.*.*.*,10.16.*.*,10.17.*.*,10.231.*.*";
+        rpc-whitelist-enabled = true;
+      };
+      performanceNetParameters = true;
+    };
+  };
   ### User / Group config
   # Define paired user/group accounts.
   users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia rtanen openvpn]);

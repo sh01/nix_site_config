@@ -127,7 +127,7 @@ in rec {
     cNet = (net "6");
     cAddr = cNet.localAddress;
     brDev = "lc_br_vu";
-    cont = {
+    cont = inCfg: {
       "vpn-up" = {
         config = (import ./vpn_up.nix {inherit lib pkgs cAddr; sysPkgs = sysPkgsBase;});
         enableTun = true;
@@ -135,7 +135,7 @@ in rec {
         hostBridge = brDev;
       } // vNet;
       "vpn-in" = {
-        config = (import ./vpn_in.nix {inherit lib pkgs upAddr vAddr; sysPkgs = sysPkgsBase;});
+        config = (import ./vpn_in.nix {inherit lib pkgs upAddr vAddr; sysPkgs = sysPkgsBase;}) // inCfg;
         autoStart = true;
         hostBridge = brDev;
       } // cNet;
