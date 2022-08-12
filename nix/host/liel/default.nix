@@ -155,6 +155,7 @@ in {
       downloadDirPermissions = "755";
       settings = {
         download-dir = "/var/lib/transmission/d";
+        incomplete-dir-enabled = false;
         incomplete-dir = "/var/lib/transmission/temp";
         peer-port = 54921;
         port-forwarding-enabled = false;
