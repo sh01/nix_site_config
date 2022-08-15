@@ -159,17 +159,15 @@ in {
         incomplete-dir = "/var/lib/transmission/temp";
         peer-port = 54921;
         port-forwarding-enabled = false;
-        #rpc-authentication-required = true;
+        rpc-authentication-required = true;
         rpc-bind-address = "0.0.0.0";
         rpc-whitelist = "127.*.*.*,10.16.*.*,10.17.*.*,10.231.*.*";
         rpc-whitelist-enabled = true;
-        speed-limit-down = 4096;
-        speed-limit-down-enabled = true;
-        speed-limit-up = 250;
-        speed-limit-up-enabled = true;
       };
       performanceNetParameters = true;
     };
+    # Default pre-startup script does not respect any local changes, but auth credential do not belong into nix store. Disable the script here.
+    systemd.services.transmission.serviceConfig.ExecStartPre = mkForce null;
   };
   ### User / Group config
   # Define paired user/group accounts.
