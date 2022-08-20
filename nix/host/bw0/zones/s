@@ -1,5 +1,5 @@
 s.	7200    IN SOA  bw0.s. root.bw0.s. (
-	17	; serial
+	18	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -24,6 +24,8 @@ yalda.sh	86400	IN	A	10.17.1.65
 jibril.x	86400	IN	A	10.17.1.70
 jibril.x	86400	IN	AAAA	fd9d:1852:3555:200:ff01::7
 
+euphorbia.wifi		86400	IN	A	10.17.2.65
+wingsofthought.wifi	86400	IN	A	10.17.2.66
 
 1.sens		86400	IN	A	10.17.8.1
 2.sens		86400	IN	A	10.17.8.2

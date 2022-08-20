@@ -1,5 +1,5 @@
 17.10.in-addr.arpa.	7200    IN SOA  bw0.y. root.bw0.y. (
-	11	; serial
+	12	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -15,6 +15,10 @@
 65.1	86400	IN PTR	yalda.sh.s.
 66.1	86400	IN PTR	3dp.x.s.
 70.1	86400	IN PTR	jibril.x.s.
+
+65.2	86400	IN PTR	euphorbia.wifi.s.
+66.2	86400	IN PTR	wingsofthought.wifi.s.
+
 
 1.8	86400	IN PTR  1.sens.s.
 2.8	86400	IN PTR  2.sens.s.
