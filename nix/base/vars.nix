@@ -8,7 +8,7 @@ in {
   userSpecs = { u2g ? {}, keys ? {}}:
   let
     sh_keys = keys.sh or [ssh_pub.sh_allison];
-    sophia_keys = keys.sophia or [];
+    sophia_keys = keys.sophia or [ssh_pub.sophia_wot];
     rtanen_keys = keys.rtanen or [ssh_pub.euphorbia.rtanen];
   in rec {
     sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.sh or [])) sh_keys {}];

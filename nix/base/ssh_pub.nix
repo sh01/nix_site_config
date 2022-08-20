@@ -2,6 +2,7 @@ let
  HN = s: [s] ++ [(s + ".sh.s.") (s + ".sh.s") (s + ".vpn.sh.s.") (s + ".vpn.sh.s")];
 in rec {
   sh_allison = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDP2ErHhg1qHz/tsfoqjf9Z1TutbVWxPozW7kgOafrX3 sh@allison.sh.s.";
+  sophia_wot = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJJumYSqoetISOVw6hyfLdmJGdIBDr72E3WvnBV1Jh45 sophia@wot";
 
   yalda = rec {
     # Placeholder values until system update and keygen
