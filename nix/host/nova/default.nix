@@ -3,10 +3,11 @@
 
 let
   inherit (lib) mkForce;
+  inherit (pkgs) callPackage;
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = (pkgs.callPackage ../../lib {});
-  vars = import ../../base/vars.nix {inherit lib;};
-  dns = (import ../../base/dns.nix) {
+  slib = callPackage ../../lib {};
+  vars = callPackage ../../base/vars.nix {};
+  dns = import ../../base/dns.nix {
     nameservers4 = ["10.17.1.1" "::1"];
   };
   nft = pkgs.callPackage ../../base/nft.nix {};

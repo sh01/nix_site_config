@@ -1,5 +1,4 @@
 {pkgs, callPackage, buildPackages, ncurses, fetchurl, stdenv, perl, buildLinux, config, hostPlatform, structuredExtraConfig ? {}, cpio, ...}: let
-  vars = import vars.nix;
 in (buildLinux rec {
   version = "5.18.12";
   src = fetchurl {
@@ -8,7 +7,6 @@ in (buildLinux rec {
   };
 
   inherit buildPackages callPackage ncurses stdenv perl buildLinux hostPlatform structuredExtraConfig;
-  #kernelPatches = vars.kernelPatches;
   #kernelPatches = [ pkgs.kernelPatches.modinst_arg_list_too_long ];
   kernelPatches = [];
 

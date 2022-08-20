@@ -2,9 +2,10 @@
 { config, pkgs, lib, ... }:
 
 let
+  inherit (pkgs) callPackage;
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = (pkgs.callPackage ../../lib {});
-  vars = (pkgs.callPackage ../../base/vars.nix {});
+  slib = callPackage ../../lib {};
+  vars = callPackage ../../base/vars.nix {};
   dns = (import ../../base/dns.nix) {};
 in {
   imports = [

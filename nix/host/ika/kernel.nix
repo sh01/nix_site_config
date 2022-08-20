@@ -1,5 +1,6 @@
+{lib, ...}:
 let
-  vars = (import ../../base/vars.nix);
+  vars = import ../../base/vars.nix {inherit lib;};
   kp = vars.kernelPatches;
   ko = vars.kernelOpts;
 in
