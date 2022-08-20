@@ -19,7 +19,7 @@ in rec {
 
   #boot.kernelPackages = pkgs.linuxPackages_4_11;
   boot.loader.grub.enable = false;
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix);});
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
   boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
 
   containers = (cont.termC ssh_pub);

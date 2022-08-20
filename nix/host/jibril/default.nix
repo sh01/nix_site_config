@@ -1,4 +1,4 @@
-# liel is a host box
+# Jibril is a desktop deployment with a focus on games.
 { config, pkgs, lib, ... }:
 
 let

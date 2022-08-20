@@ -1,7 +1,7 @@
 {pkgs, ...}:
 let
   slib = (pkgs.callPackage ../../lib {});
-  vars = import ../../base/vars.nix;
+  vars = (pkgs.callPackage ../../base/vars.nix {});
   dns = (import ../dns.nix) {};
 in {
   imports = [
@@ -47,8 +47,6 @@ server=/s/16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::1
       extraOptions = [''-l''];
       lockerCommand = ''env XSECURELOCK_PASSWORD_PROMPT=time_hex XSECURELOCK_SHOW_DATETIME=1 XSECURELOCK_DATETIME_FORMAT='%%Y-%%m-%%d %%H:%%M:%%S' XSECURELOCK_SHOW_HOSTNAME=1 XSECURELOCK_SHOW_USERNAME=1 ${pkgs.xsecurelock}/bin/xsecurelock'';
   };
-
-
   
   networking = {
     search = dns.conf.search;

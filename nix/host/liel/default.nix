@@ -171,7 +171,7 @@ in {
   };
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia rtanen openvpn]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia rtanen ratheka openvpn]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "20.09";
