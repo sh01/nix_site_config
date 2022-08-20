@@ -28,8 +28,12 @@ in rec {
     cont_users = [sh];
   };
 
+  # ext
   euphorbia = {
     rtanen = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFUQX6hAHsnGikM6W6hRki7oI7jSlIvHhWixemheSDK rtanen@euphorbia";
+  };
+  gungnir = {
+    ratheka = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFLxOZIUn9seDp7mtdIefoLTO9i+cQbkoOWT0Ph2mALh";
   };
   
 
