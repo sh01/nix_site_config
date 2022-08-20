@@ -97,8 +97,8 @@ X86_ACPI_CPUFREQ = yes;
 # TRANSPARENT_HUGEPAGE = no;
 
 # Work around options missing in newer kernels
-NFSD_V3 = mkForce (option module);
-DEBUG_INFO = mkForce (option module);
+NFSD_V3 = mkForce (option yes);
+DEBUG_INFO = mkForce (option yes);
 JOYSTICK_IFORCE_USB = option no;
 JOYSTICK_IFORCE_232 = option no;
 BLK_WBT_SQ = option yes;
