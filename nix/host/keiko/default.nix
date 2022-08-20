@@ -2,9 +2,10 @@
 { config, pkgs, lib, ... }:
 
 let
+  inherit (pkgs) callPackage;
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = (pkgs.callPackage ../../lib {});
-  vars = (import ../../base/vars.nix);
+  slib = callPackage ../../lib {};
+  vars = callPackage ../../base/vars.nix {};
   dns = (import ../../base/dns.nix) {};
 in {
   imports = [
@@ -91,7 +92,7 @@ in {
   # boot.loader.initScript.enable = true;
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix);});
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_latest.override { structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     initrd = {
       luks.devices = {

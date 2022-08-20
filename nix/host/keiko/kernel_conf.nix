@@ -1,3 +1,4 @@
+{lib, ...}:
 let
   vars = import ../../base/vars.nix {inherit lib;};
   ko = vars.kernelOpts;

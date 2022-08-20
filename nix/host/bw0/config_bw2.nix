@@ -5,7 +5,7 @@ let
   inherit (lib) mkForce;
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = (pkgs.callPackage ../../lib {});
-  vars = import ../../base/vars.nix;
+  vars = pkgs.callPackage ../../base/vars.nix {};
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
   };

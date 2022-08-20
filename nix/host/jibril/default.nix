@@ -6,10 +6,10 @@ let
   inherit (pkgs) callPackage;
   cont = callPackage ../../containers {};
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
-  slib = (pkgs.callPackage ../../lib {});
-  vars = import ../../base/vars.nix {inherit lib;};
-  lpkgs = (import ../../pkgs {});
-  dns = (import ../../base/dns.nix) {
+  slib = callPackage ../../lib {};
+  vars = callPackage ../../base/vars.nix {};
+  lpkgs = import ../../pkgs {};
+  dns = import ../../base/dns.nix {
     nameservers4 = ["127.0.0.1" "::1"];
   };
 in rec {

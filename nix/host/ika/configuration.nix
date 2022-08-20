@@ -11,7 +11,7 @@ let
   slib = (callPackage ../../lib {});
   ssh_pub = import ../../base/ssh_pub.nix;
   nft = callPackage ../../base/nft.nix {};
-  vars = import ../../base/vars.nix;
+  vars = callPackage ../../base/vars.nix {};
 in {
   imports = [
     ./hardware-configuration.nix

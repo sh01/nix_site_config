@@ -5,13 +5,13 @@ let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
   ssh_pub = import ../../base/ssh_pub.nix;
-  slib = (callPackage ../../lib {});
-  vars = import ../../base/vars.nix {inherit lib;};
-  dns = (import ../../base/dns.nix) {
+  slib = callPackage ../../lib {};
+  vars = callPackage ../../base/vars.nix {};
+  dns = import ../../base/dns.nix {
     nameservers4 = ["10.17.1.1" "::1"];
   };
   gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
-  apache2 = (callPackage ../../services/apache2.nix {});
+  apache2 = callPackage ../../services/apache2.nix {};
   vpn_c = (import ../../base/openvpn/client.nix);
   c_vpn = (callPackage ../../containers {}).c_vpn;
 in {
