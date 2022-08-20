@@ -1,6 +1,6 @@
 { pkgs, sysPkgs, rks, uks, ... }:
 let
-  vars = import ../base/vars.nix;
+  vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
   dns = (import ../base/dns.nix) {};
   ssh_pub = (import ../base/ssh_pub.nix);
