@@ -1,4 +1,4 @@
-{searchPath ? [ "sh.s" "baughn-sh.s" ], nameservers4 ? [ "10.17.1.1" ]}: rec {
+{searchPath ? [ "s" "x.s" "sh.s" "wifi.s" ], nameservers4 ? [ "10.17.1.1" ]}: rec {
   conf = {
     search = searchPath;
     nameservers = nameservers4;
