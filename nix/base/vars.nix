@@ -56,6 +56,8 @@ in {
   kernelOpts = rec {
     # We'd really want NFT_MASQ and NFT_REDIR as y, but that's impossible due to forward-y dependencies which are not supported by this version of the nix kernel conf infrastructure.
     netStd = {
+BRIDGE = yes;
+
 NF_CONNTRACK = yes;
 NF_CONNTRACK_IRC = no;
 NF_NAT = yes;
@@ -63,7 +65,7 @@ NF_TABLES = yes;
 NF_TABLES_INET = yes;
 NFT_CT = yes;
 NFT_HASH = yes;
-#NFT_COUNTER = yes;
+NFT_COUNTER = option yes;
 NFT_LOG = yes;
 NFT_LIMIT = yes;
 NFT_MASQ = module;
@@ -71,14 +73,57 @@ NFT_REDIR = module;
 NFT_NAT = yes;
 NFT_REJECT = yes;
 #NFT_COMPAT = option yes;
-BRIDGE = yes;
 
+NF_CT_NETLINK = yes;
+NF_DEFRAG_IPV4 = yes;
+NF_REJECT_IPV4 = yes;
 NF_TABLES_IPV4 = yes;
 NF_TABLES_IPV6 = yes;
+
+NETFILTER_NETLINK = yes;
+NETFILTER_NETLINK_LOG = yes;
+NETFILTER_XTABLES = yes;
+NETFILTER_XT_MARK = yes;
+NETFILTER_XT_CONNMARK = yes;
+NETFILTER_XT_TARGET_CONNSECMARK = yes;
+NETFILTER_XT_MATCH_CONNMARK = yes;
+NETFILTER_XT_MATCH_CONNTRACK = yes;
+NETFILTER_XT_MATCH_POLICY = yes;
+NETFILTER_XT_MATCH_STATE = yes;
+
+IP_DCCP = option module;
+IP_DCCP_CCID3 = option no;
+IP_NF_IPTABLES = yes;
+IP_NF_FILTER = yes;
+IP_NF_TARGET_REJECT = yes;
+IP_NF_MANGLE = yes;
+IP_NF_RAW = yes;
+IP_NF_SECURITY = yes;
+IP_NF_ARPTABLES = yes;
+
+NF_DEFRAG_IPV6 = yes;
+NF_REJECT_IPV6 = yes;
+IP6_NF_IPTABLES = yes;
+IP6_NF_MATCH_IPV6HEADER = yes;
+IP6_NF_FILTER = yes;
+IP6_NF_TARGET_REJECT = yes;
+IP6_NF_MANGLE = yes;
+IP6_NF_RAW = yes;
+IP6_NF_SECURITY = yes;
+
 TUN = yes;
 
-PTP_1588_CLOCK = yes;
-E1000E = yes;
+PACKET = yes;
+NET_KEY = yes;
+NET_KEY_MIGRATE = yes;
+INET_DIAG = yes;
+INET_TCP_DIAG = yes;
+IP_FIB_TRIE_STATS = yes;
+
+XFRM_ALGO = yes;
+XFRM_USER = yes;
+XFRM_MIGRATE = yes;
+INET6_XFRM_TUNNEL = option yes;
 
 IPV6 = yes;
 INET6_AH = yes;
@@ -86,15 +131,39 @@ INET6_AH = yes;
 IPV6_SIT = yes;
 IPV6_MULTIPLE_TABLES = yes;
 IPV6_FOU_TUNNEL = yes;
+
+TCP_CONG_CUBIC = yes;
+DEFAULT_CUBIC = yes;
+
+PTP_1588_CLOCK = yes;
+E100 = yes;
+E1000 = yes;
+E1000E = yes;
+R8169 = yes;
+
+MII = yes;
 };
 
+    x86Std = {
+      X86_ACPI_CPUFREQ = yes;
+      X86_PKG_TEMP_THERMAL = yes;
+      X86_MSR = yes;
+      X86_CPUID = yes;
+};
     base = {
+MODULE_SRCVERSION_ALL = yes;
+
+UNWINDER_ORC = yes;
+UNWINDER_FRAME_POINTER = no;
+
 ACPI_PROCESSOR = yes;
-X86_ACPI_CPUFREQ = yes;
 # CVE-2017-7308 mitigation
 # USER_NS = no;
 # CVE-2017-1000405 mitigation
 # TRANSPARENT_HUGEPAGE = no;
+RTC_HCTOSYS = yes;
+RTC_DRV_CMOS = yes;
+MEMORY_FAILURE = yes;
 
 # Work around options missing in newer kernels
 NFSD_V3 = mkForce (option yes);
@@ -123,7 +192,6 @@ INTEL_MEI_ME = yes;
 I2C = yes;
 I2C_I801 = yes;
 I2C_SMBUS = yes;
-X86_PKG_TEMP_THERMAL = yes;
 
 CRYPTO_GHASH_CLMUL_NI_INTEL = option yes;
 CONFIG_CRYPTO_AES_NI_INTEL = option yes;
@@ -132,13 +200,47 @@ BLK_DEV_LOOP = yes;
 BLK_DEV_RAM = yes;
 
 BINFMT_MISC = yes;
+PACKET = yes;
 };
 
+    devFreq = {
+ACPI_PROCESSOR = yes;
+ACPI_THERMAL = yes;
+CPU_FREQ_STAT = yes;
+CPU_FREQ_GOV_POWERSAVE = yes;
+CPU_FREQ_GOV_USERSPACE = yes;
+CPU_FREQ_GOV_ONDEMAND = yes;
+CPU_FREQ_GOV_CONSERVATIVE = yes;
+
+DEVFREQ_GOV_SIMPLE_ONDEMAND = yes;
+DEVFREQ_GOV_PERFORMANCE = yes;
+DEVFREQ_GOV_POWERSAVE = yes;
+DEVFREQ_GOV_USERSPACE = yes;
+};
     blkStd = {
+BFQ_GROUP_IOSCHED = yes;
+MQ_IOSCHED_KYBER = yes;
+MQ_IOSCHED_DEADLINE = yes;
+
+ASYNC_TX_DMA = yes;
+
+SCSI_MOD = yes;
+RAID_ATTRS = yes;
+SCSI = yes;
+BLK_DEV_SD = yes;
+BLK_DEV_SR = yes;
+CHR_DEV_SG = yes;
+SCSI_SPI_ATTRS = yes;
+SCSI_SAS_ATTRS = yes;
+SCSI_MPT2SAS = yes;
+
 EXT2_FS = yes;
+EXT2_FS_XATTR = yes;
 EXT3_FS = yes;
 EXT4_FS = yes;
 BTRFS_FS = yes;
+
+ISO9660_FS = yes;
 
 TRUSTED_KEYS = no;
 ENCRYPTED_KEYS = yes;
@@ -148,9 +250,12 @@ CRYPTO_ESSIV = yes;
 CRYPTO_XTS = yes;
 
 FUSE_FS = yes;
+CUSE = yes;
 CONFIGFS_FS = yes;
 
 FS_ENCRYPTION = yes;
+FS_MBCACHE = yes;
+FSCACHE_STATS = yes;
 
 ACPI_NFIT = yes;
 LIBNVDIMM = yes;
