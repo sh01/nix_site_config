@@ -24,6 +24,7 @@ let
     SH_dep_ggame32 = callPackage ./pkgs/dep/ggame {pkgs = arch32.pkgs; name = "ggame32"; LINKNAME = "ggame/32"; };
     SH_dep_ggame32_rg = callPackage ./pkgs/dep/ggame/rg.nix {ggame = SH_dep_ggame32; is32 = true;};
     SH_dep_java8 = callPackage ./pkgs/dep/java8.nix {};
+    SH_dep_java17 = callPackage ./pkgs/dep/java17.nix {};
 
     # old stuff
     SH_dep_mc0 = callPackage ./pkgs/dep/mc0 {};

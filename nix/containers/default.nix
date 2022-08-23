@@ -65,7 +65,10 @@ in rec {
     wine64Packages.stableFull
     winePackages.stableFull
 
+    # Minecraft 1.12.2
     SH_dep_java8
+    # Minecraft 1.18.2
+    SH_dep_java17
 
     winetricks
     vulkan-loader
