@@ -32,7 +32,7 @@ in {
 
   networking = {
     firewall.enable = false;
-    extraHosts = "127.0.0.1 sessionserver.mojang.com\n";
+    extraHosts = "127.0.0.1 sessionserver.mojang.com authserver.mojang.com api.mojang.com api.minecraftservices.com pc.realms.minecraft.net\n";
   };
 
   fonts = {
