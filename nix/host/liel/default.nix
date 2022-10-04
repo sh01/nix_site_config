@@ -1,6 +1,5 @@
 # liel is a host box
 { config, pkgs, lib, ... }:
-
 let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
@@ -30,7 +29,7 @@ in {
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelParams = ["panic=1" "boot.panic_on_fail"];
+    kernelParams = ["panic=1" "boot.panic_on_fail" "usb-storage.quirks=174c:55aa:u"];
     kernel.sysctl = {
       "net.ipv4.ip_forward" = mkForce true;
       "net.ipv4.conf.all.forwarding" = mkForce true;
