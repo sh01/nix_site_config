@@ -12,8 +12,8 @@ in {
     rtanen_keys = keys.rtanen or [ssh_pub.euphorbia.rtanen];
     sophia_keys = keys.sophia or [ssh_pub.sophia_wot];
   in rec {
-    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x" "stash" "pulse"] ++ (u2g.sh or [])) sh_keys {}];
-    sophia = ["sophia" 1006 (["nix-users" "audio" "video" "stash" "pulse"] ++ (u2g.sh or [])) sophia_keys {}];
+    sh = ["sh" 1000 (["wheel" "nix-users" "audio" "video" "sh_x" "stash" "pulse" "game_pad"] ++ (u2g.sh or [])) sh_keys {}];
+    sophia = ["sophia" 1006 (["nix-users" "audio" "video" "stash" "pulse" "game_pad"] ++ (u2g.sh or [])) sophia_keys {}];
     rtanen = ["rtanen" 1007 ["nix-users" "audio" "stash" "pulse"] rtanen_keys {}];
     ratheka = ["ratheka" 1008 ["audio" "video" "stash" "pulse"] ratheka_keys {}];
     #root_sh = ["root_sh" 0 (["wheel" "root"]) sh_keys {home = "/root/sh";}];

@@ -6,7 +6,8 @@ with pkgs.lib; rec {
       name = U;
       gid = (elemAt s 1);
     }; }) specs) ++ [{
-      "nix-users" = { gid = 2049; };
+      "nix-users".gid = 2049;
+      "game_pad".gid = 2010;
     }]);
 
   mkUsers = specs: mkMerge (map (s:
