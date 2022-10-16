@@ -2,31 +2,19 @@
 let
   bbMounts = {
     "/tmp/.X11-unix" = {
-      hostPath = "/tmp/.X11-unix";
       isReadOnly = true;
     };
     #"/run/users" = {
     #  hostPath = "/run/users";
     #  isReadOnly = true;
     #};
-    "/home/stash" = {
-      hostPath = "/home/stash";
-      isReadOnly = true;
-    };
-    "/run/pulse" = {
-      hostPath = "/run/pulse";
-      isReadOnly = false;
-    };
+    "/home/stash".isReadOnly = true;
+    "/run/pulse".isReadOnly = false;
   };
   devMounts = {
-    "/dev/dri" = {
-      hostPath = "/dev/dri";
-      isReadOnly = true;
-    };
-    "/dev/input" = {
-      hostPath = "/dev/input";
-      isReadOnly = true;
-    };
+    "/dev/dri".isReadOnly = true;
+    "/dev/input".isReadOnly = true;
+    "/run/udev/data".isReadOnly = true;
   };
   net = num: {
     hostAddress = "10.231.1.1";
@@ -80,13 +68,16 @@ in rec {
     xdg-user-dirs
   ]);
 
-  gpuAllow = {
+  devAllow = {
     allowedDevices = [
       { modifier = "rw"; node = "char-drm";}
-      # Microsoft xbox core controller
-      { modifier = "rwm"; node = "/dev/input/js0";}
-      { modifier = "rwm"; node = "/dev/input/by-id/usb-Microsoft_Controller_3039373133383636303934313235-event-joystick";}
-      { modifier = "rwm"; node = "/dev/input/by-id/usb-Microsoft_Controller_3039373133383636303934313235-joystick";}
+      # Joysticks/pad(-likes)
+      # Potentially dangerously broad, but we have to for now.
+      { modifier = "r"; node = "char-input";}
+      # More specific variant of the above; ineffective as of 2022-10-15 (systemd bugs?)
+      { modifier = "rw"; node = "/dev/input/js*";}
+      { modifier = "rw"; node = "/dev/input/by-id/*_Controller_*";}
+      { modifier = "rw"; node = "/dev/input/by-id/*joystick";}
     ];
   };
 
@@ -110,7 +101,7 @@ in rec {
 	  isReadOnly = false;
         };
       } // bbMounts // devMounts;
-    } // gpuAllow // (net "3");
+    } // devAllow // (net "3");
     "prsw-net" = {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
       autoStart = true;
@@ -120,7 +111,7 @@ in rec {
 	  isReadOnly = false;
 	};
       } // bbMounts // devMounts;
-    } // gpuAllow // (net "4");
+    } // devAllow // (net "4");
   };
 
   c_vpn = rec {

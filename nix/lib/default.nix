@@ -8,6 +8,7 @@ with pkgs.lib; rec {
     }; }) specs) ++ [{
       "nix-users".gid = 2049;
       "game_pad".gid = 2010;
+      "input_game".gid = 2011;
     }]);
 
   mkUsers = specs: mkMerge (map (s:
