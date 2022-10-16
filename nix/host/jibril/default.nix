@@ -18,6 +18,7 @@ in rec {
     ../../base
     ../../base/term/desktop.nix
     ../../base/term/gaming_box.nix
+    ../../base/term/game_pads.nix
     ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
