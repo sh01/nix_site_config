@@ -73,7 +73,7 @@ in rec {
       { modifier = "rw"; node = "char-drm";}
       # Joysticks/pad(-likes)
       # Potentially dangerously broad, but we have to for now.
-      { modifier = "r"; node = "char-input";}
+      { modifier = "rw"; node = "char-input";}
       # More specific variant of the above; ineffective as of 2022-10-15 (systemd bugs?)
       { modifier = "rw"; node = "/dev/input/js*";}
       { modifier = "rw"; node = "/dev/input/by-id/*_Controller_*";}
