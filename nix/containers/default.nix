@@ -31,7 +31,6 @@ in rec {
     zsh
     hexedit
     lsof
-    unzip
     binutils
     patchelf
     screen
@@ -41,6 +40,10 @@ in rec {
     python3
     mpkgs.emacs_packages
     psmisc
+
+    #unar
+    unzip
+    p7zip
   ];
   sysPkgsPrsw = sysPkgsBase ++ (with lpkgs; [
     SH_dep_ggame

@@ -195,4 +195,10 @@ fi
 
   ######## X-windows things
   fonts.fontconfig.defaultFonts.serif = [ "DejaVu Sans" ];
+  #### Docs
+  documentation = {
+    dev.enable = true;
+    man.generateCaches = true;
+    nixos.includeAllModules = true;
+  };
 }
