@@ -100,7 +100,7 @@ in rec {
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia rtanen]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "21.11";
