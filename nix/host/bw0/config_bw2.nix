@@ -325,16 +325,22 @@ in {
   };
 
   services.openntpd = {
+    enable = false;
+  };
+  services.ntp = {
     enable = true;
+    restrictDefault = [];
+    restrictSource = [];
     extraConfig = ''
     listen on 127.0.0.1
     listen on ::1
     listen on 10.17.1.1
     listen on 10.17.2.1
     listen on 10.19.4.1
-    constraint from "https://www.google.com/"
+    #constraints from "www.google.com"
 '';
   };
+  services.timesyncd.enable = false;
   services.uptimed.enable = true;
   
   ### User / Group config
