@@ -39,12 +39,9 @@ in {
     };
     uptimed.enable = true;
     prometheus.exporters.node = (import ../../base/node_exporter.nix);
-    openntpd = {
+    ntp = {
       enable = true;
       servers = ["10.17.1.1"];
-      extraConfig = ''
-    constraint from "https://www.google.com/"
-'';
     };
   };
 
