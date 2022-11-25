@@ -1,5 +1,5 @@
 s.	7200    IN SOA  bw0.s. root.bw0.s. (
-	18	; serial
+	19	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -12,6 +12,7 @@ bw0		86400	IN	A	10.17.1.1
 bw0		86400	IN	AAAA	fd9d:1852:3555:200:ff01::1
 liel.x		86400	IN	A	10.17.1.6
 liel.x		86400	IN	AAAA	fd9d:1852:3555:200:ff01::6
+rpg-pa.x	86400	IN	A	10.17.1.4
 
 polis-wiki	86400	IN	CNAME	liel.x.s.
 rpg-c0-wiki	86400	IN	CNAME	liel.x.s.
