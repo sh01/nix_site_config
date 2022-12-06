@@ -1,6 +1,8 @@
 # Generic game environment.
 {pkgs, system, callPackage, name, LINKNAME, ...}:
-with pkgs; (callPackage ../base.nix {
+let
+  ignoreVulns = x: x // { meta.knownVulnerabilities = []; };
+in with pkgs; (callPackage ../base.nix {
   inherit name LINKNAME;
   BDEPS = [openjdk17];
   JDEPS = [commonsIo commonsCompress];
@@ -45,7 +47,7 @@ with pkgs; (callPackage ../base.nix {
     # Printers ... why?
     cups.lib
     # Crypto
-    libgcrypt nettle openssl.out libkrb5 openldap gnutls.out
+    libgcrypt nettle openssl.out (openssl_1_0_2.overrideAttrs ignoreVulns).out libkrb5 openldap gnutls.out
     # misc
     util-linux.out util-linux.lib libgpgerror
     # Goldberg steam emu
