@@ -303,6 +303,10 @@ DM_MULTIPATH_QL = yes;
 DM_MULTIPATH_ST = yes;
 DM_MULTIPATH_HST = yes;
 DM_MULTIPATH_IOA = yes;
+SCSI_DH = yes;
+SCSI_DH_ALUA = module;
+SCSI_DH_RDAC = module;
+SCSI_DH_EMC = module;
 };
     
     hwAudio = {

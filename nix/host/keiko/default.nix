@@ -88,6 +88,16 @@ in {
     "/mnt/a7" = { device = "/dev/mapper/a7"; options = btrfsOptsNA; };
   };
 
+  services.multipath = let
+    no = "no";
+  in {
+    enable = true;
+    pathGroups = [];
+    defaults = ''
+      skip_kpartx no
+'';
+  };
+  
   ### Boot config
   # boot.loader.initScript.enable = true;
   hardware.cpu.intel.updateMicrocode = true;
