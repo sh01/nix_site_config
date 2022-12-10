@@ -14,6 +14,7 @@ in {
     ../../base/nox.nix
     ../../base/site_wl.nix
     ../../fix/19_9.nix
+    ../../base/ntp_client_default.nix
   ];
 
   #environment.etc."nix/nix.conf".source = mkForce (builtins.readFile ../../base/nix.conf);
