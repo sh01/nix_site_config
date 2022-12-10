@@ -123,7 +123,7 @@ IP_FIB_TRIE_STATS = yes;
 XFRM_ALGO = yes;
 XFRM_USER = yes;
 XFRM_MIGRATE = yes;
-INET6_XFRM_TUNNEL = option yes;
+#INET6_XFRM_TUNNEL = option yes;
 
 IPV6 = yes;
 INET6_AH = yes;
@@ -273,6 +273,7 @@ DM_MIRROR = yes;
 DM_RAID = yes;
 DM_ZERO = yes;
 DM_UEVENT = yes;
+DM_SWITCH = yes;
 FUSION_LOGGING = yes;
 
 BLK_DEV_NVME = yes;
@@ -295,7 +296,15 @@ USB_EHCI_HCD = yes;
 USB_EHCI_PCI = yes;
 USB_STORAGE = yes;
 };
-
+    
+    blkMultipath = {
+DM_MULTIPATH = yes;
+DM_MULTIPATH_QL = yes;
+DM_MULTIPATH_ST = yes;
+DM_MULTIPATH_HST = yes;
+DM_MULTIPATH_IOA = yes;
+};
+    
     hwAudio = {
 SND_SOC = yes;
 SND_SOC_SOF_HDA = yes;
@@ -341,8 +350,8 @@ I2C_ALGOBIT = yes;
 DRM = yes;
 DRM_SCHED = option yes;
 DRM_KMS_HELPER = option yes;
-DRM_TTM = option yes;
-DRM_TTM_HELPER = option yes;
+#DRM_TTM = option yes;
+#DRM_TTM_HELPER = mkForce (option yes);
 DRM_I915 = module;
 AMD_IOMMU_V2 = yes;
 DRM_AMDGPU = module;
