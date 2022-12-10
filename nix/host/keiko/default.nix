@@ -95,6 +95,7 @@ in {
     pathGroups = [];
     defaults = ''
       skip_kpartx no
+      path_grouping_policy multibus
 '';
   };
   
