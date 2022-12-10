@@ -1,14 +1,13 @@
 17.10.in-addr.arpa.	7200    IN SOA  bw0.y. root.bw0.y. (
-	12	; serial
+	13	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
 	1024    ; minimum
 )
 
-	1800	NS	bw0.x.s.
-1.1	86400	IN PTR	bw0.x.s.
-1.2	86400	IN PTR	bw0.x.s.
+	1800	NS	bw0.s.
+1.1	86400	IN PTR	bw0.s.
 4.1	86400	IN PTR	uiharu.x.s.
 6.1	86400	IN PTR  liel.x.s.
 64.1	86400	IN PTR	allison.sh.s.
