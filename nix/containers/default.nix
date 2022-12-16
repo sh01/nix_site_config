@@ -56,6 +56,8 @@ in rec {
     wine64Packages.stableFull
     winePackages.stableFull
 
+    lutris-free
+
     # Minecraft 1.12.2
     SH_dep_java8
     # Minecraft 1.18.2
