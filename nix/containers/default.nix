@@ -51,10 +51,8 @@ in rec {
     SH_dep_ggame32
     SH_dep_ggame32_rg
     
-    wine64Packages.fonts
-    winePackages.fonts
-    wine64Packages.stableFull
-    winePackages.stableFull
+    wineWowPackages.fonts
+    wineWowPackages.stableFull
 
     lutris-free
 
