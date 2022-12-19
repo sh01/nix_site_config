@@ -4,9 +4,9 @@
 (prefer-coding-system 'utf-8)
 
 ; ---------------------------------------------------------------- backup files
-; Enable versioned backup files
-(setq make-backup-files t)
-(setq version-control t)
+; Disable backup files
+(setq make-backup-files nil)
+;(setq version-control t)
 
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
@@ -44,8 +44,10 @@
 
 
 (custom-set-variables
- '(c-basic-offset 4)
- '(c-default-style "linux"))
+ '(c-basic-offset 2)
+ '(c-default-style "linux")
+ '(tramp-archive-enabled nil) ;; Blows up on finding an '.exe' dir in a PATH component. Required to work by e.g. python-mode.
+)
 
 ; ---------------------------------------------------------------- Metainfo display
 ; Show line and column numbers in mode line
