@@ -8,7 +8,7 @@ in with pkgs; (callPackage ../base.nix {
   JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
     # base libs.
-    glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2 xz.out gmp
+    glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2.out xz.out gmp
     libpng12 # Portal 1
     # Device access
     libudev
@@ -26,6 +26,7 @@ in with pkgs; (callPackage ../base.nix {
     libX11 libXcomposite libXcursor libXinerama libXrandr libXdamage libXfixes libXau libXdmcp libXi libXScrnSaver libXtst libGL libGLU libXxf86vm libXi libXext libXaw libXmu atk libXft libXt libXrender gdk_pixbuf cairo fontconfig.lib freeglut libSM libICE libdrm
     libxkbcommon libxcb libxshmfence
     libXpm.out
+    vulkan-loader
     # Wayland graphics stuff (why).
     wayland
     # Video playback
