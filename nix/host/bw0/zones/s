@@ -1,5 +1,5 @@
 s.	7200    IN SOA  bw0.s. root.bw0.s. (
-	19	; serial
+	20	; serial
 	128	; refresh
 	128     ; retry
 	128     ; expire
@@ -21,6 +21,7 @@ irc.x		86400   IN	CNAME	liel.x.s.
 allison.sh	86400	IN	A	10.17.1.64
 yalda.sh	86400	IN	A	10.17.1.65
 3dprint.x	600	IN	A	10.17.1.66
+aeonium.x	86400	IN	A	10.17.1.67
 
 jibril.x	86400	IN	A	10.17.1.70
 jibril.x	86400	IN	AAAA	fd9d:1852:3555:200:ff01::7
