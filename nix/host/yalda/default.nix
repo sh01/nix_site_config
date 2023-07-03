@@ -83,6 +83,8 @@ mount /mnt/ys
     extraRules = ''
       # Name network devices statically based on MAC address
       SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="04:d4:c4:57:f9:da", KERNEL=="eth*", NAME="eth_lan"
+      # AMDGPU i2c DDC device
+      SUBSYSTEM=="i2c-dev", ACTION=="add", ATTR{name}=="AMDGPU DM aux hw bus 2", MODE="0660", GROUP="video"
     '';
   };
 
