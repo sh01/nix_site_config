@@ -126,7 +126,17 @@ in {
   services.httpd = {
     enable = true;
     configFile = with apache2; confFile modsDefault [
-      (fVhost "liel.x.s" [fUserdirs fUserdirsCGIsh])
+      (fVhost "liel.x.s" [
+        fUserdirs fUserdirsCGIsh
+        ''
+DocumentRoot /var/www/
+<Location "/lmc">
+  Options Indexes
+  <Limit GET POST OPTIONS>
+    Require all granted
+  </Limit>
+</Location>
+''])
       (fVhost "polis-wiki.s" [
         (fAuth {name="polis-wiki.s"; fn="/etc/www/polis_wiki/auth_digest";})
         (fForward "http://127.0.0.2:8005/")
