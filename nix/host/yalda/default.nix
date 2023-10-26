@@ -66,11 +66,11 @@ mountpoint -q /mnt/ys && exit 0
 dmsetup mknodes
 modprobe bcache
 
-test -e /dev/mapper/ys2 || cryptsetup luksOpen --key-file=/var/crypt/ys0 /dev/md/yalda_ys1 ys1
-for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
+test -e /dev/mapper/ys1 || cryptsetup luksOpen --key-file=yalda_ys1 /dev/bcache/by-uuid/b3f9eb6c-511f-42bf-8542-50fb201fd8c9 ys1
+#for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
   # Already registered disks will throw errors; ignore those
-  echo $disk > /sys/fs/bcache/register || true
-}
+#  echo $disk > /sys/fs/bcache/register || true
+#}
 sleep 2 # wait for kernel to link disk label
 mount /mnt/ys
 '';
@@ -83,6 +83,8 @@ mount /mnt/ys
     extraRules = ''
       # Name network devices statically based on MAC address
       SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="04:d4:c4:57:f9:da", KERNEL=="eth*", NAME="eth_lan"
+      # AMDGPU i2c DDC device
+      SUBSYSTEM=="i2c-dev", ACTION=="add", ATTR{name}=="AMDGPU DM aux hw bus 2", MODE="0660", GROUP="video"
     '';
   };
 
@@ -91,7 +93,7 @@ mount /mnt/ys
     btrfsOpts = baseOpts ++ ["space_cache" "autodefrag"];
   in {
     "/" = { label = "yalda_root"; options=btrfsOpts ++ ["ssd"]; };
-    "/mnt/ys" = { label = "ys0b"; options=btrfsOpts ++ ["noauto"]; };
+    "/mnt/ys" = { device = "/dev/mapper/ys1"; options=btrfsOpts ++ ["noauto"]; };
   };
   
   services.openssh.moduliFile = ./sshd_moduli;

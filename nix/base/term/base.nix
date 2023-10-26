@@ -26,6 +26,12 @@ in {
       #desktopManager.plasma5.enable = true;
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;
+      serverFlagsSection = ''
+Option "BlankTime" "600"
+Option "StandbyTime" "0"
+Option "SuspendTime" "900"
+Option "OffTime" "1800"
+'';
     };
 
     dnsmasq = {
