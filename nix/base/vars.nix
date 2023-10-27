@@ -130,7 +130,7 @@ INET6_AH = yes;
 
 IPV6_SIT = yes;
 IPV6_MULTIPLE_TABLES = yes;
-IPV6_FOU_TUNNEL = yes;
+IPV6_FOU_TUNNEL = mkForce yes;
 
 TCP_CONG_CUBIC = yes;
 DEFAULT_CUBIC = yes;
@@ -149,6 +149,7 @@ MII = yes;
       X86_PKG_TEMP_THERMAL = yes;
       X86_MSR = yes;
       X86_CPUID = yes;
+      X86_AMD_PSTATE = mkForce no;
 };
     base = {
 MODULE_SRCVERSION_ALL = yes;
@@ -240,7 +241,7 @@ EXT3_FS = yes;
 EXT4_FS = yes;
 BTRFS_FS = yes;
 
-ISO9660_FS = yes;
+#ISO9660_FS = yes;
 
 TRUSTED_KEYS = no;
 ENCRYPTED_KEYS = yes;
