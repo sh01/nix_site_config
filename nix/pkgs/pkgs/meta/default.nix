@@ -82,6 +82,7 @@ let P = name: d: derivation {
     bcache-tools
     cryptsetup
     smartmontools
+    nvme-cli
     multipath-tools
     efibootmgr
 
