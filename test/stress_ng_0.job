@@ -1,0 +1,21 @@
+run sequential
+timeout 4096s
+
+timestamp
+metrics
+ignite-cpu
+verify
+tz
+times
+
+matrix -1
+matrix-3d -1
+zlib -1
+skiplist -1
+
+cpu -1
+stream -1
+vm-rw 6
+vm-rw-bytes 4G
+memcpy -1
+tree -1
