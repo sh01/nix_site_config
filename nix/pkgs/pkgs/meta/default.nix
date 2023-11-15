@@ -33,9 +33,9 @@ let P = name: d: derivation {
     rsync
     strace
     ltrace
-    libcap_progs
+    libcap.out
     moreutils
-    sshfsFuse
+    sshfs-fuse
     binutils #strings
     pv
 
@@ -78,7 +78,7 @@ let P = name: d: derivation {
     gnufdisk
     gptfdisk
     dosfstools
-    btrfsProgs
+    btrfs-progs
     bcache-tools
     cryptsetup
     smartmontools
@@ -97,10 +97,10 @@ let P = name: d: derivation {
 
   ### Base documentation
   baseDoc = P "baseDoc" [
-    manpages
-    man_db
+    man-pages
+    man-db
     posix_man_pages
-    libcap_manpages
+    libcap.doc
     ascii
   ];
 

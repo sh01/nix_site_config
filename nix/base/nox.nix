@@ -4,7 +4,7 @@
     gnupg = pkgs.gnupg.override { guiSupport = false; };
     emacs = pkgs.emacs.override { withX = false; withGTK2 = false; withGTK3 = false; };
     "emacs-24.5" = pkgs."emacs-24.5".override { withX = false; withGTK2 = false; withGTK3 = false; };
-    emacsWithPackages = (pkgs.emacsPackagesNgGen emacs).emacsWithPackages;
+    emacsWithPackages = (pkgs.emacsPackagesFor emacs).emacsWithPackages;
     libX11 = mkForce null;
     qemu = pkgs.qemu.override {
       gtkSupport = false;
@@ -24,7 +24,6 @@
     # Borked.
     #pango = pkgs.pango.override { x11Support = false; };
 
-    qt5 = (pkgs.qt5.override { cups = null; postgresql = null; withGtk3 = false; dconf = null; gtk3 = null; libGLSupported = false; });
     qt512 = pkgs.qt512.overrideScope' (_: up: {
       qtwebkit = (up.qtwebkit.overrideAttrs (_: {
         cmakeFlags = ["-DPORT=Qt" "-DENABLE_WEB_AUDIO=OFF" "-DENABLE_VIDEO=OFF" "-DENABLE_WEBGL=OFF" "-DENABLE_LEGACY_WEB_AUDIO=OFF" "-DENABLE_MEDIA_SOURCE=OFF"];
