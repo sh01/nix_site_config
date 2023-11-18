@@ -47,7 +47,6 @@ let P = name: d: derivation {
     unzip
     xz
  
-    python
     python3
     python3Packages.pyusb
     bc
@@ -195,7 +194,6 @@ let P = name: d: derivation {
     xsecurelock
     xss-lock
 
-    pythonFull
     python3Full
   ];
 
