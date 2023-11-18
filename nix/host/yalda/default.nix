@@ -16,6 +16,7 @@ in rec {
     ../../base/term/gaming_box.nix
     ../../base/term/game_pads.nix
     ../../base/site_wi.nix
+    ../../fix
   ];
 
   #boot.kernelPackages = pkgs.linuxPackages_4_11;
