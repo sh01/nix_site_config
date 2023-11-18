@@ -240,8 +240,6 @@ let P = name: d: derivation {
     amarok
     #digikam #broken on marble
 
-    yakuake
-
     kdeplasma-addons
     #pykde4
   ];
@@ -254,7 +252,6 @@ let P = name: d: derivation {
     plasma5.kdecoration
 
     amarok
-    yakuake
     konsole
     kcolorchooser
     kig
@@ -280,7 +277,7 @@ let P = name: d: derivation {
     #warzone2100
   ];
   
-  gui = P "gui" [fonts xorg xlibs guiMisc tilda yakuake konsole (import ../kde_conf) (pkgs.callPackage ../scripts {})];
+  gui = P "gui" [fonts xorg xlibs guiMisc tilda konsole (import ../kde_conf) (pkgs.callPackage ../scripts {})];
 
 
   sys_terminal_wired = P "sys_terminal_wired" [
