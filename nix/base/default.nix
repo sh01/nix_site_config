@@ -127,7 +127,7 @@ in rec {
 
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
-  nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.6" ];
+  nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.7" ];
 
   ##### Nix source and build config
   nix = {
