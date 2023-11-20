@@ -108,7 +108,6 @@ in {
   services.prometheus.exporters.node = (import ../../base/node_exporter.nix);
   nixpkgs.config.packageOverrides = pkgs: {
     gnupg22 = pkgs.gnupg22.override { pcsclite = null; };
-    logrotate = pkgs.logrotate.override { mailutils = null; };
   };
 
   fileSystems = {
