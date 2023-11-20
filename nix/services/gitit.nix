@@ -15,7 +15,7 @@
     no-delete: front, Help
     no-edit:
   '';
-  gititWithPkgs = pkgs.haskellPackages.ghcWithPackages (self: [ self.gitit self ]);
+  gititWithPkgs = pkgs.ghc.withPackages (self: [ self.gitit ]);
 in rec {
   users.users."${uname}" = {
     uid = ugid;
