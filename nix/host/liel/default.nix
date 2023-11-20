@@ -1,6 +1,5 @@
 # liel is a host box
 { config, pkgs, lib, ... }:
-
 let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
@@ -30,7 +29,7 @@ in {
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelParams = ["panic=1" "boot.panic_on_fail"];
+    kernelParams = ["panic=1" "boot.panic_on_fail" "usb-storage.quirks=174c:55aa:u"];
     kernel.sysctl = {
       "net.ipv4.ip_forward" = mkForce true;
       "net.ipv4.conf.all.forwarding" = mkForce true;
@@ -126,7 +125,17 @@ in {
   services.httpd = {
     enable = true;
     configFile = with apache2; confFile modsDefault [
-      (fVhost "liel.x.s" [fUserdirs fUserdirsCGIsh])
+      (fVhost "liel.x.s" [
+        fUserdirs fUserdirsCGIsh
+        ''
+DocumentRoot /var/www/
+<Location "/lmc">
+  Options Indexes
+  <Limit GET POST OPTIONS>
+    Require all granted
+  </Limit>
+</Location>
+''])
       (fVhost "polis-wiki.s" [
         (fAuth {name="polis-wiki.s"; fn="/etc/www/polis_wiki/auth_digest";})
         (fForward "http://127.0.0.2:8005/")
@@ -170,7 +179,7 @@ in {
   };
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia rtanen ratheka openvpn]);
+  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia ilzo ratheka openvpn stash]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "20.09";
