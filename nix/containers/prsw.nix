@@ -7,7 +7,7 @@ let
 in {
   imports = [
     ../base
-    ../base/site_wl.nix
+    ../base/site_wi.nix
     ../base/alsa2pulse.nix
     ./containers_common.nix
   ];

@@ -12,7 +12,7 @@ in {
     ./hardware-configuration.nix
     ../../base
     ../../base/nox.nix
-    ../../base/site_wl.nix
+    ../../base/site_wi.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
   ];

@@ -6,7 +6,7 @@ let
 in {
   imports = [
     ../base
-    ../base/site_wl.nix
+    ../base/site_wi.nix
     ./containers_common.nix
   ];
 

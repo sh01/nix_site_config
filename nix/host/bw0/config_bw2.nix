@@ -15,7 +15,7 @@ in {
     ./monitoring.nix
     ../../base
     ../../base/nox.nix
-    ../../base/site_wl.nix
+    ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
 
