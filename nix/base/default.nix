@@ -46,6 +46,7 @@ in rec {
 
     ne = "PAGER=cat nix-env";
     ns = "PAGER=cat nix-store";
+    nix = "PAGER=cat nix";
     
     jctl = "journalctl -o short-iso";
 
@@ -55,7 +56,7 @@ in rec {
 
   # Local package includes.
   environment.pathsToLink = ["/local"];
-
+  
   programs.zsh = {
     enable = true;
     shellAliases = environment.shellAliases // {
@@ -131,6 +132,9 @@ in rec {
 
   ##### Nix source and build config
   nix = {
+    settings = {
+      experimental-features = "nix-command flakes";
+    };
     allowedUsers = [ "@nix-users" ];
     # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
     # Give it one that allows it to fail-fast, instead.
@@ -180,6 +184,9 @@ fi
     
   #### Nix firewall
   networking = {
+    # Doesn't work right on other hosts due to use of static ifaces.
+    nftables.checkRuleset = false;
+
     usePredictableInterfaceNames = false;
     useNetworkd = false;
     firewall = {
