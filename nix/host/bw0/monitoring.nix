@@ -141,13 +141,15 @@ in rec {
 
   services.grafana = {
     enable = true;
-    auth.anonymous = {
-      enable = true;
-      org_name = "main";
+    settings = {
+      analytics.reporting_enabled = false;
+      "auth.anonymous" = {
+        enabled = true;
+        org_name = "main";
+      };
+      users.allow_sign_up = false;
+      server.http_addr = "0.0.0.0";
     };
-    users.allowSignUp = false;
-    addr = "0.0.0.0";
-    analytics.reporting.enable = false;
   };
   # Influxdb
   /*services.influxdb = {
