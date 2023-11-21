@@ -100,7 +100,7 @@ in rec {
 
     openssh = {
       enable = true;
-      passwordAuthentication = false;
+      settings.PasswordAuthentication = false;
     };
 
     # NTP
@@ -134,14 +134,16 @@ in rec {
   nix = {
     settings = {
       experimental-features = "nix-command flakes";
+      require-sigs = true;
+      trusted-public-keys = lib.mkForce [];
+      trusted-substituters = lib.mkForce [];
+      # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
+      # Give it one that allows it to fail-fast, instead.
+      substituters = ["file:///var/local/nix/cache"];
+
+      cores = 0;
+      allowed-users = [ "@nix-users" ];
     };
-    allowedUsers = [ "@nix-users" ];
-    # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
-    # Give it one that allows it to fail-fast, instead.
-    binaryCaches = ["file:///var/local/nix/cache"];
-    trustedBinaryCaches = [];
-    buildCores = 0;
-    requireSignedBinaryCaches = true;
     #daemonIONiceLevel = 2;
     #daemonNiceLevel = 2;
     daemonCPUSchedPolicy = "idle";

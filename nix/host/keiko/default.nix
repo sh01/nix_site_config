@@ -121,7 +121,6 @@ in {
     supportedFilesystems = ["btrfs"];
     loader.grub = {
       enable = true;
-      version = 2;
       #device = "/dev/disk/by-id/usb-SanDisk_Cruzer_Blade_4C532000070826116035-0:0";
       device = "/dev/disk/by-id/ata-WDC_WD60EFRX-68L0BN1_WD-WX11DB56ZPT9";
       fsIdentifier = "label";

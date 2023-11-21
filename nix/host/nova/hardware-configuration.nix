@@ -10,5 +10,5 @@
   hardware.cpu.intel.updateMicrocode = true;
 
   swapDevices = [];
-  nix.maxJobs = 2;
+  nix.settings.max-jobs = 2;
 }

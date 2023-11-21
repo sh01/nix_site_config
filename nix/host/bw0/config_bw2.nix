@@ -49,7 +49,6 @@ in {
 
     loader.grub = {
       enable = true;
-      version = 2;
       device = "/dev/disk/by-id/ata-JAJMS600M1TB_AB202100000003000921";
       fsIdentifier = "uuid";
       memtest86.enable = true;

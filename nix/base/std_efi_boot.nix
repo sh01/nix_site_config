@@ -23,7 +23,6 @@
     loader.grub = {
       enable = true;
       copyKernels = true;
-      version = 2;
       device = "nodev";
       # memtest86.enable = true;
       splashImage = null;

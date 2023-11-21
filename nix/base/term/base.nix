@@ -89,12 +89,6 @@ if [ -x $LS/setup_user_dirs] . $LS/setup_user_dirs
     blacklistedKernelModules = ["firewire_ohci" "firewire_core" "firewire_sbp2"];
   };
 
-  ### Services
-  services.openssh = {
-    enable = true;
-    passwordAuthentication = false;
-  };
-
   ### User / Group config
   # Define paired user/group accounts.
   # Manually provided passwords are hashed empty strings.

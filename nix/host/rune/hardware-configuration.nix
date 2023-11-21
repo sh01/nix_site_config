@@ -8,6 +8,6 @@
 
   boot.extraModulePackages = [ ];
   swapDevices = [];
-  nix.maxJobs = 4;
+  nix.settings.max-jobs = 4;
   nix.nrBuildUsers = 16;
 }

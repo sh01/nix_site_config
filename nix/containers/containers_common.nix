@@ -7,7 +7,7 @@ in {
   ];
   environment.etc."resolv.conf" = dns.resolvConfCont;
   boot = {
-    tmpOnTmpfs = false;
+    tmp.useTmpfs = false;
     isContainer = true;
   };
 
@@ -32,7 +32,7 @@ fi
   };
   services.openssh = {
     enable = true;
-    permitRootLogin = "prohibit-password";
+    settings.PermitRootLogin = "prohibit-password";
     extraConfig = "AcceptEnv DISPLAY HOME LANG LC_*";
   };
 }

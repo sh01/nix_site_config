@@ -12,5 +12,5 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  nix.maxJobs = 4;
+  nix.settings.max-jobs = 4;
 }

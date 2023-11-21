@@ -37,7 +37,6 @@ in {
     }];
     loader.grub = {
       enable = true;
-      version = 2;
       device = "/dev/sda";
       fsIdentifier = "label";
       memtest86.enable = true;

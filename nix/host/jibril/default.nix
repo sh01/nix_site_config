@@ -57,7 +57,6 @@ in rec {
     loader.grub = {
       enable = true;
       copyKernels = true;
-      version = 2;
       device = "nodev";
       # fsIdentifier = "uuid";
       splashImage = null;
