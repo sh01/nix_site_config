@@ -35,4 +35,5 @@ fi
     settings.PermitRootLogin = "prohibit-password";
     extraConfig = "AcceptEnv DISPLAY HOME LANG LC_*";
   };
+  system.stateVersion = "21.11";
 }
