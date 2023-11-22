@@ -331,11 +331,12 @@ in {
     restrictDefault = [];
     restrictSource = [];
     extraConfig = ''
-    listen on 127.0.0.1
-    listen on ::1
-    listen on 10.17.1.1
-    listen on 10.17.2.1
-    listen on 10.19.4.1
+    nic ignore all
+    nic listen 127.0.0.0/8
+    nic listen ::1/128
+    nic listen 10.17.1.1
+    nic listen 10.17.2.1
+    nic listen 10.19.4.1
     #constraints from "www.google.com"
 '';
   };
