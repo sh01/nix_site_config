@@ -300,7 +300,7 @@ in {
       label = "root";
       device = "/dev/mapper/root";
       fsType = "btrfs";
-      options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
+      options = ["noatime" "nodiratime" "space_cache" "autodefrag" "discard=async"];
     };
     "/boot" = { device = "/dev/disk/by-partlabel/bw2_b0"; options=["noauto" "noatime" "nodiratime"];};
   };
