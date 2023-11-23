@@ -62,6 +62,7 @@ in rec {
     shellAliases = environment.shellAliases // {
       h = "fc -l -i 0";
     };
+    interactiveShellInit = "source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
