@@ -38,6 +38,7 @@ let P = name: d: derivation {
     sshfs-fuse
     binutils #strings
     pv
+    fd
 
     emacs_packages
 
