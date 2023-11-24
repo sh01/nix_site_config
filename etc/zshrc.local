@@ -19,6 +19,7 @@ else
 fi
 
 REPORTTIME=2
+TIMEFMT='%J  %U user %S system %P cpu; %*E wall-clock; %Mk max mem'
 
 setopt incappendhistory notify extended_history hist_ignore_space bsdecho hist_fcntl_lock
 unsetopt beep extendedglob nomatch share_history hist_ignore_dups histfcntllock
