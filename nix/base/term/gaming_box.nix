@@ -34,7 +34,10 @@ in {
       videoDrivers = ["intel" "amdgpu"];
       desktopManager = {
         lxqt.enable = true;
-        xfce.enable = true;
+        xfce = {
+          enable = true;
+          enableScreensaver = false;
+        };
       };
     };
     uptimed.enable = true;
