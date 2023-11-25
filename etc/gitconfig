@@ -6,3 +6,11 @@
 
 [push]
 	default = simple
+
+[init]
+	defaultBranch = master
+
+[diff]
+	diff-algorithm = histogram
+
+
