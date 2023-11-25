@@ -55,7 +55,7 @@ in rec {
   };
 
   # Local package includes.
-  environment.pathsToLink = ["/local"];
+  environment.pathsToLink = ["/local" "/share/local"];
   
   programs.zsh = {
     enable = true;
