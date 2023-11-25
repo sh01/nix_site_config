@@ -33,7 +33,6 @@ in {
     xserver = {
       videoDrivers = ["intel" "amdgpu"];
       desktopManager = {
-        lxqt.enable = true;
         xfce = {
           enable = true;
           enableScreensaver = false;
