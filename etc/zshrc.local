@@ -1,4 +1,4 @@
-HISTFILE=~/.zsh_history
+#HISTFILE=~/.zsh_history
 HISTSIZE=100000
 # Zsh:
 # 1. Stores this in a signed 64bit int

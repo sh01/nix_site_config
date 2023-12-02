@@ -63,6 +63,8 @@ in rec {
       h = "fc -l -i 0";
     };
     interactiveShellInit = "source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+    shellInit = (builtins.readFile ./shell_env.sh);
+    histFile = "$XDG_STATE_HOME/zsh/history";
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
