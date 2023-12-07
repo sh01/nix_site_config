@@ -60,7 +60,7 @@ in rec {
 
   services.prometheus = {
     enable = true;
-    extraFlags = ["--storage.tsdb.retention=128y"];
+    retentionTime = "128y";
     globalConfig = {
       scrape_interval = "32s";
       evaluation_interval = "32s";
