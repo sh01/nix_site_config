@@ -110,7 +110,7 @@ in {
   };
 
   fileSystems = {
-    "/".device = "/dev/mapper/root";
+    "/" = { device = "/dev/mapper/root"; options=["discard" "ssd" "noatime" "nodiratime" "space_cache=v2"];};
     "/boot" = { device = "/dev/disk/by-partlabel/EFI_sys"; options=["noauto" "noatime" "nodiratime"];};
   };
 
