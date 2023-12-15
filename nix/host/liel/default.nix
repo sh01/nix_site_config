@@ -37,6 +37,8 @@ in {
     initrd.luks.devices."root" = {
       device = "/dev/disk/by-partlabel/liel_r0_c";
       keyFile = "/dev/disk/by-partlabel/liel_key0";
+      allowDiscards = true;
+      bypassWorkqueues = true;
     };
   };
 
