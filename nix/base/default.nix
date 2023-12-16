@@ -142,7 +142,10 @@ in rec {
       trusted-substituters = lib.mkForce [];
       # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
       # Give it one that allows it to fail-fast, instead.
-      substituters = ["file:///var/local/nix/cache"];
+      substituters = lib.mkForce ["file:///var/local/nix/cache"];
+      hashed-mirrors = ["https://tarballs.nixos.org"];
+      # Enable easy rebuilding
+      keep-outputs = true;
 
       cores = 0;
       allowed-users = [ "@nix-users" ];
@@ -156,7 +159,6 @@ keep-env-derivations = true
 substitute = false
 build-use-substitutes = false
 trusted-public-keys = foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI=
-substituters = file:///var/local/nix/cache
 '';
   };
   #### Nix setup scripts
