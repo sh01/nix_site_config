@@ -62,6 +62,11 @@ in {
         ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::6"; prefixLength=64;}];
       };
+      "tun_vpn_o" = {
+        virtual = true;
+        virtualOwner = "openvpn";
+        virtualType = "tun";
+      };
     } // c_vpn.ifaces;
 
     nftables = {
