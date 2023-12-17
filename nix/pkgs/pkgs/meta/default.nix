@@ -99,8 +99,6 @@ in with pkgs; rec {
     git
     openssl
     gnupg
-
-    stdenv
   ];
 
   ### Base documentation
@@ -141,6 +139,7 @@ in with pkgs; rec {
   nixBld = P "nixBld" [
     stdenv
     ghc
+    cmake
   ];
     
   dev = P "dev" [
