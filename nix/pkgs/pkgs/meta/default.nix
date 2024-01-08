@@ -46,6 +46,8 @@ in with pkgs; rec {
     binutils #strings
     pv
     fd
+    # nix tools
+    nvd
 
     emacs_packages
 
