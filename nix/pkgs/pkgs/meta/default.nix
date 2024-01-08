@@ -1,11 +1,18 @@
-{pkgs, system}:
-let P = name: d: derivation {
-  name = "SH_M_" + name;
-  system = system;
-  coreutils = pkgs.coreutils;
-  builder = ./store_pue;
-  propagatedUserEnvPkgs = d;
-}; in with pkgs; rec {
+{pkgs, lib, stdenv, system}:
+let P = bname: d: stdenv.mkDerivation (rec {
+    name = "SH_M_" + bname;
+    deps = lib.strings.concatStringsSep " " d;
+    buildInputs = [pkgs.coreutils];
+      unpackPhase = "#";
+      buildPhase = ''
+        RD="$out/local/_reflinks"
+        DD="$out/nix-support"
+        mkdir -p "$RD" "$DD"
+        echo "${deps}" > "$RD/$name"
+        echo "${deps}" > "$DD/propagated-user-env-packages"
+'';
+    });
+in with pkgs; rec {
   emacs_packages = P "emacs_packages" (pkgs.callPackage ../emacs {}).emacsPackages;
 
   ### Base utilities and libraries
@@ -39,6 +46,8 @@ let P = name: d: derivation {
     binutils #strings
     pv
     fd
+    # nix tools
+    nvd
 
     emacs_packages
 
@@ -92,8 +101,6 @@ let P = name: d: derivation {
     git
     openssl
     gnupg
-
-    stdenv
   ];
 
   ### Base documentation
@@ -134,6 +141,7 @@ let P = name: d: derivation {
   nixBld = P "nixBld" [
     stdenv
     ghc
+    cmake
   ];
     
   dev = P "dev" [

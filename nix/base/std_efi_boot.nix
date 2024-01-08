@@ -35,6 +35,6 @@
   fileSystems."/" = {
     label = "root";
     fsType = "btrfs";
-    options = ["noatime" "nodiratime" "space_cache" "autodefrag"];
+    options = ["noatime" "nodiratime"];
   };
 }

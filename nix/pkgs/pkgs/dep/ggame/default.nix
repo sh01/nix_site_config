@@ -38,7 +38,7 @@ in with pkgs; (callPackage ../base.nix {
     glib.out
     icu
     # Audio stuff.
-    alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile.out flac.out libmad fluidsynth
+    alsaLib libpulseaudio openal alsaPlugins libvorbis libogg libsndfile.out flac.out libmad fluidsynth flite
     # Networking
     nss nspr
     # File parsing

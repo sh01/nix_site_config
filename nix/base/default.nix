@@ -55,7 +55,7 @@ in rec {
   };
 
   # Local package includes.
-  environment.pathsToLink = ["/local"];
+  environment.pathsToLink = ["/local" "/share/local"];
   
   programs.zsh = {
     enable = true;
@@ -63,6 +63,8 @@ in rec {
       h = "fc -l -i 0";
     };
     interactiveShellInit = "source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+    shellInit = (builtins.readFile ./shell_env.sh);
+    histFile = "$XDG_STATE_HOME/zsh/history";
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
@@ -138,9 +140,13 @@ in rec {
       require-sigs = true;
       trusted-public-keys = lib.mkForce [];
       trusted-substituters = lib.mkForce [];
+      #use-xdg-base-directories = true;
       # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
       # Give it one that allows it to fail-fast, instead.
-      substituters = ["file:///var/local/nix/cache"];
+      substituters = lib.mkForce ["file:///var/local/nix/cache"];
+      hashed-mirrors = ["https://tarballs.nixos.org"];
+      # Enable easy rebuilding
+      keep-outputs = true;
 
       cores = 0;
       allowed-users = [ "@nix-users" ];
@@ -154,7 +160,6 @@ keep-env-derivations = true
 substitute = false
 build-use-substitutes = false
 trusted-public-keys = foo:uX203jWszivwkcB7Ig0EjJKnu38oIgbNw01e1M4GGtI=
-substituters = file:///var/local/nix/cache
 '';
   };
   #### Nix setup scripts

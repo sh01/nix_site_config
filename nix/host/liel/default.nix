@@ -37,6 +37,8 @@ in {
     initrd.luks.devices."root" = {
       device = "/dev/disk/by-partlabel/liel_r0_c";
       keyFile = "/dev/disk/by-partlabel/liel_key0";
+      allowDiscards = true;
+      bypassWorkqueues = true;
     };
   };
 
@@ -59,6 +61,11 @@ in {
         ipv4.addresses = [{ address = "10.17.1.6"; prefixLength = 24; }];
         ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
         ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::6"; prefixLength=64;}];
+      };
+      "tun_vpn_o" = {
+        virtual = true;
+        virtualOwner = "openvpn";
+        virtualType = "tun";
       };
     } // c_vpn.ifaces;
 
@@ -110,7 +117,7 @@ in {
   };
 
   fileSystems = {
-    "/".device = "/dev/mapper/root";
+    "/" = { device = "/dev/mapper/root"; options=["discard" "ssd" "noatime" "nodiratime" "space_cache=v2"];};
     "/boot" = { device = "/dev/disk/by-partlabel/EFI_sys"; options=["noauto" "noatime" "nodiratime"];};
   };
 

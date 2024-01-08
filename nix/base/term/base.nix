@@ -22,8 +22,13 @@ in {
       };
       libinput.enable = true;
 
-      #windowManager.awesome.enable = true;
-      #desktopManager.plasma5.enable = true;
+      desktopManager = {
+        xfce = {
+          enable = true;
+          enableScreensaver = false;
+        };
+      };
+
       # Broken 2016-04-24 16.03.581.e409886
       #exportConfiguration = true;
       serverFlagsSection = ''

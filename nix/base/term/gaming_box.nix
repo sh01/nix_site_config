@@ -30,13 +30,7 @@ in {
   environment.etc = nft.env_conf_terminal;
 
   services = {
-    xserver = {
-      videoDrivers = ["intel" "amdgpu"];
-      desktopManager = {
-        lxqt.enable = true;
-        xfce.enable = true;
-      };
-    };
+    xserver.videoDrivers = ["intel" "amdgpu"];
     uptimed.enable = true;
     prometheus.exporters.node = (import ../../base/node_exporter.nix);
     ntp = {
