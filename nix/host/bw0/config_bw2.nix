@@ -82,7 +82,7 @@ in {
       #};
       "eth_o4" = {
         ipv6.addresses = [
-          { address = "fd9d:1852:3555:200:ff00::1"; prefixLength = 64;}
+          { address = "fd9d:1852:3555:1200:ff00::1"; prefixLength = 64;}
         ];
       };
       "eth_l_wired" = {
@@ -126,8 +126,9 @@ in {
     # defaultGateway = "10.19.4.2";
 
     dhcpcd = {
-        enable = true;
-        extraConfig = ''
+      enable = true;
+      allowInterfaces = ["eth_wan0" "eth_wan1"];
+      extraConfig = ''
           nodelay
           hostname_short
           nogateway
@@ -145,9 +146,9 @@ in {
             #dhcp6
             #ia_na
             #ipv6rs
-        '';
+      '';
 
-        runHook = with pkgs; ''
+      runHook = with pkgs; ''
           PATH=$PATH:${iproute}/bin:${coreutils}/bin
           #/usr/bin/env > "/tmp/t0/$$"
           if [[ "$interface" = "eth_wan0" ]]; then
@@ -181,7 +182,7 @@ in {
             ip route flush table "''${TABLE}";
           fi
           exit 0
-        '';
+      '';
     };
 
     iproute2 = {
