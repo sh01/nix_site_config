@@ -152,6 +152,8 @@ MII = yes;
       X86_AMD_PSTATE = mkForce no;
 };
     base = {
+SND_SOC_INTEL_SOUNDWIRE_SOF_MACH = mkForce (option module); # workaround
+
 MODULE_SRCVERSION_ALL = yes;
 
 UNWINDER_ORC = yes;
