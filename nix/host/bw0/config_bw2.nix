@@ -232,10 +232,11 @@ in {
   };
   environment.etc."resolv.conf" = dns.resolvConf;
 
-  services.dhcpd4 = {
-    enable = true;
-    configFile = ./dhcpd4.conf;
-    interfaces = ["eth_l_wired" "eth_l_wifi" "eth_l_wifi_g"];
+  services.kea = {
+    dhcp4 = {
+      enable = true;
+      settings = (import ./kea-dhcp4.nix);
+    };
   };
 
   services.radvd = {
