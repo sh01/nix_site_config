@@ -1,7 +1,7 @@
 let
   optDef = r: [
-    {name = "routers"; data = "10.17.1." + r;}
-    {name = "domain-name-servers"; data = "10.17.1.1";}
+    {name = "routers"; data = "10.17." + r + ".1";}
+    {name = "domain-name-servers"; data = "10.17." + r + ".1";}
   ];
   optSearch = [
     {name = "domain-search"; data = "x.s., s.";}
@@ -71,6 +71,10 @@ in {
           
           (R "28:3a:4d:50:1a:67" "10.17.2.13" "misc_print1")
           (R "8c:0e:60:03:0f:00" "10.17.2.3"  "ap_1")
+
+          # 74:f9:ca:ed:c1:33 switch
+          # 88:54:1f:34:de:f8 sh-an
+          # f4:f5:e8:5a:09:64 ccast
         ];
       } {
         id = 4;
