@@ -9,7 +9,12 @@ let
   R = hw: ip: hn: {"hostname" = hn; "hw-address" = hw; "ip-address" = ip;};
   Re = h: i: (R ("06:ff:ff:80:00:" + h) ("10.17.8." + i) ("snode-" + i));
 in {
+    "renew-timer" = 3600;
     "valid-lifetime" = 4194304;
+    "control-socket" = {
+      "socket-name" = "/run/kea/ctrl.sock";
+      "socket-type" = "unix";
+    };
     "interfaces-config" = {
       "dhcp-socket-type" = "raw";
       "interfaces" = [ "eth_l_wired/10.17.1.1" "eth_l_wifi" "eth_l_wifi_g" ];
@@ -18,6 +23,7 @@ in {
       type = "memfile";
       persist = true;
       name = "/var/lib/kea/dhcp4.leases";
+      "lfc-interval" = 8192;
     };
     "shared-networks" = [
       {
