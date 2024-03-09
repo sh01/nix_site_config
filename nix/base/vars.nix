@@ -360,6 +360,7 @@ DRM_KMS_HELPER = option yes;
 DRM_I915 = module;
 AMD_IOMMU_V2 = yes;
 DRM_AMDGPU = module;
+I2C_CHARDEV = yes; # DDC monitor control
 
 FRAMEBUFFER_CONSOLE = yes;
 FRAMEBUFFER_CONSOLE_DETECT_PRIMARY = yes;
