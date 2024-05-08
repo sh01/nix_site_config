@@ -91,7 +91,7 @@ in {
   # powerManagement.cpuFreqGovernor = "powersave";
 
   ### System profile packages
-  environment.systemPackages = with pkgs; with (callPackage ../../pkgs/pkgs/meta {}); [
+  environment.systemPackages = with pkgs; with (callPackage ../../pkgs/pkgs/meta {}); with (callPackage ../../pkgs {}); [
     base
     cliStd
     moreutils
@@ -106,6 +106,7 @@ in {
     prometheus
     openntpd
     uptimed
+    planarally
   ];
 
   sound.enable = false;
