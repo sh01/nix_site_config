@@ -118,7 +118,6 @@ resolv-retry infinite
 persist-key
 persist-tun
 remote-cert-tls server
-comp-lzo
 reneg-sec 0
 fast-io
 
