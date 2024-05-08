@@ -12,7 +12,8 @@ let
     start_nix = callPackage ./pkgs/start_nix {};
 
     nft_prom = callPackage ./pkgs/nft_prom {};
-
+    planarally = callPackage ./pkgs/planarally {};
+    
     SH_blk_chk = callPackage ./pkgs/blk_chk {};
     SH_scripts = callPackage ./pkgs/scripts {};
     SH_sys_scripts = callPackage ./pkgs/sys_scripts {};
