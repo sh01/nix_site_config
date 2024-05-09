@@ -1,4 +1,4 @@
-{ pkgs, sysPkgs, lib, cAddr, ... }:
+{ pkgs, sysPkgs, lib, upAddr, cAddr, ... }:
 let
   inherit (lib) mkForce;
   vars = pkgs.callPackage ../base/vars.nix {};
@@ -52,6 +52,7 @@ in {
       enable = true;
       rttablesExtraConfig = "16 ${rtable}";
     };
+    defaultGateway.address = upAddr;
     localCommands = ''
 ${pkgs.openvpn}/bin/openvpn --mktun --dev "${ifname}"
 ip rule add from "${cAddr}" lookup "${rtable}" 

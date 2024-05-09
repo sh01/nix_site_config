@@ -16,9 +16,9 @@ let
     "/dev/input".isReadOnly = true;
     "/run/udev/data".isReadOnly = true;
   };
+  chAddr = num: "10.231.1." + num;
   net = num: {
-    hostAddress = "10.231.1.1";
-    localAddress = "10.231.1." + num;
+    localAddress = (chAddr num) + "/24";
     privateNetwork = true;
   };
   lpkgs = pkgs.callPackage ../pkgs {};
@@ -118,15 +118,15 @@ in rec {
   };
 
   c_vpn = rec {
-    upAddr = (net "1").localAddress;
+    upAddr = (chAddr "1");
     vNet = (net "5");
-    vAddr = vNet.localAddress;
+    vAddr = (chAddr "5");
     cNet = (net "6");
-    cAddr = cNet.localAddress;
+    cAddr = (chAddr "6");
     brDev = "lc_br_vu";
     cont = inCfg: {
       "vpn-up" = {
-        config = (import ./vpn_up.nix {inherit lib pkgs cAddr; sysPkgs = sysPkgsBase;});
+        config = (import ./vpn_up.nix {inherit lib pkgs upAddr cAddr; sysPkgs = sysPkgsBase;});
         enableTun = true;
         autoStart = true;
         hostBridge = brDev;
