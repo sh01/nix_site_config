@@ -10,14 +10,16 @@ let
   frClear = pkgs.writeShellScript "clear_routes" ''
     PATH=$PATH:${pkgs.iproute2}/bin
     ip route flush table "${rtable}"
-    ip route add throw 10.16.0.0/15 table "${rtable}"
+    ip route add throw 10.17.0.0/16 table "${rtable}"
+    ip route add throw 10.231.0.0/16 table "${rtable}"
     ip route add table up_vpn blackhole default
 '';
   frSet = pkgs.writeShellScript "set_routes" ''
     PATH=$PATH:${pkgs.iproute2}/bin
     ip route flush table "${rtable}"
     ip route add "''${route_vpn_gateway}" dev "${ifname}"
-    ip route add throw 10.16.0.0/15 table "${rtable}"
+    ip route add throw 10.17.0.0/16 table "${rtable}"
+    ip route add throw 10.231.0.0/16 table "${rtable}"
     ip route add table "${rtable}" default via "''${route_vpn_gateway}"
 '';
 in {
