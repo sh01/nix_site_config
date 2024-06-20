@@ -82,6 +82,42 @@ in {
 
   systemd = {
     enableEmergencyMode = false;
+    services = {
+      SH_mount_liel_ext = {
+        partOf = ["multi-user.target"];
+        wantedBy = ["container@vpn-in.service"];
+        before = ["container@vpn-in.service"];
+        startLimitIntervalSec = 2;
+        serviceConfig = {
+          Restart = "on-failure";
+        };
+        path = with pkgs; [coreutils eject lvm2 kmod cryptsetup utillinux];
+        script = ''
+PART=/dev/disk/by-partlabel/liel_s0_vb
+LVOL=s0_v
+
+echo "Checking dm-mapper dev..."
+if [ ! -e "/dev/mapper/$LVOL" ]; then
+    if [ ! -e "$PART" ]; then
+      echo "Part not ready: $PART"
+      exit 100
+    fi
+    cryptsetup luksOpen --key-file /var/auth/v/s0_vb "$PART" "$LVOL"
+    sleep 2;
+fi
+
+echo "Checking cryptpart mount..."
+MP=/mnt/s0
+mountpoint "$MP" || mount /dev/mapper/s0_vg-s0 "$MP"
+
+echo "Checking bind mount..."
+MBP=/var/lib/containers/vpn-in/var/lib/transmission/d
+mountpoint "$MBP" || mount --bind /mnt/s0/liel/media_gshare/d/ "$MBP"
+
+echo "Done."
+'';
+      };
+    };
   };
   services.udev.extraRules = (builtins.readFile ./udev.rules);
 
