@@ -90,6 +90,27 @@ ip addr show eth_lan up
 test -n "$(ip addr show eth_lan up)"
 '';
       };
+      "SH_disks" = rec {
+        wantedBy = ["multi-user.target"];
+        wants = ["multipathd.service"];
+        after = wants;
+        startLimitIntervalSec = 8;
+        serviceConfig = {
+          Restart = "on-failure";
+          RemainAfterExit = "yes";
+        };
+        path = with pkgs; [coreutils multipath-tools lvm2];
+        script = ''
+# dep multipathd.service
+for p in /dev/disk/by-id/dm-name-3500*; do
+    kpartx -a -v "$p"
+done
+
+sleep 1
+vgchange -ay a7
+test -e /dev/mapper/a7-main
+'';
+      };
     };
   };
   
