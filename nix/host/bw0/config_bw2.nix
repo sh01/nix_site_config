@@ -80,11 +80,11 @@ in {
       #  ipv4.addresses = [{ address = "10.19.4.1"; prefixLength = 24;}];
       #  ipv6.addresses = [{ address = "fd9d:1852:3555:1200::1"; prefixLength = 80;}];
       #};
-      "eth_o4" = {
-        ipv6.addresses = [
-          { address = "fd9d:1852:3555:1200:ff00::1"; prefixLength = 64;}
-        ];
-      };
+      #"eth_o4" = {
+      #  ipv6.addresses = [
+      #    { address = "fd9d:1852:3555:1200:ff00::1"; prefixLength = 64;}
+      #  ];
+      #};
       "eth_l_wired" = {
         ipv4 = {
           addresses = [
@@ -260,12 +260,14 @@ in {
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
 
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e4", KERNEL=="eth*", NAME="eth_wan0"
+    # physically: "lan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e4", KERNEL=="eth*", NAME="eth_o_borked"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e5", KERNEL=="eth*", NAME="eth_wan1"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e6", KERNEL=="eth*", NAME="eth_l_wired"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e7", KERNEL=="eth*", NAME="eth_l_wifi"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e8", KERNEL=="eth*", NAME="eth_l_wifi_g"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e9", KERNEL=="eth*", NAME="eth_o4"
+    # physically: "opt4"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e9", KERNEL=="eth*", NAME="eth_wan0"
   '';
 
   # intel_pstate cpufreq driver, on a HWP CPU.
