@@ -108,7 +108,7 @@ in rec {
         metric_relabel_configs = [
           {
             source_labels = ["__name__"];
-            regex = "process_|jvm_(classes_currently_loaded|buffer_pool_used_bytes|memory_bytes_committed)|mc_(entities_total|server_tick_seconds_(count|sum)|dimension_chunks_loaded|dimension_tick_seconds_(count|sum))";
+            regex = "process_.*|jvm_(classes_currently_loaded|buffer_pool_used_bytes|memory_bytes_committed)|mc_(entities_total|server_tick_seconds_(count|sum)|dimension_chunks_loaded|dimension_tick_seconds_(count|sum)|player_list)";
             action = "keep";
           }
         ];
