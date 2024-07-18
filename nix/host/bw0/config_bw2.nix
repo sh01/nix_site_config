@@ -253,13 +253,16 @@ in {
   # Name network devices statically based on MAC address
   # Ports, in order: "wan", "lan", "o1", "o2", "o3", "o4"
   services.udev.extraRules = ''
+    # == bw0
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan0"
+    # phy: wan
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_wan1"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_l_wifi_g"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
 
+    # == bw2
     # physically: "lan"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e4", KERNEL=="eth*", NAME="eth_o_borked"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e5", KERNEL=="eth*", NAME="eth_wan1"
