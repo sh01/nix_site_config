@@ -3,7 +3,30 @@
 
 let
   inherit (pkgs) callPackage;
-  cont = callPackage ../../containers {};
+  llib = callPackage ../../lib {inherit pkgs;};
+  cont = callPackage ../../containers {
+    emounts = {
+      "/mnt/ys1/c".isReadOnly = false;
+    };
+    extraSrv = (llib.startupScriptC {name="mount_userdirs"; script=''
+mountpoint -q /home/prsw/sh/vg && exit 1
+
+BASE=/mnt/ys1/c
+mountpoint -q "$BASE" || exit 1
+
+for pa in "/home/prsw" "/home/prsw_net"; do
+  for pb in "sh"; do
+    for pc in "vg" ".wine/drive_c"; do
+      P="$pa/$pb/$pc"
+      if [ ! -e "$P" ]; then
+        continue
+      fi
+      echo "== $P"
+      mount --bind "$BASE$P" "$P"
+    done
+  done
+done'';});
+  };
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
   lpkgs = (import ../../pkgs {});
   ucode = (pkgs.callPackage ../../base/default_ucode.nix {});

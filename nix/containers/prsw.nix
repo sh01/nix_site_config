@@ -1,4 +1,4 @@
-{ pkgs, sysPkgs, rks, uks, ... }:
+{ pkgs, sysPkgs, rks, uks, services, ... }:
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
@@ -11,6 +11,8 @@ in {
     ../base/alsa2pulse.nix
     ./containers_common.nix
   ];
+
+  systemd.services = services;
 
   hardware.opengl = {
     enable = true;
