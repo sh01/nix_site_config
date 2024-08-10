@@ -100,8 +100,8 @@ in rec {
       autoStart = true;
       bindMounts = {
         "/home/prsw" = {
-	  hostPath = "/home/prsw";
-	  isReadOnly = false;
+          hostPath = "/home/prsw";
+          isReadOnly = false;
         };
       } // bbMounts // devMounts;
     } // devAllow // (net "3");
@@ -110,9 +110,9 @@ in rec {
       autoStart = true;
       bindMounts = {
         "/home/prsw_net" = {
-	  hostPath = "/home/prsw_net";
-	  isReadOnly = false;
-	};
+          hostPath = "/home/prsw_net";
+          isReadOnly = false;
+        };
       } // bbMounts // devMounts;
     } // devAllow // (net "4");
   };
