@@ -31,4 +31,12 @@ with pkgs.lib; rec {
   };
 
   lpkgs = (pkgs.callPackage ../../pkgs {});
+  
+  startupScriptC = {name, script}: {
+    "SH_${name}" = {
+      wantedBy = ["multi-user.target"];
+      path = with pkgs; [coreutils eject lvm2 kmod cryptsetup utillinux];
+      script = script;
+    };
+  };
 }

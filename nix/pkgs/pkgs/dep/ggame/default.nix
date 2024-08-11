@@ -33,6 +33,7 @@ in with pkgs; (callPackage ../base.nix {
     smpeg
     ## toolkits
     # gnome3.gtk
+    ncurses5
     gnome2.GConf pango.out glib gtk2-x11
     python3Packages.pygame python3Packages.pygame_sdl2 python3Packages.pygame-gui
     glib.out

@@ -1,4 +1,4 @@
-{pkgs, lib, ...}:
+{pkgs, lib, emounts?{}, extraSrv?{}, ...}:
 let
   bbMounts = {
     "/tmp/.X11-unix" = {
@@ -10,7 +10,7 @@ let
     #};
     "/home/stash".isReadOnly = true;
     "/run/pulse".isReadOnly = false;
-  };
+  } // emounts;
   devMounts = {
     "/dev/dri".isReadOnly = true;
     "/dev/input".isReadOnly = true;
@@ -86,7 +86,7 @@ in rec {
 
   c = rks: uks: {
     browsers = {
-      config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase;};
+      config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase; services = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/browsers" = {
@@ -96,23 +96,23 @@ in rec {
       } // bbMounts;
     } // (net "2");
     prsw = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; services = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw" = {
-	  hostPath = "/home/prsw";
-	  isReadOnly = false;
+          hostPath = "/home/prsw";
+          isReadOnly = false;
         };
       } // bbMounts // devMounts;
     } // devAllow // (net "3");
     "prsw-net" = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; services = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw_net" = {
-	  hostPath = "/home/prsw_net";
-	  isReadOnly = false;
-	};
+          hostPath = "/home/prsw_net";
+          isReadOnly = false;
+        };
       } // bbMounts // devMounts;
     } // devAllow // (net "4");
   };
