@@ -116,9 +116,9 @@ mount /mnt/ys
 
   fileSystems = let
     baseOpts = ["noatime" "nodiratime"];
-    btrfsOpts = baseOpts ++ ["space_cache" "autodefrag"];
+    btrfsOpts = baseOpts ++ ["space_cache=v2" "autodefrag" "ssd" "discard=async"];
   in {
-    "/" = { label = "yalda_root"; options=btrfsOpts ++ ["ssd"]; };
+    "/" = { label = "yalda_root"; options=btrfsOpts; };
     "/mnt/ys" = { device = "/dev/mapper/ys1"; options=btrfsOpts ++ ["noauto"]; };
   };
   
