@@ -101,6 +101,17 @@ in rec {
 "5.sens.s.:80"
           ];}
         ];
+      } {
+        job_name = "jibril_mc0";
+        scrape_interval = "64s";
+        static_configs = [{ targets = ["jibril.x.s:20004"]; }];
+        metric_relabel_configs = [
+          {
+            source_labels = ["__name__"];
+            regex = "process_.*|jvm_(classes_currently_loaded|buffer_pool_used_bytes|memory_bytes_committed)|mc_(entities_total|server_tick_seconds_(count|sum)|dimension_chunks_loaded|dimension_tick_seconds_(count|sum)|player_list)";
+            action = "keep";
+          }
+        ];
       }
     ];
     exporters = {
