@@ -295,7 +295,7 @@ in {
     influxdb
     openntpd
     uptimed
-    dhcp
+    #dhcp
   ];
 
   sound.enable = false;

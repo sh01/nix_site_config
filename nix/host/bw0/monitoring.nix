@@ -177,15 +177,4 @@ in rec {
     };
   };
   systemd.services.influxdb.postStart = lib.mkForce "";*/
-
-  # Fix flake test error at 18.9 by overriding running of borked test cases.
-  #nixpkgs.config.packageOverrides = super: {
-    # Prometheus fixes
-    #python27 = super.python27.override {
-      #packageOverrides = python-self: python-super: {
-        #pyopenssl = python-super.pyopenssl.overridePythonAttrs (old: { doCheck = false;} );
-      #};
-    #};
-    #prometheus_2 = super.prometheus_2.overrideAttrs (old: { doCheck = false; });
-  #};
 }

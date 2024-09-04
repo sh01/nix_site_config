@@ -352,7 +352,7 @@ SND_TIMER = yes;
     
     # It's typically fine to keep these as modules instead, which NixOS will do by default.
     termVideo = {
-AGP = no;
+AGP = mkForce no;
 I2C_ALGOBIT = yes;
 DRM = yes;
 DRM_SCHED = option yes;
