@@ -48,6 +48,7 @@ in with pkgs; rec {
     fd
     # nix tools
     nvd
+    nix-output-monitor
 
     emacs_packages
 
