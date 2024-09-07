@@ -35,6 +35,7 @@ PATH=$PATH:${pkgs.iproute2}/bin
 ip route replace ${vAddr} dev eth0
 ip route replace default via ${vAddr} metric 0
 '';
+    defaultGateway.address = ''${vAddr}'';
 	};
 
   services = {

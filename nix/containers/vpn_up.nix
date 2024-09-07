@@ -1,4 +1,4 @@
-{ pkgs, sysPkgs, lib, cAddr, ... }:
+{ pkgs, sysPkgs, lib, upAddr, cAddr, ... }:
 let
   inherit (lib) mkForce;
   vars = pkgs.callPackage ../base/vars.nix {};
@@ -10,14 +10,16 @@ let
   frClear = pkgs.writeShellScript "clear_routes" ''
     PATH=$PATH:${pkgs.iproute2}/bin
     ip route flush table "${rtable}"
-    ip route add throw 10.16.0.0/15 table "${rtable}"
+    ip route add throw 10.17.0.0/16 table "${rtable}"
+    ip route add throw 10.231.0.0/16 table "${rtable}"
     ip route add table up_vpn blackhole default
 '';
   frSet = pkgs.writeShellScript "set_routes" ''
     PATH=$PATH:${pkgs.iproute2}/bin
     ip route flush table "${rtable}"
     ip route add "''${route_vpn_gateway}" dev "${ifname}"
-    ip route add throw 10.16.0.0/15 table "${rtable}"
+    ip route add throw 10.17.0.0/16 table "${rtable}"
+    ip route add throw 10.231.0.0/16 table "${rtable}"
     ip route add table "${rtable}" default via "''${route_vpn_gateway}"
 '';
 in {
@@ -50,6 +52,7 @@ in {
       enable = true;
       rttablesExtraConfig = "16 ${rtable}";
     };
+    defaultGateway.address = upAddr;
     localCommands = ''
 ${pkgs.openvpn}/bin/openvpn --mktun --dev "${ifname}"
 ip rule add from "${cAddr}" lookup "${rtable}" 
@@ -118,7 +121,6 @@ resolv-retry infinite
 persist-key
 persist-tun
 remote-cert-tls server
-comp-lzo
 reneg-sec 0
 fast-io
 

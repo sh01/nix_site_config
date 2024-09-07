@@ -80,11 +80,11 @@ in {
       #  ipv4.addresses = [{ address = "10.19.4.1"; prefixLength = 24;}];
       #  ipv6.addresses = [{ address = "fd9d:1852:3555:1200::1"; prefixLength = 80;}];
       #};
-      "eth_o4" = {
-        ipv6.addresses = [
-          { address = "fd9d:1852:3555:200:ff00::1"; prefixLength = 64;}
-        ];
-      };
+      #"eth_o4" = {
+      #  ipv6.addresses = [
+      #    { address = "fd9d:1852:3555:1200:ff00::1"; prefixLength = 64;}
+      #  ];
+      #};
       "eth_l_wired" = {
         ipv4 = {
           addresses = [
@@ -126,8 +126,9 @@ in {
     # defaultGateway = "10.19.4.2";
 
     dhcpcd = {
-        enable = true;
-        extraConfig = ''
+      enable = true;
+      allowInterfaces = ["eth_wan0" "eth_wan1"];
+      extraConfig = ''
           nodelay
           hostname_short
           nogateway
@@ -145,9 +146,9 @@ in {
             #dhcp6
             #ia_na
             #ipv6rs
-        '';
+      '';
 
-        runHook = with pkgs; ''
+      runHook = with pkgs; ''
           PATH=$PATH:${iproute}/bin:${coreutils}/bin
           #/usr/bin/env > "/tmp/t0/$$"
           if [[ "$interface" = "eth_wan0" ]]; then
@@ -181,7 +182,7 @@ in {
             ip route flush table "''${TABLE}";
           fi
           exit 0
-        '';
+      '';
     };
 
     iproute2 = {
@@ -231,10 +232,11 @@ in {
   };
   environment.etc."resolv.conf" = dns.resolvConf;
 
-  services.dhcpd4 = {
-    enable = true;
-    configFile = ./dhcpd4.conf;
-    interfaces = ["eth_l_wired" "eth_l_wifi" "eth_l_wifi_g"];
+  services.kea = {
+    dhcp4 = {
+      enable = true;
+      settings = (import ./kea-dhcp4.nix);
+    };
   };
 
   services.radvd = {
@@ -251,19 +253,24 @@ in {
   # Name network devices statically based on MAC address
   # Ports, in order: "wan", "lan", "o1", "o2", "o3", "o4"
   services.udev.extraRules = ''
+    # == bw0
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0c", KERNEL=="eth*", NAME="eth_wan0"
+    # phy: wan
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0d", KERNEL=="eth*", NAME="eth_wan1"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0e", KERNEL=="eth*", NAME="eth_l_wired"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:0f", KERNEL=="eth*", NAME="eth_l_wifi"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_o3"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:10", KERNEL=="eth*", NAME="eth_l_wifi_g"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:1a:5e:11", KERNEL=="eth*", NAME="eth_o4"
 
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e4", KERNEL=="eth*", NAME="eth_wan0"
+    # == bw2
+    # physically: "lan"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e4", KERNEL=="eth*", NAME="eth_o_borked"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e5", KERNEL=="eth*", NAME="eth_wan1"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e6", KERNEL=="eth*", NAME="eth_l_wired"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e7", KERNEL=="eth*", NAME="eth_l_wifi"
     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e8", KERNEL=="eth*", NAME="eth_l_wifi_g"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e9", KERNEL=="eth*", NAME="eth_o4"
+    # physically: "opt4"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:e0:67:2c:c5:e9", KERNEL=="eth*", NAME="eth_wan0"
   '';
 
   # intel_pstate cpufreq driver, on a HWP CPU.
@@ -288,7 +295,7 @@ in {
     influxdb
     openntpd
     uptimed
-    dhcp
+    #dhcp
   ];
 
   sound.enable = false;

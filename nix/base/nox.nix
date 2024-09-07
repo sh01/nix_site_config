@@ -20,7 +20,7 @@
     #  };
     #};
     # Pulled in indirectly for documentation compilation by build environments.
-    cairo = pkgs.cairo.override { x11Support = true; libGLSupported = false; glSupport = false; libGL = false; pdfSupport = false; };
+    cairo = pkgs.cairo.override { x11Support = true; };
     # Borked.
     #pango = pkgs.pango.override { x11Support = false; };
 

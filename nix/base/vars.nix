@@ -152,6 +152,8 @@ MII = yes;
       X86_AMD_PSTATE = mkForce no;
 };
     base = {
+SND_SOC_INTEL_SOUNDWIRE_SOF_MACH = mkForce (option module); # workaround
+
 MODULE_SRCVERSION_ALL = yes;
 
 UNWINDER_ORC = yes;
@@ -350,7 +352,7 @@ SND_TIMER = yes;
     
     # It's typically fine to keep these as modules instead, which NixOS will do by default.
     termVideo = {
-AGP = no;
+AGP = mkForce no;
 I2C_ALGOBIT = yes;
 DRM = yes;
 DRM_SCHED = option yes;

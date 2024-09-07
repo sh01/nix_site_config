@@ -60,7 +60,7 @@ in rec {
 
   services.prometheus = {
     enable = true;
-    extraFlags = ["--storage.tsdb.retention=128y"];
+    retentionTime = "128y";
     globalConfig = {
       scrape_interval = "32s";
       evaluation_interval = "32s";
@@ -100,6 +100,17 @@ in rec {
 "4.sens.s.:80"
 "5.sens.s.:80"
           ];}
+        ];
+      } {
+        job_name = "jibril_mc0";
+        scrape_interval = "64s";
+        static_configs = [{ targets = ["jibril.x.s:20004"]; }];
+        metric_relabel_configs = [
+          {
+            source_labels = ["__name__"];
+            regex = "process_.*|jvm_(classes_currently_loaded|buffer_pool_used_bytes|memory_bytes_committed)|mc_(entities_total|server_tick_seconds_(count|sum)|dimension_chunks_loaded|dimension_tick_seconds_(count|sum)|player_list)";
+            action = "keep";
+          }
         ];
       }
     ];
@@ -166,15 +177,4 @@ in rec {
     };
   };
   systemd.services.influxdb.postStart = lib.mkForce "";*/
-
-  # Fix flake test error at 18.9 by overriding running of borked test cases.
-  #nixpkgs.config.packageOverrides = super: {
-    # Prometheus fixes
-    #python27 = super.python27.override {
-      #packageOverrides = python-self: python-super: {
-        #pyopenssl = python-super.pyopenssl.overridePythonAttrs (old: { doCheck = false;} );
-      #};
-    #};
-    #prometheus_2 = super.prometheus_2.overrideAttrs (old: { doCheck = false; });
-  #};
 }

@@ -3,6 +3,7 @@
 
 let
   inherit (pkgs) callPackage;
+  inherit (lib) mkForce;
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = callPackage ../../lib {};
   vars = callPackage ../../base/vars.nix {};
@@ -72,6 +73,47 @@ in {
     uptimed
   ];
 
+  systemd = {
+    services = {
+      # Hack around nix issues with bringing up eth_lan in this config
+      "SH_force_eth" = {
+        wantedBy = ["multi-user.target"];
+        wants = ["network-addresses-eth_lan.service"];
+        startLimitIntervalSec = 8;
+        serviceConfig = {
+          Restart = "on-failure";
+          RemainAfterExit = "yes";
+        };
+        path = with pkgs; [coreutils iproute2];
+        script = ''
+ip addr show eth_lan up
+test -n "$(ip addr show eth_lan up)"
+'';
+      };
+      "SH_disks" = rec {
+        wantedBy = ["multi-user.target"];
+        wants = ["multipathd.service"];
+        after = wants;
+        startLimitIntervalSec = 8;
+        serviceConfig = {
+          Restart = "on-failure";
+          RemainAfterExit = "yes";
+        };
+        path = with pkgs; [coreutils multipath-tools lvm2];
+        script = ''
+# dep multipathd.service
+for p in /dev/disk/by-id/dm-name-3500*; do
+    kpartx -a -v "$p"
+done
+
+sleep 1
+vgchange -ay a7
+test -e /dev/mapper/a7-main
+'';
+      };
+    };
+  };
+  
   sound.enable = false;
   security.polkit.enable = false;
 
