@@ -85,8 +85,8 @@ in rec {
         description = "SH_mount_ys";
         path = with pkgs; [coreutils eject lvm2 kmod cryptsetup utillinux];
         script = ''
-mountpoint -q /mnt/ys && exit 0
-# Set up /mnt/ys
+mountpoint -q /mnt/ys1 && exit 0
+# Set up /mnt/ys1
 dmsetup mknodes
 modprobe bcache
 
@@ -96,7 +96,7 @@ test -e /dev/mapper/ys1 || cryptsetup luksOpen --key-file=yalda_ys1 /dev/bcache/
 #  echo $disk > /sys/fs/bcache/register || true
 #}
 sleep 2 # wait for kernel to link disk label
-mount /mnt/ys
+mount /mnt/ys1
 '';
       };
     };
@@ -119,7 +119,7 @@ mount /mnt/ys
     btrfsOpts = baseOpts ++ ["space_cache=v2" "autodefrag" "ssd" "discard=async"];
   in {
     "/" = { label = "yalda_root"; options=btrfsOpts; };
-    "/mnt/ys" = { device = "/dev/mapper/ys1"; options=btrfsOpts ++ ["noauto"]; };
+    "/mnt/ys1" = { device = "/dev/mapper/ys1"; options=btrfsOpts ++ ["noauto"]; };
   };
   
   services.openssh.moduliFile = ./sshd_moduli;
