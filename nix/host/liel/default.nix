@@ -19,8 +19,8 @@ in {
     ../../base
     ../../base/nox.nix
     ../../base/site_wi.nix
-    ../../fix/19_9.nix
     ../../fix
+    ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
