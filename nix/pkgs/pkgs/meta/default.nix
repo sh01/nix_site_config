@@ -49,6 +49,7 @@ in with pkgs; rec {
     # nix tools
     nvd
     nix-output-monitor
+    jq
 
     emacs_packages
 

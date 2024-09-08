@@ -29,10 +29,22 @@ in rec {
 
   security = {
     sudo.execWheelOnly = true;
-    pam.services = {
-      su.requireWheel = true;
-      sudo.requireWheel = true;
+    pam = {
+      services = {
+        su.requireWheel = true;
+        sudo.requireWheel = true;
+      };
+      loginLimits = [
+        # Default file nr ulimit is low enough to give nix trouble during large builds; raise it.
+        {
+          domain = "*";
+          type = "soft";
+          item = "nofile";
+          value = "16384";
+        }
+      ];
     };
+    
     # needed for nix sandboxing, unfortunately.
     # allowUserNamespaces = false;
   };
