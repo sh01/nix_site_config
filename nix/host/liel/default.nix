@@ -26,8 +26,8 @@ in {
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
 
-    (planarallyS "rpg_c0" 2021 8020)
-    (planarallyS "rpg_ilzo" 2022 8021)
+    (planarallyS "c0" 2021 8020)
+    (planarallyS "ilzo" 2022 8021)
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;});})
   ];
 
@@ -193,6 +193,12 @@ DocumentRoot /var/www/
         ''    ServerAlias rpg-c0-wiki.s rpg-c0-w.memespace.net''
         (fAuth {name="rpg-c0-w.memespace.net"; fn="/etc/www/rpg_c0_wiki/auth_digest";})
         (fForward "http://127.0.0.2:8006/")
+      ])
+      (fVhost "rpg-pa.x.s" [
+        (fForward "http://127.0.0.2:8020/")
+      ])
+      (fVhost "i-pa.x.s" [
+        (fForward "http://127.0.0.2:8021/")
       ])
     ];
   };
