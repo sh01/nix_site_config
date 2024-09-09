@@ -9,10 +9,6 @@ let
 in {
   nixpkgs.overlays = [
     (final: prev: {
-      # Tests borked as of 23.05
-      python = prev.python3Packages.overrideScope' (pf: pp: {
-        pygame-gui = pf.pygame-gui.overridePythonAttrs (old: { doCheck = false; });
-      });
       # Tests borked as of 24.05
       prometheus = prev.prometheus.overrideAttrs (old: { doCheck = false; });
     })
