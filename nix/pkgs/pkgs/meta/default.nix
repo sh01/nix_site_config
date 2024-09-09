@@ -122,7 +122,8 @@ in with pkgs; rec {
   cliStd = P "cliStd" [base baseDoc AFM];
 
   cliDbg = P "cliDbg" [
-    wireshark-cli
+    # Borked in 24.05
+    #wireshark-cli
     stress-ng
   ];
 
@@ -241,6 +242,8 @@ in with pkgs; rec {
     openntpd
     uptimed
     mpv
+
+    bcachefs-tools
   ];
 
   kde4 = P "kde4" [
@@ -281,7 +284,8 @@ in with pkgs; rec {
   ];
 
   games = P "games" [
-    cataclysm-dda
+    # Borked in 24.05
+    #cataclysm-dda
     crawl
     freeorion
     wesnoth

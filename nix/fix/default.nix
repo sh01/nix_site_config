@@ -15,6 +15,10 @@ in {
       });
       # Tests borked as of 24.05
       prometheus = prev.prometheus.overrideAttrs (old: { doCheck = false; });
+      # Purge unnecessary deps
+      mpv-unwrapped = prev.mpv-unwrapped.override { nv-codec-headers-11 = null; waylandSupport = false;};
+      # We're not using firewire, and this has broken historically.
+      pipewire = prev.pipewire.override { ffadoSupport = false; };
     })
   ];
   nixpkgs.config.packageOverrides = super: {

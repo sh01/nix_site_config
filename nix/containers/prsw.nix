@@ -18,7 +18,6 @@ in {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    #s3tcSupport = true;
   };
 
   ### User / Group config
@@ -38,7 +37,7 @@ in {
   };
 
   fonts = {
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     fontDir.enable = true;
   };
 

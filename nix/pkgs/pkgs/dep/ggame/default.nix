@@ -4,11 +4,11 @@ let
   ignoreVulns = x: x // { meta.knownVulnerabilities = []; };
 in with pkgs; (callPackage ../base.nix {
   inherit name LINKNAME;
-  BDEPS = if is32 then [] else [openjdk19];
+  BDEPS = if is32 then [] else [openjdk21];
   JDEPS = [commonsIo commonsCompress];
   LDEPS = with pkgs.xorg; [
     # base libs.
-    glibc libcxxabi stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2.out xz.out gmp
+    glibc libcxx stdenv.cc.cc.lib curl.out glew.out glew110.out libpng zlib freetype eject bzip2.out xz.out gmp
     libpng12 # Portal 1
     # Device access
     udev
