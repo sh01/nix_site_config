@@ -9,19 +9,24 @@ in {
   ];
 
   services = {
+    pipewire.enable = false;
+    libinput.enable = true;
+    displayManager = {
+      sddm = {
+        enable = true;
+        enableHidpi = true;
+      };
+      #defaultSession = "xfce";
+    };
+    
     xserver = {
       enable = true;
-      displayManager = {
-        startx.enable = true;
-        sx.enable = true;
-        sddm = {
-          enable = true;
-          enableHidpi = true;
-        };
-        #defaultSession = "xfce";
-      };
-      libinput.enable = true;
 
+      displayManager = {
+        sx.enable = true;
+        startx.enable = true;
+      };
+      
       desktopManager = {
         xfce = {
           enable = true;
