@@ -13,6 +13,7 @@ let
 
     nft_prom = callPackage ./pkgs/nft_prom {};
     planarally = callPackage ./pkgs/planarally {};
+    aiohttp-security = callPackage ./pkgs/aiohttp-security {inherit (pkgs.python3Packages) aiohttp buildPythonPackage cryptography setuptools;};
     
     SH_blk_chk = callPackage ./pkgs/blk_chk {};
     SH_scripts = callPackage ./pkgs/scripts {};
