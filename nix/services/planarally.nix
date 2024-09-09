@@ -1,12 +1,12 @@
 { name, port, ugid, pkgs, ... }: let
   uname = "planarally_${name}";
   PA = (pkgs.callPackage ../pkgs {}).planarally;
-  homedir = "/home/${uname}";
+  homedir = "/var/local/planarally/${name}";
   rundir = "${homedir}/pa_state";
 
   conf = builtins.toFile "server_config.cfg" ''
 [Webserver]
-host = 127.0.0.1
+host = 127.0.0.2
 port = ${toString port}
 max_upload_size_in_bytes = 10_485_760
 ssl = false
