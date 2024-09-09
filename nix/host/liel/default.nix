@@ -10,6 +10,7 @@ let
     nameservers4 = ["10.17.1.1" "::1"];
   };
   gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
+  planarallyS = name: ugid: port:  (import ../../services/planarally.nix {inherit pkgs name ugid port;});
   apache2 = callPackage ../../services/apache2.nix {};
   vpn_c = (import ../../base/openvpn/client.nix);
   c_vpn = (callPackage ../../containers {}).c_vpn;
@@ -24,6 +25,9 @@ in {
     ../../base/ntp_client_default.nix
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
+
+    (planarallyS "rpg_c0" 2021 8020)
+    (planarallyS "rpg_ilzo" 2022 8021)
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;});})
   ];
 
