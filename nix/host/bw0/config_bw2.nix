@@ -16,7 +16,7 @@ in {
     ../../base
     ../../base/nox.nix
     ../../base/site_wi.nix
-    ../../fix/19_9.nix
+    ../../fix
   ];
 
   ### Boot config
