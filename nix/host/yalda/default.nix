@@ -96,7 +96,8 @@ mountpoint -q /mnt/ys1 && exit 0
 dmsetup mknodes
 modprobe bcache
 
-test -e /dev/mapper/ys1 || cryptsetup luksOpen --key-file=yalda_ys1 /dev/bcache/by-uuid/b3f9eb6c-511f-42bf-8542-50fb201fd8c9 ys1
+bdev="$(basename $(readlink /sys/fs/bcache/bf9dc10c-1c84-4a16-928e-d1019a4b30b9/bdev0/dev))"
+test -e /dev/mapper/ys1 || cryptsetup luksOpen --key-file=/var/crypt/ys1 "/dev/$bdev" ys1
 #for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
   # Already registered disks will throw errors; ignore those
 #  echo $disk > /sys/fs/bcache/register || true
