@@ -18,6 +18,6 @@ let
     FN = ./default.el;
 }; in {
   emacsPackages = with pkgs; [
-    (emacsWithPackages (epkgs: with epkgs; [ rainbow-delimiters nix-mode org (emacsConf epkgs) ]))
+    ((emacsPackagesFor emacs-nox).withPackages (epkgs: with epkgs; [ rainbow-delimiters nix-mode org (emacsConf epkgs) ]))
   ];
 }
