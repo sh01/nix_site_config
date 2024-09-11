@@ -284,8 +284,8 @@ in with pkgs; rec {
   ];
 
   games = P "games" [
-    # Borked in 24.05
-    #cataclysm-dda
+    cataclysmDDA.git.curses
+    cataclysm-dda-git
     crawl
     freeorion
     wesnoth
