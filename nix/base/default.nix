@@ -19,6 +19,7 @@ let
   ));
 in rec {
   environment.etc = pdir ".";
+  environment."stub-ld".enable = false;
 
   imports = [
     ./channel.nix
