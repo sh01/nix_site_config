@@ -16,9 +16,14 @@ let
     "/dev/input".isReadOnly = true;
     "/run/udev/data".isReadOnly = true;
   };
-  chAddr = num: "10.231.1." + num;
+  chAddr = num: "10.231.1.${toString num}";
   net = num: {
     localAddress = (chAddr num) + "/24";
+    privateNetwork = true;
+  };
+  netD = num: {
+    localAddress = (chAddr num);
+    hostAddress = (chAddr 1);
     privateNetwork = true;
   };
   lpkgs = pkgs.callPackage ../pkgs {};
@@ -94,7 +99,7 @@ in rec {
           isReadOnly = false;
         };
       } // bbMounts;
-    } // (net "2");
+    } // (netD "2");
     prsw = {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; services = extraSrv;};
       autoStart = true;
@@ -104,7 +109,7 @@ in rec {
           isReadOnly = false;
         };
       } // bbMounts // devMounts;
-    } // devAllow // (net "3");
+    } // devAllow // (netD "3");
     "prsw-net" = {
       config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; services = extraSrv;};
       autoStart = true;
@@ -114,7 +119,7 @@ in rec {
           isReadOnly = false;
         };
       } // bbMounts // devMounts;
-    } // devAllow // (net "4");
+    } // devAllow // (netD "4");
   };
 
   c_vpn = rec {
