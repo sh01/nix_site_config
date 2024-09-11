@@ -41,5 +41,9 @@ in {
     fontDir.enable = true;
   };
 
+  programs."nix-ld" = {
+    enable = true;
+    libraries = (import ../pkgs/pkgs/dep/ggame/dep_libs.nix {inherit pkgs;});
+  };
   environment.systemPackages = with (import ../pkgs {}); sysPkgs ++ [SH_dep_gbase];
 }
