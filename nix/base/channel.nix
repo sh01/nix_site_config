@@ -4,7 +4,7 @@ let
   npkg = name: {
     "${name}" = {
       exact = false;
-      to = { type = "git"; url = "file:/root/git/nixpkgs?ref=l${nixVer}";};
+      to = { type = "git"; url = "file:/var/cache/root/git/nixpkgs?ref=l${nixVer}";};
     };
   };
 in {
