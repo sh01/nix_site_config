@@ -27,7 +27,7 @@
 in {
   environment = {
     ldso = (ld pkgs);
-    ldso32 = (ld pkgs);
+    ldso32 = (ld pkgs32);
     
     pathsToLink = [bpath];
     variables = {
