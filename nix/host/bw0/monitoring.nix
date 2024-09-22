@@ -47,6 +47,7 @@ let
         ];
   };
   nft_configs = [{targets = ["localhost:9102"];}];
+  node_configs = port: [{targets = map (x: x + ":" + (toString port)) ["localhost" "jibril.x.s." "yalda.sh.s." "liel.x.s."];}];
 in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
@@ -77,7 +78,7 @@ in rec {
       {
         job_name = "node";
         scrape_interval = "256s";
-        static_configs = [{targets = ["localhost:9100" "jibril.x.s.:9100" "yalda.sh.s.:9100" "liel.x.s.:9100"];}];
+        static_configs = (node_configs 9100);
       } {
         job_name = "nft_prom";
         metrics_path = "/probe";
@@ -113,6 +114,15 @@ in rec {
             action = "keep";
           }
         ];
+      } {
+        job_name = "smartctl";
+        scrape_interval = "256s";
+        static_configs = (node_configs 9101);
+        metric_relabel_configs = [{
+          source_labels = ["__name__"];
+          regex = "smartctl_device(|_available_spare|_block_size|_bytes_read|_bytes_written|_capacity_blocks|_critical_warning|_media_errors|_power_cycle_count|_power_on_seconds|_smart_status|_temperature|_version)$";
+          action = "keep";
+        }];
       }
     ];
   };
