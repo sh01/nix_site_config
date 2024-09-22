@@ -23,6 +23,7 @@ in rec {
 
   imports = [
     ./channel.nix
+    ./default_opts.nix
   ];
   
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];

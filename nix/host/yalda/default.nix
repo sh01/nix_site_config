@@ -76,12 +76,6 @@ in rec {
       };
     };
   };
-
-  services.prometheus.exporters.smartctl = {
-    devices = ["/dev/nvme0n1" "/dev/nvme1n1"];
-    enable = true;
-    maxInterval = "5m";
-  };
   
   systemd = {
     services = {

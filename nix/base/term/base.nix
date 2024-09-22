@@ -6,6 +6,7 @@ let
 in {
   imports = [
     ./boot.nix
+    ../../services/prom_exp_node.nix
   ];
 
   services = {
