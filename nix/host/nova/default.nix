@@ -18,6 +18,7 @@ in {
     ../../base/site_wi.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
+    ../../services/prom_exp_node.nix
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});})
   ];
 
@@ -49,7 +50,7 @@ in {
 
     nftables = {
       enable = true;
-      rulesetFile = builtins.toFile "rules.nft" nft.conf_terminal;
+      ruleset = (nft.conf_simple config.l.ext_ports_t);
     };
   };
   environment.etc."resolv.conf" = dns.resolvConf;
@@ -85,7 +86,6 @@ in {
   ### Services
   services = {
     openssh.moduliFile = ./sshd_moduli;
-    prometheus.exporters.node = (import ../../base/node_exporter.nix);
     udisks2.enable = false;
     uptimed.enable = true;
     xserver = {

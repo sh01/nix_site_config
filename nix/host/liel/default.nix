@@ -23,6 +23,7 @@ in {
     ../../fix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
+    ../../services/prom_exp_node.nix
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
 
@@ -153,7 +154,6 @@ echo "Done."
   sound.enable = false;
   security.polkit.enable = false;
   services.udisks2.enable = false;
-  services.prometheus.exporters.node = (import ../../base/node_exporter.nix);
   nixpkgs.config.packageOverrides = pkgs: {
     gnupg22 = pkgs.gnupg22.override { pcsclite = null; };
   };

@@ -46,10 +46,11 @@ let
           { target_label = "__address__"; replacement = addr; source_labels = [];}
         ];
   };
-  nft_configs = [{targets = ["localhost:9101"];}];
+  nft_configs = [{targets = ["localhost:9102"];}];
 in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
+    ../../services/prom_exp_node.nix
   ];
   # Prometheus
   systemd.services = {
@@ -114,40 +115,6 @@ in rec {
         ];
       }
     ];
-    exporters = {
-      node = {
-        enable = true;
-        listenAddress = blackbox_ip;
-        disabledCollectors = [
-          "arp"
-          "bcache"
-          "bonding"
-          "buddyinfo"
-          "entropy"
-          "filefd"
-          "interrupts"
-          "ipvs"
-          "loadavg"
-          "mdadm"
-          "nfs"
-          "nfsd"
-          "textfile"
-          "uname"
-          "time"
-          "xfs"
-          "zfs"
-        ];
-        enabledCollectors = [
-          "ntp"
-          "timex"
-        ];
-        extraFlags = [
-          "--collector.ntp.server-is-local"
-          "--collector.netstat.fields=Ip(6|Ext)_(InOctets|OutOctets)"
-          "--collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs|ramfs|tmpfs)$"
-        ];
-      };
-    };
   };
 
   services.grafana = {
