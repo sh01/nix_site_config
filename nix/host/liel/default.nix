@@ -229,8 +229,14 @@ DocumentRoot /var/www/
       };
       performanceNetParameters = true;
     };
-    # Default pre-startup script does not respect any local changes, but auth credential do not belong into nix store. Disable the script here.
-    systemd.services.transmission.serviceConfig.ExecStartPre = mkForce null;
+    systemd.services.transmission.serviceConfig = {
+      # Default pre-startup script does not respect any local changes, but auth credentials do not belong into nix store. Disable the script here.
+      ExecStartPre = mkForce null;
+      # Nix 24.05: Work around https://github.com/NixOS/nixpkgs/issues/258793
+      BindReadOnlyPaths = lib.mkForce [builtins.storeDir "/etc"];
+      RootDirectoryStartOnly = lib.mkForce false;
+      RootDirectory = lib.mkForce "";
+    };
   };
   ### User / Group config
   # Define paired user/group accounts.
