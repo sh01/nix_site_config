@@ -4,6 +4,10 @@ let
   inherit (lib) mkForce;
   ssh_pub = import ./ssh_pub.nix;
   ssho_gitannex = ''command="PATH=/run/current-system/sw/bin/ GIT_ANNEX_SHELL_READONLY=true git-annex-shell -c \"$SSH_ORIGINAL_COMMAND\"" '';
+
+  hostIds = {
+    "uiharu" = "84d5fccd";
+  };
 in {
   userSpecs = { u2g ? {}, keys ? {}}:
   let
@@ -44,6 +48,11 @@ in {
     monitoring = [mon_0 mon_1];
   };
 
+  netHostInfo = hostName: {
+    "hostName" = hostName;
+    hostId = hostIds."${hostName}";
+  };
+  
   iproute2 = {
     enable = true;
     rttablesExtraConfig = ''

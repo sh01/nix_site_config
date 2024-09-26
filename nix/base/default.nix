@@ -209,6 +209,8 @@ fi
     # Doesn't work right on other hosts due to use of static ifaces.
     nftables.checkRuleset = false;
 
+    useDHCP = false;
+    networkmanager.enable = false;
     usePredictableInterfaceNames = false;
     useNetworkd = false;
     firewall = {

@@ -9,6 +9,7 @@ let
   dns = import ../../base/dns.nix {
     nameservers4 = ["10.17.1.1" "::1"];
   };
+  ### Services
   gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
   planarallyS = name: ugid: port:  (import ../../services/planarally.nix {inherit pkgs name ugid port;});
   apache2 = callPackage ../../services/apache2.nix {};

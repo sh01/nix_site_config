@@ -13,6 +13,8 @@ in {
   "bw0" = h ./bw0/config_bw2.nix;
   
   "liel" = h ./liel;
+
+  "uiharu" = h ./uiharu;
   
   "jibril" = h ./jibril;
   "yalda" = h ./yalda;

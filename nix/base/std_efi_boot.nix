@@ -35,6 +35,6 @@
   fileSystems."/" = {
     label = "root";
     fsType = "btrfs";
-    options = ["noatime" "nodiratime"];
+    options = ["noatime" "nodiratime" "ssd" "discard"];
   };
 }
