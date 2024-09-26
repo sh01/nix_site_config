@@ -91,7 +91,7 @@ in rec {
 
   c = rks: uks: {
     browsers = {
-      config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase; services = extraSrv;};
+      config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/browsers" = {
@@ -101,7 +101,7 @@ in rec {
       } // bbMounts;
     } // (netD "2");
     prsw = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; services = extraSrv;};
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw" = {
@@ -111,7 +111,7 @@ in rec {
       } // bbMounts // devMounts;
     } // devAllow // (netD "3");
     "prsw-net" = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; services = extraSrv;};
+      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw_net" = {

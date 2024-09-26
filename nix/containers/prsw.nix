@@ -1,4 +1,4 @@
-{ pkgs, sysPkgs, rks, uks, services, ... }:
+{ pkgs, sysPkgs, rks, uks, srvs, ... }:
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
@@ -12,8 +12,10 @@ in {
     ./containers_common.nix
     ../pkgs/pkgs/dep/ggame/config_ld.nix
   ];
-  
-  systemd.services = services;
+
+  # This doesn't work as of nix 24.05.
+  #services.envfs.enable = true;
+  systemd.services = srvs;
   
   hardware.opengl = {
     enable = true;
