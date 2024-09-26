@@ -25,6 +25,7 @@ in rec {
   
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
+  
   boot = {
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
     #kernelPackages = pkgs.linuxPackages_5_15;
