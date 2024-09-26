@@ -1,4 +1,4 @@
-{ pkgs, sysPkgs, rks, uks, services}:
+{ pkgs, sysPkgs, rks, uks, srvs}:
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
@@ -10,7 +10,7 @@ in {
     ./containers_common.nix
   ];
 
-  systemd.services = services;
+  systemd.services = srvs;
 
   ### User / Group config
   users = let
