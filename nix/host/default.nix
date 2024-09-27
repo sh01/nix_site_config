@@ -2,7 +2,7 @@
 # $ nix build -I _hosts=/etc/site/nix/host --impure --expr '(import <_hosts>).liel'
 
 let
-  sysMod = hostc: {lib, config, pkgs, ...}:
+  sysConf = hostc: {lib, config, pkgs, ...}:
     let
       callWith = autoargs: fn: args:
         let
@@ -18,15 +18,10 @@ let
       };
     in (lwCall hostc {});
   
-  econfig = hostc:
-    import (<nixpkgs> + "/nixos/lib/eval-config.nix") {
-      system = "x86_64-linux";
-      modules = [(sysMod hostc)];
-    };
-  h = hostc: let
-    conf = (econfig hostc).config;
-  in
-    conf.system.build.toplevel;
+  h = hostc:
+    (import <nixpkgs/nixos> {
+      configuration = sysConf hostc;
+    }).system;
 in {
   "keiko" = h ./keiko;
   "ika" = h ./ika;
