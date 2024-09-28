@@ -4,9 +4,9 @@ let
   slib = (pkgs.callPackage ../lib {});
   dns = (import ../base/dns.nix) {};
 in {
-  imports = [
-    l.defaultConf
-    l.siteConf
+  imports = with l.conf; [
+    default
+    site
     ./containers_common.nix
   ];
 

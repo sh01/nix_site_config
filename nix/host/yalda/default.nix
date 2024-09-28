@@ -32,10 +32,10 @@ done'';});
   ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in rec {
   # Pseudo-static stuff
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    l.defaultConf
-    l.siteConf
     ../../base/term/desktop.nix
     (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix

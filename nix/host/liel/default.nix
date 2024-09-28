@@ -16,10 +16,10 @@ let
   vpn_c = (import ../../base/openvpn/client.nix);
   c_vpn = (l.call ../../containers {}).c_vpn;
 in {
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    l.defaultConf
-    l.siteConf
     ../../base/nox.nix
     ../../fix
     ../../fix/19_9.nix

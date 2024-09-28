@@ -23,9 +23,9 @@ let
     ip route add table "${rtable}" default via "''${route_vpn_gateway}"
 '';
 in {
-  imports = [
-    l.defaultConf
-    l.siteConf
+  imports = with l.conf; [
+    default
+    site
     ../base/nox.nix
     ./containers_common.nix
   ];

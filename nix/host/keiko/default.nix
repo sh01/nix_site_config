@@ -9,10 +9,10 @@ let
   vars = callPackage ../../base/vars.nix {};
   dns = (import ../../base/dns.nix) {};
 in {
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    l.defaultConf
-    l.siteConf
     ../../base/nox.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix

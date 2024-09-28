@@ -1,8 +1,8 @@
 # uiharu is a host box
 { config, pkgs, lib, l, ... }: {
-  imports = [
-    l.defaultConf
-    l.siteConf
+  imports = with l.conf; [
+    default
+    site
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig=(import ../bw0/kernel_conf.nix {inherit lib;});})
     ../../base/nox.nix
     ../../fix

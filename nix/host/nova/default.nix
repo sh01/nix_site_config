@@ -12,10 +12,10 @@ let
   };
   nft = pkgs.callPackage ../../base/nft.nix {};
 in {
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    l.defaultConf
-    l.siteConf
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
     ../../services/prom_exp_node.nix

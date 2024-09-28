@@ -10,11 +10,11 @@ let
     nameservers4 = ["127.0.0.1" "::1"];
   };
 in {
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
     ./monitoring.nix
-    l.defaultConf
-    l.siteConf
     ../../base/nox.nix
     ../../fix
   ];

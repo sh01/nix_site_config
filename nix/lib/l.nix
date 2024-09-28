@@ -40,10 +40,12 @@ let
     inherit call hostname;
     lib = call ../lib {};
     vars = call ../base/vars.nix {};
-    defaultConf = call (import ../base);
     
     site = _sites."${elemAt _hostData 1}";
-    siteConf = site.config;
+    conf = {
+      site = site.config;
+      default = call (import ../base);
+    };
     
     netHostInfo = {
       hostName = hostname;

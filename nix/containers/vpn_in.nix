@@ -5,9 +5,9 @@ let
   slib = (pkgs.callPackage ../lib {});
   ssh_pub = (import ../base/ssh_pub.nix);
 in {
-  imports = [
-    l.defaultConf
-    l.siteConf
+  imports = with l.conf; [
+    default
+    site
     ../base/nox.nix
     ./containers_common.nix
   ];

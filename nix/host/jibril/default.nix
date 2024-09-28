@@ -13,10 +13,10 @@ let
     nameservers4 = ["127.0.0.1" "::1"];
   };
 in rec {
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    l.defaultConf
-    l.siteConf
     ../../base/term/desktop.nix
     l.call (../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
