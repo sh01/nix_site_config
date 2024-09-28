@@ -2,35 +2,22 @@
 # $ nix build -I _hosts=/etc/site/nix/host --impure --expr '(import <_hosts>).liel'
 
 let
-  sysConf = hostc: {lib, config, pkgs, ...}:
+  inherit (builtins) listToAttrs;
+  sysConf = hostname: {lib, config, pkgs, ...}@args:
     let
-      callWith = autoargs: fn: args:
-        let
-          f = if lib.isFunction fn then fn else import fn;
-        in (f (autoargs // args));
-
-      lwCall = (callWith autoArgs);
-      autoArgs = {
-        inherit lib config pkgs;
-        inherit lwCall;
-        llib = lwCall ../lib {};
-        lvars = lwCall ../base/vars.nix {};
-      };
-    in (lwCall hostc {});
+      hostc = ./. + ("/" + hostname);
+    in
+      (import ../lib/l.nix {inherit hostname hostc;} args).call hostc {};
   
-  h = hostc:
+  h = hostname:
     (import <nixpkgs/nixos> {
-      configuration = sysConf hostc;
+      configuration = sysConf hostname;
     }).system;
-in {
-  "keiko" = h ./keiko;
-  "ika" = h ./ika;
-  "bw0" = h ./bw0/config_bw2.nix;
-  
-  "liel" = h ./liel;
 
-  "uiharu" = h ./uiharu;
-  
-  "jibril" = h ./jibril;
-  "yalda" = h ./yalda;
-}
+  hostConfigP = hn: {
+    name = hn;
+    value = h hn;
+  };
+  hostNs = ["keiko" "ika" "liel" "uiharu" "jibril" "yalda"];
+
+in listToAttrs (map hostConfigP hostNs)

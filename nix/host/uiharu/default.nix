@@ -1,13 +1,10 @@
 # uiharu is a host box
-{ config, pkgs, lib, lwCall, llib, lvars, ... }:
-let
-  site = (lwCall ../../base/site_vars.nix {}).wi;
-in {
+{ config, pkgs, lib, l, ... }: {
   imports = [
-    ../../base
+    l.defaultConf
+    l.siteConf
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig=(import ../bw0/kernel_conf.nix {inherit lib;});})
     ../../base/nox.nix
-    ../../base/site_wi.nix
     ../../fix
   ];
   #boot.loader.grub.device = "nodev";
@@ -26,10 +23,10 @@ in {
     };
   };
 
-  networking = (lvars.netHostInfo "uiharu") // {
+  networking = l.netHostInfo // {
     firewall.enable = false;
     interfaces = {
-      "eth0" = (site.mkIface 6);
+      "eth0" = l.ifaceDmz;
     };
   };
   
@@ -45,7 +42,7 @@ in {
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = llib.mkUserGroups (with lvars.userSpecs {}; default);
+  users = l.lib.mkUserGroups (with l.vars.userSpecs {}; default);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "24.05";
