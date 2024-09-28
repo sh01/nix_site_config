@@ -17,7 +17,7 @@ let
 
   _hostData = _hostsData."${hostname}";
   _hostIdx = elemAt _hostData 1;
-  _sites = call ../base/site_vars.nix {};
+  _sites = call ../base/sites.nix {};
 
   l = rec {
     inherit hostname;
