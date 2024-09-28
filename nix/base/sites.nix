@@ -12,4 +12,10 @@ in {
       time.timeZone = "America/Chicago";
     };
   };
+  "stellvia".config = {
+    time.timeZone = "Europe/Dublin";
+  };
+  "wl".config = {
+    time.timeZone = "America/Los_Angeles";
+  };
 }

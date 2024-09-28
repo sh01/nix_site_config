@@ -88,12 +88,16 @@ in {
     openssh.moduliFile = ./sshd_moduli;
     udisks2.enable = false;
     uptimed.enable = true;
+    displayManager = {
+      execCmd = "/run/current-system/sw/bin/Xorg -config /etc/X11/xorg.conf -verbose 3 -auth /var/local/x11/xauth_0";
+    };
+    
     xserver = {
       enable = true;
       displayManager = {
         startx.enable = true;
-        job.execCmd = "/run/current-system/sw/bin/Xorg -config /etc/X11/xorg.conf -verbose 3 -auth /var/local/x11/xauth_0";
       };
+      
       extraConfig = mkForce ''
 Section "ServerFlags"
         Option "AutoEnableDevices" "false"
