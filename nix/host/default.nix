@@ -18,6 +18,6 @@ let
     name = hn;
     value = h hn;
   };
-  hostNs = ["keiko" "ika" "bw0" "liel" "uiharu" "jibril" "yalda"];
+  hostNs = ["keiko" "bw0" "liel" "uiharu" "jibril" "yalda"];
 
 in listToAttrs (map hostConfigP hostNs)
