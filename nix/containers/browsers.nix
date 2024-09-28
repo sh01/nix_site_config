@@ -1,12 +1,12 @@
-{ pkgs, sysPkgs, rks, uks, srvs}:
+{ pkgs, sysPkgs, rks, uks, srvs, l, ...}:
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
   dns = (import ../base/dns.nix) {};
 in {
   imports = [
-    ../base
-    ../base/site_wi.nix
+    l.defaultConf
+    l.siteConf
     ./containers_common.nix
   ];
 

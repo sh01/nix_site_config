@@ -1,5 +1,5 @@
 # nova is a small entertainment system
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (lib) mkForce;
@@ -14,8 +14,8 @@ let
 in {
   imports = [
     ./hardware-configuration.nix
-    ../../base
-    ../../base/site_wi.nix
+    l.defaultConf
+    l.siteConf
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
     ../../services/prom_exp_node.nix

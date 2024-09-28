@@ -1,5 +1,5 @@
 # bw2 is a router box
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (lib) mkForce;
@@ -13,9 +13,9 @@ in {
   imports = [
     ./hardware-configuration.nix
     ./monitoring.nix
-    ../../base
+    l.defaultConf
+    l.siteConf
     ../../base/nox.nix
-    ../../base/site_wi.nix
     ../../fix
   ];
 

@@ -1,10 +1,10 @@
 # Jibril is a desktop deployment with a focus on games.
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
-  cont = callPackage ../../containers {};
+  cont = l.call ../../containers {};
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
   slib = callPackage ../../lib {};
   vars = callPackage ../../base/vars.nix {};
@@ -15,11 +15,11 @@ let
 in rec {
   imports = [
     ./hardware-configuration.nix
-    ../../base
+    l.defaultConf
+    l.siteConf
     ../../base/term/desktop.nix
-    ../../base/term/gaming_box.nix
+    l.call (../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
-    ../../base/site_wi.nix
     ../../fix/19_9.nix
   ];
   

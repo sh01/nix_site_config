@@ -1,4 +1,4 @@
-{pkgs, lib, emounts?{}, extraSrv?{}, ...}:
+{pkgs, lib, emounts?{}, extraSrv?{}, l, ...}:
 let
   bbMounts = {
     "/tmp/.X11-unix" = {
@@ -91,7 +91,7 @@ in rec {
 
   c = rks: uks: {
     browsers = {
-      config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase; srvs = extraSrv;};
+      config = (l.call ./browsers.nix) {inherit rks uks; sysPkgs = sysPkgsBase; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/browsers" = {
@@ -101,7 +101,7 @@ in rec {
       } // bbMounts;
     } // (netD "2");
     prsw = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
+      config = (l.call ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw" = {
@@ -111,7 +111,7 @@ in rec {
       } // bbMounts // devMounts;
     } // devAllow // (netD "3");
     "prsw-net" = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
+      config = (l.call ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw_net" = {
@@ -131,13 +131,13 @@ in rec {
     brDev = "lc_br_vu";
     cont = inCfg: {
       "vpn-up" = {
-        config = (import ./vpn_up.nix {inherit lib pkgs upAddr cAddr; sysPkgs = sysPkgsBase;});
+        config = (l.call ./vpn_up.nix {inherit upAddr cAddr; sysPkgs = sysPkgsBase;});
         enableTun = true;
         autoStart = true;
         hostBridge = brDev;
       } // vNet;
       "vpn-in" = {
-        config = (import ./vpn_in.nix {inherit lib pkgs upAddr vAddr; sysPkgs = sysPkgsBase;}) // inCfg;
+        config = (l.call ./vpn_in.nix {inherit upAddr vAddr; sysPkgs = sysPkgsBase;}) // inCfg;
         autoStart = true;
         hostBridge = brDev;
       } // cNet;

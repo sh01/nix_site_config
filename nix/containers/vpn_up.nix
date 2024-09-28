@@ -1,4 +1,4 @@
-{ pkgs, sysPkgs, lib, upAddr, cAddr, ... }:
+{ pkgs, sysPkgs, lib, upAddr, cAddr, l, ... }:
 let
   inherit (lib) mkForce;
   vars = pkgs.callPackage ../base/vars.nix {};
@@ -24,9 +24,9 @@ let
 '';
 in {
   imports = [
-    ../base
+    l.defaultConf
+    l.siteConf
     ../base/nox.nix
-    ../base/site_wl.nix
     ./containers_common.nix
   ];
 

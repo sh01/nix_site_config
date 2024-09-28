@@ -1,5 +1,5 @@
 # liel is a host box
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
@@ -14,13 +14,13 @@ let
   planarallyS = name: ugid: port:  (import ../../services/planarally.nix {inherit pkgs name ugid port;});
   apache2 = callPackage ../../services/apache2.nix {};
   vpn_c = (import ../../base/openvpn/client.nix);
-  c_vpn = (callPackage ../../containers {}).c_vpn;
+  c_vpn = (l.call ../../containers {}).c_vpn;
 in {
   imports = [
     ./hardware-configuration.nix
-    ../../base
+    l.defaultConf
+    l.siteConf
     ../../base/nox.nix
-    ../../base/site_wi.nix
     ../../fix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix

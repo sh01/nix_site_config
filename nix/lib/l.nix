@@ -16,10 +16,18 @@ let
 
   _sites = call ../base/sites.nix {};
 
+  wi = "wi";
   # By-host constant configuration. These are split out here over being kept in
   # per-host config files to make sanity verification and mass edits easier.
   _hostsData = {
-    "uiharu" = [6 "wi"];
+    "bw0" = [null wi];
+    "uiharu" = [6 wi];
+    "keiko" = [null wi];
+    "liel" = [null wi];
+    "nova" = [null wi];
+
+    "jibril" = [null wi];
+    "yalda" = [null wi];
   };
 
   # Host-specific variables
@@ -29,7 +37,7 @@ let
 
   # Will be passed as argument "l" to host configs and anything below called via l.call.
   l = rec {
-    inherit hostname;
+    inherit call hostname;
     lib = call ../lib {};
     vars = call ../base/vars.nix {};
     defaultConf = call (import ../base);

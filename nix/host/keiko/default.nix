@@ -1,5 +1,5 @@
 # Keiko is a storage system.
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (pkgs) callPackage;
@@ -11,9 +11,9 @@ let
 in {
   imports = [
     ./hardware-configuration.nix
-    ../../base
+    l.defaultConf
+    l.siteConf
     ../../base/nox.nix
-    ../../base/site_wi.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
   ];

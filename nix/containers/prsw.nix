@@ -1,4 +1,4 @@
-{ pkgs, sysPkgs, rks, uks, srvs, ... }:
+{ pkgs, sysPkgs, rks, uks, srvs, l, ... }:
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
@@ -6,8 +6,8 @@ let
   ssh_pub = (import ../base/ssh_pub.nix);
 in {
   imports = [
-    ../base
-    ../base/site_wi.nix
+    l.defaultConf
+    l.siteConf
     ../base/alsa2pulse.nix
     ./containers_common.nix
     ../pkgs/pkgs/dep/ggame/config_ld.nix

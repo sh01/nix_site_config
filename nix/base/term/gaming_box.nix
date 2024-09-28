@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, l, ... }:
 let
   inherit (pkgs) callPackage;
-  cont = callPackage ../../containers {};
+  cont = l.call ../../containers {};
   nft = callPackage ../../base/nft.nix {};
 in {
   imports = [

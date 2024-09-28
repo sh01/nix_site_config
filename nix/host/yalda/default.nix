@@ -1,10 +1,10 @@
 # Yalda is a desktop deployment with a focus on games.
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (pkgs) callPackage;
   llib = callPackage ../../lib {inherit pkgs;};
-  cont = callPackage ../../containers {
+  cont = l.call ../../containers {
     emounts = {
       "/mnt/ys1/c".isReadOnly = false;
     };
@@ -34,11 +34,11 @@ in rec {
   # Pseudo-static stuff
   imports = [
     ./hardware-configuration.nix
-    ../../base
+    l.defaultConf
+    l.siteConf
     ../../base/term/desktop.nix
-    ../../base/term/gaming_box.nix
+    (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
-    ../../base/site_wi.nix
     ../../fix
   ];
 
