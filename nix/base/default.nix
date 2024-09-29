@@ -1,4 +1,4 @@
-{config, lib, pkgs, ...}:
+{config, lib, pkgs, l, ...}:
 let
   ssh_pub = import ./ssh_pub.nix;
   # Recursively read all files from ./etc and build an environment.etc value.
@@ -66,6 +66,9 @@ in rec {
 
     mp2mca = "mplayer2 -af resample=48000:1:2,hrtf -channels 6";
     ga = "git-annex";
+  };
+  environment.variables = {
+    NIX_HOST = "${l.hostname}";
   };
 
   # Local package includes.
