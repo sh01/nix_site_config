@@ -111,7 +111,7 @@ in rec {
   };
 
   services = {
-    udisks2.enable = false;
+    udisks2.enable = lib.mkOverride 90 false;
     
     logind = {
       lidSwitch = "lock";
