@@ -58,6 +58,8 @@ in rec {
     
     wineWowPackages.fonts
     wineWowPackages.stableFull
+    dxvk_2
+    vkd3d-proton
 
     lutris-free
 
