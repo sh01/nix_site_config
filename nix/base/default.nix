@@ -69,6 +69,7 @@ in rec {
   };
   environment.variables = {
     NIX_HOST = "${l.hostname}";
+    NIXOS_CONFIG = "/etc/site/nix/lib/host_config.nix";
   };
 
   # Local package includes.
