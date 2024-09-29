@@ -3,7 +3,7 @@
   imports = with l.conf; [
     default
     site
-    (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig=(import ../bw0/kernel_conf.nix {inherit lib;});})
+    (l.call ../../base/std_efi_boot.nix {structuredExtraConfig=(l.call ../bw0/kernel_conf.nix {});})
     ../../base/nox.nix
     ../../fix
   ];

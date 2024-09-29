@@ -1,4 +1,4 @@
-{hostc, hostname}: {lib, config, pkgs, ...}:
+{hostc, hostname}: {lib, config, pkgs, system, ...}:
 let
   inherit (builtins) elemAt;
   inherit (lib.strings) fixedWidthString;
@@ -11,7 +11,7 @@ let
   call = (callWith autoArgs);
 
   autoArgs = {
-    inherit lib config pkgs call l;
+    inherit lib config pkgs call l system;
   };
 
   _sites = call ../base/sites.nix {};
@@ -20,10 +20,10 @@ let
   # By-host constant configuration. These are split out here over being kept in
   # per-host config files to make sanity verification and mass edits easier.
   _hostsData = {
-    "bw0" = [null wi];
-    "uiharu" = [6 wi];
-    "keiko" = [null wi];
-    "liel" = [null wi];
+    "bw0" = [1 wi];
+    "uiharu" = [10 wi];
+    "keiko" = [11 wi];
+    "liel" = [6 wi];
     "nova" = [null wi];
 
     "jibril" = [null wi];

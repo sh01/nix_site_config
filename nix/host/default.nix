@@ -3,7 +3,7 @@
 
 let
   inherit (builtins) listToAttrs;
-  sysConf = hostname: {lib, config, pkgs, ...}@args:
+  sysConf = hostname: {lib, config, pkgs, system, ...}@args:
     let
       hostc = ./. + ("/" + hostname);
     in

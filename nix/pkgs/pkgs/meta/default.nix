@@ -1,5 +1,7 @@
-{pkgs, lib, stdenv, system}:
-let P = bname: d: stdenv.mkDerivation (rec {
+{pkgs, lib, system, ...}:
+let
+  inherit (pkgs) stdenv;
+  P = bname: d: stdenv.mkDerivation (rec {
     name = "SH_M_" + bname;
     deps = lib.strings.concatStringsSep " " d;
     buildInputs = [pkgs.coreutils];

@@ -108,6 +108,8 @@ in rec {
   };
 
   services = {
+    udisks2.enable = false;
+    
     logind = {
       lidSwitch = "lock";
       extraConfig = ''
@@ -203,7 +205,8 @@ if [ -d /var/cache/ ]; then
 fi
 '';
   };
-    
+
+  hardware.enableRedistributableFirmware = true;
   #### Nix firewall
   networking = {
     # Doesn't work right on other hosts due to use of static ifaces.

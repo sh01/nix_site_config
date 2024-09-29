@@ -1,4 +1,4 @@
-{ system ? builtins.currentSystem, pkgs ? null }:
+{ system ? builtins.currentSystem, pkgs ? null, ... }:
 #assert pkgs != null;
 let
   pkgs_base = if pkgs != null then pkgs else (import <nixpkgs> { inherit system; });

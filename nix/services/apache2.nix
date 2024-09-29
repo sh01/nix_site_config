@@ -1,6 +1,7 @@
-{writeText, lib, apacheHttpd}:
+{pkgs, lib, ...}:
 let
-  pkg = apacheHttpd;
+  inherit (pkgs) writeText;
+  pkg = pkgs.apacheHttpd;
   concat = lib.concatStringsSep "\n";
 in {
   fVhost = sname: els: concat ([''
