@@ -27,6 +27,7 @@ in rec {
   ];
   
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
+  environment.systemPackages = with pkgs; [ stdenv ];
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
   security = {
