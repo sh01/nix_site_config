@@ -3,6 +3,7 @@
   imports = with l.conf; [
     default
     site
+    l.srv.prom_exp_node
     (l.call ../../base/std_efi_boot.nix {structuredExtraConfig=(l.call ../bw0/kernel_conf.nix {});})
     ../../base/nox.nix
     ../../fix

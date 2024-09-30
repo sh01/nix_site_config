@@ -48,6 +48,10 @@ let
       site = site.config;
       default = call (import ../base);
     };
+
+    srv = {
+      prom_exp_node = call ../services/prom_exp_node.nix {};
+    };
     
     netHostInfo = {
       hostName = hostname;
