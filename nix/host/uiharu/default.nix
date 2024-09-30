@@ -35,6 +35,10 @@
     "/boot" = { device = "/dev/disk/by-partlabel/EFI_sys"; options=["noauto" "noatime" "nodiratime"];};
   };
 
+  environment.systemPackages = with pkgs; with (l.call ../../pkgs/pkgs/meta {}); with (l.call ../../pkgs {}); [
+    base
+  ];
+  
   ### Services
   services = {
     openssh.moduliFile = ./sshd_moduli;
