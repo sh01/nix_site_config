@@ -11,6 +11,7 @@ in {
     config = {
       time.timeZone = "America/Chicago";
     };
+    dns_params = { nameservers4 = ["10.17.1.1"];};
   };
   "stellvia".config = {
     time.timeZone = "Europe/Dublin";

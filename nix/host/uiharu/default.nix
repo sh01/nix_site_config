@@ -38,6 +38,7 @@
   environment.systemPackages = with pkgs; with (l.call ../../pkgs/pkgs/meta {}); with (l.call ../../pkgs {}); [
     base
   ];
+  environment.etc."resolv.conf" = l.dns.resolvConf;
   
   ### Services
   services = {

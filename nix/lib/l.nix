@@ -34,12 +34,14 @@ let
   _hostData = _hostsData."${hostname}";
   _hostIdx = elemAt _hostData 0;
   _nixHostId = fixedWidthString 8 "0" (toHexString (65536 + _hostIdx));
+  _dns = (import ../base/dns.nix);
 
   # Will be passed as argument "l" to host configs and anything below called via l.call.
   l = rec {
     inherit call hostname;
     lib = call ../lib {};
     vars = call ../base/vars.nix {};
+    dns = call _dns site.dns_params;
     
     site = _sites."${elemAt _hostData 1}";
     conf = {
