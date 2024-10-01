@@ -47,7 +47,7 @@ let
         ];
   };
   nft_configs = [{targets = ["localhost:9102"];}];
-  node_configs = port: [{targets = map (x: x + ":" + (toString port)) ["localhost" "jibril.x.s." "yalda.sh.s." "liel.x.s."];}];
+  node_configs = port: [{targets = map (x: x + ":" + (toString port)) ["localhost" "jibril.x.s." "yalda.sh.s." "liel.x.s." "uiharu.sh.s."];}];
 in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
