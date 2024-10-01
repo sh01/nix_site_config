@@ -204,6 +204,10 @@ BLK_DEV_RAM = yes;
 
 BINFMT_MISC = yes;
 PACKET = yes;
+
+# In-kernel contexts are unnecessarily privileged for this;
+# we use userspace implementations, instead.
+WIREGUARD = mkForce no;
 };
 
     devFreq = {
