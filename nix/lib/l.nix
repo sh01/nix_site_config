@@ -51,6 +51,7 @@ let
 
     srv = {
       prom_exp_node = call ../services/prom_exp_node.nix {};
+      wireguard = call ../services/wireguard.nix {};
     };
     
     netHostInfo = {
@@ -59,5 +60,6 @@ let
     };
 
     ifaceDmz = site.mkIface _hostIdx;
+    netX = site.mkNet _hostIdx;
   };
 in autoArgs
