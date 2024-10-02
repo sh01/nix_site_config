@@ -1,13 +1,15 @@
 # uiharu is a host box
 { config, pkgs, lib, l, ... }: {
-  imports = with l.conf; [
+  imports = (with l.conf; [
     default
     site
-    l.srv.prom_exp_node
     (l.call ../../base/std_efi_boot.nix {structuredExtraConfig=(l.call ../bw0/kernel_conf.nix {});})
     ../../base/nox.nix
     ../../fix
-  ];
+  ]) ++ (with l.srv; [
+    prom_exp_node
+    wireguard
+  ]);
   #boot.loader.grub.device = "nodev";
   ### Hardware
   hardware.cpu.intel.updateMicrocode = true;
@@ -26,10 +28,9 @@
 
   networking = l.netHostInfo // {
     firewall.enable = false;
-    interfaces = {
-      "eth0" = l.ifaceDmz;
-    };
+    useNetworkd = true;
   };
+  systemd.network = l.netX "eth0";
   
   fileSystems = {
     "/" = { device = "/dev/mapper/root"; options=["discard" "ssd" "noatime" "nodiratime" "space_cache=v2"];};

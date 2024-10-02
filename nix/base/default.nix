@@ -220,7 +220,6 @@ fi
     useDHCP = false;
     networkmanager.enable = false;
     usePredictableInterfaceNames = false;
-    useNetworkd = false;
     firewall = {
       allowPing = true;
       rejectPackets = true;
@@ -228,6 +227,7 @@ fi
     # Prevent dangerous distri hosts from being contacted.
     extraHosts = "127.255.0.1 cache.nixos.org";
   };
+  services.resolved.enable = false;
 
   #### Per-program config
   programs.ssh.startAgent = false;
