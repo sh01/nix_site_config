@@ -3,7 +3,6 @@ let
   inherit (lib) mkForce;
   vars = pkgs.callPackage ../base/vars.nix {};
   slib = (pkgs.callPackage ../lib {});
-  ssh_pub = (import ../base/ssh_pub.nix);
   rtable = "up_vpn";
   ifname = "tun_up";
   cdir = "/etc/openvpn/up";
