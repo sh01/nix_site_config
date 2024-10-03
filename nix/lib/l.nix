@@ -52,6 +52,6 @@ let
 
     hostsTable = _hostsTable;
     ifaceDmz = site.mkIface _hostIdx;
-    netX = site.mkNet _hostIdx;
+    netX = (site.net _hostIdx).systemd;
   };
 in autoArgs

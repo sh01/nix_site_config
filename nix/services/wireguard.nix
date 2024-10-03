@@ -1,10 +1,28 @@
-{pkgs, ...}:
+{pkgs, lib, l, ...}:
 let
+  inherit (builtins) toString;
+  inherit (lib.strings) concatStrings;
+  inherit (lib.attrsets) mapAttrsToList;
+  port = 51820;
   ifn = "c_wg0";
+
   s = x: "${x}.service";
   sn0 = "SH_${ifn}_wireguard-go";
+  
+  confSec = {hn, key, pAddr, cAddr}: if (key == null) || (cAddr == null) || (hn == l.hostname) then "" else
+    "# ${hn}\n" + ''
+    [Peer]
+    PublicKey = ${key}
+    AllowedIps = ${cAddr}/128
+    '' + (if (pAddr == null) then "" else ''
+    Endpoint = [${pAddr}]:${toString port}
+    '');
+  h2cs = n: r: confSec {hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg; pAddr=r.addr.local;};
+  conf = concatStrings (mapAttrsToList h2cs l.hostsTable);
+  cnfFile = builtins.toFile "wireguard-conf" conf;
+
 in {
-  environment.systemPackages = with pkgs; [ wireguard-tools wireguard-go boringtun ];
+  environment.systemPackages = with pkgs; [ wireguard-tools wireguard-go ];
   services.prometheus.exporters.wireguard = {
     enable = true;
     port = 9102;
@@ -16,10 +34,9 @@ in {
       Name = ifn;
       Kind = "tun";
     };
-    tunConfig = {
-      #User = "sh";
-    };
   };
+
+  users = l.lib.mkUserGroups (with l.vars.userSpecs {}; [wireguard]);
 
   systemd.services = {
     "${sn0}" = {
@@ -29,7 +46,7 @@ in {
       in {
         Restart = "on-failure";
         RemainAfterExit = "yes";
-        User = "__TODO";
+        User = "wireguard";
         CapabilityBoundingSet = caps;
         AmbientCapabilities = caps;
         NoNewPrivileges = "yes";
@@ -50,7 +67,9 @@ in {
       };
       path = [pkgs.wireguard-tools];
       script = ''
-        wg set "${ifn}" listen-port 51820 private-key "/etc/wireguard/x.key"
+        wg set "${ifn}" listen-port ${toString port} private-key "/etc/wireguard/x.key"
+        echo 'Synching config: ${cnfFile}'
+        wg syncconf "${ifn}" "${cnfFile}"
       '';
     };
   };

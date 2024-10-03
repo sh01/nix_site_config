@@ -31,6 +31,7 @@ in {
     openvpn = ["openvpn" 2001 [] [] {}];
     nix_mirror = ["nix_mirror" 2002 [] [ssh_pub.root_keiko] {home = "/var/cache/nix_mirror";}];
     bouncer = ["bouncer" 2003 [] [] {}];
+    wireguard = ["wireguard" 2004 [] [] {}];
     cc = ["cc" 2048 [] [] {}];
     dovecot-auth = ["dovecot-auth" 2050 [] [] {}];
     mail-sh = ["mail-sh" 2056 ["dspam"] [] {}];
