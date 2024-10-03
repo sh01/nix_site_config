@@ -67,9 +67,9 @@ in {
       };
       path = [pkgs.wireguard-tools];
       script = ''
-        wg set "${ifn}" listen-port ${toString port} private-key "/etc/wireguard/x.key"
         echo 'Synching config: ${cnfFile}'
         wg syncconf "${ifn}" "${cnfFile}"
+        wg set "${ifn}" listen-port ${toString port} private-key "/etc/wireguard/x.key"
       '';
     };
   };
