@@ -4,7 +4,6 @@
 let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
-  ssh_pub = import ../../base/ssh_pub.nix;
   slib = callPackage ../../lib {};
   vars = callPackage ../../base/vars.nix {};
   dns = import ../../base/dns.nix {

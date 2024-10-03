@@ -1,6 +1,5 @@
 {config, lib, pkgs, l, ...}:
 let
-  ssh_pub = import ./ssh_pub.nix;
   # Recursively read all files from ./etc and build an environment.etc value.
   med = let bp = (builtins.toString ../../etc); in p: if p == "" then bp else bp  + "/" + p;
   pdir = (p:
@@ -85,6 +84,14 @@ in rec {
     shellInit = (builtins.readFile ./shell_env.sh);
     histFile = "$XDG_STATE_HOME/zsh/history";
   };
+  # Fix to do attrset
+  programs.ssh.knownHosts = let
+    f = n: r: {
+      hostNames = r.names;
+      publicKey = r.pub.ssh;
+    };
+  in
+    lib.attrsets.mapAttrs f l.hostsTable;
 
   nixpkgs.config.packageOverrides = pkgs: {
     # We don't need this.
@@ -231,7 +238,6 @@ fi
 
   #### Per-program config
   programs.ssh.startAgent = false;
-  programs.ssh.knownHosts = ssh_pub.knownHosts;
 
   ######## X-windows things
   fonts.fontconfig.defaultFonts.serif = [ "DejaVu Sans" ];
