@@ -2,10 +2,6 @@
 { config, pkgs, lib, l, ... }:
 let
   inherit (lib) mkForce;
-  inherit (pkgs) callPackage;
-  dns = import ../../base/dns.nix {
-    nameservers4 = ["10.17.1.1" "::1"];
-  };
   ### Services
   gitit = name: ugid: port: (l.call ../../services/gitit.nix {inherit name ugid port;});
   planarallyS = name: ugid: port:  (l.call ../../services/planarally.nix {inherit name ugid port;});
@@ -13,22 +9,23 @@ let
   vpn_c = (l.call ../../base/openvpn/client.nix {});
   c_vpn = (l.call ../../containers {}).c_vpn;
 in {
-  imports = with l.conf; [
+  imports = (with l.conf; [
     default
     site
     ./hardware-configuration.nix
     ../../base/nox.nix
     ../../fix
-    ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
-    ../../services/prom_exp_node.nix
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
 
     (planarallyS "c0" 2021 8020)
     (planarallyS "ilzo" 2022 8021)
     (l.call ../../base/std_efi_boot.nix {structuredExtraConfig = (l.call ../bw0/kernel_conf.nix {});})
-  ];
+  ]) ++ (with l.srv; [
+    prom_exp_node
+    wireguard
+  ]);
 
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
@@ -49,9 +46,9 @@ in {
   ### Networking
   networking = l.netHostInfo // {
     firewall.enable = false;
+    useNetworkd = true;
 
     interfaces = {
-      "eth0" = l.ifaceDmz;
       "tun_vpn_o" = {
         virtual = true;
         virtualOwner = "openvpn";
@@ -68,7 +65,9 @@ in {
     # Push this way out of the way.
     resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   };
-  environment.etc."resolv.conf" = dns.resolvConf;
+  systemd.network = l.netX "eth0";
+
+  environment.etc."resolv.conf" = l.dns.resolvConf;
 
   systemd = {
     enableEmergencyMode = false;

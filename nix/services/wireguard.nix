@@ -17,7 +17,7 @@ let
     '' + (if (pAddr == null) then "" else ''
     Endpoint = [${pAddr}]:${toString port}
     '');
-  h2cs = n: r: confSec {hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg; pAddr=r.addr.local;};
+  h2cs = n: r: confSec {hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg0; pAddr=r.addr.local;};
   conf = concatStrings (mapAttrsToList h2cs l.hostsTable);
   cnfFile = builtins.toFile "wireguard-conf" conf;
 
@@ -29,15 +29,31 @@ in {
   };
   # systemd.network.netdevs does not appear to support boringtun-managed wg0 interfaces at present.
   # Instead, just use it to create the tun iface and do our own stuff on top.
-  systemd.network.netdevs."${ifn}" = {
-    netdevConfig = {
-      Name = ifn;
-      Kind = "tun";
+  systemd.network = {
+    netdevs."${ifn}" = {
+      netdevConfig = {
+        Name = ifn;
+        Kind = "tun";
+      };
+    };
+    networks.wireguard = {
+      enable = true;
+      matchConfig = { Name = ifn; };
+      networkConfig.Description = "local wireguard overlay network";
+      address = [(l.hostRec.addr."${ifn}" + "/64")];
     };
   };
 
   users = l.lib.mkUserGroups (with l.vars.userSpecs {}; [wireguard]);
 
+  systemd.tmpfiles.settings = {
+    "wireguard"."/var/run/wireguard".d = {
+      group = "root";
+      user = "wireguard";
+      mode = "0755";
+    };
+  };
+  
   systemd.services = {
     "${sn0}" = {
       after = ["network.target"];

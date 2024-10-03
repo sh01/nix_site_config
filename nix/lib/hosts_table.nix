@@ -11,6 +11,7 @@
         ssh = hk_ssh;
         wireguard = hk_wg;
       };
+      
       addr = (sites."${site}".net idx).addr;
     };
   };

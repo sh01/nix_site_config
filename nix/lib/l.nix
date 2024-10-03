@@ -51,6 +51,7 @@ let
     };
 
     hostsTable = _hostsTable;
+    hostRec = _hostsTable."${hostname}";
     ifaceDmz = site.mkIface _hostIdx;
     netX = (site.net _hostIdx).systemd;
   };
