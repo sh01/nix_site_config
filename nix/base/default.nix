@@ -1,5 +1,6 @@
 {config, lib, pkgs, l, ...}:
 let
+  inherit (lib) mkDefault;
   # Recursively read all files from ./etc and build an environment.etc value.
   med = let bp = (builtins.toString ../../etc); in p: if p == "" then bp else bp  + "/" + p;
   pdir = (p:
@@ -217,6 +218,7 @@ if [ -d /var/cache/ ]; then
 fi
 '';
   };
+  system.includeBuildDependencies = mkDefault true;
 
   hardware.enableRedistributableFirmware = true;
   #### Nix firewall
