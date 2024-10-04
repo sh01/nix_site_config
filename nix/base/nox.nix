@@ -43,10 +43,24 @@
     libsForQt512 = pkgs.libsForQt512 // (let up = pkgs.libsForQt512; in {
       qtbase = up.qtbase.override {libGLSupported = false; cups = null; mysql = null; postgresql = null; withGtk3 = false; dconf = null;};
     });
-    libpulseaudio = null;
+    #libpulseaudio = null;
     #libtheora = null;
     #libvorbis = null;
   };
+  nixpkgs.overlays = [
+    (self: super: {
+      openfecSupport = false;
+      pulseaudioSupport = false;
+      soxSupport = false;
+      enableX11 = false;
+      enableWayland = false;
+      enableAlsa = false;
+      libGLSupported = false;
+      withGtk3 = false;
+      enableGl = false;
+      enableCocoa = false;
+    })
+  ];
 
   fonts.fontconfig.enable = false;
   environment.noXlibs = true;
