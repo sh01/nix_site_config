@@ -12,7 +12,7 @@
         wireguard = hk_wg;
       };
       
-      addr = (sites."${site}".net idx).addr;
+      addr = if (site == null) then null else (sites."${site}".net idx).addr;
     };
   };
   aB = idx: hn: {
