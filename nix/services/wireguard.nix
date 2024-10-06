@@ -23,8 +23,8 @@ let
     let
       addr = if (isMySite r) then r.addr.local else r.addr.global;
       extra = if ((isMySite r) || (l.hostRec.addr.global != null)) then "" else ''
-         PersistentKeepalive = 116
       '';
+      #PersistentKeepalive = 116
     in confSec {hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg0; pAddr=addr;} + extra;
   conf = concatStrings (mapAttrsToList h2cs l.hostsTable);
   cnfFile = builtins.toFile "wireguard-conf" conf;
