@@ -109,6 +109,15 @@ in rec {
     #  configureFlags = a.configureFlags ++ ["--sysconfdir=/etc/ircd"];
     #});
   };
+  
+  nixpkgs.overlays = [
+    (self: super: {
+      # Just asking for problems and vulnerabilities.
+      zeroconfSupport = false;
+      # We don't use ZFS.
+      zfsSupport = false;
+    })
+  ];
 
   ##### Internationalisation properties
   i18n = {

@@ -12,12 +12,12 @@ let
   h = hostname:
     (import <nixpkgs/nixos> {
       configuration = sysConf hostname;
-    }).system;
+    });
 
   hostConfigP = hn: {
     name = hn;
     value = h hn;
   };
-  hostNs = ["keiko" "bw0" "liel" "nova" "uiharu" "jibril" "yalda"];
+  hostNs = ["keiko" "bw0" "liel" "nova" "uiharu" "jibril" "yalda" "ika"];
 
 in listToAttrs (map hostConfigP hostNs)
