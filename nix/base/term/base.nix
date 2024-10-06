@@ -4,10 +4,6 @@ let
   vars = (pkgs.callPackage ../../base/vars.nix {});
   dns = (import ../dns.nix) {};
 in {
-  imports = [
-    ./boot.nix
-  ];
-
   services = {
     xserver = {
       enable = true;

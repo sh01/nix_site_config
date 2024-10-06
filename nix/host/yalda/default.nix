@@ -13,6 +13,7 @@ in rec {
     ./hardware-configuration.nix
     ../../base
     ../../base/term/desktop.nix
+    ../../base/term/boot.nix
     ../../base/term/gaming_box.nix
     ../../base/term/game_pads.nix
     ../../base/site_wi.nix
