@@ -1,7 +1,11 @@
 {pkgs, structuredExtraConfig, ...}: {
   boot = {
     kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./default_kernel.nix {inherit structuredExtraConfig;});
-    blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
+    blacklistedKernelModules = [
+      "snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"
+      "firewire_ohci" "firewire_core" "firewire_sbp2"
+      "wireguard"
+    ];
     initrd = {
       luks.devices = {
         "root" = {
@@ -35,6 +39,6 @@
   fileSystems."/" = {
     label = "root";
     fsType = "btrfs";
-    options = ["noatime" "nodiratime"];
+    options = ["noatime" "nodiratime" "ssd" "discard"];
   };
 }

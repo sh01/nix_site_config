@@ -1,14 +1,16 @@
-{ pkgs, sysPkgs, rks, uks }:
+{ pkgs, sysPkgs, rks, uks, srvs, l, ...}:
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
   dns = (import ../base/dns.nix) {};
 in {
-  imports = [
-    ../base
-    ../base/site_wi.nix
+  imports = with l.conf; [
+    default
+    site
     ./containers_common.nix
   ];
+
+  systemd.services = srvs;
 
   ### User / Group config
   users = let

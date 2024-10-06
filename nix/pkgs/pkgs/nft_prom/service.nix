@@ -8,7 +8,7 @@ in {
     serviceConfig = {
       Restart = "always";
       WorkingDirectory="/var/empty";
-      ExecStart = "${nft_prom}/bin/nft_prom.py --port 9101";
+      ExecStart = "${nft_prom}/bin/nft_prom.py --port 9102";
     };
   };
 }

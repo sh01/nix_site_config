@@ -1,10 +1,9 @@
 # nova is a small entertainment system
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (lib) mkForce;
   inherit (pkgs) callPackage;
-  ssh_pub = import ../../base/ssh_pub.nix;
   slib = callPackage ../../lib {};
   vars = callPackage ../../base/vars.nix {};
   dns = import ../../base/dns.nix {
@@ -12,12 +11,13 @@ let
   };
   nft = pkgs.callPackage ../../base/nft.nix {};
 in {
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    ../../base
-    ../../base/site_wi.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
+    ../../services/prom_exp_node.nix
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});})
   ];
 
@@ -49,7 +49,7 @@ in {
 
     nftables = {
       enable = true;
-      rulesetFile = builtins.toFile "rules.nft" nft.conf_terminal;
+      ruleset = (nft.conf_simple config.l.ext_ports_t);
     };
   };
   environment.etc."resolv.conf" = dns.resolvConf;
@@ -85,15 +85,18 @@ in {
   ### Services
   services = {
     openssh.moduliFile = ./sshd_moduli;
-    prometheus.exporters.node = (import ../../base/node_exporter.nix);
     udisks2.enable = false;
     uptimed.enable = true;
+    displayManager = {
+      execCmd = "/run/current-system/sw/bin/Xorg -config /etc/X11/xorg.conf -verbose 3 -auth /var/local/x11/xauth_0";
+    };
+    
     xserver = {
       enable = true;
       displayManager = {
         startx.enable = true;
-        job.execCmd = "/run/current-system/sw/bin/Xorg -config /etc/X11/xorg.conf -verbose 3 -auth /var/local/x11/xauth_0";
       };
+      
       extraConfig = mkForce ''
 Section "ServerFlags"
         Option "AutoEnableDevices" "false"

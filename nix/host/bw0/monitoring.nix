@@ -46,10 +46,12 @@ let
           { target_label = "__address__"; replacement = addr; source_labels = [];}
         ];
   };
-  nft_configs = [{targets = ["localhost:9101"];}];
+  nft_configs = [{targets = ["localhost:9102"];}];
+  node_configs = port: [{targets = map (x: x + ":" + (toString port)) ["localhost" "jibril.x.s." "yalda.sh.s." "liel.x.s." "uiharu.sh.s."];}];
 in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
+    ../../services/prom_exp_node.nix
   ];
   # Prometheus
   systemd.services = {
@@ -76,7 +78,7 @@ in rec {
       {
         job_name = "node";
         scrape_interval = "256s";
-        static_configs = [{targets = ["localhost:9100" "jibril.x.s.:9100" "yalda.sh.s.:9100" "liel.x.s.:9100"];}];
+        static_configs = (node_configs 9100);
       } {
         job_name = "nft_prom";
         metrics_path = "/probe";
@@ -101,42 +103,28 @@ in rec {
 "5.sens.s.:80"
           ];}
         ];
+      } {
+        job_name = "jibril_mc0";
+        scrape_interval = "64s";
+        static_configs = [{ targets = ["jibril.x.s:20004"]; }];
+        metric_relabel_configs = [
+          {
+            source_labels = ["__name__"];
+            regex = "process_.*|jvm_(classes_currently_loaded|buffer_pool_used_bytes|memory_bytes_committed)|mc_(entities_total|server_tick_seconds_(count|sum)|dimension_chunks_loaded|dimension_tick_seconds_(count|sum)|player_list)";
+            action = "keep";
+          }
+        ];
+      } {
+        job_name = "smartctl";
+        scrape_interval = "256s";
+        static_configs = (node_configs 9101);
+        metric_relabel_configs = [{
+          source_labels = ["__name__"];
+          regex = "smartctl_device(|_available_spare|_block_size|_bytes_read|_bytes_written|_capacity_blocks|_critical_warning|_media_errors|_power_cycle_count|_power_on_seconds|_smart_status|_temperature|_version)$";
+          action = "keep";
+        }];
       }
     ];
-    exporters = {
-      node = {
-        enable = true;
-        listenAddress = blackbox_ip;
-        disabledCollectors = [
-          "arp"
-          "bcache"
-          "bonding"
-          "buddyinfo"
-          "entropy"
-          "filefd"
-          "interrupts"
-          "ipvs"
-          "loadavg"
-          "mdadm"
-          "nfs"
-          "nfsd"
-          "textfile"
-          "uname"
-          "time"
-          "xfs"
-          "zfs"
-        ];
-        enabledCollectors = [
-          "ntp"
-          "timex"
-        ];
-        extraFlags = [
-          "--collector.ntp.server-is-local"
-          "--collector.netstat.fields=Ip(6|Ext)_(InOctets|OutOctets)"
-          "--collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs|ramfs|tmpfs)$"
-        ];
-      };
-    };
   };
 
   services.grafana = {
@@ -166,15 +154,4 @@ in rec {
     };
   };
   systemd.services.influxdb.postStart = lib.mkForce "";*/
-
-  # Fix flake test error at 18.9 by overriding running of borked test cases.
-  #nixpkgs.config.packageOverrides = super: {
-    # Prometheus fixes
-    #python27 = super.python27.override {
-      #packageOverrides = python-self: python-super: {
-        #pyopenssl = python-super.pyopenssl.overridePythonAttrs (old: { doCheck = false;} );
-      #};
-    #};
-    #prometheus_2 = super.prometheus_2.overrideAttrs (old: { doCheck = false; });
-  #};
 }

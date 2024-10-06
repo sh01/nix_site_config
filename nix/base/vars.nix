@@ -31,6 +31,7 @@ in {
     openvpn = ["openvpn" 2001 [] [] {}];
     nix_mirror = ["nix_mirror" 2002 [] [ssh_pub.root_keiko] {home = "/var/cache/nix_mirror";}];
     bouncer = ["bouncer" 2003 [] [] {}];
+    wireguard = ["wireguard" 2004 [] [] {}];
     cc = ["cc" 2048 [] [] {}];
     dovecot-auth = ["dovecot-auth" 2050 [] [] {}];
     mail-sh = ["mail-sh" 2056 ["dspam"] [] {}];
@@ -43,7 +44,7 @@ in {
     default = [sh backup_client nix_mirror];
     monitoring = [mon_0 mon_1];
   };
-
+  
   iproute2 = {
     enable = true;
     rttablesExtraConfig = ''
@@ -204,6 +205,10 @@ BLK_DEV_RAM = yes;
 
 BINFMT_MISC = yes;
 PACKET = yes;
+
+# In-kernel contexts are unnecessarily privileged for this;
+# we use userspace implementations, instead.
+WIREGUARD = mkForce no;
 };
 
     devFreq = {
@@ -352,7 +357,7 @@ SND_TIMER = yes;
     
     # It's typically fine to keep these as modules instead, which NixOS will do by default.
     termVideo = {
-AGP = no;
+AGP = mkForce no;
 I2C_ALGOBIT = yes;
 DRM = yes;
 DRM_SCHED = option yes;
@@ -362,6 +367,7 @@ DRM_KMS_HELPER = option yes;
 DRM_I915 = module;
 AMD_IOMMU_V2 = yes;
 DRM_AMDGPU = module;
+I2C_CHARDEV = yes; # DDC monitor control
 
 FRAMEBUFFER_CONSOLE = yes;
 FRAMEBUFFER_CONSOLE_DETECT_PRIMARY = yes;

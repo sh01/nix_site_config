@@ -1,22 +1,45 @@
 # Yalda is a desktop deployment with a focus on games.
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (pkgs) callPackage;
-  cont = callPackage ../../containers {};
+  llib = callPackage ../../lib {inherit pkgs;};
+  cont = l.call ../../containers {
+    emounts = {
+      "/mnt/ys1/c".isReadOnly = false;
+    };
+    extraSrv = (llib.startupScriptC {name="mount_userdirs"; script=''
+mountpoint -q /home/prsw/sh/vg && exit 1
+
+BASE=/mnt/ys1/c
+mountpoint -q "$BASE" || exit 1
+
+for pa in "/home/prsw" "/home/prsw_net"; do
+  for pb in "sh"; do
+    for pc in "vg" ".wine/drive_c"; do
+      P="$pa/$pb/$pc"
+      if [ ! -e "$P" ]; then
+        continue
+      fi
+      echo "== $P"
+      mount --bind "$BASE$P" "$P"
+    done
+  done
+done'';});
+  };
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
   lpkgs = (import ../../pkgs {});
   ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
 in rec {
   # Pseudo-static stuff
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    ../../base
     ../../base/term/desktop.nix
     ../../base/term/boot.nix
-    ../../base/term/gaming_box.nix
+    (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
-    ../../base/site_wi.nix
     ../../fix
   ];
 
@@ -54,7 +77,7 @@ in rec {
       };
     };
   };
-
+  
   systemd = {
     services = {
       SH_mount_ys = {
@@ -63,18 +86,19 @@ in rec {
         description = "SH_mount_ys";
         path = with pkgs; [coreutils eject lvm2 kmod cryptsetup utillinux];
         script = ''
-mountpoint -q /mnt/ys && exit 0
-# Set up /mnt/ys
+mountpoint -q /mnt/ys1 && exit 0
+# Set up /mnt/ys1
 dmsetup mknodes
 modprobe bcache
 
-test -e /dev/mapper/ys1 || cryptsetup luksOpen --key-file=yalda_ys1 /dev/bcache/by-uuid/b3f9eb6c-511f-42bf-8542-50fb201fd8c9 ys1
+bdev="$(basename $(readlink /sys/fs/bcache/bf9dc10c-1c84-4a16-928e-d1019a4b30b9/bdev0/dev))"
+test -e /dev/mapper/ys1 || cryptsetup luksOpen --key-file=/var/crypt/ys1 "/dev/$bdev" ys1
 #for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {
   # Already registered disks will throw errors; ignore those
 #  echo $disk > /sys/fs/bcache/register || true
 #}
 sleep 2 # wait for kernel to link disk label
-mount /mnt/ys
+mount /mnt/ys1
 '';
       };
     };
@@ -94,10 +118,10 @@ mount /mnt/ys
 
   fileSystems = let
     baseOpts = ["noatime" "nodiratime"];
-    btrfsOpts = baseOpts ++ ["space_cache" "autodefrag"];
+    btrfsOpts = baseOpts ++ ["space_cache=v2" "autodefrag" "ssd" "discard=async"];
   in {
-    "/" = { label = "yalda_root"; options=btrfsOpts ++ ["ssd"]; };
-    "/mnt/ys" = { device = "/dev/mapper/ys1"; options=btrfsOpts ++ ["noauto"]; };
+    "/" = { label = "yalda_root"; options=btrfsOpts; };
+    "/mnt/ys1" = { device = "/dev/mapper/ys1"; options=btrfsOpts ++ ["noauto"]; };
   };
   
   services.openssh.moduliFile = ./sshd_moduli;

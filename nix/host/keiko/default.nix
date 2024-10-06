@@ -1,30 +1,24 @@
 # Keiko is a storage system.
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 
 let
   inherit (pkgs) callPackage;
   inherit (lib) mkForce;
-  ssh_pub = import ../../base/ssh_pub.nix;
-  slib = callPackage ../../lib {};
-  vars = callPackage ../../base/vars.nix {};
   dns = (import ../../base/dns.nix) {};
 in {
-  imports = [
+  imports = with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    ../../base
     ../../base/nox.nix
-    ../../base/site_wi.nix
     ../../fix/19_9.nix
     ../../base/ntp_client_default.nix
   ];
 
   #environment.etc."nix/nix.conf".source = mkForce (builtins.readFile ../../base/nix.conf);
   ##### Host id stuff
-  networking = {
-    hostName = "keiko";
-    hostId = "84d5fcc6";
-    usePredictableInterfaceNames = false;
-    iproute2 = vars.iproute2;
+  networking = l.netHostInfo // {
+    iproute2 = l.vars.iproute2;
     interfaces = {
       "eth_lan" = {
         ipv4.addresses = [
@@ -45,10 +39,6 @@ in {
       };
     };
     firewall.enable = false;
-    useDHCP = false;
-    dhcpcd.allowInterfaces = [];
-    useNetworkd = false;
-
     resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
 
     nftables = {
@@ -66,7 +56,7 @@ in {
   '';
 
   ### System profile packages
-  environment.systemPackages = with pkgs; with (pkgs.callPackage ../../pkgs/pkgs/meta {}); [
+  environment.systemPackages = with pkgs; with (l.call ../../pkgs/pkgs/meta {}); [
     base
     cliStd
     nixBld
@@ -139,6 +129,7 @@ test -e /dev/mapper/a7-main
     defaults = ''
       skip_kpartx no
       path_grouping_policy multibus
+      find_multipaths yes
 '';
   };
   
@@ -146,7 +137,7 @@ test -e /dev/mapper/a7-main
   # boot.loader.initScript.enable = true;
   hardware.cpu.intel.updateMicrocode = true;
   boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
+    kernelPackages = pkgs.linuxPackagesFor (callPackage ../../base/default_kernel.nix {structuredExtraConfig = (l.call ./kernel_conf.nix {});});
     blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
     initrd = {
       luks.devices = {
@@ -174,20 +165,16 @@ test -e /dev/mapper/a7-main
   ### Networking
 
   ### Services
-  services.openssh.enable = true;
   services.openssh.moduliFile = ./sshd_moduli;
   services.uptimed.enable = true;
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [
+  users = l.lib.mkUserGroups (with l.vars.userSpecs {}; default ++ [
     sh cc es_github mail-sh
     sh_yalda
   ]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.09";
-
-  hardware.opengl.driSupport32Bit = true;
-  hardware.pulseaudio.support32Bit = true;
 }

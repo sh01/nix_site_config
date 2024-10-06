@@ -70,7 +70,7 @@ table ip nat {
 
 '');
 
-  conf_terminal = (conf_simple [22]);
+  conf_terminal = (conf_simple []);
   env_conf_terminal = {
     "nft.conf" = {
       text = (conf_terminal);

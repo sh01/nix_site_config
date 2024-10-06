@@ -1,7 +1,7 @@
 let
   optDef = r: [
-    {name = "routers"; data = "10.17.1." + r;}
-    {name = "domain-name-servers"; data = "10.17.1.1";}
+    {name = "routers"; data = "10.17." + r + ".1";}
+    {name = "domain-name-servers"; data = "10.17." + r + ".1";}
   ];
   optSearch = [
     {name = "domain-search"; data = "x.s., s.";}
@@ -9,7 +9,12 @@ let
   R = hw: ip: hn: {"hostname" = hn; "hw-address" = hw; "ip-address" = ip;};
   Re = h: i: (R ("06:ff:ff:80:00:" + h) ("10.17.8." + i) ("snode-" + i));
 in {
+    #"renew-timer" = 3600;
     "valid-lifetime" = 4194304;
+    "control-socket" = {
+      "socket-name" = "/run/kea/ctrl.sock";
+      "socket-type" = "unix";
+    };
     "interfaces-config" = {
       "dhcp-socket-type" = "raw";
       "interfaces" = [ "eth_l_wired/10.17.1.1" "eth_l_wifi" "eth_l_wifi_g" ];
@@ -18,6 +23,8 @@ in {
       type = "memfile";
       persist = true;
       name = "/var/lib/kea/dhcp4.leases";
+      #"lfc-interval" = 8192;
+      "lfc-interval" = 0;
     };
     "shared-networks" = [
       {
@@ -71,6 +78,10 @@ in {
           
           (R "28:3a:4d:50:1a:67" "10.17.2.13" "misc_print1")
           (R "8c:0e:60:03:0f:00" "10.17.2.3"  "ap_1")
+
+          # 74:f9:ca:ed:c1:33 switch
+          # 88:54:1f:34:de:f8 sh-an
+          # f4:f5:e8:5a:09:64 ccast
         ];
       } {
         id = 4;

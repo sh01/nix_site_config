@@ -1,4 +1,4 @@
-{
+{...}: {
   ocean = {
     remote0 = "138.68.246.52 1210 udp";
     remote1 = "ika.memespace.net 1210 udp";

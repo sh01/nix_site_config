@@ -4,20 +4,29 @@ let
   vars = (pkgs.callPackage ../../base/vars.nix {});
   dns = (import ../dns.nix) {};
 in {
+  imports = [
+    ../../services/prom_exp_node.nix
+  ];
+
   services = {
+    pipewire.enable = false;
+    libinput.enable = true;
+    displayManager = {
+      sddm = {
+        enable = true;
+        enableHidpi = true;
+      };
+      #defaultSession = "xfce";
+    };
+    
     xserver = {
       enable = true;
-      displayManager = {
-        startx.enable = true;
-        sx.enable = true;
-        sddm = {
-          enable = true;
-          enableHidpi = true;
-        };
-        #defaultSession = "xfce";
-      };
-      libinput.enable = true;
 
+      displayManager = {
+        sx.enable = true;
+        startx.enable = true;
+      };
+      
       desktopManager = {
         xfce = {
           enable = true;
@@ -37,14 +46,12 @@ Option "OffTime" "1800"
 
     dnsmasq = {
       enable = true;
-      extraConfig = ''
-interface=lo
-listen-address=10.231.1.1
-except-interface=eth_wifi
-except-interface=eth_lan
-except-interface=tun_msvpn
-server=/s/16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::1
-'';
+      settings = {
+        interface = "lo";
+        listen-address = "10.231.1.1";
+        except-interface = ["eth_wifi" "eth_lan" "tun_msvpn"];
+        server = ["/s/16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::1"];
+      };
     };
   };
 

@@ -1,6 +1,6 @@
-{config, lib, pkgs, ...}:
+{config, lib, pkgs, l, ...}:
 let
-  ssh_pub = import ./ssh_pub.nix;
+  inherit (lib) mkDefault;
   # Recursively read all files from ./etc and build an environment.etc value.
   med = let bp = (builtins.toString ../../etc); in p: if p == "" then bp else bp  + "/" + p;
   pdir = (p:
@@ -19,20 +19,35 @@ let
   ));
 in rec {
   environment.etc = pdir ".";
+  environment."stub-ld".enable = false;
 
   imports = [
     ./channel.nix
+    ./default_opts.nix
   ];
   
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];
+  environment.systemPackages = with pkgs; [ stdenv ];
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
   security = {
     sudo.execWheelOnly = true;
-    pam.services = {
-      su.requireWheel = true;
-      sudo.requireWheel = true;
+    pam = {
+      services = {
+        su.requireWheel = true;
+        sudo.requireWheel = true;
+      };
+      loginLimits = [
+        # Default file nr ulimit is low enough to give nix trouble during large builds; raise it.
+        {
+          domain = "*";
+          type = "soft";
+          item = "nofile";
+          value = "16384";
+        }
+      ];
     };
+    
     # needed for nix sandboxing, unfortunately.
     # allowUserNamespaces = false;
   };
@@ -53,6 +68,10 @@ in rec {
     mp2mca = "mplayer2 -af resample=48000:1:2,hrtf -channels 6";
     ga = "git-annex";
   };
+  environment.variables = {
+    NIX_HOST = "${l.hostname}";
+    NIXOS_CONFIG = "/etc/site/nix/lib/host_config.nix";
+  };
 
   # Local package includes.
   environment.pathsToLink = ["/local" "/share/local"];
@@ -66,6 +85,14 @@ in rec {
     shellInit = (builtins.readFile ./shell_env.sh);
     histFile = "$XDG_STATE_HOME/zsh/history";
   };
+  # Fix to do attrset
+  programs.ssh.knownHosts = let
+    f = n: r: {
+      hostNames = r.names;
+      publicKey = r.pub.ssh;
+    };
+  in
+    lib.attrsets.mapAttrs f l.hostsTable;
 
   nixpkgs.config.packageOverrides = pkgs: {
     # We don't need this.
@@ -82,6 +109,15 @@ in rec {
     #  configureFlags = a.configureFlags ++ ["--sysconfdir=/etc/ircd"];
     #});
   };
+  
+  nixpkgs.overlays = [
+    (self: super: {
+      # Just asking for problems and vulnerabilities.
+      zeroconfSupport = false;
+      # We don't use ZFS.
+      zfsSupport = false;
+    })
+  ];
 
   ##### Internationalisation properties
   i18n = {
@@ -94,6 +130,8 @@ in rec {
   };
 
   services = {
+    udisks2.enable = lib.mkOverride 90 false;
+    
     logind = {
       lidSwitch = "lock";
       extraConfig = ''
@@ -131,7 +169,7 @@ in rec {
 
   #### Nixpkgs
   nixpkgs.config.allowUnfree = false;
-  nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.7" ];
+  nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.7" "python-2.7.18.8" ];
 
   ##### Nix source and build config
   nix = {
@@ -189,14 +227,17 @@ if [ -d /var/cache/ ]; then
 fi
 '';
   };
-    
+  system.includeBuildDependencies = mkDefault true;
+
+  hardware.enableRedistributableFirmware = true;
   #### Nix firewall
   networking = {
     # Doesn't work right on other hosts due to use of static ifaces.
     nftables.checkRuleset = false;
 
+    useDHCP = false;
+    networkmanager.enable = false;
     usePredictableInterfaceNames = false;
-    useNetworkd = false;
     firewall = {
       allowPing = true;
       rejectPackets = true;
@@ -204,10 +245,10 @@ fi
     # Prevent dangerous distri hosts from being contacted.
     extraHosts = "127.255.0.1 cache.nixos.org";
   };
+  services.resolved.enable = false;
 
   #### Per-program config
   programs.ssh.startAgent = false;
-  programs.ssh.knownHosts = ssh_pub.knownHosts;
 
   ######## X-windows things
   fonts.fontconfig.defaultFonts.serif = [ "DejaVu Sans" ];

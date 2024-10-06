@@ -1,4 +1,4 @@
-{pkgs, lib, ...}:
+{pkgs, lib, emounts?{}, extraSrv?{}, l, ...}:
 let
   bbMounts = {
     "/tmp/.X11-unix" = {
@@ -10,15 +10,20 @@ let
     #};
     "/home/stash".isReadOnly = true;
     "/run/pulse".isReadOnly = false;
-  };
+  } // emounts;
   devMounts = {
     "/dev/dri".isReadOnly = true;
     "/dev/input".isReadOnly = true;
     "/run/udev/data".isReadOnly = true;
   };
-  chAddr = num: "10.231.1." + num;
+  chAddr = num: "10.231.1.${toString num}";
   net = num: {
     localAddress = (chAddr num) + "/24";
+    privateNetwork = true;
+  };
+  netD = num: {
+    localAddress = (chAddr num);
+    hostAddress = (chAddr 1);
     privateNetwork = true;
   };
   lpkgs = pkgs.callPackage ../pkgs {};
@@ -53,6 +58,8 @@ in rec {
     
     wineWowPackages.fonts
     wineWowPackages.stableFull
+    dxvk_2
+    vkd3d-proton
 
     lutris-free
 
@@ -86,7 +93,7 @@ in rec {
 
   c = rks: uks: {
     browsers = {
-      config = (import ./browsers.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsBase;};
+      config = (l.call ./browsers.nix) {inherit rks uks; sysPkgs = sysPkgsBase; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/browsers" = {
@@ -94,27 +101,27 @@ in rec {
           isReadOnly = false;
         };
       } // bbMounts;
-    } // (net "2");
+    } // (netD "2");
     prsw = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
+      config = (l.call ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw" = {
-	  hostPath = "/home/prsw";
-	  isReadOnly = false;
+          hostPath = "/home/prsw";
+          isReadOnly = false;
         };
       } // bbMounts // devMounts;
-    } // devAllow // (net "3");
+    } // devAllow // (netD "3");
     "prsw-net" = {
-      config = (import ./prsw.nix) {inherit pkgs rks uks; sysPkgs = sysPkgsPrsw;};
+      config = (l.call ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
       bindMounts = {
         "/home/prsw_net" = {
-	  hostPath = "/home/prsw_net";
-	  isReadOnly = false;
-	};
+          hostPath = "/home/prsw_net";
+          isReadOnly = false;
+        };
       } // bbMounts // devMounts;
-    } // devAllow // (net "4");
+    } // devAllow // (netD "4");
   };
 
   c_vpn = rec {
@@ -126,13 +133,13 @@ in rec {
     brDev = "lc_br_vu";
     cont = inCfg: {
       "vpn-up" = {
-        config = (import ./vpn_up.nix {inherit lib pkgs upAddr cAddr; sysPkgs = sysPkgsBase;});
+        config = (l.call ./vpn_up.nix {inherit upAddr cAddr; sysPkgs = sysPkgsBase;});
         enableTun = true;
         autoStart = true;
         hostBridge = brDev;
       } // vNet;
       "vpn-in" = {
-        config = (import ./vpn_in.nix {inherit lib pkgs upAddr vAddr; sysPkgs = sysPkgsBase;}) // inCfg;
+        config = (l.call ./vpn_in.nix {inherit upAddr vAddr; sysPkgs = sysPkgsBase;}) // inCfg;
         autoStart = true;
         hostBridge = brDev;
       } // cNet;

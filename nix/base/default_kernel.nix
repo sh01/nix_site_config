@@ -1,4 +1,5 @@
-{pkgs, callPackage, buildPackages, ncurses, fetchurl, stdenv, perl, buildLinux, config, hostPlatform, structuredExtraConfig ? {}, cpio, ...}: let
+{pkgs, structuredExtraConfig ? {}, ...}: let
+  inherit (pkgs) callPackage buildPackages ncurses fetchurl stdenv perl buildLinux hostPlatform;
 in (buildLinux rec {
   version = "6.1.60";
   src = fetchurl {

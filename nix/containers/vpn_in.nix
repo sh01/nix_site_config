@@ -1,14 +1,13 @@
-{ pkgs, sysPkgs, lib, upAddr, vAddr, ... }:
+{ pkgs, sysPkgs, lib, upAddr, vAddr, l, ... }:
 let
   inherit (lib) mkForce;
   vars = pkgs.callPackage ../base/vars.nix {};
   slib = (pkgs.callPackage ../lib {});
-  ssh_pub = (import ../base/ssh_pub.nix);
 in {
-  imports = [
-    ../base
+  imports = with l.conf; [
+    default
+    site
     ../base/nox.nix
-    ../base/site_wl.nix
     ./containers_common.nix
   ];
 

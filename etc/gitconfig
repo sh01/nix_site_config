@@ -13,4 +13,6 @@
 [diff]
 	diff-algorithm = histogram
 
-
+[safe]
+	directory = /var/cache/root/git/nixpkgs/.git
+	directory = /etc/site/.git

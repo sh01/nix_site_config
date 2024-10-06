@@ -1,5 +1,7 @@
-{pkgs, lib, stdenv, system}:
-let P = bname: d: stdenv.mkDerivation (rec {
+{pkgs, lib, system, ...}:
+let
+  inherit (pkgs) stdenv;
+  P = bname: d: stdenv.mkDerivation (rec {
     name = "SH_M_" + bname;
     deps = lib.strings.concatStringsSep " " d;
     buildInputs = [pkgs.coreutils];
@@ -48,6 +50,8 @@ in with pkgs; rec {
     fd
     # nix tools
     nvd
+    nix-output-monitor
+    jq
 
     emacs_packages
 
@@ -120,7 +124,8 @@ in with pkgs; rec {
   cliStd = P "cliStd" [base baseDoc AFM];
 
   cliDbg = P "cliDbg" [
-    wireshark-cli
+    # Borked in 24.05
+    #wireshark-cli
     stress-ng
   ];
 
@@ -239,6 +244,8 @@ in with pkgs; rec {
     openntpd
     uptimed
     mpv
+
+    bcachefs-tools
   ];
 
   kde4 = P "kde4" [
@@ -279,7 +286,8 @@ in with pkgs; rec {
   ];
 
   games = P "games" [
-    cataclysm-dda
+    cataclysmDDA.git.curses
+    cataclysm-dda-git
     crawl
     freeorion
     wesnoth

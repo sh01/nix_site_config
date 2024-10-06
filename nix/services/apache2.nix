@@ -1,6 +1,7 @@
-{writeText, lib, apacheHttpd}:
+{pkgs, lib, ...}:
 let
-  pkg = apacheHttpd;
+  inherit (pkgs) writeText;
+  pkg = pkgs.apacheHttpd;
   concat = lib.concatStringsSep "\n";
 in {
   fVhost = sname: els: concat ([''
@@ -43,15 +44,15 @@ in {
 '';
   fForward = dst: "\n" + ''
     <Location "/">
-      ProxyPass "${dst}"
+      ProxyPass "${dst}" upgrade=websocket
     </Location>
 '';
-  
+
   modsDefault = [
     "mpm_event"
     "authn_core" "authn_file" "authz_core" "authz_user" "auth_digest"
     "log_config" "mime" "autoindex" "dir" "unixd" "cgid" "http2" "userdir" "include" "env"
-    "proxy" "proxy_http" "proxy_wstunnel"
+    "proxy" "proxy_http"
   ];
   confFile = mods: els: writeText "httpd.conf" (concat (
     (map (mn: "LoadModule ${mn}_module ${pkg}/modules/mod_${mn}.so") mods) ++ ["\n" ''

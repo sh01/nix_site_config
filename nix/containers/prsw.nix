@@ -1,24 +1,28 @@
-{ pkgs, sysPkgs, rks, uks, ... }:
+{ pkgs, sysPkgs, rks, uks, srvs, l, ... }:
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
   dns = (import ../base/dns.nix) {};
   ssh_pub = (import ../base/ssh_pub.nix);
 in {
-  imports = [
-    ../base
-    ../base/site_wi.nix
+  imports = with l.conf; [
+    default
+    site
     ../base/alsa2pulse.nix
     ./containers_common.nix
+    ../pkgs/pkgs/dep/ggame/config_ld.nix
   ];
 
+  # This doesn't work as of nix 24.05.
+  #services.envfs.enable = true;
+  systemd.services = srvs;
+  
   hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    #s3tcSupport = true;
   };
-
+  
   ### User / Group config
   users = let
     us = with vars.userSpecs { keys = { sh = [ssh_pub.sh_allison]; sh_prsw = uks; sh_prsw_net = uks; sophia = [];};}; default ++ [ prsw prsw_net sh_x stash ];
@@ -29,16 +33,16 @@ in {
     groups = (slib.mkGroups us);
     inherit (slib.mkUserGroups {}) enforceIdUniqueness;
   };
-
+  
   networking = {
     firewall.enable = false;
     extraHosts = "127.0.0.1 sessionserver.mojang.com authserver.mojang.com api.mojang.com api.minecraftservices.com pc.realms.minecraft.net\n";
   };
-
+  
   fonts = {
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     fontDir.enable = true;
   };
-
+  
   environment.systemPackages = with (import ../pkgs {}); sysPkgs ++ [SH_dep_gbase];
 }

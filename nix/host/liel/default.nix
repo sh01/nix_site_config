@@ -1,30 +1,31 @@
 # liel is a host box
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 let
   inherit (lib) mkForce;
-  inherit (pkgs) callPackage;
-  ssh_pub = import ../../base/ssh_pub.nix;
-  slib = callPackage ../../lib {};
-  vars = callPackage ../../base/vars.nix {};
-  dns = import ../../base/dns.nix {
-    nameservers4 = ["10.17.1.1" "::1"];
-  };
-  gitit = name: ugid: port: (import ../../services/gitit.nix {inherit pkgs name ugid port;});
-  apache2 = callPackage ../../services/apache2.nix {};
-  vpn_c = (import ../../base/openvpn/client.nix);
-  c_vpn = (callPackage ../../containers {}).c_vpn;
+  ### Services
+  gitit = name: ugid: port: (l.call ../../services/gitit.nix {inherit name ugid port;});
+  planarallyS = name: ugid: port:  (l.call ../../services/planarally.nix {inherit name ugid port;});
+  apache2 = l.call ../../services/apache2.nix {};
+  vpn_c = (l.call ../../base/openvpn/client.nix {});
+  c_vpn = (l.call ../../containers {}).c_vpn;
 in {
-  imports = [
+  imports = (with l.conf; [
+    default
+    site
     ./hardware-configuration.nix
-    ../../base
     ../../base/nox.nix
-    ../../base/site_wi.nix
-    ../../fix/19_9.nix
+    ../../fix
     ../../base/ntp_client_default.nix
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
-    (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ../bw0/kernel_conf.nix {inherit lib;});})
-  ];
+
+    (planarallyS "c0" 2021 8020)
+    (planarallyS "ilzo" 2022 8021)
+    (l.call ../../base/std_efi_boot.nix {structuredExtraConfig = (l.call ../bw0/kernel_conf.nix {});})
+  ]) ++ (with l.srv; [
+    prom_exp_node
+    wireguard
+  ]);
 
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
@@ -43,25 +44,11 @@ in {
   };
 
   ### Networking
-  networking = {
-    hostName = "liel";
-    hostId = "84d5fcca";
-    usePredictableInterfaceNames = false;
-    useDHCP = false;
+  networking = l.netHostInfo // {
     firewall.enable = false;
-    networkmanager.enable = false;
-    useNetworkd = false;
+    useNetworkd = true;
 
     interfaces = {
-      #"eth_lan" = {
-      #  ipv4.addresses = [{ address = "10.19.4.1"; prefixLength = 24;}];
-      #  ipv6.addresses = [{ address = "fd9d:1852:3555:1200::1"; prefixLength = 80;}];
-      #};
-      "eth0" = {
-        ipv4.addresses = [{ address = "10.17.1.6"; prefixLength = 24; }];
-        ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
-        ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::6"; prefixLength=64;}];
-      };
       "tun_vpn_o" = {
         virtual = true;
         virtualOwner = "openvpn";
@@ -78,7 +65,9 @@ in {
     # Push this way out of the way.
     resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   };
-  environment.etc."resolv.conf" = dns.resolvConf;
+  systemd.network = l.netX "eth0";
+
+  environment.etc."resolv.conf" = l.dns.resolvConf;
 
   systemd = {
     enableEmergencyMode = false;
@@ -127,7 +116,7 @@ echo "Done."
   # powerManagement.cpuFreqGovernor = "powersave";
 
   ### System profile packages
-  environment.systemPackages = with pkgs; with (callPackage ../../pkgs/pkgs/meta {}); with (callPackage ../../pkgs {}); [
+  environment.systemPackages = with pkgs; with (l.call ../../pkgs/pkgs/meta {}); with (l.call ../../pkgs {}); [
     base
     cliStd
     moreutils
@@ -147,12 +136,6 @@ echo "Done."
 
   sound.enable = false;
   security.polkit.enable = false;
-  services.udisks2.enable = false;
-  services.prometheus.exporters.node = (import ../../base/node_exporter.nix);
-  nixpkgs.config.packageOverrides = pkgs: {
-    gnupg22 = pkgs.gnupg22.override { pcsclite = null; };
-  };
-
   fileSystems = {
     "/" = { device = "/dev/mapper/root"; options=["discard" "ssd" "noatime" "nodiratime" "space_cache=v2"];};
     "/boot" = { device = "/dev/disk/by-partlabel/EFI_sys"; options=["noauto" "noatime" "nodiratime"];};
@@ -189,6 +172,12 @@ DocumentRoot /var/www/
         (fAuth {name="rpg-c0-w.memespace.net"; fn="/etc/www/rpg_c0_wiki/auth_digest";})
         (fForward "http://127.0.0.2:8006/")
       ])
+      (fVhost "rpg-pa.x.s" [
+        (fForward "http://127.0.0.2:8020/")
+      ])
+      (fVhost "i-pa.x.s" [
+        (fForward "http://127.0.0.2:8021/")
+      ])
     ];
   };
 
@@ -218,12 +207,18 @@ DocumentRoot /var/www/
       };
       performanceNetParameters = true;
     };
-    # Default pre-startup script does not respect any local changes, but auth credential do not belong into nix store. Disable the script here.
-    systemd.services.transmission.serviceConfig.ExecStartPre = mkForce null;
+    systemd.services.transmission.serviceConfig = {
+      # Default pre-startup script does not respect any local changes, but auth credentials do not belong into nix store. Disable the script here.
+      ExecStartPre = mkForce null;
+      # Nix 24.05: Work around https://github.com/NixOS/nixpkgs/issues/258793
+      BindReadOnlyPaths = lib.mkForce [builtins.storeDir "/etc"];
+      RootDirectoryStartOnly = lib.mkForce false;
+      RootDirectory = lib.mkForce "";
+    };
   };
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia ilzo ratheka openvpn stash]);
+  users = l.lib.mkUserGroups (with l.vars.userSpecs {}; default ++ [sophia ilzo ratheka openvpn stash]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "20.09";

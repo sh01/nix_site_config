@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ config, pkgs, l, ... }:
 let
   inherit (pkgs) callPackage;
-  cont = callPackage ../../containers {};
+  cont = l.call ../../containers {};
   nft = callPackage ../../base/nft.nix {};
 in {
   imports = [
@@ -20,19 +20,17 @@ in {
 
     nftables = {
       enable = true;
-      ruleset = nft.conf_simple [22 9100];
+      ruleset = (nft.conf_simple config.l.ext_ports_t);
     };
     # Push this way out of the way.
     #resolvconf.extraConfig = "resolv_conf=/etc/__resolvconf.out";
   };
   #environment.etc."resolv.conf" = dns.resolvConf;
   environment.systemPackages = [(callPackage ../../pkgs/pkgs/meta {}).gamingBox];
-  environment.etc = nft.env_conf_terminal;
 
   services = {
     xserver.videoDrivers = ["intel" "amdgpu"];
     uptimed.enable = true;
-    prometheus.exporters.node = (import ../../base/node_exporter.nix);
     ntp = {
       enable = true;
       servers = ["10.17.1.1"];

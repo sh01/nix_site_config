@@ -1,26 +1,35 @@
-{ pkgs, fetchurl, ...}:
-
-pkgs.stdenv.mkDerivation rec {
+{ pkgs, fetchurl, ...}: let
+  ppkgs = (pkgs.callPackage ../.. {});
+in pkgs.stdenv.mkDerivation rec {
   pname = "planarally";
-  version = "2023.3.0";
+  version = "2024.2";
 
   src = fetchurl {
     url = "https://github.com/Kruptein/PlanarAlly/releases/download/${version}/planarally-bin-${version}.tar.gz";
-    hash = "sha256-5zPnEQnmoqOmS+GYF1rXbjPITcnosrDXCOIdFgTQO0s=";
+    hash = "sha256-dI0VVhG35SFiKv+ADPZELGut+3xAXx+uU83pMeRdaks=";
   };
-  
-  python3 = [
-    (pkgs.python3.withPackages(ps: with ps; [
-      aiohttp
-      peewee
-      pydantic
-    ]))
-  ];
-  buildPhase = ''
-    ls -la
-    mkdir -p "$out"/pa/static/assets
-    mkdir -p "$out"/pa/static/temp
-    cp -a . "$out"/pa/
-    ln -s "$python3/bin/python3" "$out"/
+
+  pPython = (pkgs.python3.withPackages(ps: with ps; [
+    aiohttp
+    aiohttp-session
+    ppkgs.aiohttp-security
+    peewee
+    pydantic
+    bcrypt
+    python-socketio
+  ]));
+
+  wName = "run_planarally.py";
+  runPA = ./run_planarally.py;
+  installPhase = ''
+    mkdir -p "$out/pa/static/mods"
+    cp -r "./" "$out/pa"
+
+    cp "$runPA" "$out"/pa/
+
+    mkdir "$out/bin"
+    wp="$out/bin/${wName}"
+    substitute "${runPA}" "$wp" --replace-fail "@@python3@@" "${pPython}/bin/python3"
+    chmod a+x "$wp"
 '';
 }
