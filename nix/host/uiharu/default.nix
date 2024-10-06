@@ -29,6 +29,10 @@
   networking = l.netHostInfo // {
     firewall.enable = false;
     useNetworkd = true;
+    nftables = {
+      enable = true;
+      ruleset = (l.call ./nft.nix {inPortStr="22";});
+    };
   };
   systemd.network = l.netX "eth0";
   
