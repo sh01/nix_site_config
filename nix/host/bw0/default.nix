@@ -3,8 +3,6 @@
 
 let
   inherit (lib) mkForce;
-  slib = (pkgs.callPackage ../../lib {});
-  vars = pkgs.callPackage ../../base/vars.nix {};
   dns = (import ../../base/dns.nix) {
     nameservers4 = ["127.0.0.1" "::1"];
   };
@@ -66,13 +64,11 @@ in {
 
   ### Networking
   networking = {
-    hostName = "bw2";
+    hostName = "bw0";
     hostId = "84d5fcc9";
-    usePredictableInterfaceNames = false;
-    useDHCP = false;
+    
     firewall.enable = false;
-    networkmanager.enable = false;
-    useNetworkd = false;
+    useNetworkd = true;
 
     interfaces = {
       #"eth_lan" = {
@@ -122,68 +118,10 @@ in {
         virtualType = "tun";
       };
     };
-    # defaultGateway = "10.19.4.2";
 
-    dhcpcd = {
-      enable = true;
-      allowInterfaces = ["eth_wan0" "eth_wan1"];
-      extraConfig = ''
-          nodelay
-          hostname_short
-          nogateway
-          noipv4ll
-          timeout 8
-          nohook lookup, resolv.conf
-          noipv6rs
-          waitip 4
-
-          interface eth_wan0
-            persistent
-          interface eth_wan1
-            persistent
-            #ipv6
-            #dhcp6
-            #ia_na
-            #ipv6rs
-      '';
-
-      runHook = with pkgs; ''
-          PATH=$PATH:${iproute}/bin:${coreutils}/bin
-          #/usr/bin/env > "/tmp/t0/$$"
-          if [[ "$interface" = "eth_wan0" ]]; then
-            WIDX=0
-            ip route add 192.168.1.254/32 dev "$interface"
-          elif [[ "$interface" = "eth_wan1" ]]; then
-            WIDX=1
-          else
-            exit 0
-          fi
-
-          TABLE="up_''${WIDX}"
-          IF6="tun6_''${WIDX}"
-          new_prefix="$(printf "2002:%02x%02x:%02x%02x" $(echo ''${new_ip_address} | tr "." " "))"
-
-          # BOUND, RECONFIGURE,  NOCARRIER, EXPIRE, NAK
-          set -x
-          if [ "$reason" = BOUND -o "$reason" = RECONFIGURE -o "$reason" = REBOOT ]; then
-            ip rule add from "''${new_ip_address}"/32 priority 32767 table "''${TABLE}"
-            for router in ''${new_routers}; do ip route add table "''${TABLE}" dev "''${interface}" via "''${router}" default; done
-
-            # set up 6to4 tunnel
-            ip tunnel add "''${IF6}" mode sit ttl 64 remote any local "''${new_ip_address}" || true
-            ip link set dev "''${IF6}" up || true
-            ip -6 addr add ''${new_prefix}::1/48 dev "''${IF6}" || true
-            ip -6 route add default via ::192.88.99.1 dev "''${IF6}" metric 1 table "''${TABLE}" || true
-            ip -6 route add ''${new_prefix}:200::/64 dev eth_l_wired table "l_''${TABLE}"
-
-          elif [ "$reason" = "EXPIRY" -o "$reason" = NOCARRIER -o "$reason" = NAK ]; then
-            ip rule del priority 32767 table "''${TABLE}"
-            ip route flush table "''${TABLE}";
-          fi
-          exit 0
-      '';
-    };
-
+    # (Handled by networkd)
+    dhcpcd.enable = false;
+    
     iproute2 = {
       enable = true;
       rttablesExtraConfig = ''
@@ -351,7 +289,7 @@ in {
   
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ monitoring);
+  users = l.lib.mkUserGroups (with l.vars.userSpecs {}; default ++ monitoring);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "19.09";
