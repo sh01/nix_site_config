@@ -129,6 +129,7 @@ test -e /dev/mapper/a7-main
     defaults = ''
       skip_kpartx no
       path_grouping_policy multibus
+      find_multipaths yes
 '';
   };
   
