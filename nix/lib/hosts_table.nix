@@ -13,9 +13,9 @@
       };
 
       site = if (site_name == null) then null else sites."${site_name}";
-      addr = if (site == null) then null else (site.net idx).addr // {
+      addr = if (site == null) then null else ((site.net idx).addr // {
         global = addr_global;
-      };
+      });
     };
   };
   aB = idx: hn: {
