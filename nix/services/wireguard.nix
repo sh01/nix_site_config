@@ -17,7 +17,15 @@ let
     '' + (if (pAddr == null) then "" else ''
     Endpoint = [${pAddr}]:${toString port}
     '');
-  h2cs = n: r: if (r.addr == null) then "" else confSec {hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg0; pAddr=r.addr.local;};
+
+  isMySite = r: r.site.name == l.site.name;
+  h2cs = n: r: if (r.addr == null) then "" else
+    let
+      addr = if (isMySite r) then r.addr.local else r.addr.global;
+      extra = if ((isMySite r) || (l.net.addr.global != null)) then "" else ''
+         PersistentKeepalive = 116
+      '';
+    in confSec {hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg0; pAddr=addr;} + extra;
   conf = concatStrings (mapAttrsToList h2cs l.hostsTable);
   cnfFile = builtins.toFile "wireguard-conf" conf;
 

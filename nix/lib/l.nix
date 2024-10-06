@@ -34,7 +34,7 @@ let
     vars = call ../base/vars.nix {};
     dns = call _dns site.dns_params;
     
-    site = _sites."${_hostData.site}";
+    site = _hostData.site;
     conf = {
       site = site.config;
       default = call (import ../base);
@@ -53,6 +53,7 @@ let
     hostsTable = _hostsTable;
     hostRec = _hostsTable."${hostname}";
     ifaceDmz = site.mkIface _hostIdx;
-    netX = (site.net _hostIdx).systemd;
+    net = site.net _hostIdx;
+    netX = net.systemd;
   };
 in autoArgs
