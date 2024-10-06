@@ -186,7 +186,7 @@ in rec {
       # Enable easy rebuilding
       keep-outputs = true;
 
-      cores = 0;
+      cores = mkDefault 0;
       allowed-users = [ "@nix-users" ];
     };
     #daemonIONiceLevel = 2;

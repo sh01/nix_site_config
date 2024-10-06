@@ -3,12 +3,11 @@
 
 let
   inherit (pkgs) callPackage;
-  llib = callPackage ../../lib {inherit pkgs;};
   cont = l.call ../../containers {
     emounts = {
       "/mnt/ys1/c".isReadOnly = false;
     };
-    extraSrv = (llib.startupScriptC {name="mount_userdirs"; script=''
+    extraSrv = (l.lib.startupScriptC {name="mount_userdirs"; script=''
 mountpoint -q /home/prsw/sh/vg && exit 1
 
 BASE=/mnt/ys1/c
@@ -28,11 +27,9 @@ for pa in "/home/prsw" "/home/prsw_net"; do
 done'';});
   };
   ssh_pub = (import ../../base/ssh_pub.nix).yalda;
-  lpkgs = (import ../../pkgs {});
-  ucode = (pkgs.callPackage ../../base/default_ucode.nix {});
+  ucode = callPackage ../../base/default_ucode.nix {};
 in rec {
-  # Pseudo-static stuff
-  imports = with l.conf; [
+  imports = (with l.conf; [
     default
     site
     ./hardware-configuration.nix
@@ -41,41 +38,23 @@ in rec {
     (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
     ../../fix
-  ];
+  ]) ++ [l.srv.wireguard];
 
-  #boot.kernelPackages = pkgs.linuxPackages_4_11;
+  # hardware: RAM constraints
+  nix.settings.cores = 3;
+  nix.settings.max-jobs = 2;
+  
   boot.loader.grub.enable = false;
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
+  boot.kernelPackages = pkgs.linuxPackagesFor (l.call ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
   boot.initrd.prepend = lib.mkOrder 1 [ "${ucode}/intel-ucode.img" ];
-
+  
   containers = (cont.termC ssh_pub);
     
   ##### Host id stuff
-  networking = {
+  networking = l.netHostInfo // {
+    firewall.enable = false;
     hostName = "yalda";
-    hostId = "84d6fc01";
-    #iproute2 = vars.iproute2;
-    interfaces = {
-      "eth_lan" = {
-        ipv4.addresses = [{
-          address = "10.17.1.65";
-          prefixLength = 24;
-        }];
-        ipv4.routes = [{
-          address = "0.0.0.0";
-          prefixLength = 0;
-          via = "10.17.1.1";
-        }];
-        ipv6.addresses = [
-          { address = "2001:470:7af3:1:1:0:2:1"; prefixLength = 80;}
-          { address = "fd9d:1852:3555:0200::41"; prefixLength = 56;}
-        ];
-        ipv6.routes = [
-          { address = "fd9d:1852:3555::"; prefixLength = 48; via = "fd9d:1852:3555:200::1";}
-          #{ address = "::"; prefixLength = 0; via = "2001:470:7af3:1:1::1";}
-        ];
-      };
-    };
+    useNetworkd = true;
   };
   
   systemd = {
@@ -103,6 +82,7 @@ mount /mnt/ys1
       };
     };
     enableEmergencyMode = false;
+    network = l.netX "eth_lan";
   };
 
   services.udev = {

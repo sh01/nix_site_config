@@ -81,6 +81,7 @@ in with pkgs; rec {
     #(pkgs.callPackage ../nftables-0.9.2/default.nix {})
     iftop
     dnsutils
+    wireguard-tools
 
     acpi
     pciutils

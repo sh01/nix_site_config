@@ -14,9 +14,6 @@
     };
   };
 
-  #hardware.cpu.intel.updateMicrocode = true;
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [];
   swapDevices = [];
-  nix.settings.max-jobs = 8;
-  nix.nrBuildUsers = 16;
 }

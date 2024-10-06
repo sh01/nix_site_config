@@ -13,7 +13,6 @@ in {
     useDHCP = false;
     firewall.enable = false;
     networkmanager.enable = false;
-    useNetworkd = false;
 
     nameservers = ["10.17.1.1"];
     search = ["x.s." "s."];
