@@ -48,7 +48,7 @@ in (l // hrec)) {} [
   [s.wi (aB 11 "keiko") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIBVD38g8sHkB1uacAGul7RI/0C4tAmHZOfxAr4ignuUM")]
   [s.wi (aB null "nova")]
   [s.wi (aB null "jibril")]
-  [s.wi (aB null "yalda") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIP5W68IOU9/E5wcKML27gd5Z3JpmX5nHAeNX8iiNBG1g")]
+  [s.wi (aB 65 "yalda") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIP5W68IOU9/E5wcKML27gd5Z3JpmX5nHAeNX8iiNBG1g") (wgk "jZeP7ghMubj37qm4TbmA6BeJghty89OFvhWkklA19HA=")]
   [s.wi (aB null "rune") (aSSHed  "AAAAC3NzaC1lZDI1NTE5AAAAILLzM89Ec/M3/jod75DuPVmeZimXEHiSjM+NpKUnsl/p")]
 
   # global
