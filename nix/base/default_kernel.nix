@@ -1,4 +1,4 @@
-{pkgs, structuredExtraConfig ? {}, ...}: let
+{pkgs, structuredExtraConfig ? {}, ...}@args: let
   inherit (pkgs) callPackage buildPackages ncurses fetchurl stdenv perl buildLinux hostPlatform;
 
   features = {
@@ -18,4 +18,5 @@
     inherit buildPackages callPackage ncurses stdenv perl buildLinux hostPlatform structuredExtraConfig;
     kernelPatches = [];
   } // features));
-in cKernel
+  nKernel = pkgs.linuxKernel.kernels.linux_6_6.override (args // {inherit features;});
+in nKernel
