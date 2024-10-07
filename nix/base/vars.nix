@@ -209,6 +209,15 @@ PACKET = yes;
 # In-kernel contexts are unnecessarily privileged for this;
 # we use userspace implementations, instead.
 WIREGUARD = mkForce no;
+
+# Bluetooth: We don't use this, and it's an unnecessary attack vector. Force it off.
+BT = no;
+BT_HCIBTUSB_AUTOSUSPEND = mkForce (option no);
+BT_HCIBTUSB_MTK = mkForce (option no);
+BT_HCIUART = mkForce (option no);
+BT_HCIUART_QCA = mkForce (option no);
+BT_HCIUART_SERDEV = mkForce (option no);
+BT_QCA = mkForce (option no);
 };
 
     devFreq = {
