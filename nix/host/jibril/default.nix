@@ -17,8 +17,8 @@ in rec {
     default
     site
     ./hardware-configuration.nix
-    ../../base/term/desktop.nix
-    l.call (../../base/term/gaming_box.nix)
+    (l.call ../../base/term/desktop.nix)
+    (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
     ../../fix/19_9.nix
   ];

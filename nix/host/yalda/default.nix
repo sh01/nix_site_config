@@ -33,8 +33,8 @@ in rec {
     default
     site
     ./hardware-configuration.nix
-    ../../base/term/desktop.nix
     ../../base/term/boot.nix
+    (l.call ../../base/term/desktop.nix)
     (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
     ../../fix
