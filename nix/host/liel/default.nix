@@ -47,14 +47,7 @@ in {
   networking = l.netHostInfo // {
     firewall.enable = false;
     useNetworkd = true;
-
-    interfaces = {
-      "tun_vpn_o" = {
-        virtual = true;
-        virtualOwner = "openvpn";
-        virtualType = "tun";
-      };
-    } // c_vpn.ifaces;
+    interfaces = c_vpn.ifaces;
 
     nftables = {
       enable = true;
