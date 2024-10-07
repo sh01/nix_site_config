@@ -33,8 +33,8 @@ in rec {
     default
     site
     ./hardware-configuration.nix
-    ../../base/term/desktop.nix
     ../../base/term/boot.nix
+    (l.call ../../base/term/desktop.nix)
     (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
     ../../fix
@@ -59,10 +59,16 @@ in rec {
   
   systemd = {
     services = {
-      SH_mount_ys = {
+      SH_mount_ys = rec {
         partOf = ["multi-user.target"];
-        wantedBy = ["SH_containers_sh.service"];
+        wantedBy = ["SH_containers_sh.service" "mnt-ys1.mount"];
+        before = wantedBy;
         description = "SH_mount_ys";
+        serviceConfig = {
+          Restart = "on-failure";
+          RemainAfterExit = "yes";
+        };
+        
         path = with pkgs; [coreutils eject lvm2 kmod cryptsetup utillinux];
         script = ''
 mountpoint -q /mnt/ys1 && exit 0
@@ -70,6 +76,8 @@ mountpoint -q /mnt/ys1 && exit 0
 dmsetup mknodes
 modprobe bcache
 
+sleep 1
+# aka /dev/disk/by-uuid/79c5f4e4-95a0-4bde-b623-c6a5a0c64b17
 bdev="$(basename $(readlink /sys/fs/bcache/bf9dc10c-1c84-4a16-928e-d1019a4b30b9/bdev0/dev))"
 test -e /dev/mapper/ys1 || cryptsetup luksOpen --key-file=/var/crypt/ys1 "/dev/$bdev" ys1
 #for disk in /dev/mapper/ys1 /dev/mapper/root_base0p2; {

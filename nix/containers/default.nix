@@ -181,15 +181,5 @@ SendEnv DISPLAY
   
   # Systemd service setup
   termS = {
-    SH_containers_sh = {
-      wantedBy = ["container@browsers.service" "container@prsw.service" "container@prsw_net.service" "pulseaudio.service"];
-      before = ["pulseaudio.service"];
-      script = ''
-# Work around https://github.com/NixOS/nixpkgs/issues/114399 :
-# Reset pulse homedir to fix permissions if they're incorrect.
-D=/run/pulse
-ls -dl1 "$D" | grep -q '^d...r.x' || rm -rf "$D"
-'';
-    };
   };
 }

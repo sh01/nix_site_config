@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, l, ...}:
 let
   slib = (pkgs.callPackage ../../lib {});
   vars = (pkgs.callPackage ../../base/vars.nix {});
@@ -50,7 +50,7 @@ Option "OffTime" "1800"
         interface = "lo";
         listen-address = "10.231.1.1";
         except-interface = ["eth_wifi" "eth_lan" "tun_msvpn"];
-        server = ["/s/16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555::1"];
+        server = ["/s/16.10.in-addr.arpa/5.5.5.3.2.5.8.1.d.9.d.f.ip6.arpa/fd9d:1852:3555:200:ff01::1"] ++ l.dns.conf.nameservers;
       };
     };
   };
