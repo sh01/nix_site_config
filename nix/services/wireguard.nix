@@ -9,23 +9,23 @@ let
   s = x: "${x}.service";
   sn0 = "SH_${ifn}_wireguard-go";
   
-  confSec = {hn, key, pAddr, cAddr}: if (key == null) || (cAddr == null) || (hn == l.hostname) then "" else
+  confSec = {hn, key, pAddr, cAddr, extra}: if (key == null) || (cAddr == null) || (hn == l.hostname) then "" else
     "# ${hn}\n" + ''
     [Peer]
     PublicKey = ${key}
     AllowedIps = ${cAddr}/128
     '' + (if (pAddr == null) then "" else ''
     Endpoint = [${pAddr}]:${toString port}
-    '');
+    '' + extra);
 
   isMySite = r: r.site.name == l.site.name;
-  h2cs = n: r: if (r.addr == null) then "" else
+  h2cs = n: r: if (r.addr == null) || !(l.hostRec.wgWantPeer r) then "" else
     let
       addr = if (isMySite r) then r.addr.local else r.addr.global;
       extra = if ((isMySite r) || (l.hostRec.addr.global != null)) then "" else ''
       '';
       #PersistentKeepalive = 116
-    in confSec {hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg0; pAddr=addr;} + extra;
+    in confSec {inherit extra; hn=n; key=r.pub.wireguard; cAddr=r.addr.c_wg0; pAddr=addr;};
   conf = concatStrings (mapAttrsToList h2cs l.hostsTable);
   cnfFile = builtins.toFile "wireguard-conf" conf;
 

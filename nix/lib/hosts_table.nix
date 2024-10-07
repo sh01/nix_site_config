@@ -1,16 +1,22 @@
 # Declarative host data shared with all hosts for inter-host communication.
 {lib, l, ...}: let
   inherit (builtins) foldl';
+  inherit (lib) lists;
   sites = import ../base/sites.nix {inherit lib;};
 
   HN = s: [s "${s}.sh.s." "${s}.sh.s" "${s}.vpn.sh.s." "${s}.vpn.sh.s"];
-  hostRecord = {hn, idx, hk_ssh ? "ssh-ed25519 _NOKEY", hk_wg ? null, site_name ? null, names ? HN hn, addr_global ? null}: {
+  hostRecord = {
+    hn, idx, hk_ssh ? "ssh-ed25519 _NOKEY", hk_wg ? null, site_name ? null, names ? HN hn, addr_global ? null,
+    wg_want_peer ? (x: true)
+  }: {
     "${hn}" = rec {
       inherit idx names;
+      name = hn;
       pub = {
         ssh = hk_ssh;
         wireguard = hk_wg;
       };
+      wgWantPeer = wg_want_peer;
 
       site = if (site_name == null) then null else sites."${site_name}";
       addr = if (site == null) then null else ((site.net idx).addr // {
@@ -27,6 +33,8 @@
   aSite = site: {site_name=site;};
   aAddrG = addr: {addr_global = addr;};
 
+  rWgPeers = l: {wg_want_peer = p: (lists.findFirstIndex (x: x == p.name) null l) != null;};
+  
   s = {
     wi = aSite "wi";
     g = aSite "global";
@@ -48,7 +56,7 @@ in (l // hrec)) {} [
   [s.wi (aB 11 "keiko") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIBVD38g8sHkB1uacAGul7RI/0C4tAmHZOfxAr4ignuUM")]
   [s.wi (aB null "nova")]
   [s.wi (aB null "jibril")]
-  [s.wi (aB 65 "yalda") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIP5W68IOU9/E5wcKML27gd5Z3JpmX5nHAeNX8iiNBG1g") (wgk "jZeP7ghMubj37qm4TbmA6BeJghty89OFvhWkklA19HA=")]
+  [s.wi (aB 65 "yalda") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIP5W68IOU9/E5wcKML27gd5Z3JpmX5nHAeNX8iiNBG1g") (wgk "jZeP7ghMubj37qm4TbmA6BeJghty89OFvhWkklA19HA=") (rWgPeers ["bw0"])]
   [s.wi (aB null "rune") (aSSHed  "AAAAC3NzaC1lZDI1NTE5AAAAILLzM89Ec/M3/jod75DuPVmeZimXEHiSjM+NpKUnsl/p")]
 
   # global
