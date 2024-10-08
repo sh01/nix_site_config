@@ -1,5 +1,0 @@
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Name=setup_auth
-Exec=/run/current-system/sw/share/local/bin/setup_auth

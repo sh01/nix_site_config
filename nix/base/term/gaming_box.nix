@@ -37,5 +37,5 @@ in {
   };
 
   programs.ssh.extraConfig = cont.sshConfig;
-  systemd.services = cont.termS;
+  systemd = cont.termS;
 }
