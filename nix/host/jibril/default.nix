@@ -2,13 +2,9 @@
 { config, pkgs, lib, l, ... }:
 
 let
-  inherit (lib) mkForce;
   inherit (pkgs) callPackage;
   cont = l.call ../../containers {};
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
-  slib = callPackage ../../lib {};
-  vars = callPackage ../../base/vars.nix {};
-  lpkgs = import ../../pkgs {};
   dns = import ../../base/dns.nix {
     nameservers4 = ["127.0.0.1" "::1"];
   };
@@ -18,55 +14,17 @@ in rec {
     site
     ./hardware-configuration.nix
     (l.call ../../base/term/desktop.nix)
+    (l.call ../../base/std_efi_boot.nix {structuredExtraConfig=(l.call ./kernel_conf.nix {});})
     (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
-    ../../fix/19_9.nix
   ];
   
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
+  nix.settings.max-jobs = 3;
+  nix.settings.cores = 8;
+  boot.initrd.luks.devices."root".device = "/dev/mapper/jibril_vg0-root";
   
-  boot = {
-    kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../../base/default_kernel.nix {structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});});
-    #kernelPackages = pkgs.linuxPackages_5_15;
-    blacklistedKernelModules = ["snd" "rfkill" "fjes" "8250_fintek" "eeepc_wmi" "autofs4" "psmouse"] ++ ["firewire_ohci" "firewire_core" "firewire_sbp2"];
-    kernelParams = [
-      # Reboot on kernel panic
-      # "panic=1" "boot.panic_on_fail"
-    ];
-    # loader.initScript.enable = true;
-    initrd = {
-      kernelModules = ["vmd" "nvme" "btrfs"];
-      luks.devices = {
-        "root" = {
-          device = "/dev/jibril_vg0/root";
-          preLVM = false;
-          fallbackToPassword = true;
-          allowDiscards = true;
-          #keyFile = "...";
-          keyFileSize = 64;
-        };
-      };
-      supportedFilesystems = ["btrfs"];
-    };
-
-    loader.efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
-    };
-
-    loader.grub = {
-      enable = true;
-      copyKernels = true;
-      device = "nodev";
-      # fsIdentifier = "uuid";
-      splashImage = null;
-
-      efiSupport = true;
-      #efiInstallAsRemovable = true;
-    };
-  };
-
   containers = (cont.termC ssh_pub);
 
   ### Networking
@@ -100,7 +58,7 @@ in rec {
 
   ### User / Group config
   # Define paired user/group accounts.
-  users = slib.mkUserGroups (with vars.userSpecs {}; default ++ [sophia ilzo]);
+  users = l.lib.mkUserGroups (with l.vars.userSpecs {}; default ++ [sophia ilzo]);
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "21.11";
