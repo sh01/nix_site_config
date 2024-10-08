@@ -3,6 +3,7 @@
 
 let
   inherit (pkgs) callPackage;
+  inherit (lib) mkForce;
   cont = l.call ../../containers {};
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
   dns = import ../../base/dns.nix {
@@ -23,10 +24,13 @@ in rec {
   hardware.cpu.intel.updateMicrocode = true;
   nix.settings.max-jobs = 3;
   nix.settings.cores = 8;
-  boot.initrd.luks.devices."root".device = "/dev/mapper/jibril_vg0-root";
+  boot.initrd.luks.devices."root" = {
+    device = "/dev/mapper/jibril_vg0-root";
+    preLVM = mkForce false;
+  };
   
   containers = (cont.termC ssh_pub);
-
+  
   ### Networking
   networking = {
     hostName = "jibril";
