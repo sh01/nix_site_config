@@ -1,5 +1,15 @@
 {pkgs, ...}:
 with pkgs.lib; rec {
+
+  subScript = args: pkgs.substituteAll ({
+    isExecutable = true;
+  } // args);
+
+  subInts = {
+    py = {interp = "${pkgs.python3}/bin/python3";};
+    bash = {interp = "${pkgs.bash}/bin/bash";};
+  };
+  
   mkGroups = specs: mkMerge ((map (s:
     let U = elemAt s 0;
     in { "${U}" = {

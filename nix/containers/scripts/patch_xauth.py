@@ -1,4 +1,4 @@
-#!@python3@/bin/python3
+#!@interp@
 
 import struct
 

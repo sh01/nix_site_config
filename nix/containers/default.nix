@@ -28,6 +28,7 @@ let
   };
   lpkgs = pkgs.callPackage ../pkgs {};
   mpkgs = pkgs.callPackage ../pkgs/pkgs/meta {};
+  cScripts = l.call ./scripts {};
 in rec {
   sysPkgsBase = with pkgs; with (pkgs.callPackage ../pkgs/pkgs/meta {}); [
     base
@@ -181,5 +182,18 @@ SendEnv DISPLAY
   
   # Systemd service setup
   termS = {
+    user.services = {
+      "containers_setup_auth" = rec {
+        description = "Container X11 auth setup";
+        partOf = [ "graphical-session.target" ];
+        wantedBy = partOf;
+        path = with pkgs; [openssh xorg.xauth];
+        serviceConfig = {
+          ExecStart = cScripts.fSetupAuth;
+          Restart = "on-failure";
+          RemainAfterExit = "yes";
+        };
+      };
+    };
   };
 }
