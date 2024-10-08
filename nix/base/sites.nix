@@ -21,7 +21,10 @@ in mapAttrs' (n: v: {
         networks = {
           "x" = {
             matchConfig = { Name = ifname; };
-            networkConfig.Description = "wi-x network";
+            networkConfig = {
+              Description = "wi-x network";
+              ConfigureWithoutCarrier = true;
+            };
             enable = true;
             address = ["10.17.1.${toString num}/24" "${addr.local}/64"];
             routes = [{
