@@ -32,18 +32,12 @@ in rec {
   containers = (cont.termC ssh_pub);
   
   ### Networking
-  networking = {
+  networking = l.netHostInfo // {
     hostName = "jibril";
-    hostId = "84d5fccb";
-
-    interfaces = {
-      "eth_lan" = {
-        ipv4.addresses = [{ address = "10.17.1.70"; prefixLength = 24; }];
-        ipv4.routes = [{ address = "0.0.0.0"; prefixLength = 0; via = "10.17.1.1"; }];
-        ipv6.addresses = [{ address = "fd9d:1852:3555:200:ff01::7"; prefixLength=64;}];
-      };
-    };
+    useNetworkd = true;
   };
+  systemd.network = l.netX "eth_lan";
+  
   services.udev.extraRules = (builtins.readFile ./udev.rules);
   # powerManagement.cpuFreqGovernor = "powersave";
 
