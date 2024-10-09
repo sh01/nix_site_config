@@ -17,7 +17,7 @@
   
   boot = {
     kernelParams = ["panic=1" "boot.panic_on_fail"];
-  
+    
     initrd.luks.devices."root" = {
       device = "/dev/disk/by-partlabel/uiharu_r0_c";
       keyFile = "/dev/disk/by-partlabel/uiharu_key0";
