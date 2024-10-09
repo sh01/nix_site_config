@@ -1,7 +1,7 @@
 {searchPath ? [ "s" "x.s" "sh.s" "wifi.s" ], nameservers ? [ "10.17.1.1" ], ...}: rec {
   conf = {
+    inherit nameservers;
     search = searchPath;
-    inherit (nameservers);
   };
 
   mkResolvConf = sp: ns: let
