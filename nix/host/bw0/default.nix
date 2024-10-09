@@ -7,14 +7,16 @@ let
     nameservers4 = ["127.0.0.1" "::1"];
   };
 in {
-  imports = with l.conf; [
+  imports = (with l.conf; [
     default
     site
     ./hardware-configuration.nix
     ./monitoring.nix
     ../../base/nox.nix
     ../../fix
-  ];
+  ]) ++ (with l.srv; [
+    wireguard
+  ]);
 
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
