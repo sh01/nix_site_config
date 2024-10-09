@@ -285,6 +285,7 @@ in {
     nic listen 10.17.1.1
     nic listen 10.17.2.1
     nic listen 10.19.4.1
+    nic listen fd9d:1852:3555:101::1
     #constraints from "www.google.com"
 '';
   };
