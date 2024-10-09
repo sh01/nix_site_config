@@ -187,6 +187,7 @@ in {
     enableEmergencyMode = false;
     # Put a getty on serial console.
     services."serial-getty@ttyS0".enable = true;
+    network.wait-online.ignoredInterfaces = ["eth_wan1" "tun6_0" "tun6_1"];
   };
   
   # Name network devices statically based on MAC address
