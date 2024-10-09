@@ -4,7 +4,6 @@
 let
   inherit (pkgs) callPackage;
   inherit (lib) mkForce;
-  dns = (import ../../base/dns.nix) {};
 in {
   imports = with l.conf; [
     default
@@ -45,8 +44,7 @@ in {
       enable = true;
       rulesetFile = ./nft.conf;
     };
-    
-  } // dns.conf;
+  };
 
   # Name network devices statically based on MAC address
   services.udev.extraRules = ''
@@ -107,7 +105,7 @@ test -e /dev/mapper/a7-main
   sound.enable = false;
   security.polkit.enable = false;
 
-  environment.etc."resolv.conf" = dns.resolvConf;
+  environment.etc."resolv.conf" = l.dns.resolvConf;
 
   fileSystems = let
     baseOpts = ["noatime" "nodiratime"];

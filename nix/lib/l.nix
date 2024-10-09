@@ -25,7 +25,7 @@ let
   _hostData = _hostsTable."${hostname}";
   _hostIdx = _hostData.idx;
   _nixHostId = fixedWidthString 8 "0" (toHexString (65536 + _hostIdx));
-  _dns = (import ../base/dns.nix);
+  _dns = (import ./dns.nix);
 
   # Will be passed as argument "l" to host configs and anything below called via l.call.
   l = rec {

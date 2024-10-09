@@ -1,11 +1,10 @@
-{...}:
+{l, ...}:
 let
-  dns = (import ../base/dns.nix) {};
 in {
   imports = [
     ../base/sys_pulseaudio_user.nix
   ];
-  environment.etc."resolv.conf" = dns.resolvConfCont;
+  environment.etc."resolv.conf" = l.dns.resolvConfCont;
   boot = {
     tmp.useTmpfs = false;
     isContainer = true;

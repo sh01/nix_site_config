@@ -6,9 +6,6 @@ let
   inherit (lib) mkForce;
   cont = l.call ../../containers {};
   ssh_pub = (import ../../base/ssh_pub.nix).jibril;
-  dns = import ../../base/dns.nix {
-    nameservers = ["127.0.0.1" "::1"];
-  };
 in rec {
   imports = with l.conf; [
     default

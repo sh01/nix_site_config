@@ -41,7 +41,7 @@ in mapAttrs' (n: v: {
     srvs = {
       ntp = [wg_bw0];
     };
-    dns_params = { nameservers = [wg_bw0];};
+    dns_params = { nameservers = [wg_bw0]; searchPath = [ "s" "x.s" "sh.s" "wifi.s" ];};
   };
   "global" = {
     config = {

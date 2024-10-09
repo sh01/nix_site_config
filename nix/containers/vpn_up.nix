@@ -26,7 +26,7 @@ in {
     default
     site
     ../base/nox.nix
-    ./containers_common.nix
+    (l.call ./containers_common.nix)
   ];
 
   environment.etc."resolv.conf".text = mkForce "nameserver 8.8.8.8\n";

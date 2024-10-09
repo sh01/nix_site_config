@@ -1,4 +1,4 @@
-{searchPath ? [ "s" "x.s" "sh.s" "wifi.s" ], nameservers ? [ "10.17.1.1" ], ...}: rec {
+{searchPath, nameservers, ...}: rec {
   conf = {
     inherit nameservers;
     search = searchPath;

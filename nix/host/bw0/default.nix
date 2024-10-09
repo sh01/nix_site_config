@@ -3,8 +3,9 @@
 
 let
   inherit (lib) mkForce;
-  dns = (import ../../base/dns.nix) {
+  dns = (import ../../lib/dns.nix) {
     nameservers = ["127.0.0.1" "::1"];
+    inherit (l.site.dns_params) searchPath;
   };
 in {
   imports = (with l.conf; [

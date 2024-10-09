@@ -6,7 +6,7 @@ let
   ssh_pub = import ../../base/ssh_pub.nix;
   slib = (pkgs.callPackage ../../lib {});
   vars = import ../../base/vars.nix;
-  dns = (import ../../base/dns.nix) {
+  dns = (import ../../lib/dns.nix) {
     searchPath = [];
     nameservers = ["8.8.8.8"];
   };

@@ -2,14 +2,13 @@
 let
   vars = (pkgs.callPackage ../base/vars.nix {});
   slib = (pkgs.callPackage ../lib {});
-  dns = (import ../base/dns.nix) {};
   ssh_pub = (import ../base/ssh_pub.nix);
 in {
   imports = with l.conf; [
     default
     site
     ../base/alsa2pulse.nix
-    ./containers_common.nix
+    (l.call ./containers_common.nix)
     ../pkgs/pkgs/dep/ggame/config_ld.nix
   ];
 

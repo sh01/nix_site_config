@@ -6,7 +6,6 @@ let
   inherit (pkgs) callPackage;
   slib = callPackage ../../lib {};
   vars = callPackage ../../base/vars.nix {};
-  dns = import ../../base/dns.nix {};
   nft = pkgs.callPackage ../../base/nft.nix {};
 in {
   imports = with l.conf; [
@@ -50,7 +49,7 @@ in {
       ruleset = (nft.conf_simple config.l.ext_ports_t);
     };
   };
-  environment.etc."resolv.conf" = dns.resolvConf;
+  environment.etc."resolv.conf" = l.dns.resolvConf;
   #services.udev.extraRules = (builtins.readFile ./udev.rules);
 
   ### System profile packages
