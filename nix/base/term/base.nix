@@ -2,7 +2,6 @@
 let
   slib = (pkgs.callPackage ../../lib {});
   vars = (pkgs.callPackage ../../base/vars.nix {});
-  dns = (import ../dns.nix) {};
 in {
   imports = [
     ../../services/prom_exp_node.nix
@@ -63,7 +62,7 @@ Option "OffTime" "1800"
   };
   
   networking = {
-    search = dns.conf.search;
+    search = l.dns.conf.search;
     usePredictableInterfaceNames = false;
     nat = {
       enable = true;
