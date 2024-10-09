@@ -18,7 +18,7 @@ in rec {
     (l.call ../../base/std_efi_boot.nix {structuredExtraConfig=(l.call ./kernel_conf.nix {});})
     (l.call ../../base/term/gaming_box.nix)
     ../../base/term/game_pads.nix
-  ];
+  ] ++ [l.srv.wireguard];
   
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;

@@ -56,7 +56,7 @@ in (l // hrec)) {} [
   [s.wi (aB 10 "uiharu") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIC6aMRME0BCal6Fn5HhM3HDeFmOf5Ya9jCi2v4vFB5fX") (wgk "/4OTj3kJk0GyAKXncjuNGjJmIfZhClf2fRiuWN3IUEM=") (rWgPeers ["bw0"])]
   [s.wi (aB 11 "keiko") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIBVD38g8sHkB1uacAGul7RI/0C4tAmHZOfxAr4ignuUM")]
   [s.wi (aB null "nova")]
-  [s.wi (aB null "jibril")]
+  [s.wi (aB null "jibril") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAICfg4VA93VLZAiO+ObZxUEDU8nf089bdI/QMPAeCIjno") (wgk "J3+rkgp9k0bgydu/S1g+UKmg3gkdaS2m86Saajrh+R8=") (rWgPeers ["bw0"])]
   [s.wi (aB 65 "yalda") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIP5W68IOU9/E5wcKML27gd5Z3JpmX5nHAeNX8iiNBG1g") (wgk "jZeP7ghMubj37qm4TbmA6BeJghty89OFvhWkklA19HA=") (rWgPeers ["bw0"])]
   [s.wi (aB null "rune") (aSSHed  "AAAAC3NzaC1lZDI1NTE5AAAAILLzM89Ec/M3/jod75DuPVmeZimXEHiSjM+NpKUnsl/p")]
 
