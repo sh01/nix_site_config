@@ -1,4 +1,4 @@
-# bw2 is a router box
+# bw0 is a router box
 { config, pkgs, lib, l, ... }:
 
 let
