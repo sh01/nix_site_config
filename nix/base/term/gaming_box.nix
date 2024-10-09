@@ -7,6 +7,7 @@ in {
   imports = [
     ../sys_pulseaudio.nix
     ../sys_pulseaudio_user.nix
+    (l.call ../ntp_client_default.nix)
   ];
   networking = {
     usePredictableInterfaceNames = false;
@@ -27,10 +28,6 @@ in {
   services = {
     xserver.videoDrivers = ["intel" "amdgpu"];
     uptimed.enable = true;
-    ntp = {
-      enable = true;
-      servers = ["10.17.1.1"];
-    };
   };
 
   programs.ssh.extraConfig = cont.sshConfig;

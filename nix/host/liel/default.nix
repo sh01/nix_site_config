@@ -15,7 +15,7 @@ in {
     ./hardware-configuration.nix
     ../../base/nox.nix
     ../../fix
-    ../../base/ntp_client_default.nix
+    (l.call ../../base/ntp_client_default.nix)
     (gitit "polis" 2019 8005)
     (gitit "rpg_c0" 2020 8006)
 
