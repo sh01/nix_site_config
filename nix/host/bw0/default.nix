@@ -4,7 +4,7 @@
 let
   inherit (lib) mkForce;
   dns = (import ../../base/dns.nix) {
-    nameservers4 = ["127.0.0.1" "::1"];
+    nameservers = ["127.0.0.1" "::1"];
   };
 in {
   imports = (with l.conf; [

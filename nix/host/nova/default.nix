@@ -6,9 +6,7 @@ let
   inherit (pkgs) callPackage;
   slib = callPackage ../../lib {};
   vars = callPackage ../../base/vars.nix {};
-  dns = import ../../base/dns.nix {
-    nameservers4 = ["10.17.1.1" "::1"];
-  };
+  dns = import ../../base/dns.nix {};
   nft = pkgs.callPackage ../../base/nft.nix {};
 in {
   imports = with l.conf; [

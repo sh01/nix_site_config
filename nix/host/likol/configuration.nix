@@ -8,7 +8,7 @@ let
   vars = import ../../base/vars.nix;
   dns = (import ../../base/dns.nix) {
     searchPath = [];
-    nameservers4 = ["8.8.8.8"];
+    nameservers = ["8.8.8.8"];
   };
   vpn_c = (import ../../base/openvpn/client.nix);
   vpn_c_sd = (import ./vpn/semidefinite.nix);

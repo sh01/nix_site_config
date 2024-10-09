@@ -37,7 +37,7 @@ in mapAttrs' (n: v: {
     config = {
       time.timeZone = "America/Chicago";
     };
-    dns_params = { nameservers4 = ["10.17.1.1"];};
+    dns_params = { nameservers = ["fd9d:1852:3555:101::1"];};
   };
   "global" = {
     config = {
