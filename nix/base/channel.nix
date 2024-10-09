@@ -15,7 +15,7 @@ in {
     registry = (npkg "nixpkgs") // (npkg "local_nixpkgs");
     nixPath = [
       "nixpkgs=flake:local_nixpkgs"
-      "nixos-config=/etc/nixos/configuration.nix"
+      "nixos-config=/etc/site/nix/lib/host_config.nix"
     ];
   };
 }
