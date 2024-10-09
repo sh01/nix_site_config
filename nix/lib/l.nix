@@ -33,6 +33,7 @@ let
     lib = call ../lib {};
     vars = call ../base/vars.nix {};
     dns = call _dns site.dns_params;
+    ntpClient = call ./ntp_client_default.nix {servers=site.srvs.ntp;};
     
     site = _hostData.site;
     conf = {

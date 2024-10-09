@@ -2,6 +2,7 @@
 let
   inherit (lib.trivial) toHexString;
   inherit (lib.attrsets) mapAttrs';
+  wg_bw0 = "fd9d:1852:3555:101::1";
 in mapAttrs' (n: v: {
   name = n;
   value = v // {name=n;};
@@ -37,7 +38,10 @@ in mapAttrs' (n: v: {
     config = {
       time.timeZone = "America/Chicago";
     };
-    dns_params = { nameservers = ["fd9d:1852:3555:101::1"];};
+    srvs = {
+      ntp = [wg_bw0];
+    };
+    dns_params = { nameservers = [wg_bw0];};
   };
   "global" = {
     config = {

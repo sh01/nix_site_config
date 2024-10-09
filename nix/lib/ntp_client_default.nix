@@ -1,6 +1,6 @@
-{...}: {
+{servers, ...}: {
   services.ntp = {
     enable = true;
-    servers = ["10.17.1.1"];
+    servers = servers;
   };
 }

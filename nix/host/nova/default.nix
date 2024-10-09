@@ -14,7 +14,7 @@ in {
     site
     ./hardware-configuration.nix
     ../../fix/19_9.nix
-    (l.call ../../base/ntp_client_default.nix)
+    l.ntpClient
     ../../services/prom_exp_node.nix
     (import ../../base/std_efi_boot.nix {inherit pkgs; structuredExtraConfig = (import ./kernel_conf.nix {inherit lib;});})
   ];

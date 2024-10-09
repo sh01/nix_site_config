@@ -7,7 +7,7 @@ in {
   imports = [
     ../sys_pulseaudio.nix
     ../sys_pulseaudio_user.nix
-    (l.call ../ntp_client_default.nix)
+    l.ntpClient
   ];
   networking = {
     usePredictableInterfaceNames = false;
