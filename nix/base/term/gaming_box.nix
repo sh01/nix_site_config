@@ -14,9 +14,6 @@ in {
     firewall.enable = false;
     networkmanager.enable = false;
 
-    nameservers = ["10.17.1.1"];
-    search = ["x.s." "s."];
-
     nftables = {
       enable = true;
       ruleset = (nft.conf_simple config.l.ext_ports_t);
