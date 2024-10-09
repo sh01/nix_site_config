@@ -1,4 +1,4 @@
-# bw2 is a router box
+# bw0 is a router box
 { config, pkgs, lib, l, ... }:
 
 let
@@ -7,14 +7,16 @@ let
     nameservers4 = ["127.0.0.1" "::1"];
   };
 in {
-  imports = with l.conf; [
+  imports = (with l.conf; [
     default
     site
     ./hardware-configuration.nix
     ./monitoring.nix
     ../../base/nox.nix
     ../../fix
-  ];
+  ]) ++ (with l.srv; [
+    wireguard
+  ]);
 
   ### Boot config
   hardware.cpu.intel.updateMicrocode = true;
@@ -185,6 +187,7 @@ in {
     enableEmergencyMode = false;
     # Put a getty on serial console.
     services."serial-getty@ttyS0".enable = true;
+    network.wait-online.ignoredInterfaces = ["eth_wan1" "tun6_0" "tun6_1"];
   };
   
   # Name network devices statically based on MAC address
