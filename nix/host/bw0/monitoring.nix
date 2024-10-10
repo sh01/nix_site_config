@@ -47,7 +47,6 @@ let
         ];
   };
   nft_configs = [{targets = ["localhost:9102"];}];
-  _node_configs = port: [{targets = map (x: x + ":" + (toString port)) ["localhost" "jibril.x.s." "yalda.sh.s." "liel.x.s." "uiharu.sh.s."];}];
   node_configs = port:
     let
       hConfig = hn:
