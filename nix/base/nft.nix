@@ -31,7 +31,7 @@ table inet filter0 {
 		iif "c_wg0" goto wg0_in
 	}
 
-  chain c_wg0 {
+  chain wg0_in {
 		tcp dport {${inPortStr}} counter accept
 		counter goto notnew
   }
