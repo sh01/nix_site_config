@@ -59,7 +59,7 @@ let
           targets = ["[${hAddr}]:${toString port}"];
           labels.instance = ins;
         };
-    in map hConfig ["localhost" "jibril" "yalda" "liel" "uiharu"];
+    in map hConfig ["localhost" "jibril" "yalda" "liel" "uiharu" "ika"];
 in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
