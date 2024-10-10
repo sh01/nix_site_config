@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, l, ... }:
 with lib;
 let
   slib = (pkgs.callPackage ../../lib {});
@@ -47,7 +47,19 @@ let
         ];
   };
   nft_configs = [{targets = ["localhost:9102"];}];
-  node_configs = port: [{targets = map (x: x + ":" + (toString port)) ["localhost" "jibril.x.s." "yalda.sh.s." "liel.x.s." "uiharu.sh.s."];}];
+  _node_configs = port: [{targets = map (x: x + ":" + (toString port)) ["localhost" "jibril.x.s." "yalda.sh.s." "liel.x.s." "uiharu.sh.s."];}];
+  node_configs = port:
+    let
+      hConfig = hn:
+        let
+          lh = hn == "localhost";
+          hAddr = if lh then "::1" else l.hostsTable."${hn}".net.addr.c_wg0;
+          ins = if lh then l.hostname else hn;
+        in {
+          targets = ["[${hAddr}]:${toString port}"];
+          labels.instance = ins;
+        };
+    in map hConfig ["localhost" "jibril" "yalda" "liel" "uiharu"];
 in rec {
   imports = [
     ../../pkgs/pkgs/nft_prom/service.nix
@@ -79,7 +91,7 @@ in rec {
         job_name = "node";
         scrape_interval = "256s";
         static_configs = (node_configs 9100);
-      } {
+       } {
         job_name = "nft_prom";
         metrics_path = "/probe";
         params = { ct_name_fmt = ["^(?P<dir>[io])/(?P<iface>[^/]*)/(?P<ttype>[^/]*)$"]; };
@@ -122,7 +134,7 @@ in rec {
           source_labels = ["__name__"];
           regex = "smartctl_device(|_available_spare|_block_size|_bytes_read|_bytes_written|_capacity_blocks|_critical_warning|_media_errors|_power_cycle_count|_power_on_seconds|_smart_status|_temperature|_version)$";
           action = "keep";
-        }];
+       }];
       }
     ];
   };

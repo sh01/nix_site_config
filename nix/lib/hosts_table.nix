@@ -19,6 +19,7 @@
       wgWantPeer = wg_want_peer;
 
       site = if (site_name == null) then null else sites."${site_name}";
+      net = if (site == null) then null else (site.net idx);
       addr = if (site == null) then null else ((site.net idx).addr // {
         global = addr_global;
       });

@@ -12,7 +12,7 @@ in {
     default
     site
     ./hardware-configuration.nix
-    ./monitoring.nix
+    (l.call ./monitoring.nix)
     ../../base/nox.nix
     ../../fix
   ]) ++ (with l.srv; [
