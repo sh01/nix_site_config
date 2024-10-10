@@ -28,7 +28,13 @@ table inet filter0 {
 		iifname "eth_wifi" counter goto notnew
 
 		iifname "ve-prsw" goto block
+		iif "c_wg0" goto wg0_in
 	}
+
+  chain c_wg0 {
+		tcp dport {${inPortStr}} counter accept
+		counter goto notnew
+  }
 
 	chain ext_in {
 		ip protocol icmp icmp type { echo-request, destination-unreachable, time-exceeded, parameter-problem} counter accept
@@ -74,6 +80,12 @@ table ip nat {
   env_conf_terminal = {
     "nft.conf" = {
       text = (conf_terminal);
+    };
+  };
+
+  systemd.network.netdevs."c_wg0" = {
+    netdevConfig = {
+      Kind = "tun";
     };
   };
   
