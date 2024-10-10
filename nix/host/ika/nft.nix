@@ -4,6 +4,7 @@ table inet filter0 {
 		type filter hook input priority 0; policy accept;
 		iif "lo" counter accept
 		iif "eth0" counter goto ext_in
+		iif "c_wg0" counter goto wg0_in
 	}
 	chain a_output {
 		type filter hook output priority 0; policy accept;
@@ -12,6 +13,12 @@ table inet filter0 {
 		type filter hook forward priority 0; policy accept;
 		iif "eth0" counter
 	}
+  chain wg0_in {
+		tcp dport 22 counter accept
+		ip6 saddr fd9d:1852:3555:101:0000::20 counter accept
+		tcp dport 9100-9101 counter accept
+		counter goto notnew
+  }
 	chain ext_in {
 		ip protocol icmp icmp type { echo-request, destination-unreachable, time-exceeded, parameter-problem} counter accept
     ip6 nexthdr ipv6-icmp icmpv6 type { nd-neighbor-solicit, packet-too-big, nd-neighbor-advert, destination-unreachable, nd-router-advert, time-exceeded} counter accept
