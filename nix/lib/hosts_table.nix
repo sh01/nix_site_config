@@ -1,5 +1,5 @@
 # Declarative host data shared with all hosts for inter-host communication.
-{lib, l, ...}: let
+{lib, ...}: let
   inherit (builtins) foldl';
   inherit (lib) lists;
   sites = import ../base/sites.nix {inherit lib;};
