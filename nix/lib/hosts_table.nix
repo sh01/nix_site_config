@@ -63,5 +63,5 @@ in (l // hrec)) {} [
   [s.wi (aB null "rune") (aSSHed  "AAAAC3NzaC1lZDI1NTE5AAAAILLzM89Ec/M3/jod75DuPVmeZimXEHiSjM+NpKUnsl/p")]
 
   # global
-  [s.g (aB 1 "ika") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIOGY7dn1FVGVibtkYwIE+g87mTRG1XE7C8jhAe3mARTv") (wgk "jF4eHAXVdis4fYsYeGTwFquaKDvMh8e5pBYAhUiHXiA=") (aNames [ "ika.r.sh.s" "24.199.109.57"]) (aAddrG "24.199.109.57") (rWgPeers (peersB ++ ["liel"]))]
+  [s.g (aB 1 "ika") (aSSHed "AAAAC3NzaC1lZDI1NTE5AAAAIOGY7dn1FVGVibtkYwIE+g87mTRG1XE7C8jhAe3mARTv") (wgk "jF4eHAXVdis4fYsYeGTwFquaKDvMh8e5pBYAhUiHXiA=") (aNames [ "ika.r.sh.s" "24.199.109.57"]) (aAddrG "24.199.109.57") (rWgPeers (peersB ++ ["keiko" "liel"]))]
 ])
