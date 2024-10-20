@@ -5,6 +5,7 @@ let
   ### Services
   gitit = name: ugid: port: (l.call ../../services/gitit.nix {inherit name ugid port;});
   planarallyS = name: ugid: port:  (l.call ../../services/planarally.nix {inherit name ugid port;});
+  userg = import ../../lib/userg.nix;
   apache2 = l.call ../../services/apache2.nix {};
   vpn_c = (l.call ../../base/openvpn/client.nix {});
   c_vpn = (l.call ../../containers {}).c_vpn;
@@ -21,6 +22,7 @@ in {
 
     (planarallyS "c0" 2021 8020)
     (planarallyS "ilzo" 2022 8021)
+    (userg "xmage" 2023)
     (l.call ../../base/std_efi_boot.nix {structuredExtraConfig = (l.call ../bw0/kernel_conf.nix {});})
   ]) ++ (with l.srv; [
     prom_exp_node
