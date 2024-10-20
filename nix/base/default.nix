@@ -24,6 +24,7 @@ in rec {
   imports = [
     ./channel.nix
     ./default_opts.nix
+    (l.call ../lib/hosts/wg.nix {})
   ];
   
   environment.shells = [ "/run/current-system/sw/bin/zsh" ];

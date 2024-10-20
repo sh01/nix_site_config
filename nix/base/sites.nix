@@ -16,7 +16,7 @@ in mapAttrs' (n: v: {
     net = num: rec {
       addr = {
         local = "fd9d:1852:3555:200:ff01::${toHexString num}";
-        c_wg0 = "fd9d:1852:3555:0101::${toHexString num}";
+        c_wg0 = if (num == null) then null else "fd9d:1852:3555:0101::${toHexString num}";
       };
       systemd = ifname: {
         networks = {
