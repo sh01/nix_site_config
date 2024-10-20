@@ -179,7 +179,10 @@ in rec {
       require-sigs = true;
       trusted-public-keys = lib.mkForce [];
       trusted-substituters = lib.mkForce [];
-      #use-xdg-base-directories = true;
+      use-xdg-base-directories = true;
+      show-trace = true;
+      keep-going = true;
+      preallocate-contents = true;
       # Nix is currently aggravating about not accepting empty values here: https://github.com/NixOS/nix/blob/master/scripts/download-from-binary-cache.pl.in#L240
       # Give it one that allows it to fail-fast, instead.
       substituters = lib.mkForce ["file:///var/local/nix/cache"];
