@@ -1,5 +1,6 @@
 {pkgs, lib, emounts?{}, extraSrv?{}, l, ...}:
 let
+  inherit (lib.trivial) toHexString;
   bbMounts = {
     "/tmp/.X11-unix" = {
       isReadOnly = true;
@@ -17,8 +18,10 @@ let
     "/run/udev/data".isReadOnly = true;
   };
   chAddr = num: "10.231.1.${toString num}";
+  chAddr6 = num: "fd00:ffff::${toHexString num}";
   net = num: {
     localAddress = (chAddr num) + "/24";
+    localAddress6 = (chAddr6 num) + "/120";
     privateNetwork = true;
   };
   netD = num: {
@@ -78,7 +81,7 @@ in rec {
     xdg_utils
     xdg-user-dirs
   ]);
-
+  
   devAllow = {
     allowedDevices = [
       { modifier = "rw"; node = "char-drm";}
@@ -91,71 +94,84 @@ in rec {
       { modifier = "rw"; node = "/dev/input/by-id/*joystick";}
     ];
   };
-
+  
   c = rks: uks: {
     browsers = {
       config = (l.call ./browsers.nix) {inherit rks uks; sysPkgs = sysPkgsBase; srvs = extraSrv;};
       autoStart = true;
+      timeoutStartSec = "256y";
       bindMounts = {
         "/home/browsers" = {
           hostPath = "/home/browsers";
           isReadOnly = false;
         };
       } // bbMounts;
-    } // (netD "2");
+    } // (netD 2);
     prsw = {
       config = (l.call ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
+      timeoutStartSec = "256y";
       bindMounts = {
         "/home/prsw" = {
           hostPath = "/home/prsw";
           isReadOnly = false;
         };
       } // bbMounts // devMounts;
-    } // devAllow // (netD "3");
+    } // devAllow // (netD 3);
     "prsw-net" = {
       config = (l.call ./prsw.nix) {inherit rks uks; sysPkgs = sysPkgsPrsw; srvs = extraSrv;};
       autoStart = true;
+      timeoutStartSec = "256y";
       bindMounts = {
         "/home/prsw_net" = {
           hostPath = "/home/prsw_net";
           isReadOnly = false;
         };
       } // bbMounts // devMounts;
-    } // devAllow // (netD "4");
+    } // devAllow // (netD 4);
   };
-
+  
   c_vpn = rec {
-    upAddr = (chAddr "1");
-    vNet = (net "5");
-    vAddr = (chAddr "5");
-    cNet = (net "6");
-    cAddr = (chAddr "6");
+    upAddr = (chAddr 1);
+    upAddr6 = (chAddr6 1);
+    vNet = (net 5);
+    vAddr = (chAddr 5);
+    cNet = (net 6);
+    cAddr = (chAddr 6);
+    cAddr6 = (chAddr6 6);
     brDev = "lc_br_vu";
     cont = inCfg: {
       "vpn-up" = {
         config = (l.call ./vpn_up.nix {inherit upAddr cAddr; sysPkgs = sysPkgsBase;});
+        timeoutStartSec = "256y";
         enableTun = true;
         autoStart = true;
         hostBridge = brDev;
       } // vNet;
       "vpn-in" = {
         config = (l.call ./vpn_in.nix {inherit upAddr vAddr; sysPkgs = sysPkgsBase;}) // inCfg;
+        timeoutStartSec = "256y";
         autoStart = true;
         hostBridge = brDev;
       } // cNet;
     };
-
+    
     br = {
       "${brDev}" = { interfaces = [];};
     };
-
-    ifaces."${brDev}".ipv4 = {
-      addresses = [{address = upAddr; prefixLength = 32; }];
-      routes = [
-        { address = vAddr; prefixLength = 32;}
-        { address = cAddr; prefixLength = 32;}
-      ];
+    
+    ifaces."${brDev}" = {
+      ipv4 = {
+        addresses = [{address = upAddr; prefixLength = 32; }];
+        routes = [
+          { address = vAddr; prefixLength = 32;}
+          { address = cAddr; prefixLength = 32;}
+        ];
+      };
+      ipv6 = {
+        addresses = [{address = upAddr6; prefixLength = 128;}];
+        routes = [{ address = cAddr6; prefixLength = 128;}];
+      };
     };
   };
 

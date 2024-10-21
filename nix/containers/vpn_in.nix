@@ -30,12 +30,14 @@ in {
   networking = {
     firewall.enable = false;
     localCommands = ''
-PATH=$PATH:${pkgs.iproute2}/bin
-ip route replace ${vAddr} dev eth0
-ip route replace default via ${vAddr} metric 0
+      PATH=$PATH:${pkgs.iproute2}/bin
+      ip route replace ${vAddr} dev eth0
+      ip route replace default via ${vAddr} metric 0
+      ip -6 route replace fd9d:1852:3555::/48 via fd00:ffff::1
 '';
     defaultGateway.address = ''${vAddr}'';
-	};
+    useDHCP = false;
+  };
 
   services = {
     openssh.enable = lib.mkForce false;

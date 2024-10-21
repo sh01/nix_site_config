@@ -36,6 +36,7 @@ in {
     kernel.sysctl = {
       "net.ipv4.ip_forward" = mkForce true;
       "net.ipv4.conf.all.forwarding" = mkForce true;
+      "net.ipv6.conf.all.forwarding" = mkForce true;
     };
     initrd.luks.devices."root" = {
       device = "/dev/disk/by-partlabel/liel_r0_c";
